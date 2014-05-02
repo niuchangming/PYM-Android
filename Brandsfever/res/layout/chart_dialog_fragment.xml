@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@null"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    tools:context=".MyDialogFragment" >
+
+    <ImageButton
+        android:id="@+id/cancel_size_chart"
+        android:layout_width="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        android:contentDescription="@string/brandsfever"
+        android:layout_gravity="right"
+        android:layout_height="20dp"
+        android:background="@drawable/cros" />
+    
+    
+    <View android:layout_height="1dp"
+        android:layout_width="340dp"
+        android:background="@android:color/transparent"/>
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

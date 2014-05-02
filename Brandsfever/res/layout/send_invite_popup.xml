@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/invite_popup"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/outer_line"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:text="@string/tagone"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:textColor="#000"/>
+    
+    <TextView 
+        android:text="Invite @"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:textColor="#000"/>
+    
+    <TextView 
+        android:id="@+id/invite_email"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:textColor="#000"/>
+    
+    <View 
+        android:layout_height="1dp"
+        android:layout_width="fill_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="2dp"/>
+    
+    <LinearLayout 
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content">
+        
+        <Button 
+            android:id="@+id/cancel_invite"
+            android:gravity="center"
+             android:layout_width="wrap_content"
+            android:background="@null"
+            android:layout_height="fill_parent"
+            android:text="Cancel"/>
+        
+      <View 
+        android:layout_height="fill_parent"
+        android:layout_width="1sp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+        
+        <Button 
+            android:id="@+id/proceed_invite"
+            android:layout_width="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:layout_height="fill_parent"
+            android:text="Proceed"/>
+        
+    </LinearLayout>
+    
+    
+
+</LinearLayout>

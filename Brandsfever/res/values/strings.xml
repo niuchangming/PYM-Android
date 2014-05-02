@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Brandsfever</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_profile_image">ProfileImage</string>
+    <string name="title_activity_product_display">ProductDisplay</string>
+    <string name="title_activity_product_listing">ProductListing</string>
+    <string name="title_activity_single_product_display">SingleProductDisplay</string>
+    <string name="title_activity_setting_phone">SettingPhone</string>
+    <string name="title_activity_setting_tab">SettingTab</string>
+    <string name="title_activity_about_app">AboutApp</string>
+    <string name="title_activity_private_policy">PrivatePolicy</string>
+    <string name="title_activity_terms_conditions">TermsConditions</string>
+    <string name="title_activity_faq">Faq</string>
+    <string name="brandsfever">brandsfever</string>
+    <string name="title_activity_my_account">MyAccount</string>
+    <string name="title_activity_edit__profile">Edit_Profile</string>
+    <string name="title_activity_change_password">ChangePassword</string>
+    <string name="title_activity_store_credis__setting_page">StoreCredis_SettingPage</string>
+    <string name="title_activity_my_order_history">MyOrderHistory</string>
+    <string name="title_activity_phone_login_screen">PhoneLoginScreen</string>
+    <string name="title_activity_my_cart_screen">MyCartScreen</string>
+    <string name="title_activity_order_delivery__screen">OrderDelivery_Screen</string>
+    <string name="title_activity_payment_screen">PaymentScreen</string>
+    <string name="title_activity_pay_with_paypal__screen">PayWithPaypal_Screen</string>
+    <string name="title_activity_invite_sction__screen">InviteSction_Screen</string>
+    <string name="fbid">802825129743307</string>
+    <string name="Qty_prompt">Quantity</string>
+
+    <string-array name="Qty_arrays">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="title_activity_ten_inch_login">TenInch_login</string>
+    <string name="title_activity_get_facebook_data">GetFacebookData</string>
+    <string name="tagone">brandsfever</string>
+    <string name="inviteheader">Invite Your Friends</string>
+    <string name="title_activity_send_invite_screen">SendInviteScreen</string>
+    <string name="title_activity_people__i__invited">People_I_Invited</string>
+    <string name="title_activity_facebook__invite">Facebook_Invite</string>
+
+</resources>

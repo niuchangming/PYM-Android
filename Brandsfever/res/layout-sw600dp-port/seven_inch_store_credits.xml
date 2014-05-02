@@ -1,0 +1,160 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".SeeMyStoreCredits_settings" >
+    <RelativeLayout 
+         android:id="@+id/RL1"
+         android:layout_height="80dip"
+         android:layout_width="fill_parent"
+         android:background="@drawable/topbar">
+         
+         <ImageButton 
+             android:id="@+id/main_menu"
+             android:layout_height="65dp"
+             android:layout_width="75dp"
+             android:contentDescription="@string/brandsfever"
+             android:layout_centerInParent="true"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="5dip"
+             android:background="@drawable/menu_bg"/>
+        
+        <ImageButton 
+             android:id="@+id/back_btn"
+             android:layout_height="65dip"
+             android:layout_width="40dip"
+             android:contentDescription="@string/brandsfever"
+             android:layout_centerInParent="true"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="75dip"
+             android:background="@drawable/back_button"/>
+        
+        <ImageButton 
+             android:id="@+id/cart_btn"
+             android:layout_height="65dip"
+             android:layout_width="75dp"
+             android:contentDescription="@string/brandsfever"
+             android:layout_centerInParent="true"
+             android:layout_alignParentRight="true"
+             android:layout_marginRight="10dip"
+             android:background="@drawable/cart_btn_bg"/>
+      
+     </RelativeLayout>
+ <RelativeLayout 
+         android:id="@+id/RL2"
+         android:layout_below="@+id/RL1"
+         android:layout_height="fill_parent"
+         android:layout_margin="18dp"
+         android:layout_width="fill_parent"
+         android:background="@android:color/white">
+    <RelativeLayout 
+        android:id="@+id/one"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent">
+        
+        <TextView 
+            android:id="@+id/store_credit_tag"
+            android:text="StoreCredits"
+            android:textColor="#ff8e1345"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"/>
+        
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/two"
+        android:layout_below="@+id/one"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+    <LinearLayout
+        android:id="@+id/three"
+        android:layout_below="@+id/two"
+        android:layout_marginLeft="20dp"
+        android:weightSum="3"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginRight="20dp"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent">
+        
+        <TextView 
+            android:id="@+id/granted_by_tag"
+            android:text="Granted by"
+            android:textColor="#ff8e1345"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1.6"/>
+        
+         <TextView 
+             android:id="@+id/amount_tag"
+            android:text="Amount"
+            android:textColor="#ff8e1345"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"/>
+        
+        <TextView 
+            android:id="@+id/valid_till_tag"
+            android:text="Valid Till"
+            android:textColor="#ff8e1345"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"/>
+        
+    </LinearLayout>
+    
+    <View 
+        android:id="@+id/four"
+        android:layout_below="@+id/three"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+     <RelativeLayout 
+        android:id="@+id/five"
+        android:layout_below="@+id/four"
+        android:layout_above="@+id/footer_set"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+        
+         <ListView 
+             android:id="@+id/set_store_credits"
+             android:layout_height="wrap_content"
+             android:divider="@android:color/transparent"
+             android:dividerHeight="5pt"
+             android:layout_width="fill_parent"
+             android:layout_margin="20dp">
+             
+         </ListView>
+         
+      </RelativeLayout>
+           <RelativeLayout 
+             android:id="@+id/footer_set"
+             android:layout_height="90dp"
+             android:layout_width="fill_parent"
+             android:layout_alignParentBottom="true">
+             
+             <ImageButton 
+                 android:layout_height="90dp"
+                 android:contentDescription="@string/brandsfever"
+                 android:layout_width="110dp"
+                 android:background="@drawable/lo"
+                 android:scaleType="fitXY"
+                 android:layout_alignParentRight="true"/>
+             
+         </RelativeLayout>         
+     </RelativeLayout>
+
+
+</RelativeLayout>

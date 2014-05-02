@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:id="@+id/trans"
+    android:layout_height="fill_parent" 
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent" >
+
+        <RelativeLayout
+            android:id="@+id/ones"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent" >
+
+            <ImageButton
+                android:id="@+id/close_login_page"
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/brandsfever"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/cros" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/twos"
+            android:layout_width="600dp"
+            android:layout_height="700dp" 
+            android:layout_below="@+id/ones"
+            android:layout_marginRight="30dp"
+            android:background="@android:color/white"
+            android:orientation="vertical" >
+
+            <TableLayout
+                android:id="@+id/tab_layout"
+                android:layout_marginTop="20dp"
+                style="@style/layout_f_w"
+                android:stretchColumns="*" >
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    style="@style/layout_wrap"
+                    android:background="#ffffff" >
+
+                    <!-- First Tab -->
+
+                    <LinearLayout
+                        android:id="@+id/first_text"
+                        style="@style/layout_f_w"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            style="@style/text_title"
+                            android:text="Member Login" />
+                    </LinearLayout>
+
+                    <!-- Second Tab -->
+
+                    <LinearLayout
+                        android:id="@+id/second_text"
+                        style="@style/layout_f_w"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            style="@style/text_title"
+                            android:text="Sign up now" />
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+
+            <include
+                android:id="@+id/two"
+                android:layout_width="fill_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tab_layout"
+                layout="@layout/indicator_for_tablet" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/two" />
+        </LinearLayout>
+        <ImageView 
+            android:layout_alignParentBottom="true"
+            android:layout_width="130dp"
+            android:layout_height="120dp"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/brandsfever"
+            android:background="@drawable/lo"/>
+    </RelativeLayout>
+</RelativeLayout>

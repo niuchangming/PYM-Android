@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DynamicDisplayFragment" >
+
+
+    <GridView
+        android:id="@+id/gridView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="2dp"
+        android:layout_margin="6dp"
+        android:horizontalSpacing="10dp"        
+        android:verticalSpacing="10dp"
+        android:numColumns="3" >
+    </GridView>
+    <Button 
+            android:id="@+id/scrolldown"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="55dp"
+            android:layout_width="50dp"
+            android:background="@drawable/botton_to_top"/>
+</RelativeLayout>

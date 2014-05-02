@@ -1,0 +1,355 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".People_I_Invited" >
+
+    <RelativeLayout
+        android:id="@+id/one"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/top_head_phone" >
+
+        <ImageButton
+            android:id="@+id/main_menu"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/menu_bg"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="30dip"
+            android:layout_height="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="50dip"
+            android:background="@drawable/back_button"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/cart_btn"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/cart_btn_bg"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/two"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/one"
+        android:background="#fff" >
+
+        <TextView
+            android:id="@+id/Your_Invitations_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Invite your Friends"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+      <!--   <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/Your_Invitations_tag"
+            android:background="#000" /> -->
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/three"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/two"
+        android:layout_gravity="center"
+        android:background="#ff8e1345"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <Button
+            android:id="@+id/pending_invitations"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="Pending \n Email Invitations"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="fill_parent"
+            android:background="#fff" />
+
+        <Button
+            android:id="@+id/facebook_invitations"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:text="Facebook Invitations"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="1sp"
+            android:layout_height="fill_parent"
+            android:background="#fff" />
+
+        <LinearLayout
+            android:id="@+id/a_three"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/accepted_invitations"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@null"
+                android:gravity="center"
+                android:text="Accepted Invitations"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/four"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/foot"
+        android:layout_below="@+id/three"
+        android:background="@android:color/white" >
+
+        <LinearLayout
+            android:id="@+id/s_one"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:background="#000"
+            android:gravity="center"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Select"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="0.50dp"
+                android:layout_height="fill_parent"
+                android:background="#848484" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Email"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="0.50dp"
+                android:layout_height="fill_parent"
+                android:background="#848484" />
+
+            <TextView
+                android:id="@+id/invitation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Invitations"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/s_two"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/s_one"
+            android:layout_margin="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <ListView
+            android:id="@+id/set_email_invite"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/s_two" >
+        </ListView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/five"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/foot"
+        android:layout_below="@+id/three"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:id="@+id/t_one"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:background="#000"
+            android:gravity="center"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/facebookuser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="2"
+                android:gravity="left"
+                android:text="Facebook User"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/fb_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="States"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/t_two"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/t_one"
+            android:layout_margin="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <ListView
+            android:id="@+id/set_facebook_invite"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/t_two"
+            android:layout_marginTop="10dp"
+            android:background="#fff" >
+        </ListView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/six"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/foot"
+        android:visibility="gone"
+        android:layout_below="@+id/three"
+        android:background="#FFFFFF"
+         >
+
+        <LinearLayout
+            android:id="@+id/t_five"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:background="#000"
+            android:gravity="center"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/nameinvitation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Name"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/emailinvitation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.50"
+                android:gravity="left"
+                android:layout_marginLeft="3dp"
+                android:text="Email"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/t_three"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/t_five"
+            android:layout_margin="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <ListView
+            android:id="@+id/set_facebook_accepted"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/t_three"
+            android:layout_marginTop="10dp"
+            android:background="#fff" >
+        </ListView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/foot"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/footer_set"
+        android:layout_margin="4dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:id="@+id/footer_set"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <ImageButton
+            android:id="@+id/re_invite_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/re_invite_phone"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+</RelativeLayout>

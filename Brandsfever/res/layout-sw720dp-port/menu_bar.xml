@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="270dip"
+    android:background="@drawable/slider_menu_bg"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_height="88dp"
+        android:background="@android:color/white"
+        android:layout_width="fill_parent">
+        
+        <ImageView 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+	        android:layout_gravity="center"
+	        android:layout_marginLeft="10dp"
+            android:background="@drawable/flower"/>
+        
+        <TextView 
+            android:id="@+id/set_user_name"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="8dp"
+	        android:gravity="center"
+	        android:layout_gravity="center"
+	        android:singleLine="true"
+	        android:textSize="17sp"
+	        android:textColor="@android:color/darker_gray"
+	        android:layout_width="wrap_content"
+	        android:text="Hi Guest!"/>
+        
+    </LinearLayout>
+    
+    <ScrollView 
+        android:id="@+id/scrollVieww"
+        android:layout_height="fill_parent"
+        android:verticalScrollbarPosition="right"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarSize="5dp"
+        android:layout_width="fill_parent">
+        
+        <LinearLayout 
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_width="fill_parent">
+            
+       <View 
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"
+        android:background="@android:color/darker_gray"/>
+    
+    
+    <Button 
+        android:id="@+id/btn_all_cat"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="ALL"
+        android:typeface="sans"
+        android:layout_marginRight="10dip"/>
+
+    
+    <Button 
+        android:id="@+id/cat_women"
+        android:layout_height="60dip"
+        android:layout_gravity="left"
+        android:textSize="18sp"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="30dp"
+        android:background="@android:color/transparent"
+        android:layout_width="fill_parent"
+        android:gravity="left"
+        android:layout_marginTop="10dp"
+        android:text="WOMAN"
+        android:layout_marginRight="10dp"/>
+
+    <Button 
+        android:id="@+id/cat_men"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+	    android:textColor="@android:color/darker_gray"
+	    android:gravity="left"
+        android:layout_marginLeft="30dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dip"
+        android:text="MEN"
+        android:layout_marginRight="10dp"/>
+    
+
+    
+    <Button 
+        android:id="@+id/cat_children"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="30dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dip"
+        android:text="CHILDREN"
+        android:layout_marginRight="10dp"/>
+    
+    <Button 
+        android:id="@+id/cat_home"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="30dp"
+        android:gravity="left"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="HOME"
+        android:layout_marginRight="10dp"/>
+
+    
+    <Button 
+        android:id="@+id/cat_accesories"
+        android:layout_height="60dip"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+	   android:textColor="@android:color/darker_gray"
+	    android:gravity="left"
+        android:layout_marginLeft="30dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="ACCESSORIES"
+        android:layout_marginRight="10dp"/>
+
+    <Button 
+        android:id="@+id/btn_login"
+        android:layout_height="60dip"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="LOGIN"
+        android:layout_marginRight="10dp"/>
+
+    <Button 
+        android:id="@+id/btn_setting"
+        android:layout_height="60dip"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="SETTINGS		"
+        android:layout_marginRight="10dp"/>
+
+    <Button 
+        android:id="@+id/my_cart"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="MY CART"
+        android:layout_marginRight="10dp"/>
+
+    <Button 
+        android:id="@+id/btn_invite"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="INVITE"
+        android:layout_marginRight="10dp"/>
+    
+    <Button 
+        android:id="@+id/btn_logout"
+        android:layout_height="60dip"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="LOGOUT"
+        android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

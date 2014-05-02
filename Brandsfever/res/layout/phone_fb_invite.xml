@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="3" >
+
+    <ImageView
+        android:id="@+id/set_user_image"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:padding="5dp"
+        android:adjustViewBounds="true"
+        android:layout_weight="0.8"
+        android:contentDescription="@string/brandsfever" />
+    
+    <TextView 
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2"/>
+    
+    <TextView 
+        android:id="@+id/set_number"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="20sp"
+        android:layout_gravity="left"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"/>
+    
+
+</LinearLayout>
