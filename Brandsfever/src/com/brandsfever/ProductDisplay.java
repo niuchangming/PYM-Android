@@ -51,7 +51,6 @@ import com.datamodel.ProductsDataModel;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.analytics.tracking.android.Tracker;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
@@ -275,8 +274,8 @@ public class ProductDisplay extends FragmentActivity implements
 	public void onStart(){
 		super.onStart();
 		
-		Tracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+" :/campaigns/?device=2");
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": campaigns/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
@@ -287,8 +286,7 @@ public class ProductDisplay extends FragmentActivity implements
 	}
 	
 	
-	// ========================================Creating tabs
-	// here=========================================================//
+	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 		super.onSaveInstanceState(outState);
@@ -443,7 +441,6 @@ public class ProductDisplay extends FragmentActivity implements
 		tabHost.addTab(tabSpec);
 	}
 
-	// ======================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -663,6 +660,7 @@ public class ProductDisplay extends FragmentActivity implements
 			break;
 		}
 	}
+	
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 
@@ -769,8 +767,6 @@ public class ProductDisplay extends FragmentActivity implements
 		
 	}
 	
-
-	// ========================================================================================================================================//
 	class LoadProduct extends AsyncTask<Void, Void, Void> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -819,8 +815,7 @@ public class ProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	// =========================================================GetProducts
-	// Method==============================================================//
+	
 	public void GetProducts(String _url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -974,7 +969,7 @@ public class ProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	// ============================================================================================================================//
+ 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
@@ -987,7 +982,7 @@ public class ProductDisplay extends FragmentActivity implements
 			}
 		}
 	}
-	//==========================================================================================================================//
+	
 	@Override
 	public void onBackPressed() {
 		
