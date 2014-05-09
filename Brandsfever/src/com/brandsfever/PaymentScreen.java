@@ -302,7 +302,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		});
 	}
 
-	// *************************************************************************************************************************//
 
 	@Override
 	public void onBackPressed() {
@@ -311,7 +310,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		finish();
 	}
 
-	// **********************************************************************************************************************//
 	class GetPaymentState extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -363,7 +361,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ***********************************************************************************************************************//
 	public void GetState(String _url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -403,7 +400,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// *************************************************************************************************************************//
 
 	class GetOrderList extends AsyncTask<String, String, String> {
 		@Override
@@ -439,7 +435,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	// *************************************************************************************************************************//
 	public void GetData(String _url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -514,7 +509,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// **************************************************************************************************************************//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -692,7 +686,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// *************************************************************************************************************************//
 	class ApplyPromoCode extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -857,7 +850,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ==============================================================================================================================//
 	public void Get_Store_Credits(String url_get_store_credits) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -928,7 +920,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// *****************************************************************************************************************//
 
 	class RemoveStoreCredits extends AsyncTask<String, String, String>
 			implements OnCancelListener {
@@ -991,13 +982,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	// ========================================= chary add the
-	// code=================================================================================//
-
 	private class GetAllCarts extends AsyncTask<String, String, String> implements
 			OnCancelListener {
-		ProgressHUD mProgressHUD;
-
 		@Override
 		protected void onPreExecute() {
 			/*mProgressHUD = ProgressHUD.show(_ctx, "Loading", true, true, this);
