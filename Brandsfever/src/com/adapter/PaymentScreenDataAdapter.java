@@ -106,25 +106,19 @@ public class PaymentScreenDataAdapter extends BaseAdapter {
 
 		set_product_img = (ImageView) _view.findViewById(R.id.set_product_img);
 
-		PaymentScreenOrderModel obj = data.get(position);
-
-		set_campaign_name.setText(obj.getCampaign());
-		set_product_name.setText(obj.getName());
-		set_quantity.setText(obj.getQuantity());
-		set_unitprice.setText("S$"+obj.getUnit_price());
+		if(position < data.size()){
+			PaymentScreenOrderModel obj = data.get(position);
+			set_campaign_name.setText(obj.getCampaign());
+			set_product_name.setText(obj.getName());
+			set_quantity.setText(obj.getQuantity());
+			set_unitprice.setText("S$"+obj.getUnit_price());
+			Double tot=Integer.valueOf(obj.getQuantity()) * Double.valueOf(obj.getUnit_price());
+			set_totalprice.setText("S$"+String.valueOf(tot)+"0");
+			String a = "https:" + obj.getImage();
+			AQuery aq = new AQuery(_scontext);
+			aq.id(set_product_img).image(a);
+		}
 		
-		
-		Double tot=Integer.valueOf(obj.getQuantity()) * Double.valueOf(obj.getUnit_price());
-		
-		
-		
-		System.out.println("iii---"+tot);
-		
-		set_totalprice.setText("S$"+String.valueOf(tot)+"0");
-		String a = "https:" + obj.getImage();
-		System.out.println("value of a is+" + a);
-		AQuery aq = new AQuery(_scontext);
-		aq.id(set_product_img).image(a);
 		return _view;
 
 	}
