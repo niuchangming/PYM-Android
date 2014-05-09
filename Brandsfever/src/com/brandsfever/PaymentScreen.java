@@ -87,6 +87,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	String _getuserId = "";
 	String _status, _identifier, _paid, _date, _city, _totalprice, _taxprice,
 			_country, _state, _pk, _shippingfree, _method;
+	double	mSubtotal;
 	public static ArrayList<PaymentScreenOrderModel> _Payorderinfo = new ArrayList<PaymentScreenOrderModel>();
 	public static ArrayList<StoreCreditDetails> _storeCredits = new ArrayList<StoreCreditDetails>();
 	TextView order_subtotal_amount, order_shiping_amount, order_total_amount,
@@ -425,19 +426,12 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		protected void onPostExecute(String result) {
-			new GetAllCarts().execute();
 			new GetStoreCredit().execute();
-			double sub = Double.parseDouble(_totalprice)
-					- Double.parseDouble(_shippingfree);
 
-			double tot = Math
-					.round((Double.parseDouble(_totalprice) - _setCamount) * 100) / 100.00;
-
-			double finalValue = Math.round(sub * 100.00) / 100.00;
-
-			//order_subtotal_amount.setText("S$" + "" + finalValue + "0");
-			/*order_shiping_amount.setText("S$" + _shippingfree);
-			order_total_amount.setText("S$" + _totalprice);*/
+			double subtotal = Math.round(mSubtotal * 100.00)/100.00;
+			order_subtotal_amount.setText("S$" + "" + subtotal + "0");
+			order_shiping_amount.setText("S$" + _shippingfree);
+			order_total_amount.setText("S$" + _totalprice);
 			_adapter = new PaymentScreenDataAdapter(PaymentScreen.this,
 					_Payorderinfo);
 			set_orders.setAdapter(_adapter);
@@ -470,7 +464,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 				try {
 
-					System.out.println("iii---" + _content);
+					System.out.println("iii" + _content);
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
 					if (ret.equals("0")) {
@@ -487,7 +481,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 						_pk = _data.getString("pk");
 						_shippingfree = _data.getString("shipping_fee");
 						_method = _data.getString("method");
-
+						
+						mSubtotal = 0;
 						JSONArray _itemarray = _data.getJSONArray("item_list");
 						for (int i = 0; i < _itemarray.length(); i++) {
 							JSONObject _jobj = _itemarray.getJSONObject(i);
@@ -497,7 +492,9 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 							String unit_price = _jobj.getString("unit_price");
 							String pk = _jobj.getString("pk");
 							String quantity = _jobj.getString("quantity");
-
+							
+							mSubtotal = mSubtotal + Double.parseDouble(quantity) * Double.parseDouble(unit_price);
+							
 							PaymentScreenOrderModel _listorder = new PaymentScreenOrderModel();
 							_listorder.setName(name);
 							_listorder.setCampaign(campaign);
@@ -993,85 +990,4 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	private class GetAllCarts extends AsyncTask<String, String, String> implements
-			OnCancelListener {
-		@Override
-		protected void onPreExecute() {
-			/*mProgressHUD = ProgressHUD.show(_ctx, "Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
-			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
-			mProgressHUD.setCancelable(false);*/
-			super.onPreExecute();
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-
-		}
-
-		@Override
-		protected String doInBackground(String... arg0) {
-			String _url = "https://www.brandsfever.com/api/v5/carts/?user_id="
-					+ _getuserId + "&token=" + _getToken;
-			HttpClient _httpclient = HttpsClient.getNewHttpClient();
-			HttpGet _httpget = new HttpGet(_url);
-			HttpResponse _httpresponse;
-			try {
-				_httpresponse = _httpclient.execute(_httpget);
-
-				int _responsecode = _httpresponse.getStatusLine()
-						.getStatusCode();
-				if (_responsecode == 200) {
-					InputStream _inputstream = _httpresponse.getEntity()
-							.getContent();
-					BufferedReader r = new BufferedReader(
-							new InputStreamReader(_inputstream));
-					StringBuilder total = new StringBuilder();
-					String line;
-					while ((line = r.readLine()) != null) {
-						total.append(line);
-					}
-					String _content = total.toString();
-					System.out.println(_content);
-					JSONObject obj = new JSONObject(_content);
-					String ret = obj.getString("ret");
-					String mesg = obj.getString("msg");
-					if (ret.equals("0") && mesg.equalsIgnoreCase("ok")) {
-						System.out.println("injson");
-						JSONArray _getcart = obj.getJSONArray("carts");
-						for (int i = 0; i < _getcart.length(); i++) {
-							JSONObject _obj = _getcart.getJSONObject(i);
-							ch_totalprice = _obj.getString("total_price");
-						}
-					}
-				}
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			//mProgressHUD.cancel();
-			
-			order_subtotal_amount.setText(ch_totalprice.replace("GD", "$"));
-			order_shiping_amount.setText("S$" + _shippingfree);
-			order_total_amount.setText("S$" + _totalprice);
-		}
-
-	}
 }
