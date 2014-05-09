@@ -67,6 +67,9 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
 import com.facebook.android.Util;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class GetFacebookData extends Activity implements OnClickListener{
 	ListView listview, listview2;
@@ -312,6 +315,15 @@ public class GetFacebookData extends Activity implements OnClickListener{
 
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": facebook/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	class MyCustomAdapter1 extends BaseAdapter {
 		Context c;
 		ArrayList<String> img, ttl;

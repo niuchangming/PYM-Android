@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dataholder.DataHolderClass;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 
 public class MyAccount extends FragmentActivity implements OnClickListener {
@@ -153,6 +156,15 @@ public class MyAccount extends FragmentActivity implements OnClickListener {
 
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": MyAccount/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

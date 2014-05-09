@@ -34,6 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dataholder.DataHolderClass;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
@@ -160,6 +163,15 @@ public class PrivatePolicy extends FragmentActivity implements OnClickListener {
 		new GetPriavtePolicyFromServer().execute();
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": privacy/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	// ====================================================================================================================================//
 	private class GetPriavtePolicyFromServer extends
 			AsyncTask<String, String, String> implements OnCancelListener {

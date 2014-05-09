@@ -59,6 +59,9 @@ import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
 import com.facebook.android.Facebook.DialogListener;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 
 public class SettingPhone extends FragmentActivity implements OnClickListener {
@@ -207,6 +210,15 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		_invite.setTextColor(colors);
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": Settings/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

@@ -10,6 +10,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
+
 
 
 public class TwitterLogin extends Activity {
@@ -51,4 +55,15 @@ public class TwitterLogin extends Activity {
         });
         webView.loadUrl(this.getIntent().getExtras().getString("auth_url"));
     }
+
+	@Override
+		public void onStart(){
+			super.onStart();
+			
+			EasyTracker tracker = EasyTracker.getInstance(this);
+			tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": twitter/?device=2");
+			tracker.send(MapBuilder.createAppView().build());
+		}
+    
+    
 }

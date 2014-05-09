@@ -23,6 +23,9 @@ import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
 import com.facebook.android.Util;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class Facebook_Invite extends Activity {
 	Facebook facebook;
@@ -74,6 +77,16 @@ public class Facebook_Invite extends Activity {
 		}
 		new GetFriendList().execute();
 	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": facebook/invite/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
     //***********************************************************************************************************************//
 	class GetFriendList extends AsyncTask<String,String,String> implements OnCancelListener{
 		   ProgressHUD mProgressHUD;

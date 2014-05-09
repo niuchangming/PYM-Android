@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 
 public class ZoomShow extends Activity implements OnClickListener {
@@ -42,6 +45,16 @@ public class ZoomShow extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": zoomShow/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -51,5 +64,5 @@ public class ZoomShow extends Activity implements OnClickListener {
 		}
 
 	}
-
+	
 }

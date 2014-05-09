@@ -31,6 +31,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dataholder.DataHolderClass;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 
@@ -155,6 +158,15 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		new SendForPayment().execute();
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": payments/paypal/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

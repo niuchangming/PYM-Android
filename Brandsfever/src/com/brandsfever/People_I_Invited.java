@@ -55,6 +55,9 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.dataholder.DataHolderClass;
 import com.datamodel.InvitePeopleInfo;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
@@ -227,6 +230,15 @@ public class People_I_Invited extends FragmentActivity implements
 		_logout.setOnClickListener(this);
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": invitations/?user_id="+_getuserId+"/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	// **************************************************************************************************************//
 	private class GetRequestCount extends AsyncTask<String, String, String>
 			implements OnCancelListener {

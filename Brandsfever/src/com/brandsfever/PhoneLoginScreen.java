@@ -21,6 +21,9 @@ import android.widget.TextView;
 
 import com.adapter.PhoneLoginPager;
 import com.dataholder.DataHolderClass;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class PhoneLoginScreen extends FragmentActivity implements
 		OnClickListener {
@@ -73,6 +76,15 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		setTab();
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": login/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	public void refreshPage() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_OK, returnIntent);

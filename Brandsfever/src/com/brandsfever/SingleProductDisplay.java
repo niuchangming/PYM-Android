@@ -99,6 +99,9 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import com.navdrawer.SimpleSideDrawer;
 
@@ -398,6 +401,15 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": products/"+pk+"/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	// =====================================================================================================================//
 	class SingleItemDetails extends AsyncTask<String, String, String> implements
 			OnCancelListener {

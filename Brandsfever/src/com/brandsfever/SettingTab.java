@@ -22,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dataholder.DataHolderClass;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 
 public class SettingTab extends Activity implements OnClickListener {
@@ -164,6 +167,15 @@ public class SettingTab extends Activity implements OnClickListener {
 		_logout.setOnClickListener(this);
 	}
 
+	@Override
+	public void onStart(){
+		super.onStart();
+		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": Settings/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
