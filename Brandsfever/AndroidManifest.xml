@@ -208,6 +208,7 @@
             android:name="com.brandsfever.Facebook_Invite"
             android:label="@string/title_activity_facebook__invite" >
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="9123bc0456b033623ae38ec0c0be8b1840c7056b"/>
         
     </application>
 
