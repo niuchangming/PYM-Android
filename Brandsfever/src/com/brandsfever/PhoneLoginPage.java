@@ -13,7 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpGet; 
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -61,15 +61,15 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
 
 public class PhoneLoginPage extends Fragment implements OnClickListener {
+	
+	private static final String TAG = "PhoneLoginPage";
+	
 	private EditText email, password;
 	private ImageButton submit, signup, phone_fb_login;
 	private TextView forgot_password;
-	private PopupWindow _forgotpopup;
 	private String _emailId, _password;
     SharedPreferences _mypref;
-	private PhoneLoginPage _lctx;
 	private String _ResponseFromServer, _SocailResponseFromServer,_ResetResponseFromServer;
-	private String tab_name;
 	Facebook facebook;
 	private Typeface _font;
 	private	String _userFBemail;
@@ -104,15 +104,11 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		}else if(DataHolderClass.getInstance().get_deviceInch()>=9){
 			root = (ViewGroup) inflater.inflate(R.layout.activity_login_page,null);
 		} 
-		_lctx = this;
 		_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
 		
 		
 		imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		
-
-		email = (EditText) root.findViewById(R.id.user_id);
-		email.setTypeface(_font, Typeface.NORMAL);
 		email = (EditText) root.findViewById(R.id.user_id);
 		email.setTypeface(_font, Typeface.NORMAL);
 		password = (EditText) root.findViewById(R.id.user_password);
@@ -143,7 +139,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.forgot_password:
 			try {
-				_ForgotPassword();
+				forgotPassword();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -162,7 +158,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				new ResetUserPassword().execute();
 			}else{
 				_msg="Please enter a valid email!!";
-				_ResponsePopup();
+				responsePopup();
 			}
 			break;
 
@@ -174,25 +170,25 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					new PerformLogin().execute();
 				}else{
 					_msg = "Please enter a\nvalid email-id!";
-                    _ResponsePopup();
+                    responsePopup();
 				}
 				
 			}else if (_emailId.length() == 0) {
 				try {
                      _msg = "Please enter email";
-                     _ResponsePopup();
+                     responsePopup();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else if (_password.length() == 0) {
 				try {
 					 _msg = "Please enter password";
-					 _ResponsePopup();
+					 responsePopup();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("popup here");
+				Log.i(TAG, "popup here");
 			}
 			break;
 
@@ -218,14 +214,12 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		}
 	}
 	
-	//===============================Hide the softkeypad in fragments=========================//
-	
+
 	public static void closeKeyboard(Context c, IBinder windowToken) {
 	    InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
 	    mgr.hideSoftInputFromWindow(windowToken, 0);
 	}
 
-	// =====================================================================================================================//
 	private class PerformLogin extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		
@@ -259,7 +253,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			_namevalueList.add(_emailpair);
 			_namevalueList.add(_passwordpair);
 			_ResponseFromServer = SendData(url_login, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
+			Log.d(TAG, _ResponseFromServer);
 			return null;
 		}
 
@@ -287,7 +281,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 						new GetUserName(_token,_UserId).execute();
 					} else {
 						_msg = jobj.getString("msg");
-						_ResponsePopup();
+						responsePopup();
 					}
 				} else {
 					mProgressHUD.dismiss();
@@ -295,7 +289,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 						email.setText(null);
 						password.setText(null);
 						_msg = jobj.getString("msg");
-						_ResponsePopup();
+						responsePopup();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -306,7 +300,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	// ================================================================================================================================//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -317,7 +310,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -337,7 +329,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		return _Response;
 	}
 
-	// ===================================================================================================================//
 	public void onActivityResult(int requestCode, int resultCode,
 			final Intent data) {
 
@@ -378,7 +369,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 
 	}
 
-	// ======================================================================================================================//
 	public void facebook() {
 
 		AsyncTask<Void, Void, Void> updateTask = new AsyncTask<Void, Void, Void>() {
@@ -400,12 +390,11 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					try {
 
 						JSONObject me = new JSONObject(facebook.request("me"));
-						System.out.println("value show" + me);
 						String a = me.getString("name");
 						String b = me.getString("email");
 						_userFBemail = b;
-						Log.d("iii", "iii-name-" + a);
-						Log.d("iii", "iii-name-" + b);
+						Log.d(TAG, a);
+						Log.d(TAG, b);
 
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -428,7 +417,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		updateTask.execute((Void[]) null);
 	}
 
-	// ========================================================================================================================//
 	class SocailLogin extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 
@@ -463,7 +451,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			_namevalueList.add(_socailemail);
 			_SocailResponseFromServer = SendData(url_socaillogin,_namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE Socail====>"	+ _SocailResponseFromServer);
+			Log.d(TAG,_SocailResponseFromServer);
 			return null;
 		}
 
@@ -486,15 +474,15 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 						new GetUserName(_token,_UserId).execute();
 					} else {
 						_msg = jobj.getString("msg");
-						_ResponsePopup();
+						responsePopup();
 					}
 				} else {
 					_msg = jobj.getString("msg");
-					_ResponsePopup();
+					responsePopup();
 					mProgressHUD.dismiss();
 					try {
 						_msg = jobj.getString("msg");
-						_ResponsePopup();
+						responsePopup();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -506,8 +494,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	// ======================================================================================================================//
-	public void _ResponsePopup() {
+	public void responsePopup() {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
 		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
@@ -517,11 +504,11 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		toast.setView(view);
 		toast.show();
 	}
-	//=====================================================================================================================//
+	
 	public boolean checkEmail(String checkemailvalidate) {
 		return EMAIL_ADDRESS_PATTERN.matcher(checkemailvalidate).matches();
 	}
-	//=====================================================================================================================//
+	
 	private class GetUserName extends AsyncTask<String, String, String>{
 		String _id;
 		String mtoken;
@@ -533,7 +520,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="+ _id + "&token=" + mtoken;
-			System.out.println("url is" + _profileurl);
+			Log.d(TAG, _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -542,23 +529,21 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			try {
 				JSONObject obj = new JSONObject(_content);
 				String ret = obj.getString("ret");
-				System.out.println(ret);
+				Log.d(TAG, ret);
 				if (ret.equals("0")) {
 					JSONObject obj1 = obj.getJSONObject("profile");
-					//String _ss = obj1.getString("first_name")+ " " + obj1.getString("last_name");
 							
-					String _ss = obj1.getString("first_name");
+					String name = obj1.getString("first_name");
 					_mypref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
 					Editor prefsEditor = _mypref.edit();
-					prefsEditor.putString("_UserName", _ss);
+					prefsEditor.putString("_UserName", name);
 					prefsEditor.commit();
 					try {
 						((PhoneLoginScreen) getActivity()).refreshPage();
-						//getActivity().overridePendingTransition(0,R.anim.puch_login_down);
 						getActivity().overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
 						_msg = "login successful!";
-						_ResponsePopup();
+						responsePopup();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -570,7 +555,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			}
 		}
 	}
-	//******************************************************************************************************************************//
+
 	private void GetProfile(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -579,8 +564,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -591,16 +574,16 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					total.append(line);
 				}
 				 _content = total.toString();
-				System.out.println("my data is" + _content);
+				 Log.d(TAG, _content);
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	//**********************************************************************************************************************//
+
 	
-	private void _ForgotPassword(){
+	private void forgotPassword(){
 		try {
 			View view = View.inflate(getActivity().getBaseContext(),
 					R.layout.forgot_password_file,null);			
@@ -622,7 +605,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-	//**********************************************************************************************************************//
+
 	class ResetUserPassword extends AsyncTask<String, String, String> implements OnCancelListener{
 		
 		@Override
@@ -650,8 +633,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			_namevalueList.add(_socailemail);
 			_ResetResponseFromServer = SendData(_resetP,_namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE Socail====>"
-					+ _ResetResponseFromServer);
+			Log.d(TAG, _ResetResponseFromServer);
 			return null;
 		}
 
@@ -669,10 +651,10 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					mProgressHUD.dismiss();
 					pwindo.dismiss();
 					_msg="Password Reset link is sent\nto your email-id";
-					_ResponsePopup();
+					responsePopup();
 				}else{
 					_msg=_kobj.getString("msg");
-					_ResponsePopup();
+					responsePopup();
 					mProgressHUD.dismiss();
 				}
 			} catch (Exception e) {

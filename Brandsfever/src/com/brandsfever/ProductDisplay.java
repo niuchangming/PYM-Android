@@ -60,6 +60,9 @@ import com.ssl.TrustAllCertificates;
 public class ProductDisplay extends FragmentActivity implements
 		OnClickListener, TabHost.OnTabChangeListener,
 		ViewPager.OnPageChangeListener {
+	
+	private static final String TAG = "ProductDisplay";
+	
 	Context _ctx = ProductDisplay.this;
 	SimpleSideDrawer slide_me;
 	ImageButton _Menu,cart_btn;
@@ -130,6 +133,7 @@ public class ProductDisplay extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
+		Log.d(TAG, "onCreate");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -147,9 +151,7 @@ public class ProductDisplay extends FragmentActivity implements
 		color = Integer.parseInt("8e1345", 16)+0xFF000000;
 		colors = Integer.parseInt("ffffff", 16)+0xFF000000;
 		
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref .getString("ID", null); 
-        _getToken = _mypref .getString("TOKEN", null);
+		
         
 
 		bundle = getIntent().getExtras();
@@ -169,19 +171,8 @@ public class ProductDisplay extends FragmentActivity implements
 		slide_me.setBackgroundColor(Color.parseColor("#000000"));
 		
 		set_user_name = (TextView)findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
+		set_user_name.setTypeface(_font);
 
-		if(!(_username==null)){
-			
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-			
-		}else{
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! Guest");
-		}
-		
-		
 
 		_Menu = (ImageButton) findViewById(R.id.main_menu);
 		_Menu.setOnClickListener(this);
@@ -241,52 +232,71 @@ public class ProductDisplay extends FragmentActivity implements
 		_logout.setTypeface(_font);
 		_logout.setOnClickListener(this);
 		
-		try{
-		    if(_getToken==null && _getuserId==null){
-				_login.setVisibility(View.VISIBLE);	
-				_mycart.setVisibility(View.GONE);
-				_settings.setVisibility(View.GONE);
-				_invite.setVisibility(View.GONE);
-				_logout.setVisibility(View.GONE);
-				
-				_logout_view.setVisibility(View.GONE);
-				_mycart_view.setVisibility(View.GONE);
-				_settings_view.setVisibility(View.GONE);
-				_invite_view.setVisibility(View.GONE);
-			}else{
-				_login.setVisibility(View.GONE);	
-				_mycart.setVisibility(View.VISIBLE);
-				_settings.setVisibility(View.VISIBLE);
-				_invite.setVisibility(View.VISIBLE);
-				_logout.setVisibility(View.VISIBLE);
-				
-				_logout_view.setVisibility(View.VISIBLE);
-				_login_view.setVisibility(View.VISIBLE);
-				_mycart_view.setVisibility(View.VISIBLE);
-				_settings_view.setVisibility(View.VISIBLE);
-				_invite_view.setVisibility(View.VISIBLE);
-				
-		     }
-	    }catch(Exception e){
-	    	e.printStackTrace();
-	    }
+	}
+	
+	private void updateSlidingMenu(){
+		
+		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
+		String username = _mypref.getString("_UserName", null);
+		String greeting = set_user_name.getText().toString();
+		_getuserId = _mypref.getString("ID", null); 
+        _getToken = _mypref.getString("TOKEN", null);
+		
+		if(username != null){
+			
+			if(greeting.contains(username)){
+				return;
+			} 
+		
+			set_user_name.setText("Hi! "+username);
+		}
+		else{
+			
+			if(greeting.contains("Guest")){
+				return;
+			}
+			
+			set_user_name.setText("Hi! Guest");
+		}
+		
+		if(_getToken==null && _getuserId==null){
+			_login.setVisibility(View.VISIBLE);	
+			_mycart.setVisibility(View.GONE);
+			_settings.setVisibility(View.GONE);
+			_invite.setVisibility(View.GONE);
+			_logout.setVisibility(View.GONE);
+			
+			_logout_view.setVisibility(View.GONE);
+			_mycart_view.setVisibility(View.GONE);
+			_settings_view.setVisibility(View.GONE);
+			_invite_view.setVisibility(View.GONE);
+		}
+		else{
+			_login.setVisibility(View.GONE);	
+			_mycart.setVisibility(View.VISIBLE);
+			_settings.setVisibility(View.VISIBLE);
+			_invite.setVisibility(View.VISIBLE);
+			_logout.setVisibility(View.VISIBLE);
+			
+			_logout_view.setVisibility(View.VISIBLE);
+			_login_view.setVisibility(View.VISIBLE);
+			_mycart_view.setVisibility(View.VISIBLE);
+			_settings_view.setVisibility(View.VISIBLE);
+			_invite_view.setVisibility(View.VISIBLE);
+			
+	     }
 	}
 	
 	@Override
 	public void onStart(){
 		super.onStart();
-		
+		Log.d(TAG, "onStart");
 		EasyTracker tracker = EasyTracker.getInstance(this);
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": campaigns/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
-	}
-	
-	@Override
-	public void onStop(){
-		super.onStop();
 		
+		updateSlidingMenu();
 	}
-	
 	
 	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
@@ -541,11 +551,11 @@ public class ProductDisplay extends FragmentActivity implements
 
 		case R.id.btn_login:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
-				startActivityForResult(_login, 1);
+				Intent login = new Intent(_ctx, PhoneLoginScreen.class);
+				startActivityForResult(login, 1);
 				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
-				//,
+				
 			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
 				Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
 				startActivityForResult(_login, 1);
@@ -645,7 +655,7 @@ public class ProductDisplay extends FragmentActivity implements
 			break;
 			
 		 case R.id.cart_btn:
-			if(!(_getToken==null)&& !(_getuserId==null)){
+			if((_getToken!=null)&& (_getuserId!=null)){
 				Intent _gotocart = new Intent(_ctx,MyCartScreen.class);
 				startActivity(_gotocart);
 				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
@@ -826,7 +836,6 @@ public class ProductDisplay extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -837,10 +846,9 @@ public class ProductDisplay extends FragmentActivity implements
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				String _data = total.toString();
-				System.out.println(_data);
+				String data = total.toString();
 				try {
-					JSONObject obj = new JSONObject(_data);
+					JSONObject obj = new JSONObject(data);
 					JSONArray get_campaigns = obj.getJSONArray("campaigns");
 					for (int i = 0; i < get_campaigns.length(); i++) {
 						JSONObject jsonobj = get_campaigns.getJSONObject(i);
@@ -963,7 +971,7 @@ public class ProductDisplay extends FragmentActivity implements
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("error");
+				Log.e(TAG,"error");
 			}
 
 		} catch (Exception e) {

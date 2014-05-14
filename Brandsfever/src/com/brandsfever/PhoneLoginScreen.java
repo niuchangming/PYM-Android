@@ -88,7 +88,7 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	public void refreshPage() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_OK, returnIntent);
-		finish();
+		PhoneLoginScreen.this.finish();
 	}
 
 	private void setUpView() {
