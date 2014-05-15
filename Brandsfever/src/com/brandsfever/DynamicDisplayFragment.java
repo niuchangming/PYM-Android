@@ -39,7 +39,8 @@ public class DynamicDisplayFragment extends Fragment {
 	Button _scrollup;
 	PhoneAdpter _padapter;
 	TabAdapter _tadapter;
-
+	Typeface  mFont;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -176,7 +177,7 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			_marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			Typeface mFont = Typeface.createFromAsset(
+			mFont = Typeface.createFromAsset(
 					getActivity().getAssets(), "fonts/georgia.ttf");
 			_salesprice.setTypeface(mFont, Typeface.BOLD);
 			_marketprice.setTypeface(mFont, Typeface.BOLD);
@@ -275,7 +276,7 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			_marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			Typeface mFont = Typeface.createFromAsset(
+			mFont = Typeface.createFromAsset(
 					getActivity().getAssets(), "fonts/georgia.ttf");
 			_salesprice.setTypeface(mFont);
 			_marketprice.setTypeface(mFont);

@@ -700,10 +700,12 @@ public class ProductDisplay extends FragmentActivity implements
 	@Override
 	public void onTabChanged(String tabId) {
 		
-		if(_all==null || _women==null || _men==null || _childrens==null)
+		int pos = this.mTabHost.getCurrentTab();
+		this.mViewPager.setCurrentItem(pos);
+		
+		if(_all==null || _women==null || _men==null || _childrens==null || _home==null || _accessories==null)
 			return;
 		
-		int pos = this.mTabHost.getCurrentTab();
 		if(pos==0){
 			_all.setTextColor(color);
 			
@@ -778,8 +780,6 @@ public class ProductDisplay extends FragmentActivity implements
 			
 			_list_type="accessories";
 		}
-		this.mViewPager.setCurrentItem(pos);
-		
 		
 	}
 	
