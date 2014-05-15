@@ -56,6 +56,9 @@ import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
 public class ProductListing extends FragmentActivity implements OnClickListener {
+	
+	private static final String TAG = "ProductListing";
+	
 	Context _ctx = ProductListing.this;
 	SimpleSideDrawer slide_me;
 	private Button _all, _men, _women, _childrens, _home, _accessories, _login,
@@ -114,9 +117,10 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		
 		TextView set_user_name = (TextView)findViewById(R.id.set_user_name);
 		String _username = _mypref .getString("_UserName", null);
-		if(!(_username==null)){
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
+		set_user_name.setTypeface(_font);
+
+		if(_username != null){
+			set_user_name.setText("Hi! "+_username);
 		}else{
 			set_user_name.setText("Hi! Guest");
 		}
@@ -250,7 +254,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// ========================================TabsAdapter===========================================================//
 	public static class TabsAdapter extends FragmentPagerAdapter implements
 			TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
@@ -288,7 +291,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 			tabSpec.setContent(new TabHost.TabContentFactory() {
 				@Override
 				public View createTabContent(String tag) {
-					System.out.println("tag name is" + tag);
 					return new TextView(mContext);
 				}
 			});
@@ -356,13 +358,13 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 				tv.setTextSize(17);
 			}
 	    	
-	       	 tv.setTypeface(_font);
+//	       	 tv.setTypeface(_font);
 	       	 tv.setTextColor(Color.parseColor("#000000"));       	 
 	       	 v.setBackgroundResource(R.drawable.selector);
 	       }
 		}
 	}
-	// ================================================================================================================//
+ 
 	class GetAllProductsList extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -405,12 +407,10 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		protected void onPostExecute(String result) {
 			try {
 				_mViewPager.setOffscreenPageLimit(ss.size());
-				System.out.println("p" + "All Products");
 
 				Bundle bundles = new Bundle();
 				bundles.putString("name", "All Products");
 
-				Log.i("SWIPE", "_ProductObjList name :" + "All Products");
 				TabHost.TabSpec specs = tabs.newTabSpec("All Products");
 				specs.setIndicator(_tabname);
 				mTabsAdapter.addTab(
@@ -419,12 +419,11 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 				
 				for (Iterator<String> it = ss.iterator(); it.hasNext();) {
 					_tabname = it.next();
-					System.out.println("p" + _tabname);
 
 					Bundle bundle = new Bundle();
 					bundle.putString("name", _tabname);
 
-					Log.i("SWIPE", "_ProductObjList name :" + _tabname);
+					Log.i(TAG, "_ProductObjList name :" + _tabname);
 					TabHost.TabSpec spec = tabs.newTabSpec(_tabname);
 					spec.setIndicator(_tabname);
 					mTabsAdapter.addTab(
@@ -435,7 +434,7 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			/***************************************************************************************************************************/
+
 			mProgressHUD.dismiss();
 		}
 	}
@@ -448,7 +447,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -460,7 +458,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 					total.append(line);
 				}
 				String _data = total.toString();
-				System.out.println(_data);
 				try {
 					JSONObject obj = new JSONObject(_data);
 					String msgs = obj.getString("msg");
@@ -495,23 +492,21 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 							_listmodel.set_catagory(jobj.get(0).toString());
 							_ProductObjList.add(_listmodel);
 						}
-						Log.i("SWIPE1", "size all " + _ProductObjList.size()
-								+ "");
+						Log.i(TAG, "size all " + _ProductObjList.size() + "");
 					} else {
-						System.out.println("errors");
+						Log.e(TAG,"error");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("error");
+				Log.e(TAG,"error");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// ================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -613,7 +608,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
 				finish();
@@ -668,7 +662,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		}
 	}
 	
-	//============================================================================================================================//
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		  if (requestCode == 1) {
@@ -681,7 +674,7 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		  }
 		}
     }
-	//======================================================================================================================//
+	
 	@Override
 	public void onBackPressed() {
 		Intent _gobck = new Intent(_ctx,ProductDisplay.class);
