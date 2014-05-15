@@ -699,6 +699,10 @@ public class ProductDisplay extends FragmentActivity implements
 
 	@Override
 	public void onTabChanged(String tabId) {
+		
+		if(_all==null || _women==null || _men==null || _childrens==null)
+			return;
+		
 		int pos = this.mTabHost.getCurrentTab();
 		if(pos==0){
 			_all.setTextColor(color);
