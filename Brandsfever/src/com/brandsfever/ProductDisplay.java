@@ -701,7 +701,9 @@ public class ProductDisplay extends FragmentActivity implements
 	public void onTabChanged(String tabId) {
 		
 		int pos = this.mTabHost.getCurrentTab();
-		this.mViewPager.setCurrentItem(pos);
+		
+		if(this.mViewPager!=null)
+			this.mViewPager.setCurrentItem(pos);
 		
 		if(_all==null || _women==null || _men==null || _childrens==null || _home==null || _accessories==null)
 			return;
