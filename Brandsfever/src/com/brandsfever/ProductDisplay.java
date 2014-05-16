@@ -266,10 +266,14 @@ public class ProductDisplay extends FragmentActivity implements
 			_invite.setVisibility(View.GONE);
 			_logout.setVisibility(View.GONE);
 			
-			_logout_view.setVisibility(View.GONE);
-			_mycart_view.setVisibility(View.GONE);
-			_settings_view.setVisibility(View.GONE);
-			_invite_view.setVisibility(View.GONE);
+			if(_logout_view != null)
+				_logout_view.setVisibility(View.GONE);
+			if(_mycart_view != null)
+				_mycart_view.setVisibility(View.GONE);
+			if(_settings_view != null)
+				_settings_view.setVisibility(View.GONE);
+			if(_invite_view != null)
+				_invite_view.setVisibility(View.GONE);
 		}
 		else{
 			_login.setVisibility(View.GONE);	
@@ -278,11 +282,16 @@ public class ProductDisplay extends FragmentActivity implements
 			_invite.setVisibility(View.VISIBLE);
 			_logout.setVisibility(View.VISIBLE);
 			
-			_logout_view.setVisibility(View.VISIBLE);
-			_login_view.setVisibility(View.VISIBLE);
-			_mycart_view.setVisibility(View.VISIBLE);
-			_settings_view.setVisibility(View.VISIBLE);
-			_invite_view.setVisibility(View.VISIBLE);
+			if(_logout_view != null)
+				_logout_view.setVisibility(View.VISIBLE);
+			if(_login_view != null)
+				_login_view.setVisibility(View.VISIBLE);
+			if(_mycart_view != null)
+				_mycart_view.setVisibility(View.VISIBLE);
+			if(_settings_view != null)
+				_settings_view.setVisibility(View.VISIBLE);
+			if(_invite_view != null)
+				_invite_view.setVisibility(View.VISIBLE);
 			
 	     }
 	}
