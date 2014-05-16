@@ -42,5 +42,7 @@
     <string name="title_activity_send_invite_screen">SendInviteScreen</string>
     <string name="title_activity_people__i__invited">People_I_Invited</string>
     <string name="title_activity_facebook__invite">Facebook_Invite</string>
+    <string name="title_activity_support">SupportActivity</string>
+    <string name="submit">submit</string>
 
 </resources>
