@@ -1,18 +1,20 @@
 package com.brandsfever;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
 
 public class SupportActivity extends Activity {
 
+	private static final String TAG = "SupportActivity";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,6 +24,7 @@ public class SupportActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
 	}
 
 	@Override
@@ -49,6 +52,7 @@ public class SupportActivity extends Activity {
 	 */
 	public static class PlaceholderFragment extends Fragment {
 
+		Button mSubmit;
 		public PlaceholderFragment() {
 		}
 
@@ -57,6 +61,18 @@ public class SupportActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_support,
 					container, false);
+			
+			mSubmit = (Button)rootView.findViewById(R.id.submit);
+			mSubmit.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.d(TAG, "Submit is clicked.");
+					getActivity().getFragmentManager().beginTransaction().remove(PlaceholderFragment.this).commit();
+				}
+			});
+			
 			return rootView;
 		}
 	}
