@@ -58,5 +58,10 @@
 	<string name="title_slidingMenu_login">LOGIN</string>
 	<string name="title_slidingMenu_logout">LOGOUT</string>
 	
+	<!-- Support Page -->
 	<string name="support_title">How can we help you?</string>
+	<string name="support_hint_order_id">Order Identifier*</string>
+	<string name="support_hint_issue">My Issues*</string>
+	<string name="support_hint_detail">Details</string>
+	<string name="support_hint_email">Your Emails*</string>
 </resources>

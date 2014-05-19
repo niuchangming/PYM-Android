@@ -82,7 +82,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:background="#fff"
-            android:hint="Order Number*"
+            android:hint="@string/support_hint_order_id"
             android:layout_weight="1"/>
         
         <View 
@@ -100,7 +100,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
-            android:hint="My Issue*"
+            android:hint="@string/support_hint_issue"
             android:background="#fff"/>
         
         <View 
@@ -120,7 +120,7 @@
             android:lines="2"
             android:maxLines="5"
             android:scrollbars="vertical"
-            android:hint="Details"
+            android:hint="@string/support_hint_detail"
             android:gravity="top|left"
             android:background="#fff"/>
         
@@ -139,7 +139,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"
-            android:hint="Your Email*"
+            android:hint="@string/support_hint_email"
             android:background="#fff"
             />
     </LinearLayout>
