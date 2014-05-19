@@ -57,4 +57,6 @@
 	<string name="title_slidingMenu_invite">INVITE</string>
 	<string name="title_slidingMenu_login">LOGIN</string>
 	<string name="title_slidingMenu_logout">LOGOUT</string>
+	
+	<string name="support_title">How can we help you?</string>
 </resources>

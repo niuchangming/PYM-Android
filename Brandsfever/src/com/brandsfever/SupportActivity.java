@@ -1,28 +1,37 @@
 package com.brandsfever;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
-public class SupportActivity extends Activity {
+public class SupportActivity extends FragmentActivity {
 
 	private static final String TAG = "SupportActivity";
+	
+	private String mOrderId;
+	private String mIssue;
+	private String mDetails;
+	private String mEmail;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_support);
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new SupportFragment()).commit();
 		}
 		
 	}
@@ -50,10 +59,10 @@ public class SupportActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	public static class SupportFragment extends Fragment {
 
 		Button mSubmit;
-		public PlaceholderFragment() {
+		public SupportFragment() {
 		}
 
 		@Override
@@ -62,14 +71,14 @@ public class SupportActivity extends Activity {
 			View rootView = inflater.inflate(R.layout.fragment_support,
 					container, false);
 			
-			mSubmit = (Button)rootView.findViewById(R.id.submit);
+			mSubmit = (Button)rootView.findViewById(R.id.support_submit);
 			mSubmit.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					Log.d(TAG, "Submit is clicked.");
-					getActivity().getFragmentManager().beginTransaction().remove(PlaceholderFragment.this).commit();
+//					getActivity().getFragmentManager().beginTransaction().remove(SupportFragment.this).commit();
 				}
 			});
 			
