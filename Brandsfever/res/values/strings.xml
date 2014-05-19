@@ -44,5 +44,17 @@
     <string name="title_activity_facebook__invite">Facebook_Invite</string>
     <string name="title_activity_support">SupportActivity</string>
     <string name="submit">submit</string>
-
+    
+	<string name="title_slidingMenu_all">ALL</string>
+	<string name="title_slidingMenu_women">WOMEN</string>
+	<string name="title_slidingMenu_men">MEN</string>
+	<string name="title_slidingMenu_children">CHILDREN</string>
+	<string name="title_slidingMenu_home">HOME</string>
+	<string name="title_slidingMenu_accessories">ACCESSORIES</string>
+	<string name="title_slidingMenu_settings">SETTINGS</string>
+	<string name="title_slidingMenu_cart">MY CART</string>
+	<string name="title_slidingMenu_support">SUPPORT</string>
+	<string name="title_slidingMenu_invite">INVITE</string>
+	<string name="title_slidingMenu_login">LOGIN</string>
+	<string name="title_slidingMenu_logout">LOGOUT</string>
 </resources>
