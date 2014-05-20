@@ -248,7 +248,7 @@
                 android:textSize="13sp" />
             
             <View
-                  android:id="@+id/btn_support_view"
+                android:id="@+id/btn_support_view"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#848484" />
@@ -269,7 +269,7 @@
                 android:textSize="13sp" />
 
             <View
-                  android:id="@+id/btn_invite_view"
+                android:id="@+id/btn_invite_view"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#848484" />

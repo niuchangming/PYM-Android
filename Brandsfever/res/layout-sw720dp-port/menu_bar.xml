@@ -184,6 +184,20 @@
         android:layout_marginRight="10dp"/>
 
     <Button 
+        android:id="@+id/btn_support"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:gravity="left"
+	    android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:text="SUPPORT"
+        android:layout_marginRight="10dp"/>
+    
+    <Button 
         android:id="@+id/btn_invite"
         android:layout_height="60dp"
         android:layout_gravity="left"

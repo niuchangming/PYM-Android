@@ -214,6 +214,7 @@ public class SupportActivity extends FragmentActivity {
 			mMyCart.setOnClickListener(this);
 
 			mSupport = (Button)findViewById(R.id.btn_support);
+			mSupport.setTypeface(mFont);
 			mSupport.setOnClickListener(this);
 			
 			mInvite = (Button) findViewById(R.id.btn_invite);

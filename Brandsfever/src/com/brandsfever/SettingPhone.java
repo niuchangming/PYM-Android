@@ -71,7 +71,7 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 	ImageButton main_menu, cart_btn;
 	SimpleSideDrawer slide_me;
 	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, _invite, _logout;
+			_settings, _mycart, mSupport, _invite, _logout;
 	TextView setting_tag;
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -191,6 +191,10 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		_mycart.setTypeface(_font);
 		_mycart.setOnClickListener(this);
 
+		mSupport = (Button) findViewById(R.id.btn_support);
+		mSupport.setTypeface(_font);
+		mSupport.setOnClickListener(this);
+		
 		_invite = (Button) findViewById(R.id.btn_invite);
 		_invite.setTypeface(_font);
 		_invite.setOnClickListener(this);
@@ -436,6 +440,21 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 			}
 			break;
 
+		case R.id.btn_support:
+			if(slide_me.isClosed()){
+				slide_me.setEnabled(false);
+			}
+			else {
+				slide_me.setEnabled(true);
+				Intent support = new Intent(_ctx,SupportActivity.class);
+				startActivity(support);
+				slide_me.closeRightSide();
+				overridePendingTransition(R.anim.push_out_to_right,
+						R.anim.push_out_to_left);
+				finish();
+			}
+			break;
+			
 		case R.id.btn_invite:
 			if (slide_me.isClosed()) {
 
