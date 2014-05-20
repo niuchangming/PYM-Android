@@ -1,17 +1,17 @@
 package com.brandsfever;
 
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class SupportActivity extends FragmentActivity {
 
@@ -21,6 +21,9 @@ public class SupportActivity extends FragmentActivity {
 	private String mIssue;
 	private String mDetails;
 	private String mEmail;
+	
+	Button mAll, mMen, mWomen, mChildren, mHome, mAccessories, mLogin, mSettings, mCart, mInvite, mLogout;
+	Typeface mFont;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,32 +39,13 @@ public class SupportActivity extends FragmentActivity {
 		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.support, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class SupportFragment extends Fragment {
 
 		Button mSubmit;
+		Typeface mFont;
 		public SupportFragment() {
 		}
 
@@ -71,7 +55,14 @@ public class SupportActivity extends FragmentActivity {
 			View rootView = inflater.inflate(R.layout.fragment_support,
 					container, false);
 			
+			mFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
+			
+			TextView title = (TextView) rootView.findViewById(R.id.support_title);
+			title.setTypeface(mFont,Typeface.ITALIC);
+			
+			
 			mSubmit = (Button)rootView.findViewById(R.id.support_submit);
+			mSubmit.setTypeface(mFont);
 			mSubmit.setOnClickListener(new View.OnClickListener() {
 				
 				@Override

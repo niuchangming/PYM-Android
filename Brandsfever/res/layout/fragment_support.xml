@@ -54,13 +54,14 @@
         android:layout_width="fill_parent">
         
         <TextView 
-            android:id="@+id/change_password_tag"
+            android:id="@+id/support_title"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:gravity="center_horizontal"
             android:layout_gravity="center"
             android:textColor="#000"
-            android:text="@string/support_title"/>
+            android:text="@string/support_title"
+            android:textSize="20sp"/>
     </LinearLayout>
     
     <LinearLayout 
