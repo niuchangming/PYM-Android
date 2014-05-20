@@ -16,8 +16,13 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,14 +32,19 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brandsfever.ChangePassword.RPassword;
+import com.dataholder.DataHolderClass;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
@@ -45,8 +55,15 @@ public class SupportActivity extends FragmentActivity {
 
 	private static final String TAG = "SupportActivity";
 	
-	SimpleSideDrawer slide_me;
-	Button mAll, mMen, mWomen, mChildren, mHome, mAccessories, mLogin, mSettings, mCart, mInvite, mLogout;
+	private SimpleSideDrawer mSideDrawer;
+	private ImageButton mMain, mBack, mCart;
+	private Button mAll, mMen, mWomen, mChildren, mHome, mAccessories, mLogin, mSettings, mSupport, mMyCart, mInvite, mLogout;
+	private SharedPreferences mPref;
+	
+	private int mColor, mColors;
+	
+	String mUserId;
+	String mToken;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +75,14 @@ public class SupportActivity extends FragmentActivity {
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new SupportFragment()).commit();
-		}
+		}		
 		
-		mFont = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-	
 	}
 
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public class SupportFragment extends Fragment {
+	public class SupportFragment extends Fragment implements OnClickListener {
 
 		Button mSubmit;
 		Typeface mFont;
@@ -91,9 +106,17 @@ public class SupportActivity extends FragmentActivity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_support,
 					container, false);
+		
+			mMain = (ImageButton) rootView.findViewById(R.id.main_menu);
+			mMain.setOnClickListener(this);
+	
+			mBack = (ImageButton) rootView.findViewById(R.id.back_btn);
+			mBack.setOnClickListener(this);
+	
+			mCart = (ImageButton) rootView.findViewById(R.id.cart_btn);
+			mCart.setOnClickListener(this);		
 			
 			mFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
-			
 			TextView title = (TextView) rootView.findViewById(R.id.support_title);
 			title.setTypeface(mFont,Typeface.ITALIC);
 			
@@ -134,7 +157,289 @@ public class SupportActivity extends FragmentActivity {
 				}
 			});
 			
+			
+			mColor = Integer.parseInt("8e1345", 16) + 0xFF000000;
+			mColors = Integer.parseInt("ffffff",16) + 0xFF000000;
+			
+			mSideDrawer = new SimpleSideDrawer(SupportActivity.this);
+			mSideDrawer.setLeftBehindContentView(R.layout.menu_bar);
+			mSideDrawer.setBackgroundColor(Color.parseColor("#000000"));
+			
+			TextView profileView = (TextView)findViewById(R.id.set_user_name);
+			profileView.setTypeface(mFont);
+			mPref = getApplicationContext().getSharedPreferences("mypref", 0);
+			mUserId = mPref.getString("ID", null);
+			mToken = mPref.getString("TOKEN", null);
+			String username = mPref.getString("_UserName", null);
+			if(username != null){
+				profileView.setText("Hi! " + username);
+			}
+			else {
+				profileView.setText("Hi! Guest");
+			}
+
+			mAll = (Button) findViewById(R.id.btn_all_cat);
+			mAll.setTypeface(mFont);
+			mAll.setOnClickListener(this);
+
+			mMen = (Button) findViewById(R.id.cat_men);
+			mMen.setTypeface(mFont);
+			mMen.setOnClickListener(this);
+
+			mWomen = (Button) findViewById(R.id.cat_women);
+			mWomen.setTypeface(mFont);
+			mWomen.setOnClickListener(this);
+
+			mChildren = (Button) findViewById(R.id.cat_children);
+			mChildren.setTypeface(mFont);
+			mChildren.setOnClickListener(this);
+
+			mHome = (Button) findViewById(R.id.cat_home);
+			mHome.setTypeface(mFont);
+			mHome.setOnClickListener(this);
+
+			mAccessories = (Button) findViewById(R.id.cat_accesories);
+			mAccessories.setTypeface(mFont);
+			mAccessories.setOnClickListener(this);
+
+			mLogin = (Button) findViewById(R.id.btn_login);
+			mLogin.setVisibility(View.GONE);
+
+			mSettings = (Button) findViewById(R.id.btn_setting);
+			mSettings.setTypeface(mFont);
+			mSettings.setOnClickListener(this);
+
+			mMyCart = (Button) findViewById(R.id.my_cart);
+			mMyCart.setTypeface(mFont);
+			mMyCart.setOnClickListener(this);
+
+			mSupport = (Button)findViewById(R.id.btn_support);
+			mSupport.setOnClickListener(this);
+			
+			mInvite = (Button) findViewById(R.id.btn_invite);
+			mInvite.setTypeface(mFont);
+			mInvite.setOnClickListener(this);
+
+			mLogout = (Button) findViewById(R.id.btn_logout);
+			mLogout.setTypeface(mFont);
+			mLogout.setOnClickListener(this);
+
+			mAll.setTextColor(mColors);
+			mMen.setTextColor(mColors);
+			mWomen.setTextColor(mColors);
+			mChildren.setTextColor(mColors);
+			mHome.setTextColor(mColors);
+			mAccessories.setTextColor(mColors);
+			mSettings.setTextColor(mColors);
+			mMyCart.setTextColor(mColors);
+			mSupport.setTextColor(mColor);
+			mInvite.setTextColor(mColors);
+			
 			return rootView;
+		}
+
+		@Override
+		public void onStart() {
+			// TODO Auto-generated method stub
+			super.onStart();
+			InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(mOrderId.getWindowToken(), 0);
+		}
+		
+		@Override
+		public void onClick(View v) {
+			
+			switch (v.getId()) {
+			case R.id.main_menu:
+				InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(mOrderId.getWindowToken(), 0);
+				mSideDrawer.toggleLeftDrawer();
+				break;
+			case R.id.btn_all_cat:
+				mSideDrawer.closeRightSide();
+				Intent all = new Intent(SupportActivity.this, ProductDisplay.class);
+				all.putExtra("tab", "all");
+				startActivity(all);
+				mSideDrawer.closeRightSide();
+				overridePendingTransition(R.anim.push_out_to_right,
+						R.anim.push_out_to_left);
+				finish();
+				break;
+
+			case R.id.cat_men:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					mSideDrawer.closeRightSide();
+					Intent men = new Intent(SupportActivity.this, ProductDisplay.class);
+					men.putExtra("tab", "men");
+					startActivity(men);
+					mSideDrawer.closeRightSide();
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.cat_women:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					mSideDrawer.closeRightSide();
+					Intent women = new Intent(SupportActivity.this, ProductDisplay.class);
+					women.putExtra("tab", "women");
+					startActivity(women);
+					mSideDrawer.closeRightSide();
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.cat_children:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					mSideDrawer.closeRightSide();
+					Intent children = new Intent(SupportActivity.this, ProductDisplay.class);
+					children.putExtra("tab", "children");
+					mSideDrawer.closeRightSide();
+					startActivity(children);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.cat_home:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					mSideDrawer.closeRightSide();
+					Intent home = new Intent(SupportActivity.this, ProductDisplay.class);
+					home.putExtra("tab", "home");
+					startActivity(home);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.cat_accesories:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					mSideDrawer.closeRightSide();
+					Intent acc = new Intent(SupportActivity.this, ProductDisplay.class);
+					acc.putExtra("tab", "accessories");
+					startActivity(acc);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.btn_setting:
+				if (mSideDrawer.isClosed()) {
+
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+						Intent _phonesetting = new Intent(SupportActivity.this, SettingPhone.class);
+						System.out.println("in phone");
+						startActivity(_phonesetting);
+						overridePendingTransition(R.anim.push_out_to_right,
+								R.anim.push_out_to_left);
+
+					} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+							&& DataHolderClass.getInstance().get_deviceInch() < 9) {
+						Intent _tabsetting = new Intent(SupportActivity.this, SettingTab.class);
+						System.out.println("in 7 inch tab");
+						startActivity(_tabsetting);
+						overridePendingTransition(R.anim.push_out_to_right,
+								R.anim.push_out_to_left);
+					} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
+						Intent _tabsetting = new Intent(SupportActivity.this, SettingTab.class);
+						System.out.println("in 10 inch tab");
+						startActivity(_tabsetting);
+						overridePendingTransition(R.anim.push_out_to_right,
+								R.anim.push_out_to_left);
+					}
+				}
+				break;
+
+			case R.id.my_cart:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					Intent _cart = new Intent(SupportActivity.this, MyCartScreen.class);
+					startActivity(_cart);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.btn_support:
+				mSideDrawer.closeLeftSide();
+				break;
+				
+			case R.id.btn_invite:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					Intent _invite = new Intent(SupportActivity.this, InviteSction_Screen.class);
+					startActivity(_invite);
+					mSideDrawer.closeRightSide();
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+					finish();
+				}
+				break;
+
+			case R.id.btn_logout:
+				if (mSideDrawer.isClosed()) {
+					mSideDrawer.setEnabled(false);
+				} else {
+					mSideDrawer.setEnabled(true);
+					Editor editor = mPref.edit();
+					editor.clear();
+					editor.commit();
+					Intent _intent = new Intent(getApplicationContext(),
+							ProductDisplay.class);
+					startActivity(_intent);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+				}
+				break;
+
+			case R.id.back_btn:
+				finish();
+				break;
+
+			case R.id.cart_btn:
+				if ((mToken != null) && (mUserId != null)) {
+					Intent _gotocart = new Intent(SupportActivity.this, MyCartScreen.class);
+					startActivity(_gotocart);
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
+				} else {
+
+				}
+				break;
+
+			default:
+				break;
+			}
+
 		}
 	}
 	
