@@ -62,7 +62,7 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 	Context _ctx = ProductListing.this;
 	SimpleSideDrawer slide_me;
 	private Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, _invite, _logout;
+			_settings, _mycart, mSupport, _invite, _logout;
 	static Typeface _font;
 	private int pk;
 	private ImageButton main_menu, back_btn, cart_btn;
@@ -175,6 +175,10 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		_mycart.setTypeface(_font);
 		_mycart.setOnClickListener(this);
 
+		mSupport = (Button) findViewById(R.id.btn_support);
+		mSupport.setTypeface(_font);
+		mSupport.setOnClickListener(this);
+		
 		_invite = (Button) findViewById(R.id.btn_invite);
 		_invite_view = (View) findViewById(R.id.btn_invite_view);
 		_invite.setTypeface(_font);
@@ -632,6 +636,16 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 			finish();
 			break;
 
+		case R.id.btn_support:
+			
+			Intent support = new Intent(_ctx,SupportActivity.class);
+			startActivity(support);
+			slide_me.closeRightSide();
+			overridePendingTransition(R.anim.push_out_to_right,
+					R.anim.push_out_to_left);
+			finish();
+			break;
+			
 		case R.id.btn_invite:
 			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
 			startActivity(_invite);

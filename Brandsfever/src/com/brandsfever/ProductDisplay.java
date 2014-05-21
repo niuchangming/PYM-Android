@@ -1,6 +1,5 @@
 package com.brandsfever;
 
-import com.crashlytics.android.Crashlytics;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -47,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adapter.VPagerAdapter;
+import com.crashlytics.android.Crashlytics;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -67,7 +67,7 @@ public class ProductDisplay extends FragmentActivity implements
 	SimpleSideDrawer slide_me;
 	ImageButton _Menu,cart_btn;
 	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, _invite, _logout;
+			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	String catagory_name;
 	String _TabName;
@@ -87,7 +87,7 @@ public class ProductDisplay extends FragmentActivity implements
 	HorizontalScrollView mHorizontalScroll;
 	
 	
-	View _settings_view,_login_view,_mycart_view,_invite_view,_logout_view;
+	View _settings_view,_login_view,_mycart_view,mSupportView,_invite_view,_logout_view;
 	
 	int color,colors;
 	
@@ -150,9 +150,6 @@ public class ProductDisplay extends FragmentActivity implements
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16)+0xFF000000;
 		colors = Integer.parseInt("ffffff", 16)+0xFF000000;
-		
-		
-        
 
 		bundle = getIntent().getExtras();
 		_TabName = null;
@@ -222,6 +219,11 @@ public class ProductDisplay extends FragmentActivity implements
 		_mycart.setTypeface(_font);
 		_mycart.setOnClickListener(this);
 
+		mSupport = (Button)findViewById(R.id.btn_support);
+		mSupportView = (View)findViewById(R.id.btn_support_view);
+		mSupport.setTypeface(_font);
+		mSupport.setOnClickListener(this);
+		
 		_invite = (Button) findViewById(R.id.btn_invite);
 		_invite_view = (View) findViewById(R.id.btn_invite_view);
 		_invite.setTypeface(_font);
@@ -263,6 +265,7 @@ public class ProductDisplay extends FragmentActivity implements
 			_login.setVisibility(View.VISIBLE);	
 			_mycart.setVisibility(View.GONE);
 			_settings.setVisibility(View.GONE);
+			mSupport.setVisibility(View.GONE);
 			_invite.setVisibility(View.GONE);
 			_logout.setVisibility(View.GONE);
 			
@@ -274,6 +277,8 @@ public class ProductDisplay extends FragmentActivity implements
 				_settings_view.setVisibility(View.GONE);
 			if(_invite_view != null)
 				_invite_view.setVisibility(View.GONE);
+			if( mSupportView != null)
+				mSupportView.setVisibility(View.VISIBLE);
 		}
 		else{
 			_login.setVisibility(View.GONE);	
@@ -292,6 +297,8 @@ public class ProductDisplay extends FragmentActivity implements
 				_settings_view.setVisibility(View.VISIBLE);
 			if(_invite_view != null)
 				_invite_view.setVisibility(View.VISIBLE);
+			if( mSupportView != null)
+				mSupportView.setVisibility(View.VISIBLE);
 			
 	     }
 	}
@@ -338,6 +345,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 			} else if (_TabName.equalsIgnoreCase("women")) {
 				mViewPager.setCurrentItem(1);
@@ -350,6 +358,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 			} else if (_TabName.equalsIgnoreCase("men")) {
 				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
@@ -365,6 +374,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 				mViewPager.setCurrentItem(3);
 			} else if (_TabName.equalsIgnoreCase("home")) {
@@ -377,6 +387,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 				mViewPager.setCurrentItem(4);
 			} else if (_TabName.equalsIgnoreCase("accessories")) {
@@ -390,6 +401,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_home.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 			} else {
 				mViewPager.setCurrentItem(0);
@@ -402,6 +414,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 			}
 		}
@@ -479,6 +492,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -494,6 +508,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -509,6 +524,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -524,6 +540,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -539,6 +556,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -554,6 +572,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(color);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			break;
@@ -584,9 +603,29 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(color);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			slide_me.closeRightSide();
 			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+			break;
+		
+		case R.id.btn_support:
+			Log.d(TAG, "support is clicked.");
+			Intent support = new Intent(ProductDisplay.this,SupportActivity.class);
+			startActivity(support);
+			_all.setTextColor(colors);
+            _men.setTextColor(colors);
+            _women.setTextColor(colors);
+            _childrens.setTextColor(colors);
+            _home.setTextColor(colors);
+            _accessories.setTextColor(colors);
+			_settings.setTextColor(colors);
+			_mycart.setTextColor(colors);
+			mSupport.setTextColor(color);
+			_invite.setTextColor(colors);
+			slide_me.closeRightSide();
+			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+
 			break;
 
 		case R.id.btn_invite:
@@ -600,6 +639,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(color);
 			slide_me.closeRightSide();
 			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
@@ -628,6 +668,7 @@ public class ProductDisplay extends FragmentActivity implements
 	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
@@ -643,6 +684,7 @@ public class ProductDisplay extends FragmentActivity implements
 	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
@@ -657,6 +699,7 @@ public class ProductDisplay extends FragmentActivity implements
 	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
+				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
 				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
@@ -727,6 +770,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(color);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="all";
 		}else if(pos==1){
@@ -739,6 +783,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="women";
 		}else if(pos==2){
@@ -751,6 +796,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="men";
 		}else if(pos==3){
@@ -763,6 +809,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="children";
 		}else if(pos==4){
@@ -775,6 +822,7 @@ public class ProductDisplay extends FragmentActivity implements
             _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="home";
 		}else if(pos==5){
@@ -787,6 +835,7 @@ public class ProductDisplay extends FragmentActivity implements
             _home.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
+			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			
 			_list_type="accessories";

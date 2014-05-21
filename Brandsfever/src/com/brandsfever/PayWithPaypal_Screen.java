@@ -49,7 +49,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 	ImageButton main_menu, back_btn, cart_btn;
 	SimpleSideDrawer slide_me;
 	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, _invite, _logout;
+			_settings, _mycart, mSupport, _invite, _logout;
 	int color, colors;
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -131,6 +131,10 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		_mycart.setTypeface(_font);
 		_mycart.setOnClickListener(this);
 
+		mSupport = (Button) findViewById(R.id.btn_support);
+		mSupport.setTypeface(_font);
+		mSupport.setOnClickListener(this);
+		
 		_invite = (Button) findViewById(R.id.btn_invite);
 		_invite.setTypeface(_font);
 		_invite.setOnClickListener(this);
@@ -267,6 +271,18 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 			}
 			break;
 
+		case R.id.btn_support:
+			
+			slide_me.setEnabled(true);
+			Intent support = new Intent(_ctx,SupportActivity.class);
+			startActivity(support);
+			slide_me.closeRightSide();
+			overridePendingTransition(R.anim.push_out_to_right,
+					R.anim.push_out_to_left);
+			finish();
+			
+			break;
+			
 		case R.id.btn_invite:
 			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
 			startActivity(_invite);

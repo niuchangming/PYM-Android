@@ -60,7 +60,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="ALL"
+                android:text="@string/title_slidingMenu_all"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -80,7 +80,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="WOMEN"
+                android:text="@string/title_slidingMenu_women"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -100,7 +100,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="MEN"
+                android:text="@string/title_slidingMenu_men"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -120,7 +120,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="CHILDREN"
+                android:text="@string/title_slidingMenu_children"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -140,7 +140,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="HOME"
+                android:text="@string/title_slidingMenu_home"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -160,7 +160,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="ACCESSORIES"
+                android:text="@string/title_slidingMenu_accessories"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -180,7 +180,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="LOGIN"
+                android:text="@string/title_slidingMenu_login"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -201,7 +201,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="SETTINGS		"
+                android:text="@string/title_slidingMenu_settings"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -222,7 +222,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="MY CART"
+                android:text="@string/title_slidingMenu_cart"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -231,7 +231,28 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#848484" />
-
+			
+            <Button
+                android:id="@+id/btn_support"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_support"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+            
+            <View
+                android:id="@+id/btn_support_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+            
             <Button
                 android:id="@+id/btn_invite"
                 android:layout_width="fill_parent"
@@ -243,12 +264,12 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="INVITE"
+                android:text="@string/title_slidingMenu_invite"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
             <View
-                  android:id="@+id/btn_invite_view"
+                android:id="@+id/btn_invite_view"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="#848484" />
@@ -264,7 +285,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="LOGOUT"
+                android:text="@string/title_slidingMenu_logout"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
             
