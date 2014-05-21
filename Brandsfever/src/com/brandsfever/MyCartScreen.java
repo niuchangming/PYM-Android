@@ -269,6 +269,11 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				_setMyorders.setAdapter(_myadapter);
 
 			} else {
+				item_count_tag.setText("0 item");
+				item_count_tag.setTypeface(_font, Typeface.NORMAL);
+				shiping_fee_amount.setText( "S$0");
+				payable_amount.setText("S$0");
+				
 				System.out.println("printing error");
 				_msg = "Your cart \n is empty";
 				_ResponsePopup();
