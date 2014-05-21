@@ -768,7 +768,7 @@ public class ProductDisplay extends FragmentActivity implements
             _childrens.setTextColor(colors);
             _home.setTextColor(colors);
             _accessories.setTextColor(colors);
-			_settings.setTextColor(color);
+			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
