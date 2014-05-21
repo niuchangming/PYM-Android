@@ -112,6 +112,9 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class SingleProductDisplay extends FragmentActivity implements
 		OnClickListener, OnItemSelectedListener {
+	
+	private static final String TAG = "SingleProductDisplay";
+	
 	Context _ctx = SingleProductDisplay.this;
 	ImageButton main_menu, back_btn, cart_btn;
 	SimpleSideDrawer slide_me;
@@ -684,8 +687,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 							SingleItemDataModel _singleobj = new SingleItemDataModel();
 							JSONObject jsonobj = _productItems.getJSONObject(i);
 
-							String _product_item_name = jsonobj
-									.getString("product_item_name");
 							String _availablestock = jsonobj
 									.getString("available stock");
 							String _product_item_pk = jsonobj
@@ -693,7 +694,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 							String product_item_property = jsonobj
 									.getString("product_item_property");
 
-							_singleobj.setProduct_item_name(_product_item_name);
+							_singleobj.setProduct_item_name(name);
 							_singleobj.set_availablestock(_availablestock);
 							_singleobj.setProduct_item_pk(_product_item_pk);
 							_singleobj
@@ -773,7 +774,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 			imageView.setFitsSystemWindows(true);
 			AQuery aq = new AQuery(context);
 			aq.id(imageView).image("https:" + img_map.get(position).get(0));
-
+			Log.e(TAG, "https:" + img_map.get(position).get(0));
 			aq.ajax("https:" + img_map.get(position).get(0), Bitmap.class,
 					new AjaxCallback<Bitmap>() {
 						@Override
