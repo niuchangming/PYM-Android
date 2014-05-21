@@ -31,6 +31,9 @@ import com.dataholder.DataHolderClass;
 import com.datamodel.ProductListDetailModel;
 
 public class DynamicDisplayFragment extends Fragment {
+	
+	private static final String TAG = "DynamicDisplayFragment";
+	
 	public ArrayList<ProductListDetailModel> _dataList = new ArrayList<ProductListDetailModel>();
 	Context _mctx;
 	private String tab_name;
@@ -177,11 +180,16 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			_marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			mFont = Typeface.createFromAsset(
-					getActivity().getAssets(), "fonts/georgia.ttf");
-			_salesprice.setTypeface(mFont, Typeface.BOLD);
-			_marketprice.setTypeface(mFont, Typeface.BOLD);
-			_name.setTypeface(mFont, Typeface.NORMAL);
+			try{
+				mFont = Typeface.createFromAsset(
+						getActivity().getAssets(), "fonts/georgia.ttf");
+				_salesprice.setTypeface(mFont, Typeface.BOLD);
+				_marketprice.setTypeface(mFont, Typeface.BOLD);
+				_name.setTypeface(mFont, Typeface.NORMAL);
+			}
+			catch (Exception e) {
+				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because" + e.getMessage());
+			}
 
 			ProductListDetailModel obj = data.get(position);
 
@@ -276,12 +284,16 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			_marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			mFont = Typeface.createFromAsset(
-					getActivity().getAssets(), "fonts/georgia.ttf");
-			_salesprice.setTypeface(mFont);
-			_marketprice.setTypeface(mFont);
-			_name.setTypeface(mFont);
-
+			try{
+				mFont = Typeface.createFromAsset(
+						getActivity().getAssets(), "fonts/georgia.ttf");
+				_salesprice.setTypeface(mFont);
+				_marketprice.setTypeface(mFont);
+				_name.setTypeface(mFont);
+			}
+			catch (Exception e) {
+				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because" + e.getMessage());
+			}
 			ProductListDetailModel obj = _data.get(position);
 			LinearLayout _lm = (LinearLayout) itemView
 					.findViewById(R.id.custom_layout);
