@@ -36,3 +36,5 @@ proguard/
 *~
 *.swp
 
+# Crashlytics
+Brandsfever/res/values/com_crashlytics_export_strings.xml
