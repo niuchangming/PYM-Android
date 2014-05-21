@@ -575,7 +575,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent all = new Intent(_ctx, ProductDisplay.class);
 				all.putExtra("tab", "all");
 				startActivity(all);
@@ -590,7 +589,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent men = new Intent(_ctx, ProductDisplay.class);
 				men.putExtra("tab", "men");
 				startActivity(men);
@@ -605,7 +603,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent women = new Intent(_ctx, ProductDisplay.class);
 				women.putExtra("tab", "women");
 				startActivity(women);
@@ -622,7 +619,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent children = new Intent(_ctx, ProductDisplay.class);
 				children.putExtra("tab", "children");
 				startActivity(children);
@@ -637,7 +633,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent home = new Intent(_ctx, ProductDisplay.class);
 				home.putExtra("tab", "home");
 				startActivity(home);
@@ -652,7 +647,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
 				Intent acc = new Intent(_ctx, ProductDisplay.class);
 				acc.putExtra("tab", "accessories");
 				startActivity(acc);
@@ -712,7 +706,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				Intent support = new Intent(_ctx,SupportActivity.class);
 				startActivity(support);
-				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
 				finish();
@@ -726,7 +719,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
 				startActivity(_invite);
-				slide_me.closeRightSide();
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
 				finish();
