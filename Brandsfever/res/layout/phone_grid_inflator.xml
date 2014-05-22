@@ -16,12 +16,12 @@
             android:layout_centerInParent="true" />
         
         <ImageView
-			android:id="@+id/prdt_img" 
-			android:layout_width="fill_parent" 
-			android:layout_height="fill_parent"            
- 			android:adjustViewBounds="true"
- 			android:scaleType="matrix"
-			/>
+            android:id="@+id/prdt_img"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
     </RelativeLayout>
 
     <RelativeLayout
