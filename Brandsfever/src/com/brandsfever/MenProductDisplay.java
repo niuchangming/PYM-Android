@@ -211,7 +211,6 @@ public class MenProductDisplay extends Fragment {
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 		    cal.setTimeInMillis(end);
 		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
-		    System.out.println("date format is" + date);
 
 			String s = Integer.toString(dayCount) + " Days" + " "
 					+  hours_left_str + ":"
@@ -235,8 +234,6 @@ public class MenProductDisplay extends Fragment {
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
 		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-		    System.out.println("start date is" + start_date);
-			
 			String _from =  Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);
@@ -462,7 +459,6 @@ public class MenProductDisplay extends Fragment {
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 		    cal.setTimeInMillis(end);
 		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
-		    System.out.println("date format is" + date);
 
 			String s = Integer.toString(dayCount) + " Days" + " "
 					+  hours_left_str + ":"
@@ -486,8 +482,6 @@ public class MenProductDisplay extends Fragment {
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
 		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-		    System.out.println("start date is" + start_date);
-			
 			String _from =  Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);

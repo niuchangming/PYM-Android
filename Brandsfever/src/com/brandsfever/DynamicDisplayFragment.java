@@ -1,9 +1,7 @@
 package com.brandsfever;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,19 +32,18 @@ public class DynamicDisplayFragment extends Fragment {
 	
 	private static final String TAG = "DynamicDisplayFragment";
 	
-	public ArrayList<ProductListDetailModel> _dataList = new ArrayList<ProductListDetailModel>();
+	public ArrayList<ProductListDetailModel> mDataList = new ArrayList<ProductListDetailModel>();
 	Context _mctx;
 	private String tab_name;
 	static String s;
-	GridView gridView;
-	Button _scrollup;
-	PhoneAdpter _padapter;
-	TabAdapter _tadapter;
+	GridView mGridView;
+	Button mScrollup;
+	PhoneAdpter mPAdapter;
+	TabAdapter mTAdapter;
 	Typeface  mFont;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		tab_name = getArguments().getString("name");
 		Log.i("SWIPE", "tab name i frganment" + tab_name);
@@ -56,83 +53,72 @@ public class DynamicDisplayFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View _view = inflater.inflate(
+		View view = inflater.inflate(
 				R.layout.activity_dynamic_display_fragment, container, false);
-		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
-		_scrollup.setVisibility(View.GONE);
-		gridView = (GridView) _view.findViewById(R.id.gridView1);
+		mScrollup = (Button) view.findViewById(R.id.scrolldown);
+		mScrollup.setVisibility(View.GONE);
+		mGridView = (GridView) view.findViewById(R.id.gridView1);
 		_filterDynamicData();
 
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-			_padapter = new PhoneAdpter(getActivity(),
-					R.layout.phone_grid_inflator, _dataList);
-			gridView.setAdapter(_padapter);
+			mPAdapter = new PhoneAdpter(getActivity(),
+					R.layout.phone_grid_inflator, mDataList);
+			mGridView.setAdapter(mPAdapter);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 				&& DataHolderClass.getInstance().get_deviceInch() <= 8) {
-			_padapter = new PhoneAdpter(getActivity(),
-					R.layout.seven_inch_grid_inflator, _dataList);
-			gridView.setAdapter(_padapter);
+			mPAdapter = new PhoneAdpter(getActivity(),
+					R.layout.seven_inch_grid_inflator, mDataList);
+			mGridView.setAdapter(mPAdapter);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-			_tadapter = new TabAdapter(getActivity(),
-					R.layout.grid_row_inflator, _dataList);
-			gridView.setAdapter(_tadapter);
+			mTAdapter = new TabAdapter(getActivity(),
+					R.layout.grid_row_inflator, mDataList);
+			mGridView.setAdapter(mTAdapter);
 		}
 
-		gridView.setOnScrollListener(new OnScrollListener() {
+		mGridView.setOnScrollListener(new OnScrollListener() {
 
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				// TODO Auto-generated method stub
 				if (firstVisibleItem > 4) {
-					_scrollup.setVisibility(View.VISIBLE);
+					mScrollup.setVisibility(View.VISIBLE);
 				} else {
-					_scrollup.setVisibility(View.GONE);
+					mScrollup.setVisibility(View.GONE);
 				}
 			}
 		});
 
-		_scrollup.setOnClickListener(new OnClickListener() {
+		mScrollup.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				gridView.setSelection(0);
-				_scrollup.setVisibility(View.GONE);
+				mGridView.setSelection(0);
+				mScrollup.setVisibility(View.GONE);
 			}
 		});
-		return _view;
+		return view;
 	}
 
 	public void _filterDynamicData() {
-		// for(int i=0;i<ProductListing._ProductObjList.size();i++)
-		// {
-		// if(ProductListing._ProductObjList.get(i).get_catagory().equalsIgnoreCase(tab_name))
-		// {
-		// _dataList.add(ProductListing._ProductObjList.get(i));
-		// }else{
-		// _dataList.add(ProductListing._ProductObjList.get(i));
-		// }
-		// }
+		
 		if (!tab_name.equalsIgnoreCase("All Products")) {
 
-			for (int i = 0; i < ProductListing._ProductObjList.size(); i++) {
-				if (ProductListing._ProductObjList.get(i).get_catagory()
+			for (int i = 0; i < ProductListing.mProductList.size(); i++) {
+				if (ProductListing.mProductList.get(i).get_catagory()
 						.equalsIgnoreCase(tab_name)) {
-					_dataList.add(ProductListing._ProductObjList.get(i));
+					mDataList.add(ProductListing.mProductList.get(i));
 				}
 			}
 		} else {
-			_dataList = ProductListing._ProductObjList;
+			mDataList = ProductListing.mProductList;
 		}
 
 	}
 
-	// ==============================================================================================================//
 	private class PhoneAdpter extends BaseAdapter {
 
 		private Context context;
@@ -140,52 +126,48 @@ public class DynamicDisplayFragment extends Fragment {
 		public ArrayList<ProductListDetailModel> data = new ArrayList<ProductListDetailModel>();
 
 		public PhoneAdpter(Context context, int layoutResourceId,
-				ArrayList<ProductListDetailModel> _arraylist) {
+				ArrayList<ProductListDetailModel> arraylist) {
 			this.layoutResourceId = layoutResourceId;
 			this.context = context;
-			this.data = _arraylist;
+			this.data = arraylist;
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			View itemView = convertView;
-			TextView _name, _salesprice, _marketprice;
+			TextView name, salesprice, marketprice;
 			if (itemView == null) {
 				LayoutInflater inflater = ((Activity) context)
 						.getLayoutInflater();
 				itemView = inflater.inflate(layoutResourceId, parent, false);
 			}
 
-			_name = (TextView) itemView.findViewById(R.id.prdt_name);
-			_salesprice = (TextView) itemView
+			name = (TextView) itemView.findViewById(R.id.prdt_name);
+			salesprice = (TextView) itemView
 					.findViewById(R.id.prdt_sales_price);
-			_marketprice = (TextView) itemView
+			marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
 			try{
 				mFont = Typeface.createFromAsset(
 						getActivity().getAssets(), "fonts/georgia.ttf");
-				_salesprice.setTypeface(mFont, Typeface.BOLD);
-				_marketprice.setTypeface(mFont, Typeface.BOLD);
-				_name.setTypeface(mFont, Typeface.NORMAL);
+				salesprice.setTypeface(mFont, Typeface.BOLD);
+				marketprice.setTypeface(mFont, Typeface.BOLD);
+				name.setTypeface(mFont, Typeface.NORMAL);
 			}
 			catch (Exception e) {
 				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because" + e.getMessage());
@@ -193,33 +175,28 @@ public class DynamicDisplayFragment extends Fragment {
 
 			ProductListDetailModel obj = data.get(position);
 
-			_name.setText(obj.getName());
-			_salesprice.setText(obj.getSales_price().replace("GD", "$"));
-			int color = Integer.parseInt("B22222", 16) + 0xFF000000;
-			_salesprice.setTextColor(color);
-			_marketprice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
+			name.setText(obj.getName());
+			salesprice.setText(obj.getSales_price().replace("GD", "$"));
+//			int color = Integer.parseInt("B22222", 16) + 0xFF000000;
+//			salesprice.setTextColor(color);
+			marketprice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
 					| Paint.ANTI_ALIAS_FLAG);
-			_marketprice.setText(obj.getMarket_price().replace("GD", "$"));
-			String a = "https:" + obj.getImg();
-			System.out.println("value of a is+" + a);
+			marketprice.setText(obj.getMarket_price().replace("GD", "$"));
+			String imageUrl = "https:" + obj.getImg();
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.prdt_img);
-			// ResizableImageView imageView = new
-			// ResizableImageView(getActivity().getBaseContext());
 			imageView.setTag(position);
 			AQuery aq = new AQuery(context);
-			aq.id(imageView).image(a);
+			aq.id(imageView).progress(R.id.progress).image(imageUrl,false,true);
 
 			imageView.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					int a = (Integer) v.getTag();
 					ProductListDetailModel cs = data.get(a);
 					int _s = Integer.parseInt(cs.getPk());
 					DataHolderClass.getInstance().set_subProductsPk(_s);
-					System.out.println("pk is" + _s);
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);
@@ -233,8 +210,6 @@ public class DynamicDisplayFragment extends Fragment {
 		}
 
 	}
-
-	// ==============================================================================================================//
 
 	private class TabAdapter extends BaseAdapter {
 
@@ -252,25 +227,21 @@ public class DynamicDisplayFragment extends Fragment {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return _data.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			View itemView = convertView;
 			TextView _name, _salesprice, _marketprice;
 			if (itemView == null) {
@@ -319,7 +290,6 @@ public class DynamicDisplayFragment extends Fragment {
 			imageView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					int a = (Integer) v.getTag();
 					ProductListDetailModel cs = _data.get(a);
 					int _s = Integer.parseInt(cs.getPk());

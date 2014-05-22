@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="145dp"
-    android:layout_height="160dp"
-    android:background="@drawable/prod_cate_box"
+    android:layout_width="151dp"
+    android:layout_height="280dp"
+    android:background="#f2f2f0"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="115dp"
-        android:layout_margin="3dp" >
+        android:layout_height="223dp">
 
         <ProgressBar
             android:id="@+id/progress"
@@ -16,65 +15,47 @@
             android:layout_height="35dip"
             android:layout_centerInParent="true" />
         
-        <com.imageview.ResizableImageView 
+        <ImageView
 			android:id="@+id/prdt_img" 
-			android:layout_width="match_parent" 
-			android:layout_centerInParent="true"
+			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent"            
-			android:adjustViewBounds="true"
-			android:scaleType="centerCrop" />
-
-        <!--
-             <ImageView
-            android:id="@+id/prdt_img"
-            android:contentDescription="@string/brandsfever"
-            android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:fitsSystemWindows="true"            
-            android:layout_width="fill_parent"
-            android:padding="1dp"
-            android:scaleType="fitXY"
-            android:layout_height="fill_parent" />
-        -->
+ 			android:adjustViewBounds="true"
+ 			android:scaleType="matrix"
+			/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="6dp" >
+        android:layout_height="57dp">
 
         <TextView
             android:id="@+id/prdt_name"
-            android:layout_width="96dp"
-            android:layout_height="21dp"
-            android:layout_alignParentLeft="true"
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="1pt"
             android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="9sp" />
+            android:textColor="@android:color/black"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/prdt_mrkt_price"
-            android:layout_width="45dp"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="2dp"
+            android:layout_width="75dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/prdt_name"
             android:gravity="center_horizontal"
-            android:padding="1dp"
-            android:textColor="@android:color/white"
-            android:textSize="9sp" />
+            android:textColor="@android:color/black"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/prdt_sales_price"
-            android:layout_width="42dp"
-            android:layout_height="15dp"
+            android:layout_width="75dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/prdt_mrkt_price"
+            android:layout_below="@id/prdt_name"
             android:gravity="center_horizontal"
-            android:padding="1dp"
-            android:textColor="@android:color/white"
-            android:textSize="9sp" />
+            android:textColor="#F7941D"
+            android:textSize="11sp" />
     </RelativeLayout>
 
 </LinearLayout>

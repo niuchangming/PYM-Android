@@ -68,11 +68,10 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 	private ImageButton main_menu, back_btn, cart_btn;
 	private String _tabname;
 	TabHost tabs;
-	private String _catagories;
     ViewPager _mViewPager;
 	private TabsAdapter mTabsAdapter;
 	static HorizontalScrollView mHorizontalScroll;
-	public static ArrayList<ProductListDetailModel> _ProductObjList = new ArrayList<ProductListDetailModel>();
+	public static ArrayList<ProductListDetailModel> mProductList = new ArrayList<ProductListDetailModel>();
 	private Set<String> ss = new HashSet<String>();
 	
 	SharedPreferences _mypref ;
@@ -391,7 +390,7 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 
 		@Override
 		protected String doInBackground(String... params) {
-			_ProductObjList.clear();
+			mProductList.clear();
 			String _url = "https://www.brandsfever.com/api/v5/campaigns/" + pk
 					+ "/?device=2";
 			GetAll_Products_List(_url);
@@ -427,7 +426,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 					Bundle bundle = new Bundle();
 					bundle.putString("name", _tabname);
 
-					Log.i(TAG, "_ProductObjList name :" + _tabname);
 					TabHost.TabSpec spec = tabs.newTabSpec(_tabname);
 					spec.setIndicator(_tabname);
 					mTabsAdapter.addTab(
@@ -443,60 +441,60 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		}
 	}
 
-	public void GetAll_Products_List(String _url) {
+	public void GetAll_Products_List(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(_url);
+		HttpClient httpClient = HttpsClient.getNewHttpClient();
+		HttpGet httpGet = new HttpGet(url);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			HttpResponse httpResponse = httpClient.execute(httpGet);
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
+			if (responseCode == 200) {
+				InputStream inputStream = httpResponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputStream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				String _data = total.toString();
+				String data = total.toString();
 				try {
-					JSONObject obj = new JSONObject(_data);
+					JSONObject obj = new JSONObject(data);
 					String msgs = obj.getString("msg");
 					if (msgs.equalsIgnoreCase("ok")) {
-						JSONArray _listproducts = new JSONArray(
+						JSONArray listProducts = new JSONArray(
 								obj.getString("products"));
 
-						for (int i = 0; i < _listproducts.length(); i++) {
-							JSONObject js = _listproducts.getJSONObject(i);
-							ProductListDetailModel _listmodel = new ProductListDetailModel();
+						for (int i = 0; i < listProducts.length(); i++) {
+							JSONObject js = listProducts.getJSONObject(i);
+							ProductListDetailModel listmodel = new ProductListDetailModel();
 
-							String _pk = js.getString("pk");
-							String _marketprice = js.getString("market_price");
-							String _name = js.getString("name");
-							String _img = js.getString("img");
-							String _salesprice = js.getString("sales_price");
-							int _stockleft = js.getInt("available_stock");
+							String pk = js.getString("pk");
+							String marketPrice = js.getString("market_price");
+							String name = js.getString("name");
+							String img = js.getString("img");
+							String salesPrice = js.getString("sales_price");
+							int stockLeft = js.getInt("available_stock");
 
 							ArrayList<String> catge = new ArrayList<String>();
 							JSONArray jobj = js.getJSONArray("categories");
+							String category;
 							for (int j = 0; j < jobj.length(); j++) {
-								_catagories = jobj.getString(j);
-								catge.add(_catagories);
-								ss.add(_catagories);
+								category = jobj.getString(j);
+								catge.add(category);
+								ss.add(category);
 							}
-							_listmodel.setPk(_pk);
-							_listmodel.setMarket_price(_marketprice);
-							_listmodel.setName(_name);
-							_listmodel.setImg(_img);
-							_listmodel.setSales_price(_salesprice);
-							_listmodel.set_availstock(_stockleft);
-							_listmodel.set_catagory(jobj.get(0).toString());
-							_ProductObjList.add(_listmodel);
+							listmodel.setPk(pk);
+							listmodel.setMarket_price(marketPrice);
+							listmodel.setName(name);
+							listmodel.setImg(img);
+							listmodel.setSales_price(salesPrice);
+							listmodel.set_availstock(stockLeft);
+							listmodel.set_catagory(jobj.get(0).toString());
+							mProductList.add(listmodel);
 						}
-						Log.i(TAG, "size all " + _ProductObjList.size() + "");
 					} else {
 						Log.e(TAG,"error");
 					}
