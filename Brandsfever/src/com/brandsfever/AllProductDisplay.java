@@ -65,7 +65,6 @@ public class AllProductDisplay extends Fragment {
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
 		_scrollup.setVisibility(View.GONE);
 		if (ctx == null) {
-			Log.e("=====NULL======", "=====NULL======");
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
@@ -102,7 +101,6 @@ public class AllProductDisplay extends Fragment {
 		return _view;
 	}
 
-	// **********************************************************************************************************************//
 	class PhoneAdapter extends BaseAdapter {
 
 		Context _scontext;
@@ -117,19 +115,16 @@ public class AllProductDisplay extends Fragment {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data.size();
 		}
 
 		@Override
 		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -172,12 +167,6 @@ public class AllProductDisplay extends Fragment {
 			long current = System.currentTimeMillis();
 			long diff = end - current;
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-			int seconds_left = (int) ((diff / 1000) % 60);*/
-			
-			
-			//***************** hours converting **************//
 			
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
 			if(String.valueOf(hours_left).length()<2){
@@ -186,8 +175,6 @@ public class AllProductDisplay extends Fragment {
 				hours_left_str=String.valueOf(hours_left);
 			}
 			
-			//***************** minuts converting **************//
-			
 			int minutes_left = (int) ((diff / (1000 * 60)) % 60);			
 			if(String.valueOf(minutes_left).length()<2){
 				minutes_left_str="0"+String.valueOf(minutes_left);				
@@ -195,7 +182,6 @@ public class AllProductDisplay extends Fragment {
 				minutes_left_str=String.valueOf(minutes_left);
 			}	
 			
-			//***************** seconds converting **************//
 			int seconds_left = (int) ((diff / 1000) % 60);
 			if(String.valueOf(seconds_left).length()<2){
 				seconds_left_str="0"+String.valueOf(seconds_left);				
@@ -204,9 +190,7 @@ public class AllProductDisplay extends Fragment {
 			
 			}
 			
-			
-			
-			
+		
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 		    cal.setTimeInMillis(end);
 		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
@@ -327,7 +311,7 @@ public class AllProductDisplay extends Fragment {
 			return itemView;
 		}
 	}
-	// **********************************************************************************************************************//
+
 	class TabAdapter extends BaseAdapter {
 		Context _mcontext = null;
 		LayoutInflater inflater;
@@ -342,19 +326,16 @@ public class AllProductDisplay extends Fragment {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -416,18 +397,14 @@ public class AllProductDisplay extends Fragment {
 			long diff = end - current;			
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);			
 			
-			
-			//***************** hours converting **************//
-			
+						
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
 			if(String.valueOf(hours_left).length()<2){
 				hours_left_str="0"+String.valueOf(hours_left);				
 			}else{
 				hours_left_str=String.valueOf(hours_left);
 			}
-			
-			//***************** minuts converting **************//
-			
+						
 			int minutes_left = (int) ((diff / (1000 * 60)) % 60);			
 			if(String.valueOf(minutes_left).length()<2){
 				minutes_left_str="0"+String.valueOf(minutes_left);				
@@ -435,7 +412,6 @@ public class AllProductDisplay extends Fragment {
 				minutes_left_str=String.valueOf(minutes_left);
 			}	
 			
-			//***************** seconds converting **************//
 			int seconds_left = (int) ((diff / 1000) % 60);
 			if(String.valueOf(seconds_left).length()<2){
 				seconds_left_str="0"+String.valueOf(seconds_left);				
@@ -581,7 +557,6 @@ public class AllProductDisplay extends Fragment {
 
 	}
 
-	// *********************************************************************************************************************//
 	public void _ResponsePopup() {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
