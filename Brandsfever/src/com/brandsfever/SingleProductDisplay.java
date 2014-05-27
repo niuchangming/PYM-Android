@@ -350,6 +350,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 				_login.setVisibility(View.VISIBLE);
 				_mycart.setVisibility(View.GONE);
 				_settings.setVisibility(View.GONE);
+				mSupport.setVisibility(View.GONE);
 				_invite.setVisibility(View.GONE);
 				_logout.setVisibility(View.GONE);
 
@@ -361,6 +362,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 				_login.setVisibility(View.GONE);
 				_mycart.setVisibility(View.VISIBLE);
 				_settings.setVisibility(View.VISIBLE);
+				mSupport.setVisibility(View.VISIBLE);
 				_invite.setVisibility(View.VISIBLE);
 				_logout.setVisibility(View.VISIBLE);
 
@@ -382,6 +384,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(colors);
 		_mycart.setTextColor(colors);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 
 		if (ProductDisplay._list_type.equalsIgnoreCase("all")) {

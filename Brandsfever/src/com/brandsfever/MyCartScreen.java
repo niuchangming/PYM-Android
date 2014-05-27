@@ -199,6 +199,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(colors);
 		_mycart.setTextColor(color);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 
 		new GetAllCarts().execute();

@@ -158,6 +158,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(colors);
 		_mycart.setTextColor(color);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 		new SendForPayment().execute();
 	}

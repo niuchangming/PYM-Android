@@ -163,6 +163,7 @@ public class AboutApp extends FragmentActivity implements OnClickListener {
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(color);
 		_mycart.setTextColor(colors);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 
 		new GetAboutAppFromServer().execute();

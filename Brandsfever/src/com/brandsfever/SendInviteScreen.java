@@ -180,6 +180,7 @@ public class SendInviteScreen extends FragmentActivity implements
         _accessories.setTextColor(colors);
 		_settings.setTextColor(colors);
 		_mycart.setTextColor(colors);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(color);
 	}
 

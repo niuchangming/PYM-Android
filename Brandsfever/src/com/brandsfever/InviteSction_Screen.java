@@ -185,6 +185,7 @@ public class InviteSction_Screen extends FragmentActivity implements
 		_home.setTextColor(colors);
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(colors);
+		mSupport.setTextColor(colors);
 		_mycart.setTextColor(colors);
 
 		gmail_contacts = (ImageButton) findViewById(R.id.gmail_contacts);

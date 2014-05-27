@@ -159,6 +159,7 @@ public class TermsConditions extends FragmentActivity implements
 		_accessories.setTextColor(colors);
 		_settings.setTextColor(color);
 		_mycart.setTextColor(colors);
+		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 
 		new GetTandCFromServer().execute();

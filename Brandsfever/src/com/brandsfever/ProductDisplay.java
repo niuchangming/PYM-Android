@@ -284,6 +284,7 @@ public class ProductDisplay extends FragmentActivity implements
 			_login.setVisibility(View.GONE);	
 			_mycart.setVisibility(View.VISIBLE);
 			_settings.setVisibility(View.VISIBLE);
+			mSupport.setVisibility(View.VISIBLE);
 			_invite.setVisibility(View.VISIBLE);
 			_logout.setVisibility(View.VISIBLE);
 			
