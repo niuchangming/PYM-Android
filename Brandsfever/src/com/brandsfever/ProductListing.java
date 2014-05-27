@@ -661,10 +661,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 			break;
 			
 		case R.id.back_btn:
-			ProductDisplay._list_type="all";
-			Intent _gobck = new Intent(_ctx,ProductDisplay.class);
-			startActivity(_gobck);
-			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
 			finish();
 			break;
 
@@ -688,10 +684,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 	
 	@Override
 	public void onBackPressed() {
-		Intent _gobck = new Intent(_ctx,ProductDisplay.class);
-		startActivity(_gobck);
 		finish();
-		overridePendingTransition(R.anim.push_out_to_left,
-				R.anim.push_out_to_right);
 	}
 }

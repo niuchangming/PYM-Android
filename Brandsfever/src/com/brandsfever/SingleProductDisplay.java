@@ -1078,10 +1078,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 			break;
 
 		case R.id.back_btn:
-			Intent _gobck = new Intent(_ctx, ProductListing.class);
-			startActivity(_gobck);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
+			finish();
 			break;
 
 		default:
@@ -1182,11 +1179,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	@Override
 	public void onBackPressed() {
-		Intent _gobck = new Intent(_ctx, ProductListing.class);
-		startActivity(_gobck);
 		finish();
-		overridePendingTransition(R.anim.push_out_to_left,
-				R.anim.push_out_to_right);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

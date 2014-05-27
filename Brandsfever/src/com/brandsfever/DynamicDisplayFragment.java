@@ -200,8 +200,6 @@ public class DynamicDisplayFragment extends Fragment {
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
 
 				}
 			});
@@ -298,9 +296,6 @@ public class DynamicDisplayFragment extends Fragment {
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
-
 				}
 			});
 

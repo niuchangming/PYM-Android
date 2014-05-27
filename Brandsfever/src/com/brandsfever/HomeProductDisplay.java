@@ -296,7 +296,6 @@ public class HomeProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -320,7 +319,6 @@ public class HomeProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -549,8 +547,7 @@ public class HomeProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+					
 					}
 				}
 			});
@@ -563,20 +560,18 @@ public class HomeProductDisplay extends Fragment {
 					if(a == 50000){
 						_ResponsePopup();
 					}else{
-					ProductsDataModel cs = data.get(a);
-					String _sf = cs.getShipping_fee();
-					String _sp = cs.getShipping_period();
-					String _fs = cs.getFree_shipping();
-					DataHolderClass.getInstance().setShipping_fee(_sf);
-					DataHolderClass.getInstance().setShipping_period(_sp);
-					DataHolderClass.getInstance().setFree_shipping(_fs);
-					int _s = Integer.parseInt(cs.getPk());
-					DataHolderClass.getInstance().set_mainProductsPk(_s);
-					Intent i = new Intent(_mcontext, ProductListing.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+						ProductsDataModel cs = data.get(a);
+						String _sf = cs.getShipping_fee();
+						String _sp = cs.getShipping_period();
+						String _fs = cs.getFree_shipping();
+						DataHolderClass.getInstance().setShipping_fee(_sf);
+						DataHolderClass.getInstance().setShipping_period(_sp);
+						DataHolderClass.getInstance().setFree_shipping(_fs);
+						int _s = Integer.parseInt(cs.getPk());
+						DataHolderClass.getInstance().set_mainProductsPk(_s);
+						Intent i = new Intent(_mcontext, ProductListing.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						_mcontext.startActivity(i);
 					}
 
 				}

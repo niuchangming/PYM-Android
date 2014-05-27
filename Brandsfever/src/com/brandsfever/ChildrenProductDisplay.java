@@ -294,7 +294,6 @@ public class ChildrenProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -318,7 +317,6 @@ public class ChildrenProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -550,8 +548,6 @@ public class ChildrenProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -576,8 +572,7 @@ public class ChildrenProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+				
 					}
 
 				}

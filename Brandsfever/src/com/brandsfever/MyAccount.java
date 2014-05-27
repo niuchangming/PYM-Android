@@ -392,10 +392,6 @@ public class MyAccount extends FragmentActivity implements OnClickListener {
 			break;
 
 		case R.id.back_btn:
-			Intent _gobck = new Intent(_ctx, SettingPhone.class);
-			startActivity(_gobck);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
 			finish();
 			break;
 

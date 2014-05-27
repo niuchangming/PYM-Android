@@ -280,7 +280,6 @@ public class AllProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -304,7 +303,6 @@ public class AllProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -345,8 +343,7 @@ public class AllProductDisplay extends Fragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView ends_in, discount_rate, t;
 			ImageButton go_for_sale;
-			if (_mcontext == null) {
-			}
+			
 			if (a >= 7 && a < 9) {
 				inflater = (LayoutInflater) _mcontext.getApplicationContext()
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -521,8 +518,6 @@ public class AllProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -547,8 +542,7 @@ public class AllProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+
 					}
 
 				}
