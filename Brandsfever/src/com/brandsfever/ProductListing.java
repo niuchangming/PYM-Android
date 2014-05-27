@@ -410,14 +410,17 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 			try {
 				_mViewPager.setOffscreenPageLimit(ss.size());
 
-				Bundle bundles = new Bundle();
-				bundles.putString("name", "All Products");
-
-				TabHost.TabSpec specs = tabs.newTabSpec("All Products");
-				specs.setIndicator(_tabname);
-				mTabsAdapter.addTab(
-						tabs.newTabSpec("All Products").setIndicator("All Products"),
-						DynamicDisplayFragment.class, bundles);
+				if(!ss.contains("All Products")){
+				
+					Bundle bundles = new Bundle();
+					bundles.putString("name", "All Products");
+	
+					TabHost.TabSpec specs = tabs.newTabSpec("All Products");
+					specs.setIndicator(_tabname);
+					mTabsAdapter.addTab(
+							tabs.newTabSpec("All Products").setIndicator("All Products"),
+							DynamicDisplayFragment.class, bundles);
+				}
 				
 				for (Iterator<String> it = ss.iterator(); it.hasNext();) {
 					_tabname = it.next();
