@@ -286,8 +286,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				} else {
 					mProgressHUD.dismiss();
 					try {
-						email.setText(null);
-						password.setText(null);
 						_msg = jobj.getString("msg");
 						responsePopup();
 					} catch (Exception e) {
