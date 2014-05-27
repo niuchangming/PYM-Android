@@ -66,14 +66,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -418,7 +414,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// =====================================================================================================================//
 	class SingleItemDetails extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -459,7 +454,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 		protected void onPostExecute(String result) {
 
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				try {
+				
 					_pname.setText(name);
 					_pname.setTypeface(_font, Typeface.BOLD);
 					set_sales_price.setText(offer_price.replace("GD", "$"));
@@ -514,43 +509,48 @@ public class SingleProductDisplay extends FragmentActivity implements
 					set_shiping_info.setText(_sI);
 					set_shiping_info.setTypeface(_font, Typeface.BOLD);
 					// play with visibility of size chart
-					try {
-						for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
-							SingleItemDataModel _obj = _sizechartvalue.get(_k);
-							if (_obj.get_propertylistName().equalsIgnoreCase(
-									"Size Chart")) {
-								_acharturl = _obj.get_propertylistValue();
-								open_size_chart.setEnabled(true);
-								open_size_chart.setVisibility(View.VISIBLE);
-							} else {
-
+				
+					for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
+						SingleItemDataModel _obj = _sizechartvalue.get(_k);
+						if (_obj.get_propertylistName().equalsIgnoreCase(
+								"Size Chart")) {
+							_acharturl = _obj.get_propertylistValue();
+							open_size_chart.setEnabled(true);
+							open_size_chart.setVisibility(View.VISIBLE);
+						} 
+					}
+	
+					
+					int firstAvailablePosition = -1;
+					boolean	isSizeAvailable = false;
+					
+					for(int i = 0; i < _product_items_arraylist.size(); i++){
+						SingleItemDataModel model = _product_items_arraylist.get(i);
+						if(!model.getProduct_item_property().equalsIgnoreCase("")){
+							if(!isSizeAvailable){
+								isSizeAvailable = true;
 							}
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					// playing with size spinner here
-					for (int _k = 0; _k < _product_items_arraylist.size(); _k++) {
-						SingleItemDataModel _check = _product_items_arraylist
-								.get(_k);
-						if (_check.getProduct_item_property().equalsIgnoreCase(
-								"")) {
-
-						} else {
-							_sizes.setVisibility(View.VISIBLE);
-							_adapter = new CustomSpinnerSizeAdapter(
-									SingleProductDisplay.this,
-									_product_items_arraylist);
-							_sizes.setAdapter(_adapter);
+						
+						if(!model.get_availablestock().equalsIgnoreCase("0")){
+							if(firstAvailablePosition == -1)
+								firstAvailablePosition = i;
 						}
 					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					
+					if(isSizeAvailable){
+						_sizes.setVisibility(View.VISIBLE);
+						_adapter = new CustomSpinnerSizeAdapter(
+								SingleProductDisplay.this,
+								_product_items_arraylist);
+						_sizes.setAdapter(_adapter);
+						if(firstAvailablePosition != -1)
+						_sizes.setSelection(firstAvailablePosition);
+					}
+		
 
 			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-				try {
+				
 					_pname.setText(name);
 					_pname.setTypeface(_font, Typeface.BOLD);
 					set_sales_price.setText(offer_price.replace("GD", "$"));
@@ -607,46 +607,51 @@ public class SingleProductDisplay extends FragmentActivity implements
 					set_shiping_info.setTypeface(_font, Typeface.NORMAL);
 
 					// palying with visibility of size chart
-
-					try {
-						for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
-							SingleItemDataModel _obj = _sizechartvalue.get(_k);
-							if (_obj.get_propertylistName().equalsIgnoreCase(
-									"Size Chart")) {
-								_acharturl = _obj.get_propertylistValue();
-								open_size_chart
-										.setBackgroundResource(R.drawable.size);
-								open_size_chart.setEnabled(true);
-							}
+					for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
+						SingleItemDataModel _obj = _sizechartvalue.get(_k);
+						if (_obj.get_propertylistName().equalsIgnoreCase(
+								"Size Chart")) {
+							_acharturl = _obj.get_propertylistValue();
+							open_size_chart
+									.setBackgroundResource(R.drawable.size);
+							open_size_chart.setEnabled(true);
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
+					
 
 					// playing with size spinner
-					for (int _k = 0; _k < _product_items_arraylist.size(); _k++) {
-						SingleItemDataModel _check = _product_items_arraylist
-								.get(_k);
-						if (_check.getProduct_item_property().equalsIgnoreCase(
-								"")) {
-							_sizes.setBackgroundResource(R.drawable.disabled_drop);
-						} else {
-							_adapter = new CustomSpinnerSizeAdapter(
-									SingleProductDisplay.this,
-									_product_items_arraylist);
-							_sizes.setAdapter(_adapter);
+					int firstAvailablePosition = -1;
+					boolean	isSizeAvailable = false;
+					
+					for(int i = 0; i < _product_items_arraylist.size(); i++){
+						SingleItemDataModel model = _product_items_arraylist.get(i);
+						if(!model.getProduct_item_property().equalsIgnoreCase("")){
+							if(!isSizeAvailable){
+								isSizeAvailable = true;
+							}
+						}
+						
+						if(!model.get_availablestock().equalsIgnoreCase("0")){
+							if(firstAvailablePosition == -1)
+								firstAvailablePosition = i;
 						}
 					}
+					
+					if(isSizeAvailable){
+						_sizes.setVisibility(View.VISIBLE);
+						_adapter = new CustomSpinnerSizeAdapter(
+								SingleProductDisplay.this,
+								_product_items_arraylist);
+						_sizes.setAdapter(_adapter);
+						if(firstAvailablePosition != -1)
+						_sizes.setSelection(firstAvailablePosition);
+					}
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 			mProgressHUD.dismiss();
 		}
 	}
 
-	// =======================================================================================================================//
 	public void GetItemDetails(String _url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -655,7 +660,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -667,7 +671,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 					total.append(line);
 				}
 				String _data = total.toString();
-				System.out.println(_data);
 				try {
 					JSONObject obj = new JSONObject(_data);
 					String msgs = obj.getString("msg");
@@ -703,8 +706,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 							_product_items_arraylist.add(_singleobj);
 
 						}
-						System.out.println("arraylist size is"
-								+ _product_items_arraylist.size());
 
 						JSONArray _photos = data.getJSONArray("photos");
 						SingleItemDataModel _imageobj = new SingleItemDataModel();
@@ -749,7 +750,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
-	// =====================================================================================================================//
 	private class ImagePagerAdapter extends PagerAdapter {
 
 		@Override
@@ -774,7 +774,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			imageView.setFitsSystemWindows(true);
 			AQuery aq = new AQuery(context);
 			aq.id(imageView).image("https:" + img_map.get(position).get(0));
-			Log.e(TAG, "https:" + img_map.get(position).get(0));
 			aq.ajax("https:" + img_map.get(position).get(0), Bitmap.class,
 					new AjaxCallback<Bitmap>() {
 						@Override
@@ -783,7 +782,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 							facebook_bit_map = object;
 						}
 					});
-			System.out.println("iii---" + facebook_bit_map);
 
 			_zoomimage = "https:" + img_map.get(position).get(0);
 			((ViewPager) container).addView(imageView, 0);
@@ -796,7 +794,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	// =======================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -1030,7 +1027,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			Bundle args = new Bundle();
 			args.putString("_sizecharturl", _charturl);
 			f.setArguments(args);
-			System.out.println("chart");
 			f.show(getSupportFragmentManager(), "");
 			break;
 
@@ -1038,7 +1034,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			if (click_button % 2 != 0) {
 			}
 			try {
-				System.out.println("in cart");
 				if (!(_getToken == null) && !(_getuserId == null)) {
 					new AddToCartClass().execute();
 				} else {
@@ -1095,13 +1090,12 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
-	// ===========================================================================================================================//
 	private class CustomSpinnerSizeAdapter extends BaseAdapter {
 		Context _ctxx;
 		LayoutInflater inflater;
 		public ArrayList<SingleItemDataModel> _sizedata;
 		View itemView;
-
+		
 		public CustomSpinnerSizeAdapter(Context c,
 				ArrayList<SingleItemDataModel> _arraylist) {
 			this._ctxx = c;
@@ -1110,19 +1104,16 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return _sizedata.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -1147,22 +1138,15 @@ public class SingleProductDisplay extends FragmentActivity implements
 			if (_sobj.get_availablestock().equalsIgnoreCase("0")) {
 				_itemsize.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
 						| Paint.ANTI_ALIAS_FLAG);
-				System.out.println("iii--1--"
-						+ _sobj.getProduct_item_property());
-
 				_itemsize.setText(_sobj.getProduct_item_property());
 			} else {
-				System.out.println("iii--2--"
-						+ _sobj.getProduct_item_property());
 				_itemsize.setText(_sobj.getProduct_item_property());
 			}
 
 			return itemView;
 		}
-
 	}
 
-	// =======================================================================================================================//
 	@Override
 	public void onItemSelected(AdapterView<?> _adap, View _v, int pos, long arg3) {
 
@@ -1193,11 +1177,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
-	// ************************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
 		Intent _gobck = new Intent(_ctx, ProductListing.class);
@@ -1207,14 +1189,11 @@ public class SingleProductDisplay extends FragmentActivity implements
 				R.anim.push_out_to_right);
 	}
 
-	// =================================================== onActivity
-	// ========================================================================//
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (type == 1) {
 			mFacebook.authorizeCallback(requestCode, resultCode, data);
 		} else if (type == 2) {
-			System.out.println("twitter enter");
 
 			if (resultCode == RESULT_OK) {
 				AccessToken accessToken = null;
@@ -1246,7 +1225,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	// ========================================================================================================================//
 	class AddToCartClass extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -1270,7 +1248,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -1284,8 +1261,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			String _itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
 
-			System.out.println("pankaj" + " " + _userid + " " + _token + " "
-					+ _Action + " " + _Quantity + " " + _sendItemPK + _itemPk);
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair userid = new BasicNameValuePair("user_id",
 					_userid);
@@ -1324,8 +1299,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 					toast.show();
 
 					SingleProductDisplay.this.finish();
-					System.out.println("id and token is" + _getToken
-							+ _getuserId);
 					Intent _sendbck = new Intent(SingleProductDisplay.this,
 							ProductListing.class);
 					startActivity(_sendbck);
@@ -1350,7 +1323,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
-	// ======================================================================================================================//
 	public String _AddProduct(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -1383,7 +1355,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		return _Response;
 	}
 
-	// =======================================================================================================================//
 	class BuyNowClass extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -1407,7 +1378,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -1421,8 +1391,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			String _itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
 
-			System.out.println("pankaj" + " " + _userid + " " + _token + " "
-					+ _Action + " " + _Quantity + " " + _sendItemPK);
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair userid = new BasicNameValuePair("user_id",
 					_userid);
@@ -1487,11 +1455,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	// *************** Share facebook and twitter
-	// **********************************************************************//
+	// Share facebook and twitter
 
 	protected void share_method() {
-		// TODO Auto-generated method stub
 		View choose = null;
 
 		LayoutInflater li = LayoutInflater.from(getApplicationContext());
@@ -1565,15 +1531,13 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 			}
 		});
 
 	}
 
-	// ***************************** facebook //
-	// ***********************************//
+	//  facebook //
 	public void postToWall() {
 		// post on user's wall.
 		View post = null;
@@ -1612,7 +1576,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		back.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 			}
 		});
@@ -1620,7 +1583,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		post1.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 
 				AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(
 						mFacebook);
@@ -1668,17 +1630,14 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 
 		public void onFacebookError(FacebookError e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onError(DialogError e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onCancel() {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -1700,34 +1659,29 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 
 		public void onIOException(IOException e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onFileNotFoundException(FileNotFoundException e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onMalformedURLException(MalformedURLException e) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onFacebookError(FacebookError e) {
-			// TODO Auto-generated method stub
 
 		}
 	}
 
-	// ***************************twitter**********************************///
+	//twitter
 
 	public void tweetToWall() {
 		// post on user's wall.
 		View post = null;
 
 		LayoutInflater li = LayoutInflater.from(getApplicationContext());
-		System.out.println("twitter share-main--");
 		post = li.inflate(R.layout.twitterialogsettings, null);
 		final EditText t1;
 		// ImageView i=(ImageView) post.findViewById(R.id.imageView3);
@@ -1773,7 +1727,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		back.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 			}
 		});
@@ -1781,7 +1734,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		post1.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 				twitedata = t1.getText().toString();
 				new updateTwitterStatus().execute("helloooo");
