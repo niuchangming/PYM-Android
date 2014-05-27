@@ -1,11 +1,22 @@
 package com.datamodel;
 
 public class ProductsDataModel {
-	public String ends_at;
-	public String getEnds_at() {
+	public long ends_at;
+	public String teaser_url;
+	public String name;
+	public long starts_at;
+	public String pk;
+	public String express;
+	public String discount_text;
+	public String category;
+	public String shipping_fee;
+	public String free_shipping;
+	public String shipping_period;
+	
+	public long getEnds_at() {
 		return ends_at;
 	}
-	public void setEnds_at(String ends_at) {
+	public void setEnds_at(long ends_at) {
 		this.ends_at = ends_at;
 	}
 	public String getTeaser_url() {
@@ -20,10 +31,10 @@ public class ProductsDataModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getStarts_at() {
+	public long getStarts_at() {
 		return starts_at;
 	}
-	public void setStarts_at(String starts_at) {
+	public void setStarts_at(long starts_at) {
 		this.starts_at = starts_at;
 	}
 	public String getPk() {
@@ -50,14 +61,7 @@ public class ProductsDataModel {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String teaser_url;
-	public String name;
-	public String starts_at;
-	public String pk;
-	public String express;
-	public String discount_text;
-	public String category;
-	public String shipping_fee;
+	
 	public String getShipping_fee() {
 		return shipping_fee;
 	}
@@ -76,7 +80,4 @@ public class ProductsDataModel {
 	public void setShipping_period(String shipping_period) {
 		this.shipping_period = shipping_period;
 	}
-	public String free_shipping;
-	public String shipping_period;
-	
 }

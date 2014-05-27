@@ -391,8 +391,7 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		@Override
 		protected String doInBackground(String... params) {
 			mProductList.clear();
-			String _url = "https://www.brandsfever.com/api/v5/campaigns/" + pk
-					+ "/?device=2";
+			String _url = "https://api-1.brandsfever.com/products/list/" + pk;
 			GetAll_Products_List(_url);
 			return null;
 		}

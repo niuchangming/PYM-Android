@@ -64,7 +64,6 @@ public class AccesroiesProductDisplay extends Fragment {
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
 		_scrollup.setVisibility(View.GONE);
 		if (ctx == null) {
-			Log.e("=====NULL======", "=====NULL======");
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
@@ -168,7 +167,7 @@ public class AccesroiesProductDisplay extends Fragment {
 			
 			ProductsDataModel obj = data.get(position);
 
-			long timeInMilliseconds = Long.valueOf(obj.getEnds_at());
+			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;
@@ -222,7 +221,7 @@ public class AccesroiesProductDisplay extends Fragment {
 			
 			String _endDate = date+ "\n" + _to;
 			
-			long timeInMillisecond = Long.valueOf(obj.getStarts_at());
+			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000;
 			currenttime = System.currentTimeMillis();
 			long diffs = start - currenttime;
@@ -365,10 +364,7 @@ public class AccesroiesProductDisplay extends Fragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView ends_in, discount_rate, t;
 			ImageButton go_for_sale;
-			if (_mcontext == null) {
-				Log.e("=====_mcontext=====NULL===========",
-						"======_mcontext====NULL===========");
-			}
+			
 			if (a >= 7 && a < 9) {
 				inflater = (LayoutInflater) _mcontext.getApplicationContext()
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -416,7 +412,7 @@ public class AccesroiesProductDisplay extends Fragment {
 			String hours_left_str,minutes_left_str,seconds_left_str;
 			
 			ProductsDataModel obj = data.get(position);
-			long timeInMilliseconds = Long.valueOf(obj.getEnds_at());
+			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;
@@ -470,7 +466,7 @@ public class AccesroiesProductDisplay extends Fragment {
 			
 			String _endDate = date+ "\n" + _to;
 			
-			long timeInMillisecond = Long.valueOf(obj.getStarts_at());
+			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000L;
 			currenttime = System.currentTimeMillis();
 			long diffs =    start -currenttime ;

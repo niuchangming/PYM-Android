@@ -875,7 +875,9 @@ public class ProductDisplay extends FragmentActivity implements
 			women_prdt.clear();
 			home_prdt.clear();
 			children_prdt.clear();
-			String url_campaigns = "https://www.brandsfever.com/api/v5/campaigns/?device=2";
+
+			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
+					+ getApplicationContext().getResources().getString(R.string.channel_code);
 			GetProducts(url_campaigns);
 			return null;
 		}
@@ -916,10 +918,10 @@ public class ProductDisplay extends FragmentActivity implements
 					JSONArray get_campaigns = obj.getJSONArray("campaigns");
 					for (int i = 0; i < get_campaigns.length(); i++) {
 						JSONObject jsonobj = get_campaigns.getJSONObject(i);
-						String ends_at = jsonobj.getString("ends_at");
+						long ends_at = jsonobj.getLong("ends_at");
 						String teaser_url = jsonobj.getString("teaser_url");
 						String name = jsonobj.getString("name");
-						String starts_at = jsonobj.getString("starts_at");
+						long starts_at = jsonobj.getLong("starts_at");
 						String pk = jsonobj.getString("pk");
 						String express = jsonobj.getString("express");
 						String discount_text = jsonobj
@@ -929,7 +931,7 @@ public class ProductDisplay extends FragmentActivity implements
 								.getString("shipping_period");
 						String free_shipping = jsonobj
 								.getString("free_shipping");
-
+						
 						ProductsDataModel all_data_model = new ProductsDataModel();
 						ProductsDataModel men_data_model = new ProductsDataModel();
 						ProductsDataModel women_data_model = new ProductsDataModel();

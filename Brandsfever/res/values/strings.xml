@@ -64,4 +64,7 @@
 	<string name="support_hint_issue">My Issues*</string>
 	<string name="support_hint_detail">Details</string>
 	<string name="support_hint_email">Your Emails*</string>
+	
+	<!-- App Settings -->
+	<string name="channel_code">30</string>
 </resources>

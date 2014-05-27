@@ -37,6 +37,7 @@ import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
 
 public class AllProductDisplay extends Fragment {
+	private static final String TAG = "AllProductDisplay";
 	ViewGroup _view;
 	ListView all_products;
 	static Context ctx = null;
@@ -162,7 +163,7 @@ public class AllProductDisplay extends Fragment {
 			
 			String hours_left_str,minutes_left_str,seconds_left_str;
 
-			long timeInMilliseconds = Long.valueOf(obj.getEnds_at());
+			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;
@@ -206,7 +207,7 @@ public class AllProductDisplay extends Fragment {
 			
 			String _endDate = date+ "\n" + _to;
 
-			long timeInMillisecond = Long.valueOf(obj.getStarts_at());
+			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000;
 			currenttime = System.currentTimeMillis();
 			long diffs = start - currenttime;
@@ -391,7 +392,7 @@ public class AllProductDisplay extends Fragment {
 			String hours_left_str,minutes_left_str,seconds_left_str;
 
 			ProductsDataModel obj = data.get(position);
-			long timeInMilliseconds = Long.valueOf(obj.getEnds_at());
+			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;			
@@ -435,7 +436,7 @@ public class AllProductDisplay extends Fragment {
 			
 			String _endDate = date+ "\n" + _to;
 			
-			long timeInMillisecond = Long.valueOf(obj.getStarts_at());
+			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000L;
 			currenttime = System.currentTimeMillis();
 			long diffs =    start -currenttime ;
