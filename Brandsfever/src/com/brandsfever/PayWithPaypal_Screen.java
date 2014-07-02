@@ -1,10 +1,14 @@
 package com.brandsfever;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,9 +20,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -51,7 +55,9 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 	Button _all, _men, _women, _childrens, _home, _accessories, _login,
 			_settings, _mycart, mSupport, _invite, _logout;
 	int color, colors;
-
+	boolean isPaid;
+	JSONObject mOrderDetail;
+	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -161,6 +167,21 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		mSupport.setTextColor(colors);
 		_invite.setTextColor(colors);
 		new SendForPayment().execute();
+		
+		String detail = getIntent().getExtras().getString("OrderDetailKey");
+		try {
+			mOrderDetail = new JSONObject(detail);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		this.onPurchaseCompleted();
+//		Handler handler = new Handler();
+//		Runnable r = new Runnable(){
+//			public void run (){
+//				
+//				
+//			}
+//		};
 	}
 
 	@Override
@@ -316,6 +337,36 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 			break;
 		}
 
+	}
+	
+	private void onPurchaseCompleted(){
+		
+		if(mOrderDetail != null){
+			
+			
+			EasyTracker tracker = EasyTracker.getInstance(this);
+			try {
+				System.out.println(mOrderDetail.getString("identifier")+"Completed.");
+
+//				tracker.send(MapBuilder.createTransaction(mOrderDetail.getString("identifier"), "Brandsfever",
+//						mOrderDetail.getDouble("total_price"), mOrderDetail.getDouble("tax_price"), 
+//						mOrderDetail.getDouble("shipping_fee"), "SGD").build());
+//			
+//				JSONArray itemArray = mOrderDetail.getJSONArray("item_list");
+//				for(int i = 0; i < itemArray.length(); i++){
+//					JSONObject item = itemArray.getJSONObject(i);
+//					tracker.send(MapBuilder.createItem(mOrderDetail.getString("identifier"), 
+//							item.getString("name"), item.getString("pk"), 
+//							item.getString("campaign"), item.getDouble("unit_price"), 
+//							item.getLong("quantity"), "SGD").build());
+//				}
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 
 	// =======================================================================================================================//

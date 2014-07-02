@@ -1,7 +1,6 @@
 package com.brandsfever;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -17,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -53,7 +50,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adapter.PaymentScreenDataAdapter;
-import com.brandsfever.MyCartScreen.MyCartAdapter;
 import com.dataholder.DataHolderClass;
 import com.datamodel.PaymentScreenOrderModel;
 import com.datamodel.StoreCreditDetails;
@@ -85,8 +81,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
-	String _status, _identifier, _paid, _date, _city, _totalprice, _taxprice,
-			_country, _state, _pk, _shippingfree, _method;
+	String mStatus, mIdentifier, mPaid, mDate, mCity, mTotalprice, mTaxprice,
+			mCountry, mState, mPk, mShippingfree, mMethod;
 	double	mSubtotal;
 	public static ArrayList<PaymentScreenOrderModel> _Payorderinfo = new ArrayList<PaymentScreenOrderModel>();
 	public static ArrayList<StoreCreditDetails> _storeCredits = new ArrayList<StoreCreditDetails>();
@@ -105,7 +101,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	double _setCamount;
 
 	String ch_totalprice;
-
+	JSONObject mOrderDetail;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -434,8 +431,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 			double subtotal = Math.round(mSubtotal * 100.00)/100.00;
 			order_subtotal_amount.setText("S$" + "" + subtotal + "0");
-			order_shiping_amount.setText("S$" + _shippingfree);
-			order_total_amount.setText("S$" + _totalprice);
+			order_shiping_amount.setText("S$" + mShippingfree);
+			order_total_amount.setText("S$" + mTotalprice);
 			_adapter = new PaymentScreenDataAdapter(PaymentScreen.this,
 					_Payorderinfo);
 			set_orders.setAdapter(_adapter);
@@ -472,22 +469,22 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
 					if (ret.equals("0")) {
-						JSONObject _data = obj.getJSONObject("data");
-						_status = _data.getString("status");
-						_identifier = _data.getString("identifier");
-						_paid = _data.getString("paid");
-						_date = _data.getString("date");
-						_city = _data.getString("city");
-						_totalprice = _data.getString("total_price");
-						_taxprice = _data.getString("tax_price");
-						_country = _data.getString("country");
-						_state = _data.getString("state");
-						_pk = _data.getString("pk");
-						_shippingfree = _data.getString("shipping_fee");
-						_method = _data.getString("method");
+						mOrderDetail = obj.getJSONObject("data");
+						mStatus = mOrderDetail.getString("status");
+						mIdentifier = mOrderDetail.getString("identifier");
+						mPaid = mOrderDetail.getString("paid");
+						mDate = mOrderDetail.getString("date");
+						mCity = mOrderDetail.getString("city");
+						mTotalprice = mOrderDetail.getString("total_price");
+						mTaxprice = mOrderDetail.getString("tax_price");
+						mCountry = mOrderDetail.getString("country");
+						mState = mOrderDetail.getString("state");
+						mPk = mOrderDetail.getString("pk");
+						mShippingfree = mOrderDetail.getString("shipping_fee");
+						mMethod = mOrderDetail.getString("method");
 						
 						mSubtotal = 0;
-						JSONArray _itemarray = _data.getJSONArray("item_list");
+						JSONArray _itemarray = mOrderDetail.getJSONArray("item_list");
 						for (int i = 0; i < _itemarray.length(); i++) {
 							JSONObject _jobj = _itemarray.getJSONObject(i);
 							String name = _jobj.getString("name");
@@ -506,7 +503,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 							_listorder.setUnit_price(unit_price);
 							_listorder.setPk(pk);
 							_listorder.setQuantity(quantity);
-							_listorder.setTotal_price(_totalprice);
+							_listorder.setTotal_price(mTotalprice);
 							_Payorderinfo.add(_listorder);
 						}
 					} else {
@@ -525,9 +522,10 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pay_with_paypal:
-			Intent _pay = new Intent(PaymentScreen.this,
+			Intent payIntent = new Intent(PaymentScreen.this,
 					PayWithPaypal_Screen.class);
-			startActivity(_pay);
+			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
+			startActivity(payIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			finish();
