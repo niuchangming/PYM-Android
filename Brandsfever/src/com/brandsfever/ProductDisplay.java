@@ -96,6 +96,7 @@ public class ProductDisplay extends FragmentActivity implements
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
+	private int mBackButtonCount;
 
 	private class TabInfo {
 		private String tag;
@@ -307,6 +308,7 @@ public class ProductDisplay extends FragmentActivity implements
 	@Override
 	public void onStart(){
 		super.onStart();
+		mBackButtonCount = 0;
 		Log.d(TAG, "onStart");
 		EasyTracker tracker = EasyTracker.getInstance(this);
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": campaigns/?device=2");
@@ -1062,6 +1064,17 @@ public class ProductDisplay extends FragmentActivity implements
 	
 	@Override
 	public void onBackPressed() {
-		
+
+		if(mBackButtonCount >=1){
+			Log.e(TAG, "EXIT");
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		}
+		else {
+			Toast.makeText(this, "Press the back button once again to exit.", Toast.LENGTH_SHORT).show();
+			mBackButtonCount++;
+		}
 	}
 }
