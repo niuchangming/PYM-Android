@@ -347,10 +347,10 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			_Payorderinfo.clear();
 			_storeCredits.clear();
 			String order_pk = DataHolderClass.getInstance().get_orderpk();
-			String _stateUrl = "https://www.brandsfever.com/api/v5/orders/"
+			String stateUrl = "https://www.brandsfever.com/api/v5/orders/"
 					+ order_pk + "/states/?token=" + _getToken + "&user_id="
 					+ _getuserId;
-			GetState(_stateUrl);
+			GetState(stateUrl);
 			return null;
 		}
 

@@ -1,5 +1,12 @@
 package com.brandsfever;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +28,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,9 +49,12 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
+import com.ssl.HttpsClient;
+import com.ssl.TrustAllCertificates;
 
 public class PayWithPaypal_Screen extends FragmentActivity implements
 		OnClickListener {
+	private static final String TAG = "PayWithPaypal_Screen";
 	Context _ctx = PayWithPaypal_Screen.this;
 	WebView mPaypalWebView;
 	String mPaypalUrl;
@@ -58,9 +69,9 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 	int color, colors;
 	boolean isPaid;
 	JSONObject mOrderDetail;
-	
-	private int mLoopCount;
-	private static final int HANDLER_DELAY = 1000*4;
+    private	Handler paymentHandler;
+    private Runnable paymentRun;
+	private static final int HANDLER_DELAY = 1000*6;
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@SuppressLint("SetJavaScriptEnabled")
@@ -179,8 +190,29 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 			e.printStackTrace();
 		}
 
-		mLoopCount = 0;	
-		
+		paymentHandler = new Handler();
+		paymentRun = new Runnable(){
+
+			@Override
+			public void run() {
+				String order_pk = DataHolderClass.getInstance().get_orderpk();
+				String stateUrl = "https://www.brandsfever.com/api/v5/orders/"
+						+ order_pk + "/states/?token=" + _getToken + "&user_id="
+						+ _getuserId;
+				Log.i(TAG, stateUrl);
+				int  state = fetchOrderState(stateUrl);
+				//state: -1 -- unknown, 0-- waiting for payment 1:success
+				if ( state == 1 ){ 
+					onPurchaseCompleted();
+					paymentHandler.removeCallbacks(this);
+				}
+				else {
+					paymentHandler.postDelayed(this, HANDLER_DELAY);
+				}
+				
+			}
+			
+		};		
 	}
 
 	@Override
@@ -337,15 +369,56 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 
 	}
 	
+	private int fetchOrderState(String url) {
+		int paymentState = -1;
+		TrustAllCertificates cert = new TrustAllCertificates();
+		cert.trustAllHosts();
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
+		try {
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+		
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity()
+						.getContent();
+				BufferedReader r = new BufferedReader(new InputStreamReader(
+						inputstream));
+				StringBuilder total = new StringBuilder();
+				String line;
+				while ((line = r.readLine()) != null) {
+					total.append(line);
+				}
+				String content = total.toString();
+				try {
+					JSONObject jobj = new JSONObject(content);
+					String ret = jobj.getString("ret");
+					if (ret.equals("0")) {
+						String statenumber = jobj.getString("state");
+						paymentState = Integer.parseInt(statenumber);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		} catch (Exception _e) {
+			_e.printStackTrace();
+		}
+		
+		return paymentState;
+	}
+	
 	private void onPurchaseCompleted(){
 		
 		if(mOrderDetail != null){
 			
 			EasyTracker tracker = EasyTracker.getInstance(this);
+
 			try {
 
 				tracker.send(MapBuilder.createTransaction(mOrderDetail.getString("identifier"), "Brandsfever",
-						mOrderDetail.getDouble("total_price"), mOrderDetail.getDouble("tax_price"), 
+						mOrderDetail.getDouble("total_price_with_discounts"), mOrderDetail.getDouble("tax_price"), 
 						mOrderDetail.getDouble("shipping_fee"), "SGD").build());
 			
 				JSONArray itemArray = mOrderDetail.getJSONArray("item_list");
@@ -365,7 +438,6 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		
 	}
 
-	// =======================================================================================================================//
 	class SendForPayment extends AsyncTask<Void, Void, Boolean> implements OnCancelListener{
 		String sessionCookie;
 		CookieManager cookieManager;
@@ -426,27 +498,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 					super.onPageFinished(view, url);
 					
 					// start to check order state.
-					final Handler printHandler = new Handler();
-					Runnable printTest = new Runnable(){
-
-						@Override
-						public void run() {
-							
-							System.out.println("Runnable run TEST.");
-							mLoopCount++;
-							if(mLoopCount < 5){
-								System.out.println("Loop: "+mLoopCount);
-								printHandler.postDelayed(this, HANDLER_DELAY);
-							}
-							else {
-								System.out.println("Max Loop: " + mLoopCount);
-								printHandler.removeCallbacks(this);
-							}
-						}
-						
-					};
-					
-					printHandler.postDelayed(printTest, HANDLER_DELAY);
+					paymentHandler.postDelayed(paymentRun, HANDLER_DELAY);
 				}
 
 			});
@@ -464,10 +516,12 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		Intent _bck = new Intent(_ctx, PaymentScreen.class);
-		startActivity(_bck);
-		overridePendingTransition(R.anim.push_out_to_right,
-				R.anim.push_out_to_left);
+		paymentHandler.removeCallbacks(paymentRun);
+		finish();
+//		Intent _bck = new Intent(_ctx, PaymentScreen.class);
+//		startActivity(_bck);
+//		overridePendingTransition(R.anim.push_out_to_right,
+//				R.anim.push_out_to_left);
 	}
 
 }
