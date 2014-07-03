@@ -215,7 +215,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// =======================================================================================================================//
 	private class GetAllCarts extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -254,7 +253,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			int sd = Orderinfo.size();
-			System.out.println("value of s is" + sd);
 			if (Orderinfo.size() > 0) {
 				int s = Orderinfo.size();
 				
@@ -275,7 +273,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				shiping_fee_amount.setText( "S$0");
 				payable_amount.setText("S$0");
 				
-				System.out.println("printing error");
 				_msg = "Your cart \n is empty";
 				_ResponsePopup();
 			}
@@ -284,7 +281,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ======================================================================================================================//
 	public void GetCarts(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -293,8 +289,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
+			
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -306,13 +301,11 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println(_content);
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
 					String mesg = obj.getString("msg");
 					if (ret.equals("0") && mesg.equalsIgnoreCase("ok")) {
-						System.out.println("injson");
 						JSONArray _getcart = obj.getJSONArray("carts");
 						for (int i = 0; i < _getcart.length(); i++) {
 							JSONObject _obj = _getcart.getJSONObject(i);
@@ -323,8 +316,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 							JSONArray _getcartitems = _obj
 									.getJSONArray("cart_items");
-							System.out.println("array sze is"
-									+ _getcartitems.length());
 							for (int j = 0; j < _getcartitems.length(); j++) {
 								JSONObject _objs = _getcartitems
 										.getJSONObject(j);
@@ -372,7 +363,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// =======================================================================================================================//
 	public class MyCartAdapter extends BaseAdapter {
 		Context _mcontext = null;
 		LayoutInflater inflater;
@@ -387,19 +377,16 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return data.size();
 		}
 
 		@Override
 		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 
@@ -471,14 +458,11 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 			String _pic = "https:" + obj.getProduct_image();
 			unit_price.setText(obj.getSales_price().replace("GD", "$"));
 			_total_amount.setText(obj.getTotal_price().replace("GD", "$"));
-			System.out.println("image is" + _pic);
 			ImageView imageView = (ImageView) _view
 					.findViewById(R.id.my_oder_img);
 			AQuery aq = new AQuery(_mcontext);
 			aq.id(imageView).image(_pic);
 
-			// ********************************************REMOVE
-			// ITEM**********************************************************//
 			remove_text_click.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -524,8 +508,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 				}
 			});
-			// ********************************************ADD
-			// QUANTITY**********************************************************//
+			
 			add_quantity.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -542,8 +525,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 				}
 			});
-			// ********************************************SUBTRACT
-			// QUANTITY**********************************************************//
+			
 			subtract_quantity.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -569,7 +551,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	// =======================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -669,7 +650,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -696,11 +676,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				Intent _cart = new Intent(MyCartScreen.this, MyCartScreen.class);
-				startActivity(_cart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
+				slide_me.toggleRightDrawer();
 			}
 			break;
 
@@ -753,7 +729,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				startActivity(_checkout);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
-				finish();
 			} else {
 				_msg = "your cart is empty";
 				_ResponsePopup();
@@ -774,7 +749,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	// ************************************************************************************************************************//
 	public class RemoveOrUpdateProduct extends
 			AsyncTask<String, String, String> implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -826,7 +800,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
 			_updateResponse = _UPDATEProduct(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _updateResponse);
 			return null;
 		}
 
@@ -859,7 +832,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// *************************************************************************************************************************//
 	public String _UPDATEProduct(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -871,7 +843,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -892,13 +863,11 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		return _Response;
 	}
 
-	// ********************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
 		finish();
 	}
 
-	// ======================================================================================================================//
 	public void _ResponsePopup() {
 		LayoutInflater inflater = getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,

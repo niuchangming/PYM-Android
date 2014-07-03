@@ -317,8 +317,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		Intent _orderdelivery = new Intent(_ctx, OrderDelivery_Screen.class);
-		startActivity(_orderdelivery);
 		finish();
 	}
 
@@ -522,13 +520,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			startActivity(payIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
-			finish();
 			break;
 		case R.id.back_btn:
-			Intent _bck = new Intent(_ctx, OrderDelivery_Screen.class);
-			startActivity(_bck);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
 			finish();
 			break;
 
@@ -620,11 +613,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(PaymentScreen.this, MyCartScreen.class);
-			startActivity(_cart);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
+			slide_me.toggleRightDrawer();
 			break;
 			
 		case R.id.btn_support:
@@ -789,7 +778,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	}
 
-	// =======================================================================================================================//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -821,7 +809,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		return _Response;
 	}
 
-	// ==============================================================================================================================//
 	class GetStoreCredit extends AsyncTask<String, String, String> {
 
 		@Override

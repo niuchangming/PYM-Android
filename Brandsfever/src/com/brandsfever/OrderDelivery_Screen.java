@@ -245,7 +245,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// *************************************************************************************************************************//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -315,7 +314,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -337,11 +335,7 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(_ctx, MyCartScreen.class);
-			startActivity(_cart);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
+			slide_me.toggleRightDrawer();
 			break;
 
 		case R.id.btn_support:
@@ -380,10 +374,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 			break;
 
 		case R.id.back_btn:
-			Intent _gobck = new Intent(_ctx, MyCartScreen.class);
-			startActivity(_gobck);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
 			finish();
 			break;
 
@@ -448,7 +438,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 
 	}
 
-	// *********************************************************************************************************************//
 	class GetShipingAddress extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -533,7 +522,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		}
 	}
 
-	// *********************************************************************************************************************//
 	private void GetAddress(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -542,8 +530,7 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
+
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -555,7 +542,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 				try {
 					JSONObject _jobj = new JSONObject(_content);
 					String ret = _jobj.getString("ret");
@@ -584,7 +570,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		}
 	}
 
-	// **********************************************************************************************************************//
 	private class CreateOrderOfUser extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;;
@@ -670,7 +655,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 			_namevalueList.add(_sendbilling_district);
 			_namevalueList.add(_sendbilling_country);
 			_ResponseFromServer = SendData(_createCartUrl, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -680,16 +664,14 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 				JSONObject _obj = new JSONObject(_ResponseFromServer);
 				String _ret = _obj.getString("ret");
 				if (_ret.equalsIgnoreCase("0")) {
-					System.out.println("pankaj");
 					JSONObject obj = _obj.getJSONObject("data");
 					String _orderPK = obj.getString("order_pk");
 					DataHolderClass.getInstance().set_orderpk(_orderPK);
-					System.out.println("my order pk is" + _orderPK);
-					System.out.println(_getToken + _getuserId);
 					Intent _sendforpayment = new Intent(_ctx,
 							PaymentScreen.class);
 					startActivity(_sendforpayment);
-					finish();
+					overridePendingTransition(R.anim.push_out_to_right,
+							R.anim.push_out_to_left);
 				}
 
 			} catch (Exception e) {
@@ -699,7 +681,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		}
 	}
 
-	// ********************************************************************************************************************//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -711,7 +692,7 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
+
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -732,7 +713,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		return _Response;
 	}
 
-	// ====================================================================================================================//
 	public void _ResponsePopup() {
 		View view = View.inflate(OrderDelivery_Screen.this,
 				R.layout.error_popop, null);
@@ -742,5 +722,12 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();
+	}
+	
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
 	}
 }

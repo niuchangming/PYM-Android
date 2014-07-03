@@ -28,7 +28,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -199,7 +198,6 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 				String stateUrl = "https://www.brandsfever.com/api/v5/orders/"
 						+ order_pk + "/states/?token=" + _getToken + "&user_id="
 						+ _getuserId;
-				Log.i(TAG, stateUrl);
 				int  state = fetchOrderState(stateUrl);
 				//state: -1 -- unknown, 0-- waiting for payment 1:success
 				if ( state == 1 ){ 
@@ -229,11 +227,8 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.back_btn:
-			Intent _bck = new Intent(_ctx, PaymentScreen.class);
-			startActivity(_bck);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			//finish();
+			paymentHandler.removeCallbacks(paymentRun);
+			finish();
 			break;
 
 		case R.id.main_menu:
@@ -345,11 +340,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(_ctx, MyCartScreen.class);
-			startActivity(_cart);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
+			slide_me.toggleRightDrawer();
 			break;
 
 		case R.id.btn_logout:
@@ -518,10 +509,6 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		paymentHandler.removeCallbacks(paymentRun);
 		finish();
-//		Intent _bck = new Intent(_ctx, PaymentScreen.class);
-//		startActivity(_bck);
-//		overridePendingTransition(R.anim.push_out_to_right,
-//				R.anim.push_out_to_left);
 	}
 
 }
