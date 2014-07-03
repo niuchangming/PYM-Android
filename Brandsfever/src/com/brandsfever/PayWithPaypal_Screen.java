@@ -17,6 +17,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -44,8 +45,8 @@ import com.progressbar.ProgressHUD;
 public class PayWithPaypal_Screen extends FragmentActivity implements
 		OnClickListener {
 	Context _ctx = PayWithPaypal_Screen.this;
-	WebView _openpaypal;
-	String _paypalurl;
+	WebView mPaypalWebView;
+	String mPaypalUrl;
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
@@ -57,6 +58,9 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 	int color, colors;
 	boolean isPaid;
 	JSONObject mOrderDetail;
+	
+	private int mLoopCount;
+	private static final int HANDLER_DELAY = 1000*4;
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@SuppressLint("SetJavaScriptEnabled")
@@ -74,8 +78,8 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 			setContentView(R.layout.pay_with_paypal_tablet);
 		}
-		_openpaypal = (WebView) findViewById(R.id.webView1);
-		_openpaypal.getSettings().setJavaScriptEnabled(true);
+		mPaypalWebView = (WebView) findViewById(R.id.webView1);
+		mPaypalWebView.getSettings().setJavaScriptEnabled(true);
 
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 		_getuserId = _mypref.getString("ID", null);
@@ -149,7 +153,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		_logout.setTypeface(_font);
 		_logout.setOnClickListener(this);
 
-		_paypalurl = "https://www.brandsfever.com/api/v5/payments/paypal/?token="
+		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/paypal/?token="
 				+ _getToken
 				+ "&user_id="
 				+ _getuserId
@@ -174,14 +178,9 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		this.onPurchaseCompleted();
-//		Handler handler = new Handler();
-//		Runnable r = new Runnable(){
-//			public void run (){
-//				
-//				
-//			}
-//		};
+
+		mLoopCount = 0;	
+		
 	}
 
 	@Override
@@ -272,7 +271,6 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -343,23 +341,21 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		
 		if(mOrderDetail != null){
 			
-			
 			EasyTracker tracker = EasyTracker.getInstance(this);
 			try {
-				System.out.println(mOrderDetail.getString("identifier")+"Completed.");
 
-//				tracker.send(MapBuilder.createTransaction(mOrderDetail.getString("identifier"), "Brandsfever",
-//						mOrderDetail.getDouble("total_price"), mOrderDetail.getDouble("tax_price"), 
-//						mOrderDetail.getDouble("shipping_fee"), "SGD").build());
-//			
-//				JSONArray itemArray = mOrderDetail.getJSONArray("item_list");
-//				for(int i = 0; i < itemArray.length(); i++){
-//					JSONObject item = itemArray.getJSONObject(i);
-//					tracker.send(MapBuilder.createItem(mOrderDetail.getString("identifier"), 
-//							item.getString("name"), item.getString("pk"), 
-//							item.getString("campaign"), item.getDouble("unit_price"), 
-//							item.getLong("quantity"), "SGD").build());
-//				}
+				tracker.send(MapBuilder.createTransaction(mOrderDetail.getString("identifier"), "Brandsfever",
+						mOrderDetail.getDouble("total_price"), mOrderDetail.getDouble("tax_price"), 
+						mOrderDetail.getDouble("shipping_fee"), "SGD").build());
+			
+				JSONArray itemArray = mOrderDetail.getJSONArray("item_list");
+				for(int i = 0; i < itemArray.length(); i++){
+					JSONObject item = itemArray.getJSONObject(i);
+					tracker.send(MapBuilder.createItem(mOrderDetail.getString("identifier"), 
+							item.getString("name"), item.getString("pk"), 
+							item.getString("campaign"), item.getDouble("unit_price"), 
+							item.getLong("quantity"), "SGD").build());
+				}
 				
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -414,18 +410,47 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 				cookieManager.setCookie("yourdomain.com", sessionCookie);
 				CookieSyncManager.getInstance().sync();
 			}
-			WebSettings webSettings = _openpaypal.getSettings();
+			WebSettings webSettings = mPaypalWebView.getSettings();
 			webSettings.setJavaScriptEnabled(true);
 			webSettings.setTextZoom((int)(webSettings.getTextZoom() * 0.5));
 			webSettings.setBuiltInZoomControls(true);
-			_openpaypal.setWebViewClient(new WebViewClient() {
+			
+			mPaypalWebView.setWebViewClient(new WebViewClient() {
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {
 					return super.shouldOverrideUrlLoading(view, url);
 				}
+				
+				@Override
+				public void onPageFinished(WebView view, String url) {
+					super.onPageFinished(view, url);
+					
+					// start to check order state.
+					final Handler printHandler = new Handler();
+					Runnable printTest = new Runnable(){
+
+						@Override
+						public void run() {
+							
+							System.out.println("Runnable run TEST.");
+							mLoopCount++;
+							if(mLoopCount < 5){
+								System.out.println("Loop: "+mLoopCount);
+								printHandler.postDelayed(this, HANDLER_DELAY);
+							}
+							else {
+								System.out.println("Max Loop: " + mLoopCount);
+								printHandler.removeCallbacks(this);
+							}
+						}
+						
+					};
+					
+					printHandler.postDelayed(printTest, HANDLER_DELAY);
+				}
 
 			});
-			_openpaypal.loadUrl(_paypalurl);
+			mPaypalWebView.loadUrl(mPaypalUrl);
 		}
 
 

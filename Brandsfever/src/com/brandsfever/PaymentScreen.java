@@ -134,7 +134,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			set_totalprice_tag.setTypeface(_font, Typeface.NORMAL);
 		}
 
-		System.out.println("iii---" + _setCamount);
 
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		set_shipping_address = (TextView) findViewById(R.id.set_shipping_address);
@@ -351,7 +350,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			String _stateUrl = "https://www.brandsfever.com/api/v5/orders/"
 					+ order_pk + "/states/?token=" + _getToken + "&user_id="
 					+ _getuserId;
-			System.out.println(_stateUrl);
 			GetState(_stateUrl);
 			return null;
 		}
@@ -382,8 +380,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _httpresponse);
+		
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -395,7 +392,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("state is" + _content);
 				try {
 					JSONObject _jobj = new JSONObject(_content);
 					String ret = _jobj.getString("ret");
@@ -449,8 +445,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
+			
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -465,7 +460,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 				try {
 
-					System.out.println("iii" + _content);
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
 					if (ret.equals("0")) {
@@ -605,7 +599,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -694,7 +687,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			break;
 
 		case R.id.store_credit_tag:
-			System.out.println("text click");
 			new StoreCreditWindow().show(getSupportFragmentManager(), "");
 			break;
 
@@ -752,7 +744,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			_namevalueList.add(_paction);
 			_namevalueList.add(_psCredits);
 			_ResponseFromServer = SendData(_urlpromo, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -787,7 +778,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.setView(view);
 					toast.show();
-					System.out.println(_msg);
 					// popup like iphone
 				}
 			} catch (Exception e) {
@@ -811,7 +801,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -839,7 +828,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _url = "https://www.brandsfever.com/api/v5/storecredits/?user_id="
 					+ _getuserId + "&token=" + _getToken;
-			System.out.println("url is" + _url);
 			Get_Store_Credits(_url);
 			return null;
 		}
@@ -854,7 +842,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 				Remove_store_credit.setTypeface(_font);
 
 				_setCamount = DataHolderClass.getInstance().get_creditAmount();
-				System.out.println("iii---" + _setCamount);
 				if (_setCamount > 0) {
 					String sw = "+S$" + _setCamount;
 					Remove_store_credit.setText(sw);
@@ -879,7 +866,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -891,14 +877,12 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					total.append(line);
 				}
 				String G_P = total.toString();
-				System.out.println(G_P);
 				try {
 					JSONObject obj = new JSONObject(G_P);
 					String ret = obj.getString("ret");
 					if (ret.equals("0")) {
 						JSONArray get_credit_details = obj
 								.getJSONArray("store_credits");
-						System.out.println("credit...." + get_credit_details);
 
 						for (int i = 0; i < get_credit_details.length(); i++) {
 							JSONObject jsonobj = get_credit_details
@@ -926,7 +910,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 							_storeCredits.add(_credits);
 						}
-						System.out.println("s_c is" + _storeCredits.size());
 					} else {
 						// toast.show();
 					}
@@ -982,8 +965,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			_namevalueList.add(_apply_action);
 			_namevalueList.add(_store_credits);
 			_ResponseFromServerCredits = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>"
-					+ _ResponseFromServerCredits);
 			return null;
 		}
 
@@ -994,7 +975,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		protected void onPostExecute(String result) {
-			System.out.println("i m here");
 			remove_SC.setVisibility(View.GONE);
 			apply_SC.setVisibility(View.VISIBLE);
 			new GetPaymentState().execute();
