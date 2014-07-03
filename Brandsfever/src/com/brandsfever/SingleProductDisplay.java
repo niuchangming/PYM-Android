@@ -460,13 +460,18 @@ public class SingleProductDisplay extends FragmentActivity implements
 				
 					_pname.setText(name);
 					_pname.setTypeface(_font, Typeface.BOLD);
-					set_sales_price.setText(offer_price.replace("GD", "$"));
-					set_sales_price.setTypeface(_font, Typeface.BOLD);
-					set_market_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
-							| Paint.ANTI_ALIAS_FLAG);
-					set_market_price.setText(market_price.replace("GD", "$"));
-					set_market_price.setTypeface(_font, Typeface.BOLD);
-
+					try{
+						set_sales_price.setText(offer_price.replace("GD", "$"));
+						set_sales_price.setTypeface(_font, Typeface.BOLD);
+						set_market_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
+								| Paint.ANTI_ALIAS_FLAG);
+						set_market_price.setText(market_price.replace("GD", "$"));
+						set_market_price.setTypeface(_font, Typeface.BOLD);
+					} 
+					catch (Exception e){
+						e.printStackTrace();
+					}
+					
 					long timeInMilliseconds = Long.valueOf(ends_at);
 					long end = timeInMilliseconds * 1000;
 					long current = System.currentTimeMillis();

@@ -247,14 +247,18 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			String url_login = "https://www.brandsfever.com/api/v5/auth/";
 			String user_email = _emailId;
 			String user_password = _password;
-			BasicNameValuePair _emailpair = new BasicNameValuePair("email",	user_email);
-			BasicNameValuePair _passwordpair = new BasicNameValuePair("password", user_password);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_emailpair);
-			_namevalueList.add(_passwordpair);
-			_ResponseFromServer = SendData(url_login, _namevalueList);
-			Log.d(TAG, _ResponseFromServer);
-			return null;
+			try{
+				BasicNameValuePair emailpair = new BasicNameValuePair("email",	user_email);
+				BasicNameValuePair passwordpair = new BasicNameValuePair("password", user_password);
+				List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+				namevalueList.add(emailpair);
+				namevalueList.add(passwordpair);
+				_ResponseFromServer = SendData(url_login, namevalueList);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return _ResponseFromServer;
 		}
 
 		@Override
