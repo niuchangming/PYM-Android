@@ -5,11 +5,13 @@ Brandsfever Android App
 Installation
 ============
 
-* Download ADT from [android developer](http://developer.android.com/sdk/index.html)
+* Download the latest eclipse from [the org website](http://www.eclipse.org/downloads/)
 
-* Download some SDKs from the Android SDK Manager
+* Download SDK bundle from [the Android developer website](http://developer.android.com/sdk/index.html)
 
-* Install Crashlytics plugin 
+* Copy the whole bundle in your devlopment folder and replace the eclipse folder with the original one.
+
+* Install Crashlytics plugin from  https://crashlytics.com/download/eclipse .
 
 * Clone the repo to the workspace you prefer
 
