@@ -23,6 +23,7 @@ local.properties
 proguard/
 .classpath
 .project
+.settings/
 
 # Android Studio
 .idea
