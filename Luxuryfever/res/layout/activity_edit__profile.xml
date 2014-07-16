@@ -1,0 +1,201 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".Edit_Profile" >
+
+    <RelativeLayout
+        android:id="@+id/one"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/top_head_phone" >
+
+        <ImageButton
+            android:id="@+id/main_menu"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/menu_bg"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="30dip"
+            android:layout_height="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="50dip"
+            android:background="@drawable/back_button"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/cart_btn"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/cart_btn_bg"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/two"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/one"
+        android:layout_gravity="center"
+        android:background="@drawable/nav_bg"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/edit_my_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:text="Edit Your Profile"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/three"
+        android:layout_width="fill_parent"
+        android:layout_height="330dp"
+        android:layout_below="@+id/two"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:weightSum="6" >
+
+        <EditText
+            android:id="@+id/Enter_firstname"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:hint="first name"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <EditText
+            android:id="@+id/Enter_lastname"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:hint="last name"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <EditText
+            android:id="@+id/Enter_mobile_number"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:hint="mobile number"
+            android:inputType="number"
+            android:maxLength="8"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <TextView
+            android:id="@+id/mob_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:text="Enter your mobile number without country code."
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/Enter_gender"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:hint="Gender"
+            android:inputType="number"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <EditText
+            android:id="@+id/Enter_birthdate"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:hint="Birth date"
+            android:inputType="number"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:layout_below="@+id/Enter_birthdate"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:button="@drawable/check_box_bg"
+                android:checked="true"
+                android:gravity="left"
+                android:text="  Receive updates"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_weight="4"
+                android:text="Recieve regular e-mails about the website"
+                android:textSize="8dp" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.8"
+            android:button="@drawable/check_box_bg"
+            android:gravity="left"
+            android:text=" Prefer english"
+            android:textColor="#000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/save_edited_profile"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/three"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/save_profile_phone_btn"
+        android:contentDescription="@string/brandsfever" />
+
+</RelativeLayout>

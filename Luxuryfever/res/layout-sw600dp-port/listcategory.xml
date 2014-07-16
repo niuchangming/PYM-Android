@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"  
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- ListRow Left sied Thumbnail image -->
+
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"     
+        android:padding="3dip" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:contentDescription="@string/brandsfever"
+            android:layout_width="100dip"
+            android:adjustViewBounds="true"
+            android:layout_height="100dip"            
+            android:scaleType="centerCrop"
+           
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/thumbnail"        
+        android:textSize="20sp" />
+
+    <CheckBox
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:button="@drawable/check_box_bg"
+        android:layout_marginRight="21dp"
+     />
+
+</RelativeLayout>

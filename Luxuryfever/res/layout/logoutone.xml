@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:id="@+id/popup_element"
+    android:layout_height="wrap_content" 
+   >
+    
+    <RelativeLayout 
+        android:id="@+id/s"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pan_button_background"
+        android:layout_width="wrap_content">     
+    
+    <RelativeLayout 
+        android:id="@+id/facebook"
+        android:layout_height="55dip"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content">
+        
+        <Button 
+            android:layout_height="35dip"
+            android:layout_width="35dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/fbwr"/>
+        
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="55dip"
+            android:textColor="#000"
+            android:text="Facebook"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:textSize="22sp"/>        
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/a"
+        android:layout_below="@+id/facebook"
+        android:layout_height="1pt"
+        android:layout_width="fill_parent"
+        android:background="@drawable/line"
+        android:layout_margin="3dp"/>
+    
+    <RelativeLayout 
+        android:id="@+id/twitter"
+        android:layout_below="@+id/a"
+        android:layout_height="55dip"
+        android:layout_width="wrap_content">
+        
+        <Button 
+            android:layout_height="35dip"
+            android:layout_width="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/twwr"/>
+        
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="55dip"
+            android:textColor="#000"
+            android:text="Twitter"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:textSize="22sp"/>        
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/b"
+        android:layout_below="@+id/twitter"
+        android:layout_height="1pt"
+        android:layout_width="fill_parent"
+        android:background="@drawable/line"
+        android:layout_margin="3dp"/>
+    
+   
+    </RelativeLayout>
+    <RelativeLayout 
+        android:id="@+id/four"
+        android:layout_below="@+id/s"
+        android:layout_height="20dip"
+        android:layout_marginTop="-4dp"
+        android:layout_width="wrap_content">
+
+      <Button
+          android:layout_width="35dip"
+          android:layout_height="35dip"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginLeft="26dp"
+          android:background="@drawable/tip" />
+
+     </RelativeLayout>
+</RelativeLayout>

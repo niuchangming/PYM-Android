@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg"
+    android:layout_height="match_parent"
+    tools:context=".PhoneLoginScreen" >
+    
+    <RelativeLayout 
+         android:id="@+id/one"
+         android:layout_height="55dip"
+         android:layout_width="fill_parent"
+         android:background="@drawable/top_head_phone">
+         
+        <ImageButton 
+            android:id="@+id/close_login_page"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/brandsfever"
+            android:layout_centerInParent="true"
+            android:background="@drawable/btn_cross_login"/>
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignBottom="@+id/close_login_page"
+            android:layout_centerHorizontal="true"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+         
+     </RelativeLayout>
+
+<TableLayout
+        android:id="@+id/tab_layout"
+        android:layout_below="@+id/one"
+        style="@style/layout_f_w"
+        android:stretchColumns="*" >
+    <TableRow
+            android:id="@+id/tableRow1"
+            android:background="#ffffff"
+            style="@style/layout_wrap">
+ 
+              <!-- First Tab -->
+                <LinearLayout
+                style="@style/layout_f_w"
+                android:id="@+id/first_text"
+                android:orientation="vertical" >
+ 
+                      <TextView
+                        android:id="@+id/textView1"
+                        android:textColor="#ff8e1345"
+                        style="@style/text_title"
+                        android:text="Member Login" />
+               </LinearLayout>
+ 
+            <!-- Second Tab -->
+                <LinearLayout
+                style="@style/layout_f_w"
+                android:id="@+id/second_text"
+                android:orientation="vertical" >
+ 
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:textColor="#000"
+                        style="@style/text_title"
+                        android:text="Sign up now" />
+ 
+               </LinearLayout>
+ 
+        </TableRow>
+    </TableLayout>
+    <include 
+        android:id="@+id/two"
+        android:layout_below="@+id/tab_layout"
+        layout="@layout/indicator" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"  />
+    
+    <android.support.v4.view.ViewPager
+        android:layout_below="@+id/two"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"
+        android:id="@+id/viewPager" />
+    
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <RelativeLayout
+        android:id="@+id/one"
+        android:layout_width="fill_parent"
+        android:layout_height="90dip"
+        android:background="@drawable/top_head_phone" >
+
+        <ImageButton
+            android:id="@+id/cancel_post"
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/cancelfb"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/post_to_wall"
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/posttw"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/two"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+        android:layout_below="@+id/one"
+        android:background="@drawable/nav_bg" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true">
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:hint="Search"
+                android:inputType="textPersonName"
+                android:paddingLeft="30dp"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:contentDescription="@string/brandsfever"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignLeft="@+id/editText1"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:src="@drawable/secrh_iconpng" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/three"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/two"
+        android:layout_marginTop="5dip"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+        </ListView>
+    </LinearLayout>
+
+</RelativeLayout>

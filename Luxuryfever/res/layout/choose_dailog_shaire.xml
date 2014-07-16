@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+   
+    android:layout_height="fill_parent"
+    android:background="#00000000"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#00000000"
+        
+        android:orientation="vertical" >
+        
+        <Button
+            android:id="@+id/Sharevia"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/roundwhite"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+            
+          android:textColor="#cdc5bf"
+            android:layout_marginBottom="0.5dp"
+            android:text="Share via" />
+        
+        
+
+        <Button
+            android:id="@+id/facebook_shaire"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/roundwhite"
+            android:textSize="25sp"
+            android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+            
+            android:textColor="#007aff"
+            android:layout_marginBottom="0.5dp"
+            android:text="Facebook" />
+
+        <Button
+            android:id="@+id/Twitter_shaire"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/roundwhite"
+             android:textSize="25sp"
+            android:textColor="#007aff"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Twitter" />
+
+        <Button
+            android:id="@+id/Cancel"
+            android:layout_width="match_parent"
+             android:layout_height="50dp"
+               android:textSize="25sp"
+               android:textStyle="bold"
+            android:textColor="#007aff"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginBottom="5dp"
+           android:background="@drawable/roundwhite"
+            android:text="Cancel" />
+    </LinearLayout>
+
+</RelativeLayout>
+
+</LinearLayout>

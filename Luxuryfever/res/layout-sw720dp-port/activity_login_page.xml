@@ -1,0 +1,117 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@null"
+    android:layout_height="match_parent"
+    tools:context=".Login_page" >
+
+    <LinearLayout 
+        android:id="@+id/one"
+        android:layout_height="140dp"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="30dp"
+        android:weightSum="2"
+        android:orientation="vertical">
+        
+        <EditText 
+            android:id="@+id/user_id"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:background="@drawable/edit_bg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:inputType="textEmailAddress"
+            android:hint="Email address:"/>
+         <EditText 
+            android:id="@+id/user_password"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/edit_bg"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:inputType="textPassword"
+            android:hint="Password:"/>
+        
+    </LinearLayout>
+    <LinearLayout 
+        android:id="@+id/two"
+        android:layout_below="@+id/one"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="15dp"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        
+        <ImageButton 
+            android:id="@+id/hit_phone_login"
+            android:contentDescription="@string/brandsfever"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:background="@drawable/phone_submit"
+            android:layout_weight="1"
+            android:layout_marginRight="1dp"/>
+        <ImageButton 
+            android:id="@+id/go_to_register"
+            android:contentDescription="@string/brandsfever"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:background="@drawable/phone_signup"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"/>
+        
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/three"
+        android:layout_below="@+id/two"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="fill_parent">
+        
+        <TextView 
+            android:id="@+id/forgot_password"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:typeface="serif"
+            android:text="Forgot your password ?"/>
+        
+        <ImageView 
+            android:layout_height="15dp"
+            android:layout_width="fill_parent"
+            android:layout_margin="20dp"
+            android:background="@drawable/or"/>
+        
+ </LinearLayout>
+ 
+    <RelativeLayout 
+        android:id="@+id/four"
+        android:layout_below="@+id/three"
+        android:layout_marginTop="25dp"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+        
+         <ImageButton 
+            android:id="@+id/phone_fb_login"
+            android:layout_height="60dp"
+            android:layout_width="300dp"
+            android:contentDescription="@string/brandsfever"
+            android:layout_centerInParent="true"
+            android:background="@drawable/fbbtn"/>
+        
+    </RelativeLayout>
+
+
+</RelativeLayout>

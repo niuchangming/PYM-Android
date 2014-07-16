@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@null"
+    android:layout_height="match_parent"
+    tools:context=".Signup_page" >
+
+<LinearLayout 
+        android:id="@+id/one"
+        android:layout_height="360dp"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="12dp"
+        android:weightSum="6"
+        android:orientation="vertical">
+        
+        <EditText 
+            android:id="@+id/first_name"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/edit_bg"
+            android:inputType="textPersonName"
+            android:hint="First Name"/>
+         <EditText 
+            android:id="@+id/last_name"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:layout_weight="0.9"
+            android:inputType="textPersonName"
+            android:hint="Last Name"/>
+         <EditText 
+            android:id="@+id/email_address"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:background="@drawable/edit_bg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:inputType="textEmailAddress"
+            android:hint="Enter your email address:"/>
+         <EditText 
+            android:id="@+id/choose_password"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:background="@drawable/edit_bg"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.9"
+            android:inputType="textPassword"
+            android:hint="Choose a password:"/>
+
+         <CheckBox
+             android:id="@+id/checkBox1"
+             android:layout_width="wrap_content"
+             android:layout_height="0dp"
+             android:layout_weight="0.7"
+             android:layout_gravity="center"
+             android:textColor="#000"
+             android:layout_marginTop="20dp"
+             android:textSize="18sp"
+             android:text="    I agree to the Terms and Conditions" />
+         
+         
+         <ImageButton 
+             android:id="@+id/signup_btn"
+             android:contentDescription="@string/brandsfever"
+             android:layout_height="0dp"
+             android:layout_weight="1"
+             android:layout_marginTop="8dp"
+             android:layout_width="fill_parent"
+             android:background="@drawable/create_account"/>
+        
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/two"
+        android:layout_below="@+id/one"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="fill_parent">
+       
+        <ImageView 
+            android:layout_height="15dp"
+            android:contentDescription="@string/brandsfever"
+            android:layout_width="fill_parent"
+            android:layout_margin="15dp"
+            android:background="@drawable/or"/>
+        
+ </LinearLayout>
+ <RelativeLayout 
+        android:id="@+id/four"
+        android:layout_below="@+id/two"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+        
+         <ImageButton 
+            android:id="@+id/signup_with_fb_btn"
+            android:contentDescription="@string/brandsfever"
+            android:layout_height="60dp"
+            android:layout_width="300dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/signfb"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

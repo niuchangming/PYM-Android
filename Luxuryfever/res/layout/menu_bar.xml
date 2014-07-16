@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+        android:background="#000000"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/flower"
+            android:contentDescription="@string/brandsfever"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/set_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dip"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#848484" />
+
+    <ScrollView
+        android:id="@+id/scrollVieww"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbarStyle="outsideOverlay"
+        android:verticalScrollbarPosition="right" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/btn_all_cat"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_all"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/cat_women"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_women"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/cat_men"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dip"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_men"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/cat_children"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dip"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_children"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/cat_home"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_home"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/cat_accesories"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_accessories"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.50dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_login"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                 android:id="@+id/btn_login_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_settings"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                 android:id="@+id/btn_setting_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/my_cart"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_cart"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                 android:id="@+id/my_cart_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+			
+            <Button
+                android:id="@+id/btn_support"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_support"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+            
+            <View
+                android:id="@+id/btn_support_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+            
+            <Button
+                android:id="@+id/btn_invite"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_invite"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/btn_invite_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="fill_parent"
+                android:layout_height="30dip"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/title_slidingMenu_logout"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+            
+             <View
+                 android:id="@+id/btn_logout_view"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#848484" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
