@@ -40,3 +40,5 @@ proguard/
 # Crashlytics
 Brandsfever/assets/crashlytics-build.properties
 Brandsfever/res/values/com_crashlytics_export_strings.xml
+Luxuryfever/assets/crashlytics-build.properties
+Luxuryfever/res/values/com_crashlytics_export_strings.xml
