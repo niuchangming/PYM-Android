@@ -49,8 +49,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brandsfever.SingleProductDisplay.LoginDialogListener;
-import com.brandsfever.SingleProductDisplay.updateTwitterStatus;
 import com.dataholder.DataHolderClass;
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.BaseRequestListener;

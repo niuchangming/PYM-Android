@@ -46,8 +46,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brandsfever.PhoneLoginPage.LoginDialogListener;
-import com.brandsfever.PhoneLoginPage.SocailLogin;
+
 import com.dataholder.DataHolderClass;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;

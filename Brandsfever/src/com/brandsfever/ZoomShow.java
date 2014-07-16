@@ -1,22 +1,17 @@
 package com.brandsfever;
 
-import java.util.HashMap;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 
 public class ZoomShow extends Activity implements OnClickListener {
 	ImageView imageView1;
