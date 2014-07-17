@@ -64,7 +64,7 @@ public class ProductDisplay extends FragmentActivity implements
 	Context _ctx = ProductDisplay.this;
 	SimpleSideDrawer slide_me;
 	ImageButton _Menu,cart_btn;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
+	Button _all, _men, _women,  _login,
 			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	String catagory_name;
@@ -180,25 +180,13 @@ public class ProductDisplay extends FragmentActivity implements
 		_all.setTextColor(color);
 		_all.setOnClickListener(this);
 
-		_men = (Button) findViewById(R.id.cat_men);
+		_men = (Button) findViewById(R.id.cat_shoes);
 		_men.setTypeface(_font);
 		_men.setOnClickListener(this);
 
-		_women = (Button) findViewById(R.id.cat_women);
+		_women = (Button) findViewById(R.id.cat_handbags);
 		_women.setTypeface(_font);
 		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
 
 		_login = (Button) findViewById(R.id.btn_login);
 		_login_view = (View) findViewById(R.id.btn_login_view);
@@ -335,9 +323,6 @@ public class ProductDisplay extends FragmentActivity implements
 				_all.setTextColor(color);
 				_men.setTextColor(colors);
 				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
@@ -348,9 +333,6 @@ public class ProductDisplay extends FragmentActivity implements
 				_women.setTextColor(color);
 				_all.setTextColor(colors);
 				_men.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
 				_settings.setTextColor(colors);
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
@@ -416,9 +398,6 @@ public class ProductDisplay extends FragmentActivity implements
 			_all.setTextColor(color);
             _men.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -426,15 +405,12 @@ public class ProductDisplay extends FragmentActivity implements
 			slide_me.closeRightSide();
 			break;
 
-		case R.id.cat_women:
+		case R.id.cat_handbags:
 			_list_type="women";
 			mViewPager.setCurrentItem(1);
 			_all.setTextColor(colors);
             _men.setTextColor(colors);
             _women.setTextColor(color);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -442,63 +418,12 @@ public class ProductDisplay extends FragmentActivity implements
 			slide_me.closeRightSide();
 			break;
 
-		case R.id.cat_men:
+		case R.id.cat_shoes:
 			_list_type="men";
 			mViewPager.setCurrentItem(2);
 			_all.setTextColor(colors);
             _men.setTextColor(color);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.cat_children:
-			_list_type="children";
-			mViewPager.setCurrentItem(3);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(color);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.cat_home:
-			_list_type="home";
-			mViewPager.setCurrentItem(4);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(color);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.cat_accesories:
-			_list_type="accesories";
-			mViewPager.setCurrentItem(5);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(color);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -527,9 +452,6 @@ public class ProductDisplay extends FragmentActivity implements
 			_all.setTextColor(colors);
             _men.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(color);
 			mSupport.setTextColor(colors);
@@ -545,9 +467,6 @@ public class ProductDisplay extends FragmentActivity implements
 			_all.setTextColor(colors);
             _men.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(color);
@@ -563,9 +482,6 @@ public class ProductDisplay extends FragmentActivity implements
 			_all.setTextColor(colors);
             _men.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -592,9 +508,6 @@ public class ProductDisplay extends FragmentActivity implements
 				_all.setTextColor(colors);
 	            _men.setTextColor(colors);
 	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
@@ -608,9 +521,6 @@ public class ProductDisplay extends FragmentActivity implements
 				_all.setTextColor(colors);
 	            _men.setTextColor(colors);
 	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
@@ -623,9 +533,6 @@ public class ProductDisplay extends FragmentActivity implements
 				_all.setTextColor(colors);
 	            _men.setTextColor(colors);
 	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
 				_settings.setTextColor(color);
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
@@ -686,7 +593,7 @@ public class ProductDisplay extends FragmentActivity implements
 		if(this.mViewPager!=null)
 			this.mViewPager.setCurrentItem(pos);
 		
-		if(_all==null || _women==null || _men==null || _childrens==null || _home==null || _accessories==null)
+		if(_all==null || _women==null || _men==null  )
 			return;
 		
 		if(pos==0){
@@ -694,9 +601,6 @@ public class ProductDisplay extends FragmentActivity implements
 			
             _men.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -707,9 +611,6 @@ public class ProductDisplay extends FragmentActivity implements
 			
 			_all.setTextColor(colors);
             _men.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
@@ -720,54 +621,11 @@ public class ProductDisplay extends FragmentActivity implements
 			
 			_all.setTextColor(colors);
             _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
 			_settings.setTextColor(colors);
 			_mycart.setTextColor(colors);
 			mSupport.setTextColor(colors);
 			_invite.setTextColor(colors);
 			_list_type="men";
-		}else if(pos==3){
-			_childrens.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="children";
-		}else if(pos==4){
-			_home.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="home";
-		}else if(pos==5){
-			_accessories.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			
-			_list_type="accessories";
 		}
 		
 	}

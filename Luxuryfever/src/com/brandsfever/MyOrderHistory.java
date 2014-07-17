@@ -51,7 +51,7 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 	Context _ctx = MyOrderHistory.this;
 	ImageButton main_menu, back_btn, cart_btn;
 	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
+	Button _all, _men, _women, _login,
 			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	ListView set_store_credits;
@@ -118,25 +118,13 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 		_all.setTypeface(_font);
 		_all.setOnClickListener(this);
 
-		_men = (Button) findViewById(R.id.cat_men);
+		_men = (Button) findViewById(R.id.cat_shoes);
 		_men.setTypeface(_font);
 		_men.setOnClickListener(this);
 
-		_women = (Button) findViewById(R.id.cat_women);
+		_women = (Button) findViewById(R.id.cat_handbags);
 		_women.setTypeface(_font);
 		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
 
 		_login = (Button) findViewById(R.id.btn_login);
 		_login.setVisibility(View.GONE);
@@ -405,7 +393,7 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 			}
 			break;
 
-		case R.id.cat_men:
+		case R.id.cat_shoes:
 			if (slide_me.isClosed()) {
 				slide_me.setEnabled(false);
 			} else {
@@ -420,7 +408,7 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 			}
 			break;
 
-		case R.id.cat_women:
+		case R.id.cat_handbags:
 			if (slide_me.isClosed()) {
 				slide_me.setEnabled(false);
 			} else {
@@ -429,51 +417,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 				Intent women = new Intent(_ctx, ProductDisplay.class);
 				women.putExtra("tab", "women");
 				startActivity(women);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_children:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent children = new Intent(_ctx, ProductDisplay.class);
-				children.putExtra("tab", "children");
-				startActivity(children);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_home:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent home = new Intent(_ctx, ProductDisplay.class);
-				home.putExtra("tab", "home");
-				startActivity(home);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_accesories:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent acc = new Intent(_ctx, ProductDisplay.class);
-				acc.putExtra("tab", "accessories");
-				startActivity(acc);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
 				finish();

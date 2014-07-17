@@ -61,7 +61,7 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 	String _ret;
 	ImageButton main_menu, back_btn, cart_btn;
 	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
+	Button _all, _men, _women,_login,
 			_settings, _mycart, _invite, mSupport, _logout;
 	EditText _firstname, _lastname, _zender, _birthdate, _mobileno;
 	private String Ufname, Ulname, Urupdates, Upenglish, Umno, Ubdate, Ugender,
@@ -161,25 +161,13 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		_all.setTypeface(mFont);
 		_all.setOnClickListener(this);
 
-		_men = (Button) findViewById(R.id.cat_men);
+		_men = (Button) findViewById(R.id.cat_shoes);
 		_men.setTypeface(mFont);
 		_men.setOnClickListener(this);
 
-		_women = (Button) findViewById(R.id.cat_women);
+		_women = (Button) findViewById(R.id.cat_handbags);
 		_women.setTypeface(mFont);
 		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(mFont);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(mFont);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(mFont);
-		_accessories.setOnClickListener(this);
 
 		_login = (Button) findViewById(R.id.btn_login);
 		_login.setVisibility(View.GONE);
@@ -207,9 +195,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		_all.setTextColor(colors);
 		_men.setTextColor(colors);
 		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
 		_settings.setTextColor(color);
 		_mycart.setTextColor(colors);
 		mSupport.setTextColor(colors);
@@ -320,7 +305,7 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			finish();
 			break;
 
-		case R.id.cat_men:
+		case R.id.cat_shoes:
 			slide_me.closeRightSide();
 			Intent men = new Intent(_ctx, ProductDisplay.class);
 			men.putExtra("tab", "men");
@@ -330,41 +315,11 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			finish();
 			break;
 
-		case R.id.cat_women:
+		case R.id.cat_handbags:
 			slide_me.closeRightSide();
 			Intent women = new Intent(_ctx, ProductDisplay.class);
 			women.putExtra("tab", "women");
 			startActivity(women);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_children:
-			slide_me.closeRightSide();
-			Intent children = new Intent(_ctx, ProductDisplay.class);
-			children.putExtra("tab", "children");
-			startActivity(children);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_home:
-			slide_me.closeRightSide();
-			Intent home = new Intent(_ctx, ProductDisplay.class);
-			home.putExtra("tab", "home");
-			startActivity(home);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_accesories:
-			slide_me.closeRightSide();
-			Intent acc = new Intent(_ctx, ProductDisplay.class);
-			acc.putExtra("tab", "accessories");
-			startActivity(acc);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			finish();

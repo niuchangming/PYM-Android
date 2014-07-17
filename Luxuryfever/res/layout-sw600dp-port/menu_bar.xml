@@ -63,13 +63,13 @@
         android:layout_marginLeft="20dp"
         android:background="@android:color/transparent"
         android:layout_marginTop="10dp"
-        android:text="ALL"
+        android:text="@string/title_slidingMenu_all"
         android:typeface="sans"
         android:layout_marginRight="10dip"/>
 
     
     <Button 
-        android:id="@+id/cat_women"
+        android:id="@+id/cat_handbags"
         android:layout_height="60dip"
         android:layout_gravity="left"
         android:textSize="18sp"
@@ -79,11 +79,11 @@
         android:layout_width="fill_parent"
         android:gravity="left"
         android:layout_marginTop="10dp"
-        android:text="WOMAN"
+        android:text="@string/title_slidingMenu_handbags"
         android:layout_marginRight="10dp"/>
 
     <Button 
-        android:id="@+id/cat_men"
+        android:id="@+id/cat_shoes"
         android:layout_height="60dp"
         android:layout_gravity="left"
         android:layout_width="wrap_content"
@@ -93,52 +93,7 @@
         android:layout_marginLeft="30dp"
         android:background="@android:color/transparent"
         android:layout_marginTop="10dip"
-        android:text="MEN"
-        android:layout_marginRight="10dp"/>
-    
-
-    
-    <Button 
-        android:id="@+id/cat_children"
-        android:layout_height="60dp"
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
-        android:textSize="18sp"
-        android:gravity="left"
-	    android:textColor="@android:color/darker_gray"
-        android:layout_marginLeft="30dp"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="10dip"
-        android:text="CHILDREN"
-        android:layout_marginRight="10dp"/>
-    
-    <Button 
-        android:id="@+id/cat_home"
-        android:layout_height="60dp"
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
-        android:textSize="18sp"
-	    android:textColor="@android:color/darker_gray"
-        android:layout_marginLeft="30dp"
-        android:gravity="left"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="10dp"
-        android:text="HOME"
-        android:layout_marginRight="10dp"/>
-
-    
-    <Button 
-        android:id="@+id/cat_accesories"
-        android:layout_height="60dip"
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
-        android:textSize="18sp"
-	   android:textColor="@android:color/darker_gray"
-	    android:gravity="left"
-        android:layout_marginLeft="30dp"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="10dp"
-        android:text="ACCESSORIES"
+        android:text="@string/title_slidingMenu_shoes"
         android:layout_marginRight="10dp"/>
 
     <Button 

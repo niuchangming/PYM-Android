@@ -70,7 +70,7 @@
                 android:background="#848484" />
 
             <Button
-                android:id="@+id/cat_women"
+                android:id="@+id/cat_handbags"
                 android:layout_width="fill_parent"
                 android:layout_height="30dip"
                 android:layout_gravity="left|center"
@@ -80,7 +80,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="@string/title_slidingMenu_women"
+                android:text="@string/title_slidingMenu_handbags"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -90,7 +90,7 @@
                 android:background="#848484" />
 
             <Button
-                android:id="@+id/cat_men"
+                android:id="@+id/cat_shoes"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="left|center"
@@ -100,67 +100,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="@string/title_slidingMenu_men"
-                android:textColor="@android:color/white"
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#848484" />
-
-            <Button
-                android:id="@+id/cat_children"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dip"
-                android:background="@android:color/transparent"
-                android:gravity="left|center"
-                android:singleLine="true"
-                android:text="@string/title_slidingMenu_children"
-                android:textColor="@android:color/white"
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#848484" />
-
-            <Button
-                android:id="@+id/cat_home"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
-                android:gravity="left|center"
-                android:singleLine="true"
-                android:text="@string/title_slidingMenu_home"
-                android:textColor="@android:color/white"
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#848484" />
-
-            <Button
-                android:id="@+id/cat_accesories"
-                android:layout_width="fill_parent"
-                android:layout_height="30dip"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/transparent"
-                android:gravity="left|center"
-                android:singleLine="true"
-                android:text="@string/title_slidingMenu_accessories"
+                android:text="@string/title_slidingMenu_shoes"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 

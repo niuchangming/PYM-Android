@@ -53,7 +53,7 @@ public class SupportActivity extends FragmentActivity {
 	
 	private SimpleSideDrawer mSideDrawer;
 	private ImageButton mMain, mBack, mCart;
-	private Button mAll, mMen, mWomen, mChildren, mHome, mAccessories, mLogin, mSettings, mSupport, mMyCart, mInvite, mLogout;
+	private Button mAll, mMen, mWomen, mLogin, mSettings, mSupport, mMyCart, mInvite, mLogout;
 	private SharedPreferences mPref;
 	
 	private int mColor, mColors;
@@ -178,25 +178,13 @@ public class SupportActivity extends FragmentActivity {
 			mAll.setTypeface(mFont);
 			mAll.setOnClickListener(this);
 
-			mMen = (Button) findViewById(R.id.cat_men);
+			mMen = (Button) findViewById(R.id.cat_shoes);
 			mMen.setTypeface(mFont);
 			mMen.setOnClickListener(this);
 
-			mWomen = (Button) findViewById(R.id.cat_women);
+			mWomen = (Button) findViewById(R.id.cat_handbags);
 			mWomen.setTypeface(mFont);
 			mWomen.setOnClickListener(this);
-
-			mChildren = (Button) findViewById(R.id.cat_children);
-			mChildren.setTypeface(mFont);
-			mChildren.setOnClickListener(this);
-
-			mHome = (Button) findViewById(R.id.cat_home);
-			mHome.setTypeface(mFont);
-			mHome.setOnClickListener(this);
-
-			mAccessories = (Button) findViewById(R.id.cat_accesories);
-			mAccessories.setTypeface(mFont);
-			mAccessories.setOnClickListener(this);
 
 			mLogin = (Button) findViewById(R.id.btn_login);
 			mLogin.setVisibility(View.GONE);
@@ -224,9 +212,6 @@ public class SupportActivity extends FragmentActivity {
 			mAll.setTextColor(mColors);
 			mMen.setTextColor(mColors);
 			mWomen.setTextColor(mColors);
-			mChildren.setTextColor(mColors);
-			mHome.setTextColor(mColors);
-			mAccessories.setTextColor(mColors);
 			mSettings.setTextColor(mColors);
 			mMyCart.setTextColor(mColors);
 			mSupport.setTextColor(mColor);
@@ -263,7 +248,7 @@ public class SupportActivity extends FragmentActivity {
 				finish();
 				break;
 
-			case R.id.cat_men:
+			case R.id.cat_shoes:
 				if (mSideDrawer.isClosed()) {
 					mSideDrawer.setEnabled(false);
 				} else {
@@ -279,7 +264,7 @@ public class SupportActivity extends FragmentActivity {
 				}
 				break;
 
-			case R.id.cat_women:
+			case R.id.cat_handbags:
 				if (mSideDrawer.isClosed()) {
 					mSideDrawer.setEnabled(false);
 				} else {
@@ -289,52 +274,6 @@ public class SupportActivity extends FragmentActivity {
 					women.putExtra("tab", "women");
 					startActivity(women);
 					mSideDrawer.closeRightSide();
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				}
-				break;
-
-			case R.id.cat_children:
-				if (mSideDrawer.isClosed()) {
-					mSideDrawer.setEnabled(false);
-				} else {
-					mSideDrawer.setEnabled(true);
-					mSideDrawer.closeRightSide();
-					Intent children = new Intent(SupportActivity.this, ProductDisplay.class);
-					children.putExtra("tab", "children");
-					mSideDrawer.closeRightSide();
-					startActivity(children);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				}
-				break;
-
-			case R.id.cat_home:
-				if (mSideDrawer.isClosed()) {
-					mSideDrawer.setEnabled(false);
-				} else {
-					mSideDrawer.setEnabled(true);
-					mSideDrawer.closeRightSide();
-					Intent home = new Intent(SupportActivity.this, ProductDisplay.class);
-					home.putExtra("tab", "home");
-					startActivity(home);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				}
-				break;
-
-			case R.id.cat_accesories:
-				if (mSideDrawer.isClosed()) {
-					mSideDrawer.setEnabled(false);
-				} else {
-					mSideDrawer.setEnabled(true);
-					mSideDrawer.closeRightSide();
-					Intent acc = new Intent(SupportActivity.this, ProductDisplay.class);
-					acc.putExtra("tab", "accessories");
-					startActivity(acc);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
 					finish();
