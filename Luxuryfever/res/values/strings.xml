@@ -66,5 +66,8 @@
 	<string name="support_hint_email">Your Emails*</string>
 	
 	<!-- App Settings -->
-	<string name="channel_code">30</string>
+	<string name="channel_code">40</string>
+	<string name="host_name">https://www.brandsfever.com/api/v5</string>
+	<string name="host_name_go">https://api-1.brandsfever.com</string>
+	<string name="channel_code_go">110</string>
 </resources>

@@ -34,9 +34,9 @@ import com.brandsfever.luxury.R;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
 
-public class AccesroiesProductDisplay extends Fragment {
+public class ShoesProductDisplay extends Fragment {
 	ViewGroup _view;
-	ListView accesories_product_list;
+	ListView men_product_list;
 	static Context ctx = null;
 	Button _scrollup;
 	PhoneAdapter _padapter;
@@ -50,30 +50,30 @@ public class AccesroiesProductDisplay extends Fragment {
 		a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.phone_accessories_product_display, null);
+					R.layout.phone_men_product_display, null);
 		} else if (a >= 7 && a < 9) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.seven_inch_accesories_product_display, null);
+					R.layout.seven_inch_men_product_display, null);
 		} else if (a >= 9) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.ten_inch_accesories_product_display, null);
+					R.layout.ten_inch_men_product_display, null);
 			System.out.println("in ten inch");
 		}
-		accesories_product_list = (ListView) _view.findViewById(R.id.accesories_product_list);
+		men_product_list = (ListView) _view.findViewById(R.id.men_product_list);
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
 		_scrollup.setVisibility(View.GONE);
 		if (ctx == null) {
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
-			_padapter = new PhoneAdapter(ctx, ProductDisplay.accesories_prdt);
-			accesories_product_list.setAdapter(_padapter);
+			_padapter = new PhoneAdapter(ctx, ProductDisplay.shoes_prdt);
+			men_product_list.setAdapter(_padapter);
 		} else if (a >= 7) {
-			_tadapter = new TabAdapter(ctx, ProductDisplay.accesories_prdt);
-			accesories_product_list.setAdapter(_tadapter);
+			_tadapter = new TabAdapter(ctx, ProductDisplay.shoes_prdt);
+			men_product_list.setAdapter(_tadapter);
 		}
 
-		accesories_product_list.setOnScrollListener(new OnScrollListener() {
+		men_product_list.setOnScrollListener(new OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			}
@@ -91,7 +91,7 @@ public class AccesroiesProductDisplay extends Fragment {
 		_scrollup.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				accesories_product_list.setSelection(0);
+				men_product_list.setSelection(0);
 				_scrollup.setVisibility(View.GONE);
 			}
 		});
@@ -152,7 +152,8 @@ public class AccesroiesProductDisplay extends Fragment {
 
 			ends_in = (TextView) itemView.findViewById(R.id.set_time_left);
 			discount_rate = (TextView) itemView.findViewById(R.id.set_discount);
-			set_product_image = (ImageView) itemView.findViewById(R.id.product_image);
+			set_product_image = (ImageView) itemView
+					.findViewById(R.id.product_image);
 			go_for_sale = (Button) itemView.findViewById(R.id.go_for_sale);
 			go_for_sale.setTag(position);
 			set_product_image.setTag(position);
@@ -161,11 +162,10 @@ public class AccesroiesProductDisplay extends Fragment {
 					getActivity().getAssets(), "fonts/georgia.ttf");
 			ends_in.setTypeface(mFont);
 			discount_rate.setTypeface(mFont);
-			
-			String hours_left_str,minutes_left_str,seconds_left_str;
-			
 			ProductsDataModel obj = data.get(position);
 
+			String hours_left_str,minutes_left_str,seconds_left_str;
+			
 			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
@@ -174,6 +174,7 @@ public class AccesroiesProductDisplay extends Fragment {
 			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
 			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
 			int seconds_left = (int) ((diff / 1000) % 60);*/
+			
 			
 			//***************** hours converting **************//
 			
@@ -219,7 +220,7 @@ public class AccesroiesProductDisplay extends Fragment {
 					+ Integer.toString(seconds_left);
 			
 			String _endDate = date+ "\n" + _to;
-			
+
 			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000;
 			currenttime = System.currentTimeMillis();
@@ -236,6 +237,7 @@ public class AccesroiesProductDisplay extends Fragment {
 					+ Integer.toString(seconds_lefts);
 			
 			String _startFrom = start_date +"\n"+ _from;
+
 			
 			if (start > currenttime) {
 				ends_in.setText(s);
@@ -293,7 +295,6 @@ public class AccesroiesProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
@@ -317,11 +318,9 @@ public class AccesroiesProductDisplay extends Fragment {
 						Intent i = new Intent(_scontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_scontext.startActivity(i);
-						getActivity().overridePendingTransition(R.anim.push_out_to_left,R.anim.push_out_to_right);
 					}
 				}
 			});
-
 
 			return itemView;
 		}
@@ -420,6 +419,8 @@ public class AccesroiesProductDisplay extends Fragment {
 			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
 			int seconds_left = (int) ((diff / 1000) % 60);*/
 			
+			
+
 			//***************** hours converting **************//
 			
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
@@ -446,8 +447,6 @@ public class AccesroiesProductDisplay extends Fragment {
 				seconds_left_str=String.valueOf(seconds_left);
 			
 			}
-			
-			
 			
 			
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
@@ -548,8 +547,7 @@ public class AccesroiesProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+					
 					}
 				}
 			});
@@ -574,8 +572,7 @@ public class AccesroiesProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					getActivity().overridePendingTransition(
-							R.anim.push_out_to_left, R.anim.push_out_to_right);
+					
 					}
 
 				}

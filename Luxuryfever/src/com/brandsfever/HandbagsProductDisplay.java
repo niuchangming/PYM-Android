@@ -16,10 +16,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,14 +28,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AbsListView.OnScrollListener;
 import com.androidquery.AQuery;
 import com.brandsfever.luxury.R;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
 
-public class MenProductDisplay extends Fragment {
+public class HandbagsProductDisplay extends Fragment {
 	ViewGroup _view;
-	ListView men_product_list;
+	ListView woman_product_list;
 	static Context ctx = null;
 	Button _scrollup;
 	PhoneAdapter _padapter;
@@ -50,30 +50,31 @@ public class MenProductDisplay extends Fragment {
 		a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.phone_men_product_display, null);
+					R.layout.phone_women_product_display, null);
 		} else if (a >= 7 && a < 9) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.seven_inch_men_product_display, null);
+					R.layout.seven_inch_woman_product_display, null);
 		} else if (a >= 9) {
 			_view = (ViewGroup) inflater.inflate(
-					R.layout.ten_inch_men_product_display, null);
+					R.layout.ten_inch_woman_product_display, null);
 			System.out.println("in ten inch");
 		}
-		men_product_list = (ListView) _view.findViewById(R.id.men_product_list);
+		woman_product_list = (ListView) _view
+				.findViewById(R.id.woman_product_list);
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
 		_scrollup.setVisibility(View.GONE);
 		if (ctx == null) {
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
-			_padapter = new PhoneAdapter(ctx, ProductDisplay.men_prdt);
-			men_product_list.setAdapter(_padapter);
+			_padapter = new PhoneAdapter(ctx, ProductDisplay.handbags_prdt);
+			woman_product_list.setAdapter(_padapter);
 		} else if (a >= 7) {
-			_tadapter = new TabAdapter(ctx, ProductDisplay.men_prdt);
-			men_product_list.setAdapter(_tadapter);
+			_tadapter = new TabAdapter(ctx, ProductDisplay.handbags_prdt);
+			woman_product_list.setAdapter(_tadapter);
 		}
 
-		men_product_list.setOnScrollListener(new OnScrollListener() {
+		woman_product_list.setOnScrollListener(new OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			}
@@ -91,11 +92,10 @@ public class MenProductDisplay extends Fragment {
 		_scrollup.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				men_product_list.setSelection(0);
+				woman_product_list.setSelection(0);
 				_scrollup.setVisibility(View.GONE);
 			}
 		});
-
 		return _view;
 	}
 
@@ -171,10 +171,6 @@ public class MenProductDisplay extends Fragment {
 			long current = System.currentTimeMillis();
 			long diff = end - current;
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-			int seconds_left = (int) ((diff / 1000) % 60);*/
-			
 			
 			//***************** hours converting **************//
 			
@@ -206,12 +202,13 @@ public class MenProductDisplay extends Fragment {
 			
 			
 			
+			
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 		    cal.setTimeInMillis(end);
 		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
 
 			String s = Integer.toString(dayCount) + " Days" + " "
-					+  hours_left_str + ":"
+					+ hours_left_str + ":"
 					+ minutes_left_str + ":"
 					+ seconds_left_str;
 			
@@ -231,7 +228,7 @@ public class MenProductDisplay extends Fragment {
 			
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
-		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
+		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();			
 			String _from =  Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);
@@ -321,6 +318,7 @@ public class MenProductDisplay extends Fragment {
 					}
 				}
 			});
+
 
 			return itemView;
 		}
@@ -415,12 +413,7 @@ public class MenProductDisplay extends Fragment {
 			long current = System.currentTimeMillis();
 			long diff = end - current;
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-			int seconds_left = (int) ((diff / 1000) % 60);*/
 			
-			
-
 			//***************** hours converting **************//
 			
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
@@ -475,6 +468,8 @@ public class MenProductDisplay extends Fragment {
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
 		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
+		    System.out.println("start date is" + start_date);
+			
 			String _from =  Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);
@@ -547,7 +542,7 @@ public class MenProductDisplay extends Fragment {
 					Intent i = new Intent(_mcontext, ProductListing.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					_mcontext.startActivity(i);
-					
+				
 					}
 				}
 			});

@@ -72,11 +72,8 @@ public class ProductDisplay extends FragmentActivity implements
 	Bundle bundle;
 	TextView set_user_name;
 	public static ArrayList<ProductsDataModel> all_prdt = new ArrayList<ProductsDataModel>();
-	public static ArrayList<ProductsDataModel> men_prdt = new ArrayList<ProductsDataModel>();
-	public static ArrayList<ProductsDataModel> women_prdt = new ArrayList<ProductsDataModel>();
-	public static ArrayList<ProductsDataModel> children_prdt = new ArrayList<ProductsDataModel>();
-	public static ArrayList<ProductsDataModel> home_prdt = new ArrayList<ProductsDataModel>();
-	public static ArrayList<ProductsDataModel> accesories_prdt = new ArrayList<ProductsDataModel>();
+	public static ArrayList<ProductsDataModel> shoes_prdt = new ArrayList<ProductsDataModel>();
+	public static ArrayList<ProductsDataModel> handbags_prdt = new ArrayList<ProductsDataModel>();
 
 	TabHost mTabHost;
 	ViewPager mViewPager;
@@ -324,11 +321,8 @@ public class ProductDisplay extends FragmentActivity implements
 	private void intialiseViewPager() {
 		List<Fragment> fragments = new Vector<Fragment>();
 		fragments.add(Fragment.instantiate(this, AllProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, WomenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, MenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, ChildrenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, HomeProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,AccesroiesProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this, HandbagsProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this, ShoesProductDisplay.class.getName()));
 		this.mPagerAdapter = new VPagerAdapter(
 				super.getSupportFragmentManager(), fragments);
 		this.mViewPager = (ViewPager) super.findViewById(R.id.viewPagers);
@@ -365,59 +359,7 @@ public class ProductDisplay extends FragmentActivity implements
 				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
 				_men.setTextColor(color);
 				mViewPager.setCurrentItem(2);
-			} else if (_TabName.equalsIgnoreCase("children")) {
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_childrens.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-				mViewPager.setCurrentItem(3);
-			} else if (_TabName.equalsIgnoreCase("home")) {
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_home.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-				mViewPager.setCurrentItem(4);
-			} else if (_TabName.equalsIgnoreCase("accessories")) {
-				mViewPager.setCurrentItem(5);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_accessories.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-			} else {
-				mViewPager.setCurrentItem(0);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_all.setTextColor(color);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-			}
+			} 
 		}
 	}
 
@@ -430,27 +372,13 @@ public class ProductDisplay extends FragmentActivity implements
 				(tabInfo = new TabInfo("Tab1", AllProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab2").setIndicator("WOMEN"),
-				(tabInfo = new TabInfo("Tab2", WomenProductDisplay.class, args)));
+				this.mTabHost.newTabSpec("Tab2").setIndicator("HANDBAGS"),
+				(tabInfo = new TabInfo("Tab2", HandbagsProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab3").setIndicator("MEN"),
-				(tabInfo = new TabInfo("Tab3", MenProductDisplay.class, args)));
+				this.mTabHost.newTabSpec("Tab3").setIndicator("SHOES"),
+				(tabInfo = new TabInfo("Tab3", ShoesProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab4").setIndicator("CHILDREN"),
-				(tabInfo = new TabInfo("Tab4", ChildrenProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab5").setIndicator("HOME"),
-				(tabInfo = new TabInfo("Tab5", HomeProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab6").setIndicator("ACCESSORIES"),
-				(tabInfo = new TabInfo("Tab6", AccesroiesProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		
-		
 
 		TabWidget widget = mTabHost.getTabWidget();
 		for (int i = 0; i < widget.getChildCount(); i++) {
@@ -871,14 +799,11 @@ public class ProductDisplay extends FragmentActivity implements
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			all_prdt.clear();
-			accesories_prdt.clear();
-			men_prdt.clear();
-			women_prdt.clear();
-			home_prdt.clear();
-			children_prdt.clear();
+			shoes_prdt.clear();
+			handbags_prdt.clear();
 
 			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
-					+ getApplicationContext().getResources().getString(R.string.channel_code);
+					+ getApplicationContext().getResources().getString(R.string.channel_code_go);
 			GetProducts(url_campaigns);
 			return null;
 		}
@@ -934,11 +859,6 @@ public class ProductDisplay extends FragmentActivity implements
 								.getString("free_shipping");
 						
 						ProductsDataModel all_data_model = new ProductsDataModel();
-						ProductsDataModel men_data_model = new ProductsDataModel();
-						ProductsDataModel women_data_model = new ProductsDataModel();
-						ProductsDataModel children_data_model = new ProductsDataModel();
-						ProductsDataModel home_data_model = new ProductsDataModel();
-						ProductsDataModel accessories_data_model = new ProductsDataModel();
 
 						all_data_model.setEnds_at(ends_at);
 						all_data_model.setTeaser_url(teaser_url);
@@ -951,86 +871,41 @@ public class ProductDisplay extends FragmentActivity implements
 						all_data_model.setShipping_fee(shipping_fee);
 						all_data_model.setShipping_period(shipping_period);
 
-						JSONArray jobj = jsonobj.getJSONArray("category");
-						for (int j = 0; j < jobj.length(); j++) {
-							catagory_name = jobj.getString(j);
-							if (catagory_name.equalsIgnoreCase("men")) {
-								men_data_model.setEnds_at(ends_at);
-								men_data_model.setTeaser_url(teaser_url);
-								men_data_model.setName(name);
-								men_data_model.setStarts_at(starts_at);
-								men_data_model.setPk(pk);
-								men_data_model.setExpress(express);
-								men_data_model.setDiscount_text(discount_text);
-								men_data_model.setFree_shipping(free_shipping);
-								men_data_model.setShipping_fee(shipping_fee);
-								men_data_model
+						// all campaigns in luxury are in women category.
+						// and there are only handbags and shoes.
+						// we choose the product to shoes if there is shoe/heel in the name,
+						// others are handbags
+						if (name.toLowerCase().contains("shoe") || name.toLowerCase().contains("heel")){
+                                ProductsDataModel shoes_data_model = new ProductsDataModel();
+								shoes_data_model.setEnds_at(ends_at);
+								shoes_data_model.setTeaser_url(teaser_url);
+								shoes_data_model.setName(name);
+								shoes_data_model.setStarts_at(starts_at);
+								shoes_data_model.setPk(pk);
+								shoes_data_model.setExpress(express);
+								shoes_data_model.setDiscount_text(discount_text);
+								shoes_data_model.setFree_shipping(free_shipping);
+								shoes_data_model.setShipping_fee(shipping_fee);
+								shoes_data_model
 										.setShipping_period(shipping_period);
-								men_prdt.add(men_data_model);
-							} else if (catagory_name.equalsIgnoreCase("women")) {
-								women_data_model.setEnds_at(ends_at);
-								women_data_model.setTeaser_url(teaser_url);
-								women_data_model.setName(name);
-								women_data_model.setStarts_at(starts_at);
-								women_data_model.setPk(pk);
-								women_data_model.setExpress(express);
-								women_data_model
+								shoes_prdt.add(shoes_data_model);
+						} else {
+								// otherwise this is handbag category
+                                ProductsDataModel handbags_data_model = new ProductsDataModel();
+								handbags_data_model.setEnds_at(ends_at);
+								handbags_data_model.setTeaser_url(teaser_url);
+								handbags_data_model.setName(name);
+								handbags_data_model.setStarts_at(starts_at);
+								handbags_data_model.setPk(pk);
+								handbags_data_model.setExpress(express);
+								handbags_data_model
 										.setDiscount_text(discount_text);
-								women_data_model
+								handbags_data_model
 										.setFree_shipping(free_shipping);
-								women_data_model.setShipping_fee(shipping_fee);
-								women_data_model
+								handbags_data_model.setShipping_fee(shipping_fee);
+								handbags_data_model
 										.setShipping_period(shipping_period);
-								women_prdt.add(women_data_model);
-							} else if (catagory_name
-									.equalsIgnoreCase("children")) {
-								children_data_model.setEnds_at(ends_at);
-								children_data_model.setTeaser_url(teaser_url);
-								children_data_model.setName(name);
-								children_data_model.setStarts_at(starts_at);
-								children_data_model.setPk(pk);
-								children_data_model.setExpress(express);
-								children_data_model
-										.setDiscount_text(discount_text);
-								children_data_model
-										.setFree_shipping(free_shipping);
-								children_data_model
-										.setShipping_fee(shipping_fee);
-								children_data_model
-										.setShipping_period(shipping_period);
-								children_prdt.add(children_data_model);
-							} else if (catagory_name.equalsIgnoreCase("home")) {
-								home_data_model.setEnds_at(ends_at);
-								home_data_model.setTeaser_url(teaser_url);
-								home_data_model.setName(name);
-								home_data_model.setStarts_at(starts_at);
-								home_data_model.setPk(pk);
-								home_data_model.setExpress(express);
-								home_data_model.setDiscount_text(discount_text);
-								home_data_model.setFree_shipping(free_shipping);
-								home_data_model.setShipping_fee(shipping_fee);
-								home_data_model
-										.setShipping_period(shipping_period);
-								home_prdt.add(home_data_model);
-							} else if (catagory_name
-									.equalsIgnoreCase("accessories")) {
-								accessories_data_model.setEnds_at(ends_at);
-								accessories_data_model
-										.setTeaser_url(teaser_url);
-								accessories_data_model.setName(name);
-								accessories_data_model.setStarts_at(starts_at);
-								accessories_data_model.setPk(pk);
-								accessories_data_model.setExpress(express);
-								accessories_data_model
-										.setDiscount_text(discount_text);
-								accessories_data_model
-										.setFree_shipping(free_shipping);
-								accessories_data_model
-										.setShipping_fee(shipping_fee);
-								accessories_data_model
-										.setShipping_period(shipping_period);
-								accesories_prdt.add(accessories_data_model);
-							}
+								handbags_prdt.add(handbags_data_model);
 						}
 						all_prdt.add(all_data_model);
 					}
