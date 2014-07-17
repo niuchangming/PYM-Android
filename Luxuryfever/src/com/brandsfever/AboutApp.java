@@ -161,7 +161,6 @@ public class AboutApp extends FragmentActivity implements OnClickListener {
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// ================================================================================================================================//
 	private class GetAboutAppFromServer extends
 			AsyncTask<String, String, String> implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -304,7 +303,6 @@ public class AboutApp extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					slide_me.closeRightSide();
 					overridePendingTransition(R.anim.push_out_to_right,

@@ -246,7 +246,6 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -351,13 +350,11 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 		}
 	}
 
-	// ===========================================================================================================================//
 	@Override
 	public void onBackPressed() {
 		finish();
 	}
 
-	// ============================================================================================================================//
 	class GetStoreCredit extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -395,7 +392,6 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 			_storeCredits.clear();
 			String _url = "https://www.brandsfever.com/api/v5/storecredits/?user_id="
 					+ _getuserId + "&token=" + _getToken;
-			System.out.println("url is" + _url);
 			Get_Store_Credits(_url);
 			return null;
 		}
@@ -428,7 +424,6 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 		}
 	}
 
-	/**************************************************************************************************************************/
 	public void Get_Store_Credits(String url_get_store_credits) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -437,7 +432,6 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -449,7 +443,6 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 					total.append(line);
 				}
 				String G_P = total.toString();
-				System.out.println(G_P);
 				try {
 					JSONObject obj = new JSONObject(G_P);
 					String ret = obj.getString("ret");
@@ -482,22 +475,18 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 
 							_storeCredits.add(_credits);
 						}
-						System.out.println("s_c is" + _storeCredits.size());
 					} else {
 						// toast.show();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				System.out.println("invalid user");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	/***********************************************************************************************************************/
 	private class CreditAdapter extends BaseAdapter {
 		private Context mContext;
 		LayoutInflater inflater;
@@ -563,5 +552,4 @@ public class StoreCredis_SettingPage extends FragmentActivity implements
 		}
 
 	}
-	// ============================================================================================================================//
 }

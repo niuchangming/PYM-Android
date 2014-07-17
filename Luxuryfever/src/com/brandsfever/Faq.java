@@ -220,7 +220,6 @@ public class Faq extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."	+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -309,17 +308,14 @@ public class Faq extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
 					startActivity(_tabsetting);
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
 					startActivity(_tabsetting);
 				}
 			}

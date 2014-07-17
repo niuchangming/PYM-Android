@@ -186,7 +186,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 	}
 
-	// **********************************************************************************************************************//
 	private class RegisterCustomer extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -236,7 +235,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			_namevalueList.add(_Upassword);
 			_namevalueList.add(_Uemail);
 			_ResponseRegister = RegisterUser(url_register, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseRegister);
 			return null;
 		}
 
@@ -258,7 +256,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						mProgressHUD.dismiss();
 						try {
-							//((PhoneLoginScreen) getActivity()).refreshPage();
 							new GetUserName(_token,_UserId).execute();
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -278,11 +275,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 	}
 	
-	
-	
-	
-	
-	//=====================================================================================================================//
 		private class GetUserName extends AsyncTask<String, String, String>{
 			String _id;
 			String mtoken;
@@ -295,7 +287,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			protected String doInBackground(String... params) {
 				String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 						+ _id + "&token=" + mtoken;
-				System.out.println("url is" + _profileurl);
 				GetProfile(_profileurl);
 				return null;
 			}
@@ -304,10 +295,8 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONObject obj1 = obj.getJSONObject("profile");
-						//String _ss = obj1.getString("first_name")+ " " + obj1.getString("last_name");
 								
 						String _ss = obj1.getString("first_name");
 						_mypref = getActivity().getApplicationContext()
@@ -332,7 +321,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 		
 		
-		//******************************************************************************************************************************//
 		private void GetProfile(String url) {
 			TrustAllCertificates cert = new TrustAllCertificates();
 			cert.trustAllHosts();
@@ -341,8 +329,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			try {
 				HttpResponse _httpresponse = _httpclient.execute(_httpget);
 				int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-				Log.i("--------------Https Responsecode----------", "."
-						+ _responsecode);
 				if (_responsecode == 200) {
 					InputStream _inputstream = _httpresponse.getEntity()
 							.getContent();
@@ -354,17 +340,12 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 						total.append(line);
 					}
 					 _content = total.toString();
-					System.out.println("my data is" + _content);
-
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	
-	
-
-	// ***********************************************************************************************************************//
 	public String RegisterUser(String url, List<NameValuePair> _namevalueList) {
 		String _RResponse = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -376,7 +357,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -397,7 +377,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		return _RResponse;
 	}
 
-	// ************************************************************************************************************************//
 	public void onActivityResult(int requestCode, int resultCode,
 			final Intent data) {
 
@@ -406,7 +385,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 	}
 
-	// ************************************************************************************************************************//
 	public final class LoginDialogListener implements DialogListener {
 		public void onComplete(Bundle values) {
 			try {
@@ -432,7 +410,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	// ***********************************************************************************************************************//
 	public void facebook() {
 
 		AsyncTask<Void, Void, Void> updateTask = new AsyncTask<Void, Void, Void>() {
@@ -455,13 +432,9 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					try {
 
 						JSONObject me = new JSONObject(facebook.request("me"));
-						System.out.println("value show" + me);
 						String a = me.getString("name");
 						String b = me.getString("email");
 						_userFBemail = b;
-						Log.d("iii", "iii-name-" + a);
-						Log.d("iii", "iii-name-" + b);
-
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -483,7 +456,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		updateTask.execute((Void[]) null);
 	}
 
-	// ========================================================================================================================//
 	class SocailLogin extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -521,8 +493,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			_namevalueList.add(_socailemail);
 			_SocailResponseFromServer = RegisterUser(url_socaillogin,
 					_namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE Socail====>"
-					+ _SocailResponseFromServer);
 			return null;
 		}
 
@@ -559,7 +529,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			mProgressHUD.dismiss();
 		}
 	}
-	// ======================================================================================================================//
 		public void _ResponsePopup() {
 			View view = View.inflate(getActivity().getBaseContext(),
 					R.layout.error_popop, null);
@@ -570,7 +539,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			toast.setView(view);
 			toast.show();
 		}
-		//=================================================================================================================//
 		public boolean checkEmail(String checkemailvalidate) {
 			return EMAIL_ADDRESS_PATTERN.matcher(checkemailvalidate).matches();
 		}

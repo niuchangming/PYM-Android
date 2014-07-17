@@ -520,7 +520,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 					String _sendquantity = String.valueOf(temap1);
 					String _senditempk = obj.getProduct_item_pk();
 					if (_sendquantity.equals("0")) {
-						System.out.println("cant execute");
 					} else {
 						new RemoveOrUpdateProduct(_sendAction, _sendquantity,
 								_senditempk).execute();

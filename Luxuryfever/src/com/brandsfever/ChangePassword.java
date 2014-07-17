@@ -306,7 +306,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -314,13 +313,11 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
 					startActivity(_tabsetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
 					startActivity(_tabsetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -407,7 +404,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 
 	}
 
-	// =============================================================================================================================//
 	class GetUserProfile extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -470,8 +466,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -483,12 +477,10 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONObject obj1 = obj.getJSONObject("profile");
 						_userfname = obj1.getString("first_name");
@@ -504,7 +496,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		}
 	}
 
-	/********************************************************************************************************************/
 	class RPassword extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -542,10 +533,7 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			_namevalueList.add(_userid);
 			_namevalueList.add(_token);
 			_namevalueList.add(_passwrd);
-			System.out.println("all r" + _url + "/n" + _userid + "" + _token
-					+ "" + _passwrd);
 			_ResponseFromServer = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -579,9 +567,7 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
-					System.out.println("error");
-				}
+				} 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -590,7 +576,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 
 	}
 
-	/***********************************************************************************************************************/
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -603,7 +588,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
 
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();

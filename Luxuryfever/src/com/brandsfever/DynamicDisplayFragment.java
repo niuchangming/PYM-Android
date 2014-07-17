@@ -45,7 +45,6 @@ public class DynamicDisplayFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tab_name = getArguments().getString("name");
-		Log.i("SWIPE", "tab name i frganment" + tab_name);
 		_mctx = getActivity();
 	}
 
@@ -176,8 +175,6 @@ public class DynamicDisplayFragment extends Fragment {
 
 			name.setText(obj.getName());
 			salesprice.setText(obj.getSales_price().replace("GD", "$"));
-//			int color = Integer.parseInt("B22222", 16) + 0xFF000000;
-//			salesprice.setTextColor(color);
 			marketprice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
 					| Paint.ANTI_ALIAS_FLAG);
 			marketprice.setText(obj.getMarket_price().replace("GD", "$"));
@@ -277,7 +274,6 @@ public class DynamicDisplayFragment extends Fragment {
 					| Paint.ANTI_ALIAS_FLAG);
 			_marketprice.setText(obj.getMarket_price().replace("GD", "$"));
 			String a = "https:" + obj.getImg();
-			System.out.println("value of a is+" + a);
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.prdt_img);
 			imageView.setTag(position);
@@ -291,7 +287,6 @@ public class DynamicDisplayFragment extends Fragment {
 					ProductListDetailModel cs = _data.get(a);
 					int _s = Integer.parseInt(cs.getPk());
 					DataHolderClass.getInstance().set_subProductsPk(_s);
-					System.out.println("pk is" + _s);
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);

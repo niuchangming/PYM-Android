@@ -320,7 +320,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -426,8 +425,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 
 	
 
-	// *************************************************************************************************************************//
-	// *************************************************************************************************************************//
 	class SendEmailInvite extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -469,7 +466,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 			_namevalueList.add(_apply_action);
 			_namevalueList.add(_store_credits);
 			_ResponseFromServer = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -503,7 +499,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 
 	}
 
-	// *********************************************************************************************************************//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -515,7 +510,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -541,7 +535,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 		return _Response;
 	}
 
-	// *****************************************************************************************************************************//
 	public void _ResponsePopup() {
 		LayoutInflater inflater = getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
@@ -554,12 +547,10 @@ public class InviteSction_Screen extends FragmentActivity implements
 		toast.show();
 	}
 
-	// ***********************************************************************************************************************//
 	private boolean checkEmail(String checkemailvalidate) {
 		return EMAIL_ADDRESS_PATTERN.matcher(checkemailvalidate).matches();
 	}
 
-	// **************************************************************************************************************************//
 	private class GetRequestCount extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -606,7 +597,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 		}
 	}
 
-	// *************************************************************************************************************************************//
 	public void GetInvitations(String _urls) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -615,8 +605,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -628,7 +616,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println(_content);
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
@@ -659,13 +646,8 @@ public class InviteSction_Screen extends FragmentActivity implements
 								+ facebookaccepted.length();
 						emailInviteAccepted = _acceptedemail.length();
 						facebookInviteAccepted = facebookaccepted.length();
-						System.out.println("length is " + emailInviteSent
-								+ facebookInviteSent + emailInviteAccepted
-								+ facebookInviteAccepted);
 
-					} else {
-
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -675,14 +657,12 @@ public class InviteSction_Screen extends FragmentActivity implements
 		}
 	}
 
-	// *************************************************************************************************************************//
 	class GetStoreCredit extends AsyncTask<String, String, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
 			String _url = "https://www.brandsfever.com/api/v5/storecredits/?user_id="
 					+ _getuserId + "&token=" + _getToken;
-			System.out.println("url is" + _url);
 			Get_Store_Credits(_url);
 			return null;
 		}
@@ -700,7 +680,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 
 	}
 
-	// ****************************************************************************************************************************//
 	public void Get_Store_Credits(String url_get_store_credits) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -709,7 +688,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -721,7 +699,6 @@ public class InviteSction_Screen extends FragmentActivity implements
 					total.append(line);
 				}
 				String G_P = total.toString();
-				System.out.println(G_P);
 				try {
 					JSONObject obj = new JSONObject(G_P);
 					String ret = obj.getString("ret");
@@ -759,29 +736,17 @@ public class InviteSction_Screen extends FragmentActivity implements
 							_storeCredits.add(_credits);
 
 						}
-						System.out.println("store credit id" + _creditCount);
-						System.out.println("s_c is" + _storeCredits.size());
 					} else {
 						// toast.show();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				System.out.println("invalid user");
-			}
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	// *********************************************************************************************************************
-	
-	/*@Override
-	public void onBackPressed() {
-		Intent i = new Intent(_ctx, ProductDisplay.class);
-		startActivity(i);
-		finish();
-	}*/
 	
 	@Override
 	public void onBackPressed() {

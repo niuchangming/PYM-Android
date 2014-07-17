@@ -38,16 +38,11 @@ public class Facebook_Invite extends Activity {
 		JSONObject jsonObj = null;
 		try {
 			JSONObject me = new JSONObject(facebook.request("me"));
-			System.out.println("my data"+ me);
 			jsonObj = Util.parseJson(facebook.request("me/friends"));
 			JSONArray jArray = jsonObj.getJSONArray("data");
-			System.out.println("friendlist size" + jArray.length());
 			for (int k = 0; k < jArray.length(); k++) {
 				JSONObject obj1 = jArray.getJSONObject(k);
 				faceclass obj = new faceclass();
-				System.out.println("id is" + obj1.getString("id"));
-				System.out.println("name is" + obj1.getString("name"));
-
 				obj.setId(obj1.getString("id"));
 				obj.setName(obj1.getString("name"));
 				faceclassobj.add(obj);

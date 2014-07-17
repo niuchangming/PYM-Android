@@ -171,7 +171,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// =============================================================================================================================//
 	class GetYourOrders extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -205,7 +204,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 			String _url = "https://www.brandsfever.com/api/v5/users/"
 					+ _getuserId + "/orders/?user_id=" + _getuserId + "&token="
 					+ _getToken;
-			System.out.println(_url);
 			GetOrderHistory(_url);
 			return null;
 		}
@@ -230,7 +228,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 		}
 	}
 
-	// ==============================================================================================================================//
 	public void GetOrderHistory(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -239,8 +236,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -252,12 +247,10 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONArray order_history_data = obj.getJSONArray("data");
 						for (int i = 0; i < order_history_data.length(); i++) {
@@ -292,7 +285,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 
 	}
 
-	// ==============================================================================================================================//
 	class StoreAdapter extends BaseAdapter {
 		Context _mcontext = null;
 		LayoutInflater inflater;
@@ -369,8 +361,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 
 	}
 
-	// ======================================================Click
-	// listeners==================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -431,7 +421,6 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);

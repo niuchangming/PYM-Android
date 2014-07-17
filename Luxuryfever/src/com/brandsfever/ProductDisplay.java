@@ -461,7 +461,6 @@ public class ProductDisplay extends FragmentActivity implements
 			break;
 		
 		case R.id.btn_support:
-			Log.d(TAG, "support is clicked.");
 			Intent support = new Intent(ProductDisplay.this,SupportActivity.class);
 			startActivity(support);
 			_all.setTextColor(colors);

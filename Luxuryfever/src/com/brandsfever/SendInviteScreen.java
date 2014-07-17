@@ -241,7 +241,6 @@ public class SendInviteScreen extends FragmentActivity implements
 	public void onItemClick(AdapterView<?> adapter, View _view, int position,
 			long arg3) {
 		_email = _storeEmails.get(position);
-		System.out.println("my email is" + _email);
 		_InitializePopup();
 	}
 
@@ -314,7 +313,6 @@ public class SendInviteScreen extends FragmentActivity implements
 			_namevalueList.add(_apply_action);
 			_namevalueList.add(_store_credits);
 			_ResponseFromServer = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -351,7 +349,6 @@ public class SendInviteScreen extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -423,7 +420,6 @@ public class SendInviteScreen extends FragmentActivity implements
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -506,7 +502,6 @@ public class SendInviteScreen extends FragmentActivity implements
 
 	}
 
-	// *******************************************************************************************************************//
 	public void _ResponsePopup() {
 		LayoutInflater inflater = getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
@@ -519,7 +514,6 @@ public class SendInviteScreen extends FragmentActivity implements
 		toast.show();
 	}
 
-	// ***************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
 		Intent i = new Intent(SendInviteScreen.this, InviteSction_Screen.class);

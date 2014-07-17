@@ -851,9 +851,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				System.out.println("invalid user");
-			}
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

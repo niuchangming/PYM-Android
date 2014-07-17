@@ -61,7 +61,6 @@ public class StoreCreditWindow extends DialogFragment implements
 		View view = inflater.inflate(R.layout.activity_dialog_fragment_window,
 				container);
 		_lctx = this;
-		System.out.println("log is" + getActivity().getClass());
 		_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
 		cancel_dialouge = (Button) view.findViewById(R.id.cancel_dialouge);
 		cancel_dialouge.setOnClickListener(this);		
@@ -81,10 +80,8 @@ public class StoreCreditWindow extends DialogFragment implements
 				StoreCreditDetails _Sc = PaymentScreen._storeCredits.get(position);
 				String getpk = _Sc.getPk();
 				double getcreditamount = Double.parseDouble(_Sc.getAmount());
-				System.out.println("amount is" + getcreditamount);
 				DataHolderClass.getInstance().set_creditAmount(getcreditamount);
 				DataHolderClass.getInstance().set_creditpk(getpk);
-				System.out.println("pk is"+getpk);
 				new UseStoreCredit().execute();
 				dismiss();
 				startActivity(getActivity().getIntent());
@@ -107,7 +104,6 @@ public class StoreCreditWindow extends DialogFragment implements
 		}
 
 	}
-	//===========================================================================================================================//
 	private class CreditAdapter extends BaseAdapter{
 		private Context mContext;
 	    LayoutInflater inflater;
@@ -155,7 +151,6 @@ public class StoreCreditWindow extends DialogFragment implements
 			
 			StoreCreditDetails _Sc = _data.get(position);
 			if(_Sc.getIs_redeemable().equals("true")){
-				System.out.println("get"+_Sc.getIs_redeemable());
 				_grantedby.setText(_Sc.getGranted_by());
 				Double _tot=Double.valueOf(_Sc.getAmount());
 				_amount.setText("S$"+String.valueOf(_tot)+"0");
@@ -167,7 +162,6 @@ public class StoreCreditWindow extends DialogFragment implements
 		}
 		
 	}
-	//=========================================================================================================================//
 	class UseStoreCredit extends AsyncTask<String, String, String> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
 		@Override
@@ -212,12 +206,10 @@ public class StoreCreditWindow extends DialogFragment implements
 		}		
 		@Override
 		protected void onPostExecute(String result) {	
-			System.out.println("");
 			mProgressHUD.dismiss();
 		}
 		
 	}	
-	//==========================================================================================================================//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;		
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -228,7 +220,6 @@ public class StoreCreditWindow extends DialogFragment implements
         		_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList, HTTP.UTF_8));
 			    HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			    int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			    Log.i("--------------Responsecode----------", "." + _responsecode);
 			    if (_responsecode == 200) {
                     InputStream _inputstream = _httpresponse.getEntity().getContent();
                     BufferedReader r = new BufferedReader(new InputStreamReader(_inputstream));

@@ -152,7 +152,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 						try {
 							jsonObj = Util.parseJson(facebook
 									.request("me/friends"));
-							System.out.println("value show" + jsonObj);
 						} catch (FacebookError e) {
 							e.printStackTrace();
 						}
@@ -262,7 +261,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				System.out.println("value is");
 			}
 		});
 		editText1.addTextChangedListener(new TextWatcher() {
@@ -409,7 +407,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 								boolean isChecked) {
 							int getPosition = (Integer) buttonView.getTag(); 
 						    _fbid= faceclassobj.get(getPosition).getId();
-						    System.out.println("fb id is" + _fbid);
 						}
 					});
 			holder.name.setOnClickListener(new OnClickListener() {
@@ -482,7 +479,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		public void onComplete(final String response) {
 			mRunOnUi.post(new Runnable() {
 				public void run() {
-					System.out.println("i m here in fb");
 					new sendinvitaions().execute();
 				}
 			});
@@ -533,7 +529,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = httpclient.execute(httppost);
 				jsonrsultdata = EntityUtils.toString(response.getEntity());
-				System.out.println("value show is" + jsonrsultdata);
 
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -563,7 +558,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			dlog.cancel();
 		}
 	}
-  //**************************************************************************************************************************//  
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -580,7 +574,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			break;
 		}
 	}
-	//************************************************************************************************************************//
 	public void _ResponsePopup() {
 		LayoutInflater inflater = getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
@@ -592,7 +585,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		toast.setView(view);
 		toast.show();
 	}
-	//********************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
 		Intent _s = new Intent(GetFacebookData.this,InviteSction_Screen.class);

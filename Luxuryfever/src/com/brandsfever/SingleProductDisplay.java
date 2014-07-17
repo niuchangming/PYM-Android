@@ -714,9 +714,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 							_sizechartvalue.add(_singleobjs);
 						}
 
-					} else {
-						System.out.println("error");
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1214,7 +1212,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
 			_cartResponse = _AddProduct(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _cartResponse);
 			return null;
 		}
 
@@ -1271,7 +1268,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -1344,7 +1340,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
 			_cartResponse = _AddProduct(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _cartResponse);
 			return null;
 		}
 
@@ -1372,7 +1367,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 					Intent _bn = new Intent(_ctx, MyCartScreen.class);
 					startActivity(_bn);
 					finish();
-				} else {// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				} else {
 					String _msg = jobj.getString("msg");
 					LayoutInflater inflater = getLayoutInflater();
 					View view = inflater.inflate(R.layout.error_popop,
@@ -1529,10 +1524,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 				params.putString("name", desc.getText().toString());
 				params.putString("link", "https://www.brandsfever.com");
 				params.putString("description", "Svv");
-				/*
-				 * Resources res = getResources(); Drawable drawable =
-				 * res.getDrawable(R.drawable.fbicon);
-				 */
 				Bitmap bitmap;
 				if (facebook_bit_map == null) {
 					bitmap = BitmapFactory.decodeResource(getResources(),
@@ -1587,10 +1578,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			mRunOnUi.post(new Runnable() {
 				public void run() {
 
-					/*
-					 * Toast.makeText(MainActivity.this, "Posted to Facebook",
-					 * Toast.LENGTH_SHORT).show();
-					 */
 				}
 			});
 		}
@@ -1696,7 +1683,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 
 		protected String doInBackground(String... args) {
-			Log.d("Tweet Text", "> " + args[0]);
 			String status = args[0];
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -1709,7 +1695,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 				InputStream is = new ByteArrayInputStream(bitmapdata);
 				ad.setMedia("BrandsFever", is);
 				twitter4j.Status responses = mTwitter.updateStatus(ad);
-				// Log.d("Status", "> " + response.getText());
 			} catch (TwitterException e) {
 
 				Log.d("Twitter Update Error", e.getMessage());

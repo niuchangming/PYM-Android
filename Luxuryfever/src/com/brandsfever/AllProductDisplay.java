@@ -58,7 +58,6 @@ public class AllProductDisplay extends Fragment {
 		} else if (a >= 9) {
 			_view = (ViewGroup) inflater.inflate(
 					R.layout.ten_inch_all_products, null);
-			System.out.println("in ten inch");
 		}
 		all_products = (ListView) _view.findViewById(R.id.all_product_list);
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);

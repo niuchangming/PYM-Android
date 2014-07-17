@@ -57,7 +57,6 @@ public class ShoesProductDisplay extends Fragment {
 		} else if (a >= 9) {
 			_view = (ViewGroup) inflater.inflate(
 					R.layout.ten_inch_men_product_display, null);
-			System.out.println("in ten inch");
 		}
 		men_product_list = (ListView) _view.findViewById(R.id.men_product_list);
 		_scrollup = (Button) _view.findViewById(R.id.scrolldown);
@@ -375,7 +374,6 @@ public class ShoesProductDisplay extends Fragment {
 				itemView = inflater.inflate(
 						R.layout.ten_inch_product_display_inflator, parent,
 						false);
-				System.out.println("in ten inch");
 			}
 			t = (TextView) itemView.findViewById(R.id.t);
 			ends_in = (TextView) itemView.findViewById(R.id.set_time);

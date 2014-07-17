@@ -108,7 +108,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
 
-		System.out.println(_getToken + _getuserId);
 
 		edit_my_profile = (TextView) findViewById(R.id.edit_my_profile);
 		mob_text = (TextView) findViewById(R.id.mob_text);
@@ -252,7 +251,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 				_zender_pop.dismiss();
 			} else {
 				// please select zender image toast
-				System.out.println("zender is null or blank;");
 			}
 
 			break;
@@ -333,7 +331,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -341,13 +338,11 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
 					startActivity(_tabsetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
 					startActivity(_tabsetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -437,7 +432,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 
 	}
 
-	/**********************************************************************************************************************/
 
 	public void FillZenderPopup() {
 		try {
@@ -475,7 +469,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ============================================================================================================================//
 	class GetUserProfile extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -499,7 +492,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 					+ _getuserId + "&token=" + _getToken;
-			System.out.println("url is" + _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -525,7 +517,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					_zender.setText(Ugender);
 				} else {
 					_zender.setText("");
-					System.out.println("i am in else");
 				}
 				if (!(Umno.equalsIgnoreCase("null"))) {
 					_mobileno.setText(Umno);
@@ -576,8 +567,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -589,12 +578,10 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONObject obj1 = obj.getJSONObject("profile");
 						Ufname = obj1.getString("first_name");
@@ -606,7 +593,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 						Ugender = obj1.getString("gender");
 						Uemail = obj1.getString("email");
 						if (Urupdates.equalsIgnoreCase("true")) {
-							System.out.println("pankaj");
 							_checkbox1.setChecked(true);
 						} else {
 
@@ -626,7 +612,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	/********************************************************************************************************************/
 	class SaveEditedinfo extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -654,7 +639,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _url = "https://www.brandsfever.com/api/v5/profiles/"
 					+ _getuserId + "/";
-			System.out.println(_url);
 			String firstname = _firstname.getText().toString();
 			String lastname = _lastname.getText().toString();
 			String gender = _zender.getText().toString();
@@ -672,9 +656,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 				_checktwo = "false";
 			}
 
-			System.out.println("parameters are" + firstname + "" + lastname
-					+ "" + _zender + "" + birthdate + "" + _checkone + ""
-					+ _checktwo + _getToken + "" + _getuserId);
 
 			BasicNameValuePair _fname = new BasicNameValuePair("first_name",
 					firstname);
@@ -706,10 +687,7 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			if (firstname.length() > 0 && lastname.length() > 0
 					&& !(_getuserId == null)) {
 				_EditResponse = _SendEditedInfo(_url, _namevalueList);
-				Log.e("===RESPONSE====>", "===RESPONSE====>" + _EditResponse);
-			} else {
-				System.out.println("pankaj");
-			}
+			} 
 			return null;
 		}
 
@@ -739,7 +717,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// =================================================================================================================//
 	public String _SendEditedInfo(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -751,7 +728,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(_inputstream));
@@ -776,7 +752,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		return _Response;
 	}
 
-	// ==================================================================================================================//
 	
 	public void _ResponsePopup() {
 		View view = View.inflate(getBaseContext(),R.layout.error_popop, null);
@@ -791,7 +766,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 	
 	
 	
-	// ==================================================================================================================//
 	@Override
 	public void onBackPressed() {
 		finish();

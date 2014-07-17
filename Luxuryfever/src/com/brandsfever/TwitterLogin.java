@@ -32,7 +32,6 @@ public class TwitterLogin extends Activity {
                 boolean result = true;
                 if (url != null && url.startsWith(Const.CALLBACK_URL)) {
                     Uri uri = Uri.parse(url);
-                    Log.v(TAG, url);
                     if (uri.getQueryParameter("denied") != null) {
                         setResult(RESULT_CANCELED);
                         finish();

@@ -226,10 +226,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 			break;
 
 		case R.id.call_customer_care:
-			/*Intent callIntent = new Intent(Intent.ACTION_CALL);
-			callIntent.setData(Uri.parse("tel:" + "+6588456088"));
-			callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(callIntent);*/
 			_directCall();
 			break;
 
@@ -344,7 +340,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -487,7 +482,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		if (type == 1) {
 			mFacebook.authorizeCallback(requestCode, resultCode, data);
 		} else if (type == 2) {
-			System.out.println("twitter enter");
 
 			if (resultCode == RESULT_OK) {
 				AccessToken accessToken = null;
@@ -638,10 +632,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 			mRunOnUi.post(new Runnable() {
 				public void run() {
 
-					/*
-					 * Toast.makeText(MainActivity.this, "Posted to Facebook",
-					 * Toast.LENGTH_SHORT).show();
-					 */
 				}
 			});
 		}
@@ -676,10 +666,8 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		System.out.println("twitter share-main--");
 		post = li.inflate(R.layout.twitterialogsettings, null);
 		final EditText t1;
-		// ImageView i=(ImageView) post.findViewById(R.id.imageView3);
 		t1 = (EditText) post.findViewById(R.id.textView0);
 
-		// t1.setText("Messege:Deemz");
 		final ImageView back = (ImageView) post.findViewById(R.id.imageView1);
 		final ImageView post1 = (ImageView) post.findViewById(R.id.imageView2);
 		final ImageView post_image = (ImageView) post
@@ -709,7 +697,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		back.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 			}
 		});
@@ -717,7 +704,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		post1.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mDialog.dismiss();
 				twitedata = t1.getText().toString();
 				new updateTwitterStatus().execute("helloooo");
@@ -743,7 +729,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		}
 
 		protected String doInBackground(String... args) {
-			Log.d("Tweet Text", "> " + args[0]);
 			String status = args[0];
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -756,7 +741,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 				InputStream is = new ByteArrayInputStream(bitmapdata);
 				ad.setMedia("BrandsFever", is);
 				twitter4j.Status responses = mTwitter.updateStatus(ad);
-				// Log.d("Status", "> " + response.getText());
 			} catch (TwitterException e) {
 
 				Log.d("Twitter Update Error", e.getMessage());
@@ -782,7 +766,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		finish();
 	}
 }

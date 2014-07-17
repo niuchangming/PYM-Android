@@ -57,7 +57,6 @@ public class HandbagsProductDisplay extends Fragment {
 		} else if (a >= 9) {
 			_view = (ViewGroup) inflater.inflate(
 					R.layout.ten_inch_woman_product_display, null);
-			System.out.println("in ten inch");
 		}
 		woman_product_list = (ListView) _view
 				.findViewById(R.id.woman_product_list);
@@ -373,7 +372,6 @@ public class HandbagsProductDisplay extends Fragment {
 				itemView = inflater.inflate(
 						R.layout.ten_inch_product_display_inflator, parent,
 						false);
-				System.out.println("in ten inch");
 			}
 			t = (TextView) itemView.findViewById(R.id.t);
 			ends_in = (TextView) itemView.findViewById(R.id.set_time);
@@ -468,7 +466,6 @@ public class HandbagsProductDisplay extends Fragment {
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
 		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-		    System.out.println("start date is" + start_date);
 			
 			String _from =  Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"

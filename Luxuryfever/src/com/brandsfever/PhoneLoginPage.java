@@ -392,8 +392,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 						String a = me.getString("name");
 						String b = me.getString("email");
 						_userFBemail = b;
-						Log.d(TAG, a);
-						Log.d(TAG, b);
 
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -450,7 +448,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			_namevalueList.add(_socailemail);
 			_SocailResponseFromServer = SendData(url_socaillogin,_namevalueList);
-			Log.d(TAG,_SocailResponseFromServer);
 			return null;
 		}
 
@@ -519,7 +516,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="+ _id + "&token=" + mtoken;
-			Log.d(TAG, _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -528,7 +524,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			try {
 				JSONObject obj = new JSONObject(_content);
 				String ret = obj.getString("ret");
-				Log.d(TAG, ret);
 				if (ret.equals("0")) {
 					JSONObject obj1 = obj.getJSONObject("profile");
 							
@@ -573,7 +568,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					total.append(line);
 				}
 				 _content = total.toString();
-				 Log.d(TAG, _content);
 
 			}
 		} catch (Exception e) {
@@ -632,7 +626,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			_namevalueList.add(_socailemail);
 			_ResetResponseFromServer = SendData(_resetP,_namevalueList);
-			Log.d(TAG, _ResetResponseFromServer);
 			return null;
 		}
 

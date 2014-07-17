@@ -276,8 +276,6 @@ public class People_I_Invited extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -289,7 +287,6 @@ public class People_I_Invited extends FragmentActivity implements
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println(_content);
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
@@ -304,8 +301,6 @@ public class People_I_Invited extends FragmentActivity implements
 						while (iters.hasNext()) {
 							String key = (String) iters.next();
 							String value = _facebookpending.getString(key);
-							System.out.println(" facebook values are" + key
-									+ value);
 							InvitePeopleInfo _ipi = new InvitePeopleInfo();
 							_ipi.set_fbId(key);
 							_ipi.set_fbNo(value);
@@ -327,7 +322,6 @@ public class People_I_Invited extends FragmentActivity implements
 						while (iter.hasNext()) {
 							String key = (String) iter.next();
 							String value = _pendingemail.getString(key);
-							System.out.println("values are" + key + value);
 							InvitePeopleInfo _ipl = new InvitePeopleInfo();
 							_ipl.set_PendingInvitedEmail(key);
 							_ipl.set_NumOfPendingInvitations(value);
@@ -428,8 +422,6 @@ public class People_I_Invited extends FragmentActivity implements
 					int getPosition = (Integer) buttonView.getTag();
 					InvitePeopleInfo _obj = data.get(getPosition);
 					_reinviteEmail = _obj.get_PendingInvitedEmail();
-					System.out.println("my email is" + _reinviteEmail);
-					System.out.println("pos is" + getPosition);
 					setCheckedButton(position);
 				}
 
@@ -624,7 +616,6 @@ public class People_I_Invited extends FragmentActivity implements
 				slide_me.setEnabled(true);
 				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
 					startActivity(_phonesetting);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -730,7 +721,6 @@ public class People_I_Invited extends FragmentActivity implements
 
 	}
 
-	// ******************************************************************************************************************//
 	class SendReInvite extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -772,7 +762,6 @@ public class People_I_Invited extends FragmentActivity implements
 			_namevalueList.add(_apply_action);
 			_namevalueList.add(_store_credits);
 			_ResponseFromServer = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -802,7 +791,6 @@ public class People_I_Invited extends FragmentActivity implements
 
 	}
 
-	// *************************************************************************************************************************//
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -814,7 +802,6 @@ public class People_I_Invited extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();

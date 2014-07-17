@@ -149,7 +149,6 @@ public class SupportActivity extends FragmentActivity {
 						SubmitSupport submit = new SubmitSupport();
 						submit.execute(nameValuePairs);
 					}
-//					getActivity().getFragmentManager().beginTransaction().remove(SupportFragment.this).commit();
 				}
 			});
 			
@@ -288,7 +287,6 @@ public class SupportActivity extends FragmentActivity {
 					mSideDrawer.setEnabled(true);
 					if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 						Intent _phonesetting = new Intent(SupportActivity.this, SettingPhone.class);
-						System.out.println("in phone");
 						startActivity(_phonesetting);
 						overridePendingTransition(R.anim.push_out_to_right,
 								R.anim.push_out_to_left);
@@ -296,13 +294,11 @@ public class SupportActivity extends FragmentActivity {
 					} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 							&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 						Intent _tabsetting = new Intent(SupportActivity.this, SettingTab.class);
-						System.out.println("in 7 inch tab");
 						startActivity(_tabsetting);
 						overridePendingTransition(R.anim.push_out_to_right,
 								R.anim.push_out_to_left);
 					} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 						Intent _tabsetting = new Intent(SupportActivity.this, SettingTab.class);
-						System.out.println("in 10 inch tab");
 						startActivity(_tabsetting);
 						overridePendingTransition(R.anim.push_out_to_right,
 								R.anim.push_out_to_left);
@@ -367,8 +363,6 @@ public class SupportActivity extends FragmentActivity {
 					startActivity(_gotocart);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
-				} else {
-
 				}
 				break;
 
