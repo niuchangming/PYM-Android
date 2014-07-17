@@ -663,7 +663,6 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 		View post = null;
 
 		LayoutInflater li = LayoutInflater.from(getApplicationContext());
-		System.out.println("twitter share-main--");
 		post = li.inflate(R.layout.twitterialogsettings, null);
 		final EditText t1;
 		t1 = (EditText) post.findViewById(R.id.textView0);

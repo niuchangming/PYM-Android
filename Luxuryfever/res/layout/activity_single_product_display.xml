@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"    
     android:id="@+id/parentlayout"
-    android:background="@drawable/bg"
+    android:background="@color/background"
     tools:context=".SingleProductDisplay" >
 
     <RelativeLayout

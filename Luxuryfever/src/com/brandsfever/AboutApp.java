@@ -82,7 +82,6 @@ public class AboutApp extends FragmentActivity implements OnClickListener {
 
 		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
 		String _username = _mypref.getString("_UserName", null);
-		System.out.println("user name is" + _username);
 		if (!(_username == null)) {
 			set_user_name.setTypeface(_font);
 			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
