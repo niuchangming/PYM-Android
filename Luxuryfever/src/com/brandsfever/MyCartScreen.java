@@ -227,9 +227,11 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		@Override
 		protected String doInBackground(String... arg0) {
 			Orderinfo.clear();
-			String _url = "https://www.brandsfever.com/api/v5/carts/?user_id="
-					+ _getuserId + "&token=" + _getToken;
-			GetCarts(_url);
+			
+			String url = "https://www.brandsfever.com/api/v5/carts/?user_id="
+					+ _getuserId + "&token=" + _getToken + "&channel=" + 
+				getApplicationContext().getResources().getString(R.string.channel_code);
+			GetCarts(url);
 			return null;
 		}
 
@@ -722,10 +724,12 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/carts/";
+			String url = "https://www.brandsfever.com/api/v5/carts/";
 			String _userid = _getuserId;
 			String _token = _getToken;
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
+			String channelCodeStr = getApplicationContext().getResources().getString(R.string.channel_code);
+			
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair userid = new BasicNameValuePair("user_id",
 					_userid);
 			BasicNameValuePair token = new BasicNameValuePair("token", _token);
@@ -735,12 +739,16 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 					_urQUAN);
 			BasicNameValuePair itempk = new BasicNameValuePair(
 					"product_item_pk", _urPK);
-			_namevalueList.add(userid);
-			_namevalueList.add(token);
-			_namevalueList.add(action);
-			_namevalueList.add(quantity);
-			_namevalueList.add(itempk);
-			_updateResponse = _UPDATEProduct(_url, _namevalueList);
+			BasicNameValuePair channelCode = new BasicNameValuePair("channel",channelCodeStr);
+			
+			namevalueList.add(userid);
+			namevalueList.add(token);
+			namevalueList.add(action);
+			namevalueList.add(quantity);
+			namevalueList.add(itempk);
+			namevalueList.add(channelCode);
+			
+			_updateResponse = _UPDATEProduct(url, namevalueList);
 			return null;
 		}
 

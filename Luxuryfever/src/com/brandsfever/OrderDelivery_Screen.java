@@ -552,7 +552,7 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _createCartUrl = "https://www.brandsfever.com/api/v5/orders/";
+			String _createCartUrl = "https://www.brandsfever.com/api/v5/orders/luxury/app/";
 			String _sendCartpk = DataHolderClass.getInstance()
 					.getFinal_cart_pk();
 			BasicNameValuePair _senduser_id = new BasicNameValuePair("user_id",

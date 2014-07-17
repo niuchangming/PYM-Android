@@ -1195,7 +1195,8 @@ public class SingleProductDisplay extends FragmentActivity implements
 			String _Quantity = set_quantity.getSelectedItem().toString();
 			String _itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
-
+			String channelCodeStr = getApplicationContext().getResources().getString(R.string.channel_code);
+					
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair userid = new BasicNameValuePair("user_id",
 					_userid);
@@ -1206,11 +1207,13 @@ public class SingleProductDisplay extends FragmentActivity implements
 					_Quantity);
 			BasicNameValuePair itempk = new BasicNameValuePair(
 					"product_item_pk", _itemPk);
+			BasicNameValuePair channelCode = new BasicNameValuePair("channel",channelCodeStr);
 			_namevalueList.add(userid);
 			_namevalueList.add(token);
 			_namevalueList.add(action);
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
+			_namevalueList.add(channelCode);
 			_cartResponse = _AddProduct(_url, _namevalueList);
 			return null;
 		}
@@ -1323,7 +1326,8 @@ public class SingleProductDisplay extends FragmentActivity implements
 			String _Quantity = set_quantity.getSelectedItem().toString();
 			String _itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
-
+			String channelCodeStr = getApplicationContext().getResources().getString(R.string.channel_code);
+			
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair userid = new BasicNameValuePair("user_id",
 					_userid);
@@ -1334,11 +1338,14 @@ public class SingleProductDisplay extends FragmentActivity implements
 					_Quantity);
 			BasicNameValuePair itempk = new BasicNameValuePair(
 					"product_item_pk", _itemPk);
+			BasicNameValuePair channelCode = new BasicNameValuePair("channel",channelCodeStr);
 			_namevalueList.add(userid);
 			_namevalueList.add(token);
 			_namevalueList.add(action);
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
+			_namevalueList.add(channelCode);
+			
 			_cartResponse = _AddProduct(_url, _namevalueList);
 			return null;
 		}
