@@ -26,7 +26,7 @@
     <string name="title_activity_payment_screen">PaymentScreen</string>
     <string name="title_activity_pay_with_paypal__screen">PayWithPaypal_Screen</string>
     <string name="title_activity_invite_sction__screen">InviteSction_Screen</string>
-    <string name="fbid">802825129743307</string>
+    <string name="fbid">258159454367798</string>
     <string name="Qty_prompt">Quantity</string>
 
     <string-array name="Qty_arrays">
