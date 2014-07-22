@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.adapter.PhoneLoginPager;
 import com.brandsfever.luxury.R;
 import com.dataholder.DataHolderClass;
@@ -35,14 +37,16 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	Typeface _font;
 	EditText dummy;
 	InputMethodManager imm;
-		
+	
+	PhoneLoginPage mPhoneLogin;
+	PhoneSignupPage mPhoneSignup;
+	
 	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
 		
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 			setContentView(R.layout.activity_phone_login_screen);
@@ -58,7 +62,6 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		close_login_page.setOnClickListener(this);
 		
 		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			
 		
 		textView1 = (TextView)findViewById(R.id.textView1);
 		dummy=(EditText)findViewById(R.id.editText1);
@@ -139,6 +142,27 @@ public class PhoneLoginScreen extends FragmentActivity implements
 
 	}
 
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		super.onAttachFragment(fragment);
+		
+		String fragmentName = fragment.getClass().getSimpleName();
+		if (fragmentName.equals("PhoneLoginPage")){
+			mPhoneLogin = (PhoneLoginPage)fragment;
+		} else if (fragmentName.equals("PhoneSignupPage")){
+			mPhoneSignup = (PhoneSignupPage)fragment;
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (mPhoneLogin != null)
+			mPhoneLogin.onActivityResult(requestCode, resultCode, data);
+		if (mPhoneSignup != null)
+			mPhoneSignup.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	public void _ChangeTabs() {
        findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
 		findViewById(R.id.second_tab).setVisibility(View.VISIBLE);

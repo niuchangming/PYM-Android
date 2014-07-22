@@ -328,25 +328,21 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		return _Response;
 	}
 
-	public void onActivityResult(int requestCode, int resultCode,
-			final Intent data) {
-
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		facebook.authorizeCallback(requestCode, resultCode, data);
-
 	}
 
 	public final class LoginDialogListener implements DialogListener {
+		
 		public void onComplete(Bundle values) {
 			try {
-
 				SessionStore.save(facebook, getActivity());
 				facebook();
 			} catch (Exception error) {
 				error.printStackTrace();
 
 			}
-
 		}
 
 		public void onCancel() {
@@ -385,22 +381,17 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-
-					try {
-
-						JSONObject me = new JSONObject(facebook.request("me"));
-						String a = me.getString("name");
-						String b = me.getString("email");
-						_userFBemail = b;
-
-					} catch (JSONException e) {
+					JSONObject me = new JSONObject(facebook.request("me"));
+					String a = me.getString("name");
+					String b = me.getString("email");
+					_userFBemail = b;
+				} catch (JSONException e) {
 						e.printStackTrace();
-					}
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+				} 
 				return null;
 			}
 
@@ -434,13 +425,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			super.onPreExecute();
 
 		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
-
-		}
-
+		
 		@Override
 		protected String doInBackground(String... params) {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
@@ -487,6 +472,12 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				e.printStackTrace();
 			}
 			mProgressHUD.dismiss();
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 
@@ -631,9 +622,8 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-		
-			
 		}
+		
 		@Override
 		protected void onPostExecute(String result) {
 			try {

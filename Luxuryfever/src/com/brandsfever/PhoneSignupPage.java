@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -18,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,6 +57,9 @@ import com.facebook.android.SessionStore;
 import com.facebook.android.Facebook.DialogListener;
 
 public class PhoneSignupPage extends Fragment implements OnClickListener {
+	
+	private static final String TAG = "PhoneSignupPage";
+	
 	EditText first_name, last_name, email_address, choose_password;
 	Typeface _font;
 	ImageButton signup_btn, signup_with_fb_btn;
@@ -377,25 +382,21 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		return _RResponse;
 	}
 
-	public void onActivityResult(int requestCode, int resultCode,
-			final Intent data) {
-
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i(TAG, "onActivityResult");
 		super.onActivityResult(requestCode, resultCode, data);
 		facebook.authorizeCallback(requestCode, resultCode, data);
-
 	}
 
 	public final class LoginDialogListener implements DialogListener {
+		
 		public void onComplete(Bundle values) {
 			try {
-
 				SessionStore.save(facebook, getActivity());
 				facebook();
 			} catch (Exception error) {
 				error.printStackTrace();
-
 			}
-
 		}
 
 		public void onCancel() {
@@ -426,21 +427,16 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				JSONObject jsonObj = null;
 				try {
-
-					try {
-
-						JSONObject me = new JSONObject(facebook.request("me"));
-						String a = me.getString("name");
-						String b = me.getString("email");
-						_userFBemail = b;
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
+					JSONObject me = new JSONObject(facebook.request("me"));
+					String a = me.getString("name");
+					String b = me.getString("email");
+					_userFBemail = b;
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (JSONException e){
 					e.printStackTrace();
 				}
 				return null;
@@ -512,17 +508,9 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					prefsEditor.commit();
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						mProgressHUD.dismiss();
-						try {
-							((PhoneLoginScreen) getActivity()).refreshPage();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					    }else {
-						// server response print
-					    }
-				   }else{
-					
-				   }
+						((PhoneLoginScreen) getActivity()).refreshPage();
+					}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
