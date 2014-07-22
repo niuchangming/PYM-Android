@@ -35,10 +35,10 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	Typeface _font;
 	EditText dummy;
 	InputMethodManager imm;
+		
 	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -150,21 +150,16 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		textView1.setTextColor(colors);
 	}
 	
-	
-	//=======================================Hide the softkeypad in fragments================================================//
-	
-		public static void closeKeyboard(Context c, IBinder windowToken) {
-		    InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
-		    mgr.hideSoftInputFromWindow(windowToken, 0);
-		}
+	public static void closeKeyboard(Context c, IBinder windowToken) {
+		InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+		mgr.hideSoftInputFromWindow(windowToken, 0);
+	}
 
-	// =======================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.close_login_page:
 			PhoneLoginScreen.this.finish();
-			//overridePendingTransition(0, R.anim.puch_login_down);
 			overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
 			break;
 			
