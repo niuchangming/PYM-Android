@@ -269,9 +269,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 		_getToken = _mypref.getString("TOKEN", null);
 
 		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setText(_username);
+		String username = _mypref.getString("_UserName", null);
+		if (username != null) {
+			set_user_name.setText("Hi! "+username);
 		} else {
 			set_user_name.setText("Hi! Guest");
 		}

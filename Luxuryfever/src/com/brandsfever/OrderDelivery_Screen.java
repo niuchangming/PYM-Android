@@ -156,12 +156,12 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		slide_me.setLeftBehindContentView(R.layout.menu_bar);
 		slide_me.setBackgroundColor(Color.parseColor("#000000"));
 		
-		TextView set_user_name = (TextView)findViewById(R.id.set_user_name);
-		String _username = _mypref .getString("_UserName", null);
-		if(!(_username==null)){
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		}else{
+		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
+		String username = _mypref.getString("_UserName", null);
+        set_user_name.setTypeface(_font);
+		if (username != null) {
+			set_user_name.setText("Hi! "+username);
+		} else {
 			set_user_name.setText("Hi! Guest");
 		}
 

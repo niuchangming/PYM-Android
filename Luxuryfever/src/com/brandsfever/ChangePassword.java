@@ -131,10 +131,10 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		slide_me.setBackgroundColor(Color.parseColor("#000000"));
 
 		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(mFont);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
+		String username = _mypref.getString("_UserName", null);
+        set_user_name.setTypeface(mFont);
+		if (username != null) {
+			set_user_name.setText("Hi! "+username);
 		} else {
 			set_user_name.setText("Hi! Guest");
 		}

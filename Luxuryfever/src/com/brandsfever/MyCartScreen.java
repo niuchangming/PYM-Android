@@ -128,10 +128,10 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		main_menu.setOnClickListener(this);
 
 		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
+		String username = _mypref.getString("_UserName", null);
+        set_user_name.setTypeface(_font);
+		if (username != null) {
+			set_user_name.setText("Hi! "+username);
 		} else {
 			set_user_name.setText("Hi! Guest");
 		}
