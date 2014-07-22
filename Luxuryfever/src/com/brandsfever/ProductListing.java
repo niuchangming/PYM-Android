@@ -475,7 +475,9 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 							mProductList.add(listmodel);
 						}
 					} else {
+                        Toast.makeText(_ctx, msgs, Toast.LENGTH_LONG).show();
 						Log.e(TAG,"error");
+						finish();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
