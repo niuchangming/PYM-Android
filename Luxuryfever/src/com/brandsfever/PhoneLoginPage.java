@@ -69,7 +69,10 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 	private String _ResponseFromServer, _SocailResponseFromServer,_ResetResponseFromServer;
 	Facebook facebook;
 	private Typeface _font;
-	private	String _userFBemail;
+	private	String mFBEmail;
+	private String mFBFirstName;
+	private String mFBLastName;
+	private String mFBGender;
 	private TextView _seterrormsg;
 	private String _msg;
 	private String _content;
@@ -193,17 +196,12 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			((PhoneLoginScreen) getActivity())._ChangeTabs();
 			break;
 		case R.id.phone_fb_login:
-			if (!facebook.isSessionValid()) {
-				Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
-						.show();
-				facebook.authorize(getActivity(), new String[] {
-						"publish_stream", "email", "user_groups",
-						"read_stream", "user_about_me", "offline_access" }, 1,
-						new LoginDialogListener());
-
-			} else {
-				facebook();
-			}
+			Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
+					.show();
+			facebook.authorize(getActivity(), new String[] {
+					"publish_stream", "email", "user_groups",
+					"read_stream", "user_about_me", "offline_access" }, 1,
+					new LoginDialogListener());
 			break;
 
 		default:
@@ -382,9 +380,13 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			protected Void doInBackground(Void... params) {
 				try {
 					JSONObject me = new JSONObject(facebook.request("me"));
-					String a = me.getString("name");
-					String b = me.getString("email");
-					_userFBemail = b;
+					mFBFirstName = me.getString("first_name");
+					mFBLastName = me.getString("last_name");
+					mFBEmail = me.getString("email");
+					mFBGender = me.getString("gender");
+					if (mFBGender != null) { // convert "male" to "M" and "female" to "F"
+						mFBGender = ""+mFBGender.toUpperCase().charAt(0);
+					}
 				} catch (JSONException e) {
 						e.printStackTrace();
 				} catch (MalformedURLException e) {
@@ -429,10 +431,17 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
-			BasicNameValuePair _socailemail = new BasicNameValuePair("email",_userFBemail);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_socailemail);
-			_SocailResponseFromServer = SendData(url_socaillogin,_namevalueList);
+			BasicNameValuePair socailemail = new BasicNameValuePair("email",mFBEmail);
+			BasicNameValuePair firstName = new BasicNameValuePair("first_name",mFBFirstName);
+			BasicNameValuePair lastName = new BasicNameValuePair("last_name",mFBLastName);
+			BasicNameValuePair gender = new BasicNameValuePair("gender",mFBGender);
+			
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(socailemail);
+			namevalueList.add(firstName);
+			namevalueList.add(lastName);
+			namevalueList.add(gender);
+			_SocailResponseFromServer = SendData(url_socaillogin,namevalueList);
 			return null;
 		}
 

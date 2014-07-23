@@ -67,7 +67,10 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	String _Fname, _Lname, _Password, _Email;
 	String _ResponseRegister, _SocailResponseFromServer;
 	SharedPreferences _mypref;
-	String _userFBemail;
+	String mFBEmail;
+	private String mFBFirstName;
+	private String mFBLastName;
+	private String mFBGender;
 	Facebook facebook;
 	ViewGroup root;
 	TextView _seterrormsg;
@@ -173,16 +176,12 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			break;
 
 		case R.id.signup_with_fb_btn:
-			if (!facebook.isSessionValid()) {
-				Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
-						.show();
-				facebook.authorize(getActivity(), new String[] {
-						"publish_stream", "email", "user_groups",
-						"read_stream", "user_about_me", "offline_access" }, 1,
-						new LoginDialogListener());
-			} else {
-				facebook();
-			}
+			Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
+					.show();
+			facebook.authorize(getActivity(), new String[] {
+					"publish_stream", "email", "user_groups",
+					"read_stream", "user_about_me", "offline_access" }, 1,
+					new LoginDialogListener());
 			break;
 
 		default:
@@ -429,9 +428,15 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			protected Void doInBackground(Void... params) {
 				try {
 					JSONObject me = new JSONObject(facebook.request("me"));
-					String a = me.getString("name");
-					String b = me.getString("email");
-					_userFBemail = b;
+					mFBFirstName = me.getString("first_name");
+					mFBLastName = me.getString("last_name");
+					mFBEmail = me.getString("email");
+					mFBGender = me.getString("gender");
+					
+					if(mFBGender != null){
+						mFBGender = ""+mFBGender.toUpperCase().charAt(0);
+					}
+					
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -483,12 +488,19 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
-			BasicNameValuePair _socailemail = new BasicNameValuePair("email",
-					_userFBemail);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_socailemail);
+			BasicNameValuePair socailemail = new BasicNameValuePair("email",
+					mFBEmail);
+			BasicNameValuePair firstName = new BasicNameValuePair("first_name",mFBFirstName);
+			BasicNameValuePair lastName = new BasicNameValuePair("last_name",mFBLastName);
+			BasicNameValuePair gender = new BasicNameValuePair("gender",mFBGender);
+			
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(socailemail);
+			namevalueList.add(firstName);
+			namevalueList.add(lastName);
+			namevalueList.add(gender);
 			_SocailResponseFromServer = RegisterUser(url_socaillogin,
-					_namevalueList);
+					namevalueList);
 			return null;
 		}
 
