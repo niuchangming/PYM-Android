@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -35,10 +36,13 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	Typeface _font;
 	EditText dummy;
 	InputMethodManager imm;
+	
+	PhoneLoginPage mPhoneLogin;
+	PhoneSignupPage mPhoneSignup;
+	
 	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -139,6 +143,27 @@ public class PhoneLoginScreen extends FragmentActivity implements
 
 	}
 
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		super.onAttachFragment(fragment);
+		
+		String fragmentName = fragment.getClass().getSimpleName();
+		if (fragmentName.equals("PhoneLoginPage")){
+			mPhoneLogin = (PhoneLoginPage)fragment;
+		} else if (fragmentName.equals("PhoneSignupPage")){
+			mPhoneSignup = (PhoneSignupPage)fragment;
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (mPhoneLogin != null)
+			mPhoneLogin.onActivityResult(requestCode, resultCode, data);
+		if (mPhoneSignup != null)
+			mPhoneSignup.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	public void _ChangeTabs() {
        findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
 		findViewById(R.id.second_tab).setVisibility(View.VISIBLE);
@@ -150,15 +175,11 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		textView1.setTextColor(colors);
 	}
 	
-	
-	//=======================================Hide the softkeypad in fragments================================================//
-	
 		public static void closeKeyboard(Context c, IBinder windowToken) {
 		    InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
 		    mgr.hideSoftInputFromWindow(windowToken, 0);
 		}
 
-	// =======================================================================================================================//
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
