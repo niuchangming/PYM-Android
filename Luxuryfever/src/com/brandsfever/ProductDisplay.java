@@ -68,7 +68,7 @@ public class ProductDisplay extends FragmentActivity implements
 			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	String catagory_name;
-	String _TabName;
+	String mTabName;
 	Bundle bundle;
 	TextView set_user_name;
 	public static ArrayList<ProductsDataModel> all_prdt = new ArrayList<ProductsDataModel>();
@@ -148,9 +148,9 @@ public class ProductDisplay extends FragmentActivity implements
 		colors = Integer.parseInt("ffffff", 16)+0xFF000000;
 
 		bundle = getIntent().getExtras();
-		_TabName = null;
+		mTabName = null;
 		if (bundle != null) {
-			_TabName = bundle.getString("tab");
+			mTabName = bundle.getString("tab");
 		}
 
 		mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
@@ -300,7 +300,6 @@ public class ProductDisplay extends FragmentActivity implements
 		updateSlidingMenu();
 	}
 	
-	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 		super.onSaveInstanceState(outState);
@@ -317,7 +316,7 @@ public class ProductDisplay extends FragmentActivity implements
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setOnPageChangeListener(this);
 		if (bundle != null) {
-			if (_TabName.equalsIgnoreCase("all")) {
+			if (mTabName.equalsIgnoreCase("all")) {
 				mViewPager.setCurrentItem(0);
 				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
 				_all.setTextColor(color);
@@ -327,7 +326,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
-			} else if (_TabName.equalsIgnoreCase("women")) {
+			} else if (mTabName.equalsIgnoreCase("women")) {
 				mViewPager.setCurrentItem(1);
 				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
 				_women.setTextColor(color);
@@ -337,7 +336,7 @@ public class ProductDisplay extends FragmentActivity implements
 				_mycart.setTextColor(colors);
 				mSupport.setTextColor(colors);
 				_invite.setTextColor(colors);
-			} else if (_TabName.equalsIgnoreCase("men")) {
+			} else if (mTabName.equalsIgnoreCase("men")) {
 				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
 				_men.setTextColor(color);
 				mViewPager.setCurrentItem(2);

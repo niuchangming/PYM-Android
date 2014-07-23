@@ -131,9 +131,7 @@ public class ShoesProductDisplay extends Fragment {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView ends_in, discount_rate;
 			ImageView set_product_image;
-			Button go_for_sale;
 
 			inflater = (LayoutInflater) _scontext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -141,121 +139,30 @@ public class ShoesProductDisplay extends Fragment {
 					R.layout.phone_product_display_inflator, parent, false);
 
 			LinearLayout f_l = (LinearLayout) itemView.findViewById(R.id.pr_bg);
-			if (position % 3 == 0) {
-				f_l.setBackgroundResource(R.drawable.campaignbase_black);
-			} else if (position % 3 == 1) {
-				f_l.setBackgroundResource(R.drawable.campaignbase_pink);
-			} else if (position % 3 == 2) {
-				f_l.setBackgroundResource(R.drawable.campaignbase_brown);
-			}
-
-			ends_in = (TextView) itemView.findViewById(R.id.set_time_left);
-			discount_rate = (TextView) itemView.findViewById(R.id.set_discount);
-			set_product_image = (ImageView) itemView
-					.findViewById(R.id.product_image);
-			go_for_sale = (Button) itemView.findViewById(R.id.go_for_sale);
-			go_for_sale.setTag(position);
+			TextView nameText = (TextView)itemView.findViewById(R.id.campaign_name);
+			set_product_image = (ImageView) itemView.findViewById(R.id.product_image);
 			set_product_image.setTag(position);
 
-			Typeface mFont = Typeface.createFromAsset(
-					getActivity().getAssets(), "fonts/georgia.ttf");
-			ends_in.setTypeface(mFont);
-			discount_rate.setTypeface(mFont);
+			Typeface mFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
 			ProductsDataModel obj = data.get(position);
-
-			String hours_left_str,minutes_left_str,seconds_left_str;
-			
+			nameText.setTypeface(mFont);
+			nameText.setText(obj.getName());
 			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
-			long current = System.currentTimeMillis();
-			long diff = end - current;
-			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-			int seconds_left = (int) ((diff / 1000) % 60);*/
-			
-			
-			//***************** hours converting **************//
-			
-			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			if(String.valueOf(hours_left).length()<2){
-				hours_left_str="0"+String.valueOf(hours_left);				
-			}else{
-				hours_left_str=String.valueOf(hours_left);
-			}
-			
-			//***************** minuts converting **************//
-			
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);			
-			if(String.valueOf(minutes_left).length()<2){
-				minutes_left_str="0"+String.valueOf(minutes_left);				
-			}else{
-				minutes_left_str=String.valueOf(minutes_left);
-			}	
-			
-			//***************** seconds converting **************//
-			int seconds_left = (int) ((diff / 1000) % 60);
-			if(String.valueOf(seconds_left).length()<2){
-				seconds_left_str="0"+String.valueOf(seconds_left);				
-			}else{
-				seconds_left_str=String.valueOf(seconds_left);
-			
-			}
-			
-			
-			
-			
+		
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 		    cal.setTimeInMillis(end);
-		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
-
-			String s = Integer.toString(dayCount) + " Days" + " "
-					+  hours_left_str + ":"
-					+ minutes_left_str + ":"
-					+ seconds_left_str;
-			
-			String _to = Integer.toString(hours_left) + ":"
-					+ Integer.toString(minutes_left) + ":"
-					+ Integer.toString(seconds_left);
-			
-			String _endDate = date+ "\n" + _to;
 
 			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000;
 			currenttime = System.currentTimeMillis();
-			long diffs = start - currenttime;
-			int hours_lefts = (int) ((diffs / (1000 * 60 * 60)) % 24);
-			int minutes_lefts = (int) ((diffs / (1000 * 60)) % 60);
-			int seconds_lefts = (int) ((diffs / 1000) % 60);
 			
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
 		    cals.setTimeInMillis(start);
-		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-			String _from =  Integer.toString(hours_lefts) + ":"
-					+ Integer.toString(minutes_lefts) + ":"
-					+ Integer.toString(seconds_lefts);
-			
-			String _startFrom = start_date +"\n"+ _from;
-
 			
 			if (start > currenttime) {
-				ends_in.setText(s);
-				ends_in.setVisibility(View.GONE);
-				discount_rate.setText(obj.getDiscount_text());
-				discount_rate.setVisibility(View.GONE);
-				TextView set_from = (TextView) itemView.findViewById(R.id.set_from);
-				TextView set_to = (TextView) itemView.findViewById(R.id.set_to);
-				set_to.setTypeface(mFont, Typeface.NORMAL);
-				set_to.setText(_endDate);
-
-				set_from.setText(_startFrom);
-				set_from.setVisibility(View.VISIBLE);
-				set_to.setVisibility(View.VISIBLE);
-				set_from.setTypeface(mFont, Typeface.NORMAL);
 
 				String a = "https:" + obj.getTeaser_url();
-				go_for_sale.setTag(50000);
-				go_for_sale.setVisibility(View.GONE);
 				set_product_image.setTag(50000);
 				AQuery aq = new AQuery(_scontext);
 				aq.id(set_product_image).image(a);
@@ -266,37 +173,11 @@ public class ShoesProductDisplay extends Fragment {
 				f_l.setBackgroundResource(R.drawable.green_base);
 
 			} else {
-				ends_in.setText(s);
-				discount_rate.setText(obj.getDiscount_text());
 				String a = "https:" + obj.getTeaser_url();
 				AQuery aq = new AQuery(_scontext);
 				aq.id(set_product_image).image(a);
 			}
 
-			go_for_sale.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					int a = (Integer) v.getTag();
-					if (a == 50000) {
-						_ResponsePopup();
-					} else {
-
-						ProductsDataModel cs = data.get(a);
-						int _s = Integer.parseInt(cs.getPk());
-						String _sf = cs.getShipping_fee();
-						String _sp = cs.getShipping_period();
-						String _fs = cs.getFree_shipping();
-						DataHolderClass.getInstance().setShipping_fee(_sf);
-						DataHolderClass.getInstance().setShipping_period(_sp);
-						DataHolderClass.getInstance().setFree_shipping(_fs);
-						DataHolderClass.getInstance().set_mainProductsPk(_s);
-						Intent i = new Intent(_scontext, ProductListing.class);
-						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						_scontext.startActivity(i);
-					}
-				}
-			});
 			set_product_image.setOnClickListener(new OnClickListener() {
 
 				@Override
