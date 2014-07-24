@@ -32,22 +32,22 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	private PhoneLoginPager _adapter;
 	ImageButton close_login_page;
 	RelativeLayout trans;
-	TextView textView1,textView2;
+	TextView textView1, textView2;
 	Typeface _font;
 	EditText dummy;
 	InputMethodManager imm;
-	
+
 	PhoneLoginPage mPhoneLogin;
 	PhoneSignupPage mPhoneSignup;
-	
+
 	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
-		
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 			setContentView(R.layout.activity_phone_login_screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
@@ -60,20 +60,19 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		close_login_page = (ImageButton) findViewById(R.id.close_login_page);
 		close_login_page.setOnClickListener(this);
-		
-		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			
-		
-		textView1 = (TextView)findViewById(R.id.textView1);
-		dummy=(EditText)findViewById(R.id.editText1);
+
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		textView1 = (TextView) findViewById(R.id.textView1);
+		dummy = (EditText) findViewById(R.id.editText1);
 		textView1.setOnClickListener(this);
 		textView1.setTypeface(_font);
-		int color = Integer.parseInt("8e1345", 16)+0xFF000000;
+		int color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		textView1.setTextColor(color);
-		textView2 = (TextView)findViewById(R.id.textView2);
+		textView2 = (TextView) findViewById(R.id.textView2);
 		textView2.setOnClickListener(this);
 		textView2.setTypeface(_font);
-		int colors = Integer.parseInt("000000", 16)+0xFF000000;
+		int colors = Integer.parseInt("000000", 16) + 0xFF000000;
 		textView2.setTextColor(colors);
 
 		setUpView();
@@ -81,14 +80,15 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": login/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": login/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	public void refreshPage() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_OK, returnIntent);
@@ -120,20 +120,20 @@ public class PhoneLoginScreen extends FragmentActivity implements
 				case 0:
 					findViewById(R.id.first_tab).setVisibility(View.VISIBLE);
 					findViewById(R.id.second_tab).setVisibility(View.INVISIBLE);
-					int color = Integer.parseInt("8e1345", 16)+0xFF000000;
+					int color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 					textView1.setTextColor(color);
-					
-					int colors = Integer.parseInt("000000", 16)+0xFF000000;
+
+					int colors = Integer.parseInt("000000", 16) + 0xFF000000;
 					textView2.setTextColor(colors);
 					break;
 
 				case 1:
 					findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
 					findViewById(R.id.second_tab).setVisibility(View.VISIBLE);
-					int colord = Integer.parseInt("8e1345", 16)+0xFF000000;
+					int colord = Integer.parseInt("8e1345", 16) + 0xFF000000;
 					textView2.setTextColor(colord);
-					
-					int colorsd = Integer.parseInt("000000", 16)+0xFF000000;
+
+					int colorsd = Integer.parseInt("000000", 16) + 0xFF000000;
 					textView1.setTextColor(colorsd);
 					break;
 				}
@@ -146,15 +146,15 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	@Override
 	public void onAttachFragment(Fragment fragment) {
 		super.onAttachFragment(fragment);
-		
+
 		String fragmentName = fragment.getClass().getSimpleName();
-		if (fragmentName.equals("PhoneLoginPage")){
-			mPhoneLogin = (PhoneLoginPage)fragment;
-		} else if (fragmentName.equals("PhoneSignupPage")){
-			mPhoneSignup = (PhoneSignupPage)fragment;
+		if (fragmentName.equals("PhoneLoginPage")) {
+			mPhoneLogin = (PhoneLoginPage) fragment;
+		} else if (fragmentName.equals("PhoneSignupPage")) {
+			mPhoneSignup = (PhoneSignupPage) fragment;
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -163,49 +163,50 @@ public class PhoneLoginScreen extends FragmentActivity implements
 		if (mPhoneSignup != null)
 			mPhoneSignup.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	public void _ChangeTabs() {
-       findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
+		findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
 		findViewById(R.id.second_tab).setVisibility(View.VISIBLE);
 		_mViewPager.setCurrentItem(1);
-		int color = Integer.parseInt("8e1345", 16)+0xFF000000;
+		int color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		textView2.setTextColor(color);
-		
-		int colors = Integer.parseInt("000000", 16)+0xFF000000;
+
+		int colors = Integer.parseInt("000000", 16) + 0xFF000000;
 		textView1.setTextColor(colors);
 	}
-	
-		public static void closeKeyboard(Context c, IBinder windowToken) {
-		    InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
-		    mgr.hideSoftInputFromWindow(windowToken, 0);
-		}
+
+	public static void closeKeyboard(Context c, IBinder windowToken) {
+		InputMethodManager mgr = (InputMethodManager) c
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		mgr.hideSoftInputFromWindow(windowToken, 0);
+	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.close_login_page:
 			PhoneLoginScreen.this.finish();
-			//overridePendingTransition(0, R.anim.puch_login_down);
-			overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
+			overridePendingTransition(R.anim.puch_out_to_top,
+					R.anim.push_out_to_bottom);
 			break;
-			
+
 		case R.id.textView1:
 			imm.hideSoftInputFromWindow(dummy.getWindowToken(), 0);
 			_mViewPager.setCurrentItem(0);
-			int color = Integer.parseInt("8e1345", 16)+0xFF000000;
+			int color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 			textView1.setTextColor(color);
-			
-			int colors = Integer.parseInt("000000", 16)+0xFF000000;
+
+			int colors = Integer.parseInt("000000", 16) + 0xFF000000;
 			textView2.setTextColor(colors);
 			break;
-			
+
 		case R.id.textView2:
 			imm.hideSoftInputFromWindow(dummy.getWindowToken(), 0);
 			_mViewPager.setCurrentItem(1);
-			int color1 = Integer.parseInt("8e1345", 16)+0xFF000000;
+			int color1 = Integer.parseInt("8e1345", 16) + 0xFF000000;
 			textView2.setTextColor(color1);
-			
-			int colors1 = Integer.parseInt("000000", 16)+0xFF000000;
+
+			int colors1 = Integer.parseInt("000000", 16) + 0xFF000000;
 			textView1.setTextColor(colors1);
 			break;
 

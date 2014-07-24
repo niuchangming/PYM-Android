@@ -20,7 +20,6 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,7 +45,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.dataholder.DataHolderClass;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
@@ -66,7 +64,10 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	String _Fname, _Lname, _Password, _Email;
 	String _ResponseRegister, _SocailResponseFromServer;
 	SharedPreferences _mypref;
-	String _userFBemail;
+	private String mFBEmail;
+	private String mFBFirstName;
+	private String mFBLastName;
+	private String mFBGender;
 	Facebook facebook;
 	ViewGroup root;
 	TextView _seterrormsg;
@@ -87,17 +88,20 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if (DataHolderClass.getInstance().get_deviceInch()<=6) {
-			root = (ViewGroup) inflater.inflate(R.layout.phone_signup,null);
-		}else if(DataHolderClass.getInstance().get_deviceInch()>=7 &&
-				DataHolderClass.getInstance().get_deviceInch()<9){
-			root = (ViewGroup) inflater.inflate(R.layout.seven_inch_signup_page,null);
-		}else if(DataHolderClass.getInstance().get_deviceInch()>=9){
-			root = (ViewGroup) inflater.inflate(R.layout.activity_signup_page,null);
+		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+			root = (ViewGroup) inflater.inflate(R.layout.phone_signup, null);
+		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
+			root = (ViewGroup) inflater.inflate(
+					R.layout.seven_inch_signup_page, null);
+		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
+			root = (ViewGroup) inflater.inflate(R.layout.activity_signup_page,
+					null);
 		}
-		 
+
 		_sctx = this;
-		_font = Typeface.createFromAsset(getActivity().getAssets(),	"fonts/georgia.ttf");
+		_font = Typeface.createFromAsset(getActivity().getAssets(),
+				"fonts/georgia.ttf");
 
 		first_name = (EditText) root.findViewById(R.id.first_name);
 		first_name.setTypeface(_font, Typeface.NORMAL);
@@ -110,7 +114,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 		choose_password = (EditText) root.findViewById(R.id.choose_password);
 		choose_password.setTypeface(_font, Typeface.NORMAL);
-		
+
 		checkBox1 = (CheckBox) root.findViewById(R.id.checkBox1);
 		checkBox1.setTypeface(_font, Typeface.NORMAL);
 
@@ -140,48 +144,42 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 				_Lname = last_name.getText().toString();
 				_Password = choose_password.getText().toString();
 				_Email = email_address.getText().toString();
-				if(_Fname.length()==0){
-					_msg="Please fill first name!";
-					_ResponsePopup();
-				}else if(_Lname.length()==0){
-					_msg="Please fill last name!";
-					_ResponsePopup();
-				}else if(_Email.length()==0){
-					_msg="Please enter email-id!";
-					_ResponsePopup();
-				}
-				else if(_Password.length()==0){
-					_msg="Please fill password";
-					_ResponsePopup();
-				}else if(!checkBox1.isChecked()){
-					_msg="Please agree to the terms ";
-					_ResponsePopup();
-				}
-				else if(_Fname.length()>0 && _Lname.length()>0 && _Password.length()>0 && _Email.length()>0){
-					if(_Email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")){
+				if (_Fname.length() == 0) {
+					_msg = "Please fill first name!";
+					responsePopup();
+				} else if (_Lname.length() == 0) {
+					_msg = "Please fill last name!";
+					responsePopup();
+				} else if (_Email.length() == 0) {
+					_msg = "Please enter email-id!";
+					responsePopup();
+				} else if (_Password.length() == 0) {
+					_msg = "Please fill password";
+					responsePopup();
+				} else if (!checkBox1.isChecked()) {
+					_msg = "Please agree to the terms ";
+					responsePopup();
+				} else if (_Fname.length() > 0 && _Lname.length() > 0
+						&& _Password.length() > 0 && _Email.length() > 0) {
+					if (_Email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
 						new RegisterCustomer().execute();
-					}else{
-						_msg="Invalid email\nPlease enter a valid email!";
-						_ResponsePopup();
-					}					
+					} else {
+						_msg = "Invalid email\nPlease enter a valid email!";
+						responsePopup();
+					}
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			break;
 
 		case R.id.signup_with_fb_btn:
-			if (!facebook.isSessionValid()) {
-				Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
-						.show();
-				facebook.authorize(getActivity(), new String[] {
-						"publish_stream", "email", "user_groups",
-						"read_stream", "user_about_me", "offline_access" }, 1,
-						new LoginDialogListener());
-			} else {
-				facebook();
-			}
+			Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
+					.show();
+			facebook.authorize(getActivity(), new String[] { "publish_stream",
+					"email", "user_groups", "read_stream", "user_about_me",
+					"offline_access" }, 1, new LoginDialogListener());
 			break;
 
 		default:
@@ -190,15 +188,14 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 	}
 
-	// **********************************************************************************************************************//
 	private class RegisterCustomer extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(getActivity(),
-					"Loading", true, true, this);
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
+					true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getActivity().getWindowManager().getDefaultDisplay()
 					.getMetrics(displaymetrics);
@@ -240,7 +237,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			_namevalueList.add(_Upassword);
 			_namevalueList.add(_Uemail);
 			_ResponseRegister = RegisterUser(url_register, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseRegister);
 			return null;
 		}
 
@@ -262,8 +258,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						mProgressHUD.dismiss();
 						try {
-							//((PhoneLoginScreen) getActivity()).refreshPage();
-							new GetUserName(_token,_UserId).execute();
+							new GetUserName(_token, _UserId).execute();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -271,104 +266,96 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 						mProgressHUD.dismiss();
 						// server response print
 					}
-				}else{
+				} else {
 					mProgressHUD.dismiss();
-					_msg="Username is alreay existed";
-					_ResponsePopup();
+					_msg = "Username is alreay existed";
+					responsePopup();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	//=====================================================================================================================//
-		private class GetUserName extends AsyncTask<String, String, String>{
-			String _id;
-			String mtoken;
-			public GetUserName(String token,String id){
-				this._id=id;
-				this.mtoken=token;
-			}
 
-			@Override
-			protected String doInBackground(String... params) {
-				String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
-						+ _id + "&token=" + mtoken;
-				System.out.println("url is" + _profileurl);
-				GetProfile(_profileurl);
-				return null;
-			}
-			@Override
-			protected void onPostExecute(String result) {
-				try {
-					JSONObject obj = new JSONObject(_content);
-					String ret = obj.getString("ret");
-					System.out.println(ret);
-					if (ret.equals("0")) {
-						JSONObject obj1 = obj.getJSONObject("profile");
-						//String _ss = obj1.getString("first_name")+ " " + obj1.getString("last_name");
-								
-						String _ss = obj1.getString("first_name");
-						_mypref = getActivity().getApplicationContext()
-								.getSharedPreferences("mypref", 0);
-						Editor prefsEditor = _mypref.edit();
-						prefsEditor.putString("_UserName", _ss);
-						prefsEditor.commit();
-						try {
-							((PhoneLoginScreen) getActivity()).refreshPage();
-							getActivity().overridePendingTransition(0,R.anim.puch_login_down);
-							_msg = "login successful!";
-							_ResponsePopup();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+	private class GetUserName extends AsyncTask<String, String, String> {
+		String _id;
+		String mtoken;
+
+		public GetUserName(String token, String id) {
+			this._id = id;
+			this.mtoken = token;
 		}
-		
-		
-		//******************************************************************************************************************************//
-		private void GetProfile(String url) {
-			TrustAllCertificates cert = new TrustAllCertificates();
-			cert.trustAllHosts();
-			HttpClient _httpclient = HttpsClient.getNewHttpClient();
-			HttpGet _httpget = new HttpGet(url);
-			try {
-				HttpResponse _httpresponse = _httpclient.execute(_httpget);
-				int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-				Log.i("--------------Https Responsecode----------", "."
-						+ _responsecode);
-				if (_responsecode == 200) {
-					InputStream _inputstream = _httpresponse.getEntity()
-							.getContent();
-					BufferedReader r = new BufferedReader(new InputStreamReader(
-							_inputstream));
-					StringBuilder total = new StringBuilder();
-					String line;
-					while ((line = r.readLine()) != null) {
-						total.append(line);
-					}
-					 _content = total.toString();
-					System.out.println("my data is" + _content);
 
+		@Override
+		protected String doInBackground(String... params) {
+			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
+					+ _id + "&token=" + mtoken;
+			System.out.println("url is" + _profileurl);
+			GetProfile(_profileurl);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			try {
+				JSONObject obj = new JSONObject(_content);
+				String ret = obj.getString("ret");
+				System.out.println(ret);
+				if (ret.equals("0")) {
+					JSONObject obj1 = obj.getJSONObject("profile");
+					// String _ss = obj1.getString("first_name")+ " " +
+					// obj1.getString("last_name");
+
+					String _ss = obj1.getString("first_name");
+					_mypref = getActivity().getApplicationContext()
+							.getSharedPreferences("mypref", 0);
+					Editor prefsEditor = _mypref.edit();
+					prefsEditor.putString("_UserName", _ss);
+					prefsEditor.commit();
+					try {
+						((PhoneLoginScreen) getActivity()).refreshPage();
+						getActivity().overridePendingTransition(0,
+								R.anim.puch_login_down);
+						_msg = "login successful!";
+						responsePopup();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	
-	
+	}
 
-	// ***********************************************************************************************************************//
+	private void GetProfile(String url) {
+		TrustAllCertificates cert = new TrustAllCertificates();
+		cert.trustAllHosts();
+		HttpClient _httpclient = HttpsClient.getNewHttpClient();
+		HttpGet _httpget = new HttpGet(url);
+		try {
+			HttpResponse _httpresponse = _httpclient.execute(_httpget);
+			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
+			if (_responsecode == 200) {
+				InputStream _inputstream = _httpresponse.getEntity()
+						.getContent();
+				BufferedReader r = new BufferedReader(new InputStreamReader(
+						_inputstream));
+				StringBuilder total = new StringBuilder();
+				String line;
+				while ((line = r.readLine()) != null) {
+					total.append(line);
+				}
+				_content = total.toString();
+				System.out.println("my data is" + _content);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String RegisterUser(String url, List<NameValuePair> _namevalueList) {
 		String _RResponse = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -380,7 +367,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -401,7 +387,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		return _RResponse;
 	}
 
-	// ************************************************************************************************************************//
 	public void onActivityResult(int requestCode, int resultCode,
 			final Intent data) {
 
@@ -410,7 +395,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 	}
 
-	// ************************************************************************************************************************//
 	public final class LoginDialogListener implements DialogListener {
 		public void onComplete(Bundle values) {
 			try {
@@ -436,7 +420,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	// ***********************************************************************************************************************//
 	public void facebook() {
 
 		AsyncTask<Void, Void, Void> updateTask = new AsyncTask<Void, Void, Void>() {
@@ -453,25 +436,22 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 
 			@Override
 			protected Void doInBackground(Void... params) {
-				JSONObject jsonObj = null;
 				try {
-
-					try {
-
-						JSONObject me = new JSONObject(facebook.request("me"));
-						System.out.println("value show" + me);
-						String a = me.getString("name");
-						String b = me.getString("email");
-						_userFBemail = b;
-						Log.d("iii", "iii-name-" + a);
-						Log.d("iii", "iii-name-" + b);
-
-					} catch (JSONException e) {
-						e.printStackTrace();
+					JSONObject me = new JSONObject(facebook.request("me"));
+					mFBFirstName = me.getString("first_name");
+					mFBLastName = me.getString("last_name");
+					mFBEmail = me.getString("email");
+					mFBGender = me.getString("gender");
+					
+					if(mFBGender != null){
+						mFBGender = ""+mFBGender.toUpperCase().charAt(0);
 					}
+					
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (JSONException e){
 					e.printStackTrace();
 				}
 				return null;
@@ -487,7 +467,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		updateTask.execute((Void[]) null);
 	}
 
-	// ========================================================================================================================//
 	class SocailLogin extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -519,14 +498,19 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... params) {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
-			BasicNameValuePair _socailemail = new BasicNameValuePair("email",
-					_userFBemail);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_socailemail);
+			BasicNameValuePair socailemail = new BasicNameValuePair("email",
+					mFBEmail);
+			BasicNameValuePair firstName = new BasicNameValuePair("first_name",mFBFirstName);
+			BasicNameValuePair lastName = new BasicNameValuePair("last_name",mFBLastName);
+			BasicNameValuePair gender = new BasicNameValuePair("gender",mFBGender);
+			
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(socailemail);
+			namevalueList.add(firstName);
+			namevalueList.add(lastName);
+			namevalueList.add(gender);
 			_SocailResponseFromServer = RegisterUser(url_socaillogin,
-					_namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE Socail====>"
-					+ _SocailResponseFromServer);
+					namevalueList);
 			return null;
 		}
 
@@ -538,44 +522,49 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 				if (_Ret.equals("0")) {
 					String _token = jobj.getString("token");
 					String _UserId = jobj.getString("user_id");
-					_mypref = getActivity().getApplicationContext().getSharedPreferences("mypref", 0);
+					_mypref = getActivity().getApplicationContext()
+							.getSharedPreferences("mypref", 0);
 					Editor prefsEditor = _mypref.edit();
 					prefsEditor.clear();
 					prefsEditor.putString("ID", _UserId);
 					prefsEditor.putString("TOKEN", _token);
 					prefsEditor.commit();
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
-						mProgressHUD.dismiss();
-						try {
-							((PhoneLoginScreen) getActivity()).refreshPage();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					    }else {
-						// server response print
-					    }
-				   }else{
-					
-				   }
+						new GetUserName(_token, _UserId).execute();
+					} else {
+						_msg = jobj.getString("msg");
+						responsePopup();
+					}
+				}  else {
+					_msg = jobj.getString("msg");
+					responsePopup();
+					mProgressHUD.dismiss();
+					try {
+						_msg = jobj.getString("msg");
+						responsePopup();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			mProgressHUD.dismiss();
 		}
 	}
-	// ======================================================================================================================//
-		public void _ResponsePopup() {
-			View view = View.inflate(getActivity().getBaseContext(),
-					R.layout.error_popop, null);
-			_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-			_seterrormsg.setText(_msg);
-			Toast toast = new Toast(getActivity().getBaseContext());
-			toast.setGravity(Gravity.CENTER, 0, 0);
-			toast.setView(view);
-			toast.show();
-		}
-		//=================================================================================================================//
-		public boolean checkEmail(String checkemailvalidate) {
-			return EMAIL_ADDRESS_PATTERN.matcher(checkemailvalidate).matches();
-		}
+
+	public void responsePopup() {
+		View view = View.inflate(getActivity().getBaseContext(),
+				R.layout.error_popop, null);
+		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
+		_seterrormsg.setText(_msg);
+		Toast toast = new Toast(getActivity().getBaseContext());
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.setView(view);
+		toast.show();
+	}
+
+	public boolean checkEmail(String checkemailvalidate) {
+		return EMAIL_ADDRESS_PATTERN.matcher(checkemailvalidate).matches();
+	}
 }

@@ -259,11 +259,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					prefsEditor.commit();
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						mProgressHUD.dismiss();
-						try {
-							new GetUserName(_token,_UserId).execute();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						new GetUserName(_token,_UserId).execute();
 					} else {
 						mProgressHUD.dismiss();
 						// server response print
