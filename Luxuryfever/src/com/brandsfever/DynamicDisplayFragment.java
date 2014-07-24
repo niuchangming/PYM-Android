@@ -184,7 +184,7 @@ public class DynamicDisplayFragment extends Fragment {
 			imageView.setTag(position);
 			AQuery aq = new AQuery(context);
 			aq.id(imageView).progress(R.id.progress).image(imageUrl,false,true);
-
+			
 			imageView.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -200,6 +200,12 @@ public class DynamicDisplayFragment extends Fragment {
 				}
 			});
 
+			ImageView soldOutImageView = (ImageView)itemView.findViewById(R.id.soldout_img);
+			if(obj.get_availstock()==0){
+				soldOutImageView.setVisibility(View.VISIBLE);
+			} else {
+				soldOutImageView.setVisibility(View.GONE);
+			}
 			return itemView;
 		}
 

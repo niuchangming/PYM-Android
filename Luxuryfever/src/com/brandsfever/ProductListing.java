@@ -311,7 +311,6 @@ public class ProductListing extends FragmentActivity implements OnClickListener 
 		@Override
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
-			// TODO Auto-generated method stub
 			View tabView = mTabHost.getTabWidget().getChildAt(position);
 			if (tabView != null) {
 				final int width = mHorizontalScroll.getWidth();
