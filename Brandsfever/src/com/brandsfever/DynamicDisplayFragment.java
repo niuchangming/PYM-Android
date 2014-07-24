@@ -29,9 +29,9 @@ import com.dataholder.DataHolderClass;
 import com.datamodel.ProductListDetailModel;
 
 public class DynamicDisplayFragment extends Fragment {
-	
+
 	private static final String TAG = "DynamicDisplayFragment";
-	
+
 	public ArrayList<ProductListDetailModel> mDataList = new ArrayList<ProductListDetailModel>();
 	Context _mctx;
 	private String tab_name;
@@ -40,8 +40,8 @@ public class DynamicDisplayFragment extends Fragment {
 	Button mScrollup;
 	PhoneAdpter mPAdapter;
 	TabAdapter mTAdapter;
-	Typeface  mFont;
-	
+	Typeface mFont;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +104,7 @@ public class DynamicDisplayFragment extends Fragment {
 	}
 
 	public void _filterDynamicData() {
-		
+
 		if (!tab_name.equalsIgnoreCase("All Products")) {
 
 			for (int i = 0; i < ProductListing.mProductList.size(); i++) {
@@ -162,23 +162,21 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			try{
-				mFont = Typeface.createFromAsset(
-						getActivity().getAssets(), "fonts/georgia.ttf");
+			try {
+				mFont = Typeface.createFromAsset(getActivity().getAssets(),
+						"fonts/georgia.ttf");
 				salesprice.setTypeface(mFont, Typeface.BOLD);
 				marketprice.setTypeface(mFont, Typeface.BOLD);
 				name.setTypeface(mFont, Typeface.NORMAL);
-			}
-			catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because" + e.getMessage());
+			} catch (Exception e) {
+				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
+						+ e.getMessage());
 			}
 
 			ProductListDetailModel obj = data.get(position);
 
 			name.setText(obj.getName());
 			salesprice.setText(obj.getSales_price().replace("GD", "$"));
-//			int color = Integer.parseInt("B22222", 16) + 0xFF000000;
-//			salesprice.setTextColor(color);
 			marketprice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
 					| Paint.ANTI_ALIAS_FLAG);
 			marketprice.setText(obj.getMarket_price().replace("GD", "$"));
@@ -187,7 +185,8 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_img);
 			imageView.setTag(position);
 			AQuery aq = new AQuery(context);
-			aq.id(imageView).progress(R.id.progress).image(imageUrl,false,true);
+			aq.id(imageView).progress(R.id.progress)
+					.image(imageUrl, false, true);
 
 			imageView.setOnClickListener(new OnClickListener() {
 
@@ -204,6 +203,13 @@ public class DynamicDisplayFragment extends Fragment {
 				}
 			});
 
+			ImageView soldOutImageView = (ImageView) itemView
+					.findViewById(R.id.soldout_img);
+			if (obj.get_availstock() == 0) {
+				soldOutImageView.setVisibility(View.VISIBLE);
+			} else {
+				soldOutImageView.setVisibility(View.GONE);
+			}
 			return itemView;
 		}
 
@@ -253,15 +259,15 @@ public class DynamicDisplayFragment extends Fragment {
 					.findViewById(R.id.prdt_sales_price);
 			_marketprice = (TextView) itemView
 					.findViewById(R.id.prdt_mrkt_price);
-			try{
-				mFont = Typeface.createFromAsset(
-						getActivity().getAssets(), "fonts/georgia.ttf");
+			try {
+				mFont = Typeface.createFromAsset(getActivity().getAssets(),
+						"fonts/georgia.ttf");
 				_salesprice.setTypeface(mFont);
 				_marketprice.setTypeface(mFont);
 				_name.setTypeface(mFont);
-			}
-			catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because" + e.getMessage());
+			} catch (Exception e) {
+				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
+						+ e.getMessage());
 			}
 			ProductListDetailModel obj = _data.get(position);
 			LinearLayout _lm = (LinearLayout) itemView

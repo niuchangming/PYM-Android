@@ -7,14 +7,14 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="223dp">
+        android:layout_height="223dp" >
 
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="35dip"
             android:layout_height="35dip"
             android:layout_centerInParent="true" />
-        
+
         <ImageView
             android:id="@+id/prdt_img"
             android:layout_width="fill_parent"
@@ -22,11 +22,21 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY" />
 
+        <ImageView
+            android:id="@+id/soldout_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ribbon_soldout"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="57dp">
+        android:layout_height="57dp" >
 
         <TextView
             android:id="@+id/prdt_name"
