@@ -25,7 +25,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -52,16 +51,20 @@ import com.datamodel.ProductsDataModel;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class ProductDisplay extends FragmentActivity implements
+public class ProductDisplay extends SlidingFragmentActivity implements
 		OnClickListener, TabHost.OnTabChangeListener,
 		ViewPager.OnPageChangeListener {
 	
 	private static final String TAG = "ProductDisplay";
+	
+	private Fragment mContent;
 	
 	Context _ctx = ProductDisplay.this;
 	SimpleSideDrawer slide_me;
@@ -131,10 +134,54 @@ public class ProductDisplay extends FragmentActivity implements
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
 		Log.d(TAG, "onCreate");
+		
+		setContentView(R.layout.content_frame);
+		
+		if (findViewById(R.id.menu_frame) == null){
+			setBehindContentView(R.layout.menu_frame);
+			getSlidingMenu().setSlidingEnabled(true);
+			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			
+			// show home as up so we can toggle
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		} else {
+			// add a dummy view
+			View v = new View(this);
+			setBehindContentView(v);
+			getSlidingMenu().setSlidingEnabled(false);
+			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+		}
+		
+		if(savedInstanceState != null)
+			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+		if (mContent == null){
+			//TODO: add Fragment
+		}
+		
+		getSupportFragmentManager()
+		.beginTransaction()
+		.replace(R.id.content_frame, mContent)
+		.commit();
+		
+		// set the Behind View Fragment
+		getSupportFragmentManager()
+		.beginTransaction()
+		.commit();
+//		.replace(R.id.menu_frame, new BirdMenuFragment());
+		//TODO: new MenuFragment();
+		
+		// customize the SlidingMenu
+		SlidingMenu sm  = getSlidingMenu();
+		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		sm.setShadowWidthRes(R.dimen.shadow_width);
+//		sm.setShadowDrawable(d);
+		sm.setBehindScrollScale(0.25f);
+		sm.setFadeDegree(0.25f);
+		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
