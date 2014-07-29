@@ -256,15 +256,15 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	}
 
 	@Override
-//	public void onStart() {
-//		super.onStart();
-//		EasyTracker tracker = EasyTracker.getInstance(this);
-//		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
-//				+ ": campaigns/?device=2");
-//		tracker.send(MapBuilder.createAppView().build());
+	public void onStart() {
+		super.onStart();
+		EasyTracker tracker = EasyTracker.getInstance(this);
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": campaigns/?device=2");
+		tracker.send(MapBuilder.createAppView().build());
 
 //		updateSlidingMenu();
-//	}
+	}
 
 	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
