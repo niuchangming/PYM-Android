@@ -169,40 +169,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 
-		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		// int a = DataHolderClass.getInstance().get_deviceInch();
-		// if(a<=6){
-		// setContentView(R.layout.activity_product_display);
-		// }else if(a>=7 && a<9){
-		// setContentView(R.layout.seven_inch_product_display);
-		// }else if(a>=9){
-		// setContentView(R.layout.product_display_ten_inch_tab);
-		// }
-		// getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		// _font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		// color = Integer.parseInt("8e1345", 16)+0xFF000000;
-		// colors = Integer.parseInt("ffffff", 16)+0xFF000000;
-		// bundle = getIntent().getExtras();
-		// _TabName = null;
-		// if (bundle != null) {
-		// _TabName = bundle.getString("tab");
-		// }
-		// mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
-		// this.initialiseTabHost(savedInstanceState);
-		// if (savedInstanceState != null) {
-		// mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		// }
-		//
-		// set_user_name = (TextView)findViewById(R.id.set_user_name);
-		// set_user_name.setTypeface(_font);
-		//
-		// _Menu = (ImageButton) findViewById(R.id.main_menu);
-		// _Menu.setOnClickListener(this);
-		//
-		// cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		// cart_btn.setOnClickListener(this);
 		// new LoadProduct().execute();
 	}
 

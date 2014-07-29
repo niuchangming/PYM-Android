@@ -2,50 +2,57 @@ package com.brandsfever;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.HorizontalScrollView;
+
+import com.adapter.VPagerAdapter;
 
 public class CampaignFragment extends Fragment {
 
-	private int mPos = -1;
+//	private int mPos = -1;
+	private FragmentTabHost	mTabHost;
+	private ViewPager	mViewPager;
+	private HorizontalScrollView mHorizontalScroll;
+	private VPagerAdapter mPagerAdapter;
 	
 	public CampaignFragment(){ }
 	
 	public CampaignFragment(int pos){
-		mPos = pos;
+//		mPos = pos;
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if (mPos == -1 && savedInstanceState != null)
-			mPos = savedInstanceState.getInt("mPos");
+//		if (mPos == -1 && savedInstanceState != null)
+//			mPos = savedInstanceState.getInt("mPos");
 		
-		GridView gv = (GridView) inflater.inflate(R.layout.list_grid, null);
-		gv.setBackgroundResource(android.R.color.black);
-		gv.setAdapter(new GridAdapter());
-		gv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				if (getActivity() == null)
-					return;
-				ProductDisplay activity = (ProductDisplay) getActivity();
-			}			
-		});
-		return gv;
+		mTabHost = (FragmentTabHost)inflater.inflate(R.layout.fragment_campaign, null);
+		mTabHost.setup(getActivity(), getChildFragmentManager());
+	
+		mTabHost.addTab(mTabHost.newTabSpec("All").setIndicator("All"), CampaignListFragment.class, null);
+		mTabHost.addTab(mTabHost.newTabSpec("Women").setIndicator("Women"), CampaignListFragment.class, null);
+		mTabHost.addTab(mTabHost.newTabSpec("Men").setIndicator("Men"), CampaignListFragment.class, null);
+		
+		
+		return mTabHost;
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putInt("mPos", mPos);
+//		outState.putInt("mPos", mPos);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mTabHost = null;
 	}
 	
 	private class GridAdapter extends BaseAdapter {
