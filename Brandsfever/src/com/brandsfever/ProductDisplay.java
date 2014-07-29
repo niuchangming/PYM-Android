@@ -45,6 +45,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.adapter.VPagerAdapter;
 import com.crashlytics.android.Crashlytics;
 import com.dataholder.DataHolderClass;
@@ -218,6 +219,16 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		}, 50);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+		case android.R.id.home:
+			toggle();
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private void updateSlidingMenu() {
 
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
