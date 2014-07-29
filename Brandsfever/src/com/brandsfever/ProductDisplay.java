@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -58,19 +59,14 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class ProductDisplay extends SlidingFragmentActivity implements
-		OnClickListener, TabHost.OnTabChangeListener,
-		ViewPager.OnPageChangeListener {
-	
+public class ProductDisplay extends SlidingFragmentActivity {
+
 	private static final String TAG = "ProductDisplay";
-	
+
 	private Fragment mContent;
-	
+
 	Context _ctx = ProductDisplay.this;
-	SimpleSideDrawer slide_me;
-	ImageButton _Menu,cart_btn;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
+	ImageButton _Menu, cart_btn;
 	Typeface _font;
 	String catagory_name;
 	String _TabName;
@@ -88,13 +84,10 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 	HashMap<String, TabInfo> mapTabInfo = new HashMap<String, ProductDisplay.TabInfo>();
 	VPagerAdapter mPagerAdapter;
 	HorizontalScrollView mHorizontalScroll;
-	
-	
-	View _settings_view,_login_view,_mycart_view,mSupportView,_invite_view,_logout_view;
-	
-	int color,colors;
-	
-	public static String _list_type="all";
+
+	int color, colors;
+
+	public static String _list_type = "all";
 
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -138,16 +131,15 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
 		Log.d(TAG, "onCreate");
-		
+
 		setContentView(R.layout.content_frame);
-		
-		if (findViewById(R.id.menu_frame) == null){
+
+		if (findViewById(R.id.menu_frame) == null) {
 			setBehindContentView(R.layout.menu_frame);
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-			
 			// show home as up so we can toggle
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} else {
 			// add a dummy view
 			View v = new View(this);
@@ -155,317 +147,154 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 			getSlidingMenu().setSlidingEnabled(false);
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 		}
-		
-		if(savedInstanceState != null)
+
+		if (savedInstanceState != null)
 			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
-		if (mContent == null){
-			//TODO: add Fragment
+		if (mContent == null) {
+			mContent = new CampaignFragment(4);
 		}
-		
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.content_frame, mContent)
-		.commit();
-		
+
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, mContent).commit();
+
 		// set the Behind View Fragment
-		getSupportFragmentManager()
-		.beginTransaction()
-		.commit();
-//		.replace(R.id.menu_frame, new BirdMenuFragment());
-		//TODO: new MenuFragment();
-		
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.menu_frame, new MenuFragment()).commit();
+
 		// customize the SlidingMenu
-		SlidingMenu sm  = getSlidingMenu();
+		SlidingMenu sm = getSlidingMenu();
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.shadow_width);
-//		sm.setShadowDrawable(d);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
-		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		int a = DataHolderClass.getInstance().get_deviceInch();
-		if(a<=6){
-			setContentView(R.layout.activity_product_display);
-		}else if(a>=7 && a<9){
-			setContentView(R.layout.seven_inch_product_display);
-		}else if(a>=9){
-			setContentView(R.layout.product_display_ten_inch_tab);
-		}
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		color = Integer.parseInt("8e1345", 16)+0xFF000000;
-		colors = Integer.parseInt("ffffff", 16)+0xFF000000;
-
-		bundle = getIntent().getExtras();
-		_TabName = null;
-		if (bundle != null) {
-			_TabName = bundle.getString("tab");
-		}
-
-		mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
-		this.initialiseTabHost(savedInstanceState);
-		if (savedInstanceState != null) {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
-
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-		
-		set_user_name = (TextView)findViewById(R.id.set_user_name);
-		set_user_name.setTypeface(_font);
-
-
-		_Menu = (ImageButton) findViewById(R.id.main_menu);
-		_Menu.setOnClickListener(this);
-		
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		new LoadProduct().execute();
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setTextColor(color);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login_view = (View) findViewById(R.id.btn_login_view);
-		_login.setTypeface(_font);
-		_login.setOnClickListener(this);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings_view = (View) findViewById(R.id.btn_setting_view);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart_view = (View) findViewById(R.id.my_cart_view);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button)findViewById(R.id.btn_support);
-		mSupportView = (View)findViewById(R.id.btn_support_view);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite_view = (View) findViewById(R.id.btn_invite_view);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout_view=(View) findViewById(R.id.btn_logout_view);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-		
+		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// int a = DataHolderClass.getInstance().get_deviceInch();
+		// if(a<=6){
+		// setContentView(R.layout.activity_product_display);
+		// }else if(a>=7 && a<9){
+		// setContentView(R.layout.seven_inch_product_display);
+		// }else if(a>=9){
+		// setContentView(R.layout.product_display_ten_inch_tab);
+		// }
+		// getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		// _font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
+		// color = Integer.parseInt("8e1345", 16)+0xFF000000;
+		// colors = Integer.parseInt("ffffff", 16)+0xFF000000;
+		// bundle = getIntent().getExtras();
+		// _TabName = null;
+		// if (bundle != null) {
+		// _TabName = bundle.getString("tab");
+		// }
+		// mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
+		// this.initialiseTabHost(savedInstanceState);
+		// if (savedInstanceState != null) {
+		// mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+		// }
+		//
+		// set_user_name = (TextView)findViewById(R.id.set_user_name);
+		// set_user_name.setTypeface(_font);
+		//
+		// _Menu = (ImageButton) findViewById(R.id.main_menu);
+		// _Menu.setOnClickListener(this);
+		//
+		// cart_btn = (ImageButton) findViewById(R.id.cart_btn);
+		// cart_btn.setOnClickListener(this);
+		// new LoadProduct().execute();
 	}
-	
-	private void updateSlidingMenu(){
-		
+
+	public void switchContent(final Fragment fragment) {
+		mContent = fragment;
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
+
+		Handler h = new Handler();
+		h.postDelayed(new Runnable() {
+			public void run() {
+				getSlidingMenu().showContent();
+			}
+		}, 50);
+	}
+
+	private void updateSlidingMenu() {
+
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 		String username = _mypref.getString("_UserName", null);
 		String greeting = set_user_name.getText().toString();
-		_getuserId = _mypref.getString("ID", null); 
-        _getToken = _mypref.getString("TOKEN", null);
-		
-		if(username != null){
-			
-			if(greeting.contains(username)){
-				return;
-			} 
-		
-			set_user_name.setText("Hi! "+username);
-		}
-		else{
-			
-			if(greeting.contains("Guest")){
+		_getuserId = _mypref.getString("ID", null);
+		_getToken = _mypref.getString("TOKEN", null);
+
+		if (username != null) {
+
+			if (greeting.contains(username)) {
 				return;
 			}
-			
+
+			set_user_name.setText("Hi! " + username);
+		} else {
+
+			if (greeting.contains("Guest")) {
+				return;
+			}
+
 			set_user_name.setText("Hi! Guest");
 		}
-		
-		if(_getToken==null && _getuserId==null){
-			_login.setVisibility(View.VISIBLE);	
-			_mycart.setVisibility(View.GONE);
-			_settings.setVisibility(View.GONE);
-			mSupport.setVisibility(View.GONE);
-			_invite.setVisibility(View.GONE);
-			_logout.setVisibility(View.GONE);
-			
-			if(_logout_view != null)
-				_logout_view.setVisibility(View.GONE);
-			if(_mycart_view != null)
-				_mycart_view.setVisibility(View.GONE);
-			if(_settings_view != null)
-				_settings_view.setVisibility(View.GONE);
-			if(_invite_view != null)
-				_invite_view.setVisibility(View.GONE);
-			if( mSupportView != null)
-				mSupportView.setVisibility(View.VISIBLE);
-		}
-		else{
-			_login.setVisibility(View.GONE);	
-			_mycart.setVisibility(View.VISIBLE);
-			_settings.setVisibility(View.VISIBLE);
-			mSupport.setVisibility(View.VISIBLE);
-			_invite.setVisibility(View.VISIBLE);
-			_logout.setVisibility(View.VISIBLE);
-			
-			if(_logout_view != null)
-				_logout_view.setVisibility(View.VISIBLE);
-			if(_login_view != null)
-				_login_view.setVisibility(View.VISIBLE);
-			if(_mycart_view != null)
-				_mycart_view.setVisibility(View.VISIBLE);
-			if(_settings_view != null)
-				_settings_view.setVisibility(View.VISIBLE);
-			if(_invite_view != null)
-				_invite_view.setVisibility(View.VISIBLE);
-			if( mSupportView != null)
-				mSupportView.setVisibility(View.VISIBLE);
-			
-	     }
+
 	}
-	
+
 	@Override
-	public void onStart(){
-		super.onStart();
-		mBackButtonCount = 0;
-		Log.d(TAG, "onStart");
-		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": campaigns/?device=2");
-		tracker.send(MapBuilder.createAppView().build());
-		
-		updateSlidingMenu();
-	}
-	
+//	public void onStart() {
+//		super.onStart();
+//		EasyTracker tracker = EasyTracker.getInstance(this);
+//		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+//				+ ": campaigns/?device=2");
+//		tracker.send(MapBuilder.createAppView().build());
+
+//		updateSlidingMenu();
+//	}
+
 	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putString("tab", mTabHost.getCurrentTabTag());
+//		outState.putString("tab", mTabHost.getCurrentTabTag());
 		super.onSaveInstanceState(outState);
 	}
 
 	private void intialiseViewPager() {
 		List<Fragment> fragments = new Vector<Fragment>();
-		fragments.add(Fragment.instantiate(this, AllProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, WomenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, MenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, ChildrenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this, HomeProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,AccesroiesProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				AllProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				WomenProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				MenProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				ChildrenProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				HomeProductDisplay.class.getName()));
+		fragments.add(Fragment.instantiate(this,
+				AccesroiesProductDisplay.class.getName()));
 		this.mPagerAdapter = new VPagerAdapter(
 				super.getSupportFragmentManager(), fragments);
 		this.mViewPager = (ViewPager) super.findViewById(R.id.viewPagers);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
-		this.mViewPager.setOnPageChangeListener(this);
+//		this.mViewPager.setOnPageChangeListener(this);
 		if (bundle != null) {
 			if (_TabName.equalsIgnoreCase("all")) {
 				mViewPager.setCurrentItem(0);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_all.setTextColor(color);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 			} else if (_TabName.equalsIgnoreCase("women")) {
 				mViewPager.setCurrentItem(1);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_women.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 			} else if (_TabName.equalsIgnoreCase("men")) {
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_men.setTextColor(color);
 				mViewPager.setCurrentItem(2);
 			} else if (_TabName.equalsIgnoreCase("children")) {
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_childrens.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 				mViewPager.setCurrentItem(3);
 			} else if (_TabName.equalsIgnoreCase("home")) {
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_home.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 				mViewPager.setCurrentItem(4);
 			} else if (_TabName.equalsIgnoreCase("accessories")) {
 				mViewPager.setCurrentItem(5);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_accessories.setTextColor(color);
-				_all.setTextColor(colors);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 			} else {
 				mViewPager.setCurrentItem(0);
-				int color = Integer.parseInt("8e1345", 16)+0xFF000000;
-				_all.setTextColor(color);
-				_men.setTextColor(colors);
-				_women.setTextColor(colors);
-				_childrens.setTextColor(colors);
-				_home.setTextColor(colors);
-				_accessories.setTextColor(colors);
-				_settings.setTextColor(colors);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
 			}
 		}
 	}
@@ -478,9 +307,10 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 				this.mTabHost.newTabSpec("Tab1").setIndicator("ALL"),
 				(tabInfo = new TabInfo("Tab1", AllProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab2").setIndicator("WOMEN"),
-				(tabInfo = new TabInfo("Tab2", WomenProductDisplay.class, args)));
+		ProductDisplay
+				.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2")
+						.setIndicator("WOMEN"), (tabInfo = new TabInfo("Tab2",
+						WomenProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		ProductDisplay.AddTab(this, this.mTabHost,
 				this.mTabHost.newTabSpec("Tab3").setIndicator("MEN"),
@@ -488,35 +318,36 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		ProductDisplay.AddTab(this, this.mTabHost,
 				this.mTabHost.newTabSpec("Tab4").setIndicator("CHILDREN"),
-				(tabInfo = new TabInfo("Tab4", ChildrenProductDisplay.class, args)));
+				(tabInfo = new TabInfo("Tab4", ChildrenProductDisplay.class,
+						args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab5").setIndicator("HOME"),
-				(tabInfo = new TabInfo("Tab5", HomeProductDisplay.class, args)));
+		ProductDisplay
+				.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab5")
+						.setIndicator("HOME"), (tabInfo = new TabInfo("Tab5",
+						HomeProductDisplay.class, args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
 		ProductDisplay.AddTab(this, this.mTabHost,
 				this.mTabHost.newTabSpec("Tab6").setIndicator("ACCESSORIES"),
-				(tabInfo = new TabInfo("Tab6", AccesroiesProductDisplay.class, args)));
+				(tabInfo = new TabInfo("Tab6", AccesroiesProductDisplay.class,
+						args)));
 		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		
-		
 
 		TabWidget widget = mTabHost.getTabWidget();
 		for (int i = 0; i < widget.getChildCount(); i++) {
 			View v = widget.getChildAt(i);
 			TextView tv = (TextView) v.findViewById(android.R.id.title);
-			int color = Integer.parseInt("000000", 16)+0xFF000000;
+			int color = Integer.parseInt("000000", 16) + 0xFF000000;
 			tv.setTextColor(color);
-			tv.setTypeface(_font,Typeface.BOLD);
-			if(DataHolderClass.getInstance().get_deviceInch()<=6){
+			tv.setTypeface(_font, Typeface.BOLD);
+			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				tv.setTextSize(14);
-			}else if(DataHolderClass.getInstance().get_deviceInch()>=7){
+			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
 				tv.setTextSize(20);
 			}
-			
+
 			v.setBackgroundResource(R.drawable.selector);
 		}
-		mTabHost.setOnTabChangedListener(this);
+//		mTabHost.setOnTabChangedListener(this);
 	}
 
 	private static void AddTab(ProductDisplay activity, TabHost tabHost,
@@ -525,374 +356,150 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 		tabHost.addTab(tabSpec);
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			_list_type="all";
-			mViewPager.setCurrentItem(0);
-			_all.setTextColor(color);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
+//	@Override
+//	public void onClick(View v) {
+//		switch (v.getId()) {
 
-		case R.id.cat_women:
-			_list_type="women";
-			mViewPager.setCurrentItem(1);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(color);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
+		// case R.id.cat_men:
+		// _list_type="men";
+		// mViewPager.setCurrentItem(2);
+		// slide_me.closeRightSide();
+		// break;
+		// case R.id.cat_children:
+		// _list_type="children";
+		// mViewPager.setCurrentItem(3);
+		// slide_me.closeRightSide();
+		// break;
+		// case R.id.cat_home:
+		// _list_type="home";
+		// mViewPager.setCurrentItem(4);
+		// slide_me.closeRightSide();
+		// break;
+		// case R.id.cat_accesories:
+		// _list_type="accesories";
+		// mViewPager.setCurrentItem(5);
+		// slide_me.closeRightSide();
+		// break;
+		// case R.id.btn_login:
+		// if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+		// Intent login = new Intent(_ctx, PhoneLoginScreen.class);
+		// startActivityForResult(login, 1);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
+		//
+		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
+		// Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
+		// startActivityForResult(_login, 1);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.puch_out_to_top,R.anim.login_screen_back);
+		// }
+		// break;
+		// case R.id.my_cart:
+		// Intent _cart = new Intent(ProductDisplay.this, MyCartScreen.class);
+		// startActivity(_cart);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// break;
+		//
+		// case R.id.btn_support:
+		// Log.d(TAG, "support is clicked.");
+		// Intent support = new
+		// Intent(ProductDisplay.this,SupportActivity.class);
+		// startActivity(support);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// break;
+		// case R.id.btn_invite:
+		// Intent _invit = new Intent(_ctx, InviteSction_Screen.class);
+		// startActivity(_invit);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// break;
+		// case R.id.btn_logout:
+		// Editor editor = _mypref.edit();
+		// editor.clear();
+		// editor.commit();
+		// Intent _intent = new
+		// Intent(getApplicationContext(),ProductDisplay.class);
+		// startActivity(_intent);
+		// DataHolderClass.getInstance().setUsername("Hi! Guest");
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// break;
+		// case R.id.btn_setting:
+		// if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+		// Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
+		// startActivity(_phonesetting);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+		// && DataHolderClass.getInstance().get_deviceInch() < 9) {
+		// Intent _tabsetting = new Intent(_ctx, SettingTab.class);
+		// startActivity(_tabsetting);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
+		// Intent _tabsetting = new Intent(_ctx, SettingTab.class);
+		// startActivity(_tabsetting);
+		// slide_me.closeRightSide();
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// }
+		// break;
+		//
+		// case R.id.cart_btn:
+		// if((_getToken!=null)&& (_getuserId!=null)){
+		// Intent _gotocart = new Intent(_ctx,MyCartScreen.class);
+		// startActivity(_gotocart);
+		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
+		// }else{
+		// LayoutInflater inflater = getLayoutInflater();
+		// View view = inflater.inflate(R.layout.error_popop,(ViewGroup)
+		// findViewById(R.id.relativeLayout1));
+		// final TextView _seterrormsg =
+		// (TextView)view.findViewById(R.id._seterrormsg);
+		// _seterrormsg.setText("Please login!");
+		// Toast toast = new Toast(_ctx);
+		// toast.setGravity(Gravity.CENTER, 0, 0);
+		// toast.setView(view);
+		// toast.show();
+		// }
+		// break;
+//		}
+//	}
 
-		case R.id.cat_men:
-			_list_type="men";
-			mViewPager.setCurrentItem(2);
-			_all.setTextColor(colors);
-            _men.setTextColor(color);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
+//	@Override
+//	public void onPageScrollStateChanged(int arg0) {
+//	}
+//
+//	@Override
+//	public void onPageScrolled(int position, float positionOffset,
+//			int positionOffsetPixels) {
+//		View tabView = mTabHost.getTabWidget().getChildAt(position);
+//		if (tabView != null) {
+//			final int width = mHorizontalScroll.getWidth();
+//			final int scrollPos = tabView.getLeft()
+//					- (width - tabView.getWidth()) / 2;
+//			mHorizontalScroll.scrollTo(scrollPos, 0);
+//		} else {
+//			mHorizontalScroll.scrollBy(positionOffsetPixels, 0);
+//		}
+//	}
+//
+//	@Override
+//	public void onPageSelected(int position) {
+//		this.mTabHost.setCurrentTab(position);
+//	}
+//
+//	@Override
+//	public void onTabChanged(String tabId) {
+//
+//		int pos = this.mTabHost.getCurrentTab();
+//
+//		if (this.mViewPager != null)
+//			this.mViewPager.setCurrentItem(pos);
+//
+//	}
 
-		case R.id.cat_children:
-			_list_type="children";
-			mViewPager.setCurrentItem(3);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(color);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.cat_home:
-			_list_type="home";
-			mViewPager.setCurrentItem(4);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(color);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.cat_accesories:
-			_list_type="accesories";
-			mViewPager.setCurrentItem(5);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(color);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			break;
-
-		case R.id.btn_login:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent login = new Intent(_ctx, PhoneLoginScreen.class);
-				startActivityForResult(login, 1);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
-				
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-				Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
-				startActivityForResult(_login, 1);
-				slide_me.closeRightSide();				
-				overridePendingTransition(R.anim.puch_out_to_top,R.anim.login_screen_back);
-			}
-			break;
-
-		case R.id.my_cart:
-			Intent _cart = new Intent(ProductDisplay.this, MyCartScreen.class);
-			startActivity(_cart);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(color);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			break;
-		
-		case R.id.btn_support:
-			Log.d(TAG, "support is clicked.");
-			Intent support = new Intent(ProductDisplay.this,SupportActivity.class);
-			startActivity(support);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(color);
-			_invite.setTextColor(colors);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-
-			break;
-
-		case R.id.btn_invite:
-			Intent _invit = new Intent(_ctx, InviteSction_Screen.class);
-			startActivity(_invit);
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(color);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			break;
-
-		case R.id.btn_logout:
-			Editor editor = _mypref.edit();
-			editor.clear();
-			editor.commit();
-			Intent _intent = new Intent(getApplicationContext(),ProductDisplay.class);
-			startActivity(_intent);
-			DataHolderClass.getInstance().setUsername("Hi! Guest");
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			break;
-
-		case R.id.btn_setting:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				startActivity(_phonesetting);
-				_all.setTextColor(colors);
-	            _men.setTextColor(colors);
-	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
-				_settings.setTextColor(color);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-					&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				_all.setTextColor(colors);
-	            _men.setTextColor(colors);
-	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
-				_settings.setTextColor(color);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				_all.setTextColor(colors);
-	            _men.setTextColor(colors);
-	            _women.setTextColor(colors);
-	            _childrens.setTextColor(colors);
-	            _home.setTextColor(colors);
-	            _accessories.setTextColor(colors);
-				_settings.setTextColor(color);
-				_mycart.setTextColor(colors);
-				mSupport.setTextColor(colors);
-				_invite.setTextColor(colors);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			}
-			break;
-			
-		 case R.id.cart_btn:
-			if((_getToken!=null)&& (_getuserId!=null)){
-				Intent _gotocart = new Intent(_ctx,MyCartScreen.class);
-				startActivity(_gotocart);
-				overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-			}else{
-				LayoutInflater inflater = getLayoutInflater();
-			    View view = inflater.inflate(R.layout.error_popop,(ViewGroup) findViewById(R.id.relativeLayout1));				    
-			   final  TextView _seterrormsg = (TextView)view.findViewById(R.id._seterrormsg);
-			    _seterrormsg.setText("Please login!");
-			    Toast toast = new Toast(_ctx);
-			    toast.setGravity(Gravity.CENTER, 0, 0);
-			    toast.setView(view);
-			    toast.show();
-			}
-			break;
-		}
-	}
-	
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-
-	}
-
-	@Override
-	public void onPageScrolled(int position, float positionOffset,
-			int positionOffsetPixels) {
-		View tabView = mTabHost.getTabWidget().getChildAt(position);
-		if (tabView != null) {
-			final int width = mHorizontalScroll.getWidth();
-			final int scrollPos = tabView.getLeft()
-					- (width - tabView.getWidth()) / 2;
-			mHorizontalScroll.scrollTo(scrollPos, 0);
-		} else {
-			mHorizontalScroll.scrollBy(positionOffsetPixels, 0);
-		}
-	}
-
-	@Override
-	public void onPageSelected(int position) {
-		this.mTabHost.setCurrentTab(position);
-	}
-
-	@Override
-	public void onTabChanged(String tabId) {
-		
-		int pos = this.mTabHost.getCurrentTab();
-		
-		if(this.mViewPager!=null)
-			this.mViewPager.setCurrentItem(pos);
-		
-		if(_all==null || _women==null || _men==null || _childrens==null || _home==null || _accessories==null)
-			return;
-		
-		if(pos==0){
-			_all.setTextColor(color);
-			
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="all";
-		}else if(pos==1){
-			_women.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="women";
-		}else if(pos==2){
-			_men.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="men";
-		}else if(pos==3){
-			_childrens.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _home.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="children";
-		}else if(pos==4){
-			_home.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _accessories.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			_list_type="home";
-		}else if(pos==5){
-			_accessories.setTextColor(color);
-			
-			_all.setTextColor(colors);
-            _men.setTextColor(colors);
-            _women.setTextColor(colors);
-            _childrens.setTextColor(colors);
-            _home.setTextColor(colors);
-			_settings.setTextColor(colors);
-			_mycart.setTextColor(colors);
-			mSupport.setTextColor(colors);
-			_invite.setTextColor(colors);
-			
-			_list_type="accessories";
-		}
-		
-	}
-	
 	class LoadProduct extends AsyncTask<Void, Void, Void> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -927,7 +534,8 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 			children_prdt.clear();
 
 			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
-					+ getApplicationContext().getResources().getString(R.string.channel_code);
+					+ getApplicationContext().getResources().getString(
+							R.string.channel_code);
 			GetProducts(url_campaigns);
 			return null;
 		}
@@ -943,7 +551,6 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 		}
 	}
 
-	
 	public void GetProducts(String _url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -981,7 +588,7 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 								.getString("shipping_period");
 						String free_shipping = jsonobj
 								.getString("free_shipping");
-						
+
 						ProductsDataModel all_data_model = new ProductsDataModel();
 						ProductsDataModel men_data_model = new ProductsDataModel();
 						ProductsDataModel women_data_model = new ProductsDataModel();
@@ -1087,7 +694,7 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 					e.printStackTrace();
 				}
 			} else {
-				Log.e(TAG,"error");
+				Log.e(TAG, "error");
 			}
 
 		} catch (Exception e) {
@@ -1095,7 +702,6 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 		}
 	}
 
- 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == 1) {
@@ -1108,19 +714,19 @@ public class ProductDisplay extends SlidingFragmentActivity implements
 			}
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 
-		if(mBackButtonCount >=1){
+		if (mBackButtonCount >= 1) {
 			Log.e(TAG, "EXIT");
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
-		}
-		else {
-			Toast.makeText(this, "Press the back button once again to exit.", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, "Press the back button once again to exit.",
+					Toast.LENGTH_SHORT).show();
 			mBackButtonCount++;
 		}
 	}
