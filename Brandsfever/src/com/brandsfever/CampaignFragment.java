@@ -2,84 +2,74 @@ package com.brandsfever;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.HorizontalScrollView;
+import android.widget.FrameLayout;
 
-import com.adapter.VPagerAdapter;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class CampaignFragment extends Fragment {
 
-//	private int mPos = -1;
-	private FragmentTabHost	mTabHost;
-	private ViewPager	mViewPager;
-	private HorizontalScrollView mHorizontalScroll;
-	private VPagerAdapter mPagerAdapter;
+	private static final String[] CONTENT = new String[]{"All","Men","Women","Accessories"};
 	
 	public CampaignFragment(){ }
-	
-	public CampaignFragment(int pos){
-//		mPos = pos;
-	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		if (mPos == -1 && savedInstanceState != null)
-//			mPos = savedInstanceState.getInt("mPos");
+
+		FragmentPagerAdapter adapter = new CampaignAdapter(getActivity().getSupportFragmentManager());
 		
-		mTabHost = (FragmentTabHost)inflater.inflate(R.layout.fragment_campaign, null);
-		mTabHost.setup(getActivity(), getChildFragmentManager());
-	
-		mTabHost.addTab(mTabHost.newTabSpec("All").setIndicator("All"), CampaignListFragment.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("Women").setIndicator("Women"), CampaignListFragment.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("Men").setIndicator("Men"), CampaignListFragment.class, null);
+		FrameLayout linearLayout = (FrameLayout) inflater.inflate(R.layout.fragment_campaign, null);
 		
+		ViewPager pager = (ViewPager)linearLayout.findViewById(R.id.pager);
+		pager.setAdapter(adapter);
 		
-		return mTabHost;
+		TabPageIndicator indicator = (TabPageIndicator)linearLayout.findViewById(R.id.indicator);
+		indicator.setViewPager(pager);
+		
+		return linearLayout;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-//		outState.putInt("mPos", mPos);
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mTabHost = null;
 	}
 	
-	private class GridAdapter extends BaseAdapter {
+	private class CampaignAdapter extends FragmentPagerAdapter {
 
-		@Override
-		public int getCount() {
-			return 30;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return null;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if (convertView == null) {
-				convertView = getActivity().getLayoutInflater().inflate(R.layout.grid_item, null);
-			}
-			
-			return convertView;
+		public CampaignAdapter(FragmentManager fm){
+			super(fm);
 		}
 		
+		@Override
+		public Fragment getItem(int position) {
+			
+			return CampaignListFragment.newInstance(CONTENT[position % CONTENT.length]);
+		}
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return CONTENT[position%CONTENT.length].toUpperCase();
+		}
+		
+		@Override
+		public int getCount() {
+			return CONTENT.length;
+		}
 	}
 }

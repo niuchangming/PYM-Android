@@ -152,7 +152,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		if (savedInstanceState != null)
 			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
 		if (mContent == null) {
-			mContent = new CampaignFragment(4);
+			mContent = new CampaignFragment();
 		}
 
 		getSupportFragmentManager().beginTransaction()
