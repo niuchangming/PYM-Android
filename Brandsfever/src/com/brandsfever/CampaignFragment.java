@@ -14,24 +14,29 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CampaignFragment extends Fragment {
 
-	private static final String[] CONTENT = new String[]{"All","Men","Women","Accessories"};
-	
-	public CampaignFragment(){ }
-	
+	private static final String[] CONTENT = new String[] { "All", "Women",
+			"Men", "Children", "Home", "Accessories" };
+
+	public CampaignFragment() {
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		FragmentPagerAdapter adapter = new CampaignAdapter(getActivity().getSupportFragmentManager());
-		
-		FrameLayout linearLayout = (FrameLayout) inflater.inflate(R.layout.fragment_campaign, null);
-		
-		ViewPager pager = (ViewPager)linearLayout.findViewById(R.id.pager);
+		FragmentPagerAdapter adapter = new CampaignAdapter(getActivity()
+				.getSupportFragmentManager());
+
+		FrameLayout linearLayout = (FrameLayout) inflater.inflate(
+				R.layout.fragment_campaign, null);
+
+		ViewPager pager = (ViewPager) linearLayout.findViewById(R.id.pager);
 		pager.setAdapter(adapter);
-		
-		TabPageIndicator indicator = (TabPageIndicator)linearLayout.findViewById(R.id.indicator);
+
+		TabPageIndicator indicator = (TabPageIndicator) linearLayout
+				.findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
-		
+
 		return linearLayout;
 	}
 
@@ -39,34 +44,35 @@ public class CampaignFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	private class CampaignAdapter extends FragmentPagerAdapter {
 
-		public CampaignAdapter(FragmentManager fm){
+		public CampaignAdapter(FragmentManager fm) {
 			super(fm);
 		}
-		
+
 		@Override
 		public Fragment getItem(int position) {
-			
-			return CampaignListFragment.newInstance(CONTENT[position % CONTENT.length]);
+
+			return CampaignListFragment.newInstance(CONTENT[position
+					% CONTENT.length]);
 		}
-		
+
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return CONTENT[position%CONTENT.length].toUpperCase();
+			return CONTENT[position % CONTENT.length].toUpperCase();
 		}
-		
+
 		@Override
 		public int getCount() {
 			return CONTENT.length;
