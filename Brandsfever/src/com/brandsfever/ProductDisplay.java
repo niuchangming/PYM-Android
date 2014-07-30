@@ -169,7 +169,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 
-		// new LoadProduct().execute();
+		 new LoadProduct().execute();
 	}
 
 	public void switchContent(final Fragment fragment) {
@@ -524,7 +524,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			mProgressHUD.dismiss();
-			ProductDisplay.this.intialiseViewPager();
+//			ProductDisplay.this.intialiseViewPager();
 		}
 	}
 

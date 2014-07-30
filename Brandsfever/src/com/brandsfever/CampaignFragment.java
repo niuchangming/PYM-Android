@@ -64,8 +64,7 @@ public class CampaignFragment extends Fragment {
 		@Override
 		public Fragment getItem(int position) {
 
-			return CampaignListFragment.newInstance(CONTENT[position
-					% CONTENT.length]);
+			return CampaignListFragment.newInstance();
 		}
 
 		@Override
