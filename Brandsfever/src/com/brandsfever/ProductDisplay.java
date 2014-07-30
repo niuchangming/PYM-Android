@@ -138,7 +138,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		if (findViewById(R.id.menu_frame) == null) {
 			setBehindContentView(R.layout.menu_frame);
 			getSlidingMenu().setSlidingEnabled(true);
-			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 			// show home as up so we can toggle
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} else {
