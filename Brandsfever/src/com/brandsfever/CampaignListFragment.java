@@ -23,7 +23,10 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -47,13 +50,14 @@ import com.datamodel.ProductsDataModel;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class CampaignListFragment extends Fragment {
+public class CampaignListFragment extends Fragment implements OnRefreshListener {
 
 	private static final String TAG = "CampaignListFragment";
 
 	private ListView mCampaignList;
-	private Button mScrollUp;
+//	private Button mScrollUp;
 	private ArrayList<ProductsDataModel> mCampaigns;
+	private SwipeRefreshLayout mSwipeLayout;
 	private PhoneAdapter mAdapter;
 	private String mCategoryName;
 
@@ -70,7 +74,6 @@ public class CampaignListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e(mCategoryName, "onCreate");
 		mCampaigns = new ArrayList<ProductsDataModel>();
 	}
 
@@ -78,12 +81,16 @@ public class CampaignListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		Log.e(mCategoryName, "onCreateView");
-		ViewGroup view = (ViewGroup) inflater.inflate(
-				R.layout.phone_all_products, null);
-		mCampaignList = (ListView) view.findViewById(R.id.all_product_list);
-		mScrollUp = (Button) view.findViewById(R.id.scrolldown);
-		mScrollUp.setVisibility(View.GONE);
+		mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
+				R.layout.campaign_list, null);
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright, 
+                android.R.color.holo_green_light, 
+                android.R.color.holo_orange_light, 
+                android.R.color.holo_red_light);
+		mCampaignList = (ListView) mSwipeLayout.findViewById(R.id.campaign_list);
+//		mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
+//		mScrollUp.setVisibility(View.GONE);
 		mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
 		mCampaignList.setAdapter(mAdapter);
 
@@ -95,53 +102,46 @@ public class CampaignListFragment extends Fragment {
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if (firstVisibleItem > 4) {
-					mScrollUp.setVisibility(View.VISIBLE);
-				} else {
-					mScrollUp.setVisibility(View.GONE);
-				}
+//				if (firstVisibleItem > 4) {
+//					mScrollUp.setVisibility(View.VISIBLE);
+//				} else {
+//					mScrollUp.setVisibility(View.GONE);
+//				}
 			}
 		});
-		mScrollUp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mCampaignList.setSelection(0);
-				mScrollUp.setVisibility(View.GONE);
-			}
-		});
+//		mScrollUp.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				mCampaignList.setSelection(0);
+//				mScrollUp.setVisibility(View.GONE);
+//			}
+//		});
 
 		if (mCampaigns.isEmpty()) {
 			new LoadProduct(mCategoryName).execute();
-			Log.e(mCategoryName, "mCampaigns is empty");
-		} else {
-			Log.e(mCategoryName, "mCampaigns is Full");
-		}
+		} 
 
-		return view;
+		return mSwipeLayout;
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		Log.e(mCategoryName, "onAttach");
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		Log.e(mCategoryName, "onDetach");
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		Log.e(mCategoryName, "onDestroyView");
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		Log.e(mCategoryName, "onSaveInstanceState");
 	}
 
 	class PhoneAdapter extends BaseAdapter {
@@ -418,6 +418,7 @@ public class CampaignListFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 //			mProgressHUD.dismiss();
+			Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT).show();
 			mAdapter.notifyDataSetChanged();
 		}
 	}
@@ -484,6 +485,17 @@ public class CampaignListFragment extends Fragment {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void onRefresh() {
+		new LoadProduct(mCategoryName).execute();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(false);
+            }
+        }, 2000);
 	}
 
 }
