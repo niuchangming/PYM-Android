@@ -1,23 +1,38 @@
 package com.brandsfever;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,45 +40,54 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.androidquery.AQuery;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
-import com.google.analytics.tracking.android.Log;
+import com.ssl.HttpsClient;
+import com.ssl.TrustAllCertificates;
 
 public class CampaignListFragment extends Fragment {
 
 	private static final String TAG = "CampaignListFragment";
-	
-	ListView campaignList;
-	Button scrollUp;
-	
-	public static CampaignListFragment newInstance() {
 
-		CampaignListFragment fragment = new CampaignListFragment();
+	private ListView mCampaignList;
+	private Button mScrollUp;
+	private ArrayList<ProductsDataModel> mCampaigns;
+	private PhoneAdapter mAdapter;
+	private String mCategoryName;
+
+	public static CampaignListFragment newInstance(String category) {
+
+		CampaignListFragment fragment = new CampaignListFragment(category);
 		return fragment;
+	}
+
+	CampaignListFragment(String category) {
+		mCategoryName = category;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Log.e(mCategoryName, "onCreate");
+		mCampaigns = new ArrayList<ProductsDataModel>();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		ViewGroup view = (ViewGroup)inflater.inflate(R.layout.phone_all_products, null);
-		campaignList = (ListView)view.findViewById(R.id.all_product_list);
-		scrollUp = (Button)view.findViewById(R.id.scrolldown);
-		scrollUp.setVisibility(View.GONE);
-		
-		PhoneAdapter adapter = new PhoneAdapter(getActivity(),ProductDisplay.all_prdt);
-		campaignList.setAdapter(adapter);
-		
-		campaignList.setOnScrollListener(new OnScrollListener() {
+		Log.e(mCategoryName, "onCreateView");
+		ViewGroup view = (ViewGroup) inflater.inflate(
+				R.layout.phone_all_products, null);
+		mCampaignList = (ListView) view.findViewById(R.id.all_product_list);
+		mScrollUp = (Button) view.findViewById(R.id.scrolldown);
+		mScrollUp.setVisibility(View.GONE);
+		mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
+		mCampaignList.setAdapter(mAdapter);
+
+		mCampaignList.setOnScrollListener(new OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			}
@@ -72,57 +96,54 @@ public class CampaignListFragment extends Fragment {
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
 				if (firstVisibleItem > 4) {
-					scrollUp.setVisibility(View.VISIBLE);
+					mScrollUp.setVisibility(View.VISIBLE);
 				} else {
-					scrollUp.setVisibility(View.GONE);
+					mScrollUp.setVisibility(View.GONE);
 				}
 			}
 		});
-		scrollUp.setOnClickListener(new OnClickListener() {
+		mScrollUp.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				campaignList.setSelection(0);
-				scrollUp.setVisibility(View.GONE);
+				mCampaignList.setSelection(0);
+				mScrollUp.setVisibility(View.GONE);
 			}
 		});
+
+		if (mCampaigns.isEmpty()) {
+			new LoadProduct(mCategoryName).execute();
+			Log.e(mCategoryName, "mCampaigns is empty");
+		} else {
+			Log.e(mCategoryName, "mCampaigns is Full");
+		}
+
 		return view;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		Log.e(mCategoryName, "onAttach");
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		Log.e(mCategoryName, "onDetach");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		Log.e(mCategoryName, "onDestroyView");
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		Log.e(mCategoryName, "onSaveInstanceState");
 	}
 
-	private class GridAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return 30;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return null;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if (convertView == null) {
-				convertView = getActivity().getLayoutInflater().inflate(
-						R.layout.grid_item, null);
-			}
-
-			return convertView;
-		}
-
-	}
-	
-	
 	class PhoneAdapter extends BaseAdapter {
 
 		Context _scontext;
@@ -157,15 +178,12 @@ public class CampaignListFragment extends Fragment {
 			Button go_for_sale;
 
 			View itemView;
-			if(convertView == null){
+			if (convertView == null) {
 				itemView = getActivity().getLayoutInflater().inflate(
-					R.layout.phone_product_display_inflator, parent, false);
-				Log.i("convertView is null");
+						R.layout.phone_product_display_inflator, parent, false);
 			} else {
 				itemView = convertView;
-				Log.i("convertView is reused ======");
 			}
-			
 
 			LinearLayout f_l = (LinearLayout) itemView.findViewById(R.id.pr_bg);
 			if (position % 3 == 0) {
@@ -178,59 +196,60 @@ public class CampaignListFragment extends Fragment {
 
 			ends_in = (TextView) itemView.findViewById(R.id.set_time_left);
 			discount_rate = (TextView) itemView.findViewById(R.id.set_discount);
-			set_product_image = (ImageView) itemView.findViewById(R.id.product_image);
+			set_product_image = (ImageView) itemView
+					.findViewById(R.id.product_image);
 			go_for_sale = (Button) itemView.findViewById(R.id.go_for_sale);
 			go_for_sale.setTag(position);
 			set_product_image.setTag(position);
 
-			Typeface mFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
+			Typeface mFont = Typeface.createFromAsset(
+					getActivity().getAssets(), "fonts/georgia.ttf");
 			ends_in.setTypeface(mFont);
 			discount_rate.setTypeface(mFont);
 			ProductsDataModel obj = data.get(position);
-			
-			String hours_left_str,minutes_left_str,seconds_left_str;
+
+			String hours_left_str, minutes_left_str, seconds_left_str;
 
 			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			
+
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			if(String.valueOf(hours_left).length()<2){
-				hours_left_str="0"+String.valueOf(hours_left);				
-			}else{
-				hours_left_str=String.valueOf(hours_left);
+			if (String.valueOf(hours_left).length() < 2) {
+				hours_left_str = "0" + String.valueOf(hours_left);
+			} else {
+				hours_left_str = String.valueOf(hours_left);
 			}
-			
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);			
-			if(String.valueOf(minutes_left).length()<2){
-				minutes_left_str="0"+String.valueOf(minutes_left);				
-			}else{
-				minutes_left_str=String.valueOf(minutes_left);
-			}	
-			
+
+			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
+			if (String.valueOf(minutes_left).length() < 2) {
+				minutes_left_str = "0" + String.valueOf(minutes_left);
+			} else {
+				minutes_left_str = String.valueOf(minutes_left);
+			}
+
 			int seconds_left = (int) ((diff / 1000) % 60);
-			if(String.valueOf(seconds_left).length()<2){
-				seconds_left_str="0"+String.valueOf(seconds_left);				
-			}else{
-				seconds_left_str=String.valueOf(seconds_left);
+			if (String.valueOf(seconds_left).length() < 2) {
+				seconds_left_str = "0" + String.valueOf(seconds_left);
+			} else {
+				seconds_left_str = String.valueOf(seconds_left);
 			}
-		
+
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-		    cal.setTimeInMillis(end);
-		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
+			cal.setTimeInMillis(end);
+			String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
 
 			String s = Integer.toString(dayCount) + " Days" + " "
-					+  hours_left_str + ":"
-					+ minutes_left_str + ":"
+					+ hours_left_str + ":" + minutes_left_str + ":"
 					+ seconds_left_str;
-			
+
 			String _to = Integer.toString(hours_left) + ":"
 					+ Integer.toString(minutes_left) + ":"
 					+ Integer.toString(seconds_left);
-			
-			String _endDate = date+ "\n" + _to;
+
+			String _endDate = date + "\n" + _to;
 
 			long timeInMillisecond = obj.getStarts_at();
 			long start = timeInMillisecond * 1000;
@@ -239,22 +258,24 @@ public class CampaignListFragment extends Fragment {
 			int hours_lefts = (int) ((diffs / (1000 * 60 * 60)) % 24);
 			int minutes_lefts = (int) ((diffs / (1000 * 60)) % 60);
 			int seconds_lefts = (int) ((diffs / 1000) % 60);
-			
+
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
-		    cals.setTimeInMillis(start);
-		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-			String _from =  Integer.toString(hours_lefts) + ":"
+			cals.setTimeInMillis(start);
+			String start_date = DateFormat.format("dd-MMMM-yyyy", cals)
+					.toString();
+			String _from = Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);
-			
-			String _startFrom = start_date +"\n"+ _from;
-			
+
+			String _startFrom = start_date + "\n" + _from;
+
 			if (start > currenttime) {
 				ends_in.setText(s);
 				ends_in.setVisibility(View.GONE);
 				discount_rate.setText(obj.getDiscount_text());
 				discount_rate.setVisibility(View.GONE);
-				TextView set_from = (TextView) itemView.findViewById(R.id.set_from);
+				TextView set_from = (TextView) itemView
+						.findViewById(R.id.set_from);
 				TextView set_to = (TextView) itemView.findViewById(R.id.set_to);
 				set_to.setTypeface(mFont, Typeface.NORMAL);
 				set_to.setText(_endDate);
@@ -272,7 +293,8 @@ public class CampaignListFragment extends Fragment {
 				aq.id(set_product_image).image(a);
 				ColorMatrix matrix = new ColorMatrix();
 				matrix.setSaturation(0);
-				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(
+						matrix);
 				set_product_image.setColorFilter(filter);
 				f_l.setBackgroundResource(R.drawable.green_base);
 			} else {
@@ -289,7 +311,7 @@ public class CampaignListFragment extends Fragment {
 				public void onClick(View v) {
 					int a = (Integer) v.getTag();
 					if (a == 50000) {
-						_ResponsePopup();
+						responsePopup();
 					} else {
 
 						ProductsDataModel cs = data.get(a);
@@ -313,7 +335,7 @@ public class CampaignListFragment extends Fragment {
 				public void onClick(View v) {
 					int a = (Integer) v.getTag();
 					if (a == 50000) {
-						_ResponsePopup();
+						responsePopup();
 					} else {
 						ProductsDataModel cs = data.get(a);
 						int _s = Integer.parseInt(cs.getPk());
@@ -334,9 +356,8 @@ public class CampaignListFragment extends Fragment {
 			return itemView;
 		}
 	}
-	
-	
-	public void _ResponsePopup() {
+
+	public void responsePopup() {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
 		TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
@@ -346,4 +367,123 @@ public class CampaignListFragment extends Fragment {
 		toast.setView(view);
 		toast.show();
 	}
+
+	class LoadProduct extends AsyncTask<Void, Void, Void> implements
+			OnCancelListener {
+//		ProgressHUD mProgressHUD;
+		String mCategoryName;
+
+		LoadProduct(String category) {
+			mCategoryName = category;
+		}
+
+		@Override
+		protected void onPreExecute() {
+//			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
+//					true, this);
+//			DisplayMetrics displaymetrics = new DisplayMetrics();
+//			int displayHeight = displaymetrics.heightPixels;
+//			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
+//			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
+//					.getAttributes();
+//			wmlp.y = displayHeight / 4;
+//			mProgressHUD.getWindow().setAttributes(wmlp);
+//			mProgressHUD.setCancelable(false);
+			super.onPreExecute();
+		}
+
+		@Override
+		public void onCancel(DialogInterface arg0) {
+		}
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+
+			mCampaigns.clear();
+
+			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
+					+ getActivity().getResources().getString(
+							R.string.channel_code);
+			if (mCategoryName != null && mCategoryName.length() > 0) {
+				url_campaigns = url_campaigns + "/category/" + mCategoryName;
+			}
+			GetProducts(url_campaigns);
+			return null;
+		}
+
+		protected void onProgressUpdate(String... values) {
+//			mProgressHUD.setMessage(values[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+//			mProgressHUD.dismiss();
+			mAdapter.notifyDataSetChanged();
+		}
+	}
+
+	public void GetProducts(String url) {
+		TrustAllCertificates cert = new TrustAllCertificates();
+		cert.trustAllHosts();
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
+		try {
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
+				BufferedReader r = new BufferedReader(new InputStreamReader(
+						inputstream));
+				StringBuilder total = new StringBuilder();
+				String line;
+				while ((line = r.readLine()) != null) {
+					total.append(line);
+				}
+				String data = total.toString();
+				try {
+					JSONObject obj = new JSONObject(data);
+					JSONArray get_campaigns = obj.getJSONArray("campaigns");
+					for (int i = 0; i < get_campaigns.length(); i++) {
+						JSONObject jsonobj = get_campaigns.getJSONObject(i);
+						long ends_at = jsonobj.getLong("ends_at");
+						String teaser_url = jsonobj.getString("teaser_url");
+						String name = jsonobj.getString("name");
+						long starts_at = jsonobj.getLong("starts_at");
+						String pk = jsonobj.getString("pk");
+						String express = jsonobj.getString("express");
+						String discount_text = jsonobj
+								.getString("discount_text");
+						String shipping_fee = jsonobj.getString("shipping_fee");
+						String shipping_period = jsonobj
+								.getString("shipping_period");
+						String free_shipping = jsonobj
+								.getString("free_shipping");
+
+						ProductsDataModel campaign = new ProductsDataModel();
+
+						campaign.setEnds_at(ends_at);
+						campaign.setTeaser_url(teaser_url);
+						campaign.setName(name);
+						campaign.setStarts_at(starts_at);
+						campaign.setPk(pk);
+						campaign.setExpress(express);
+						campaign.setDiscount_text(discount_text);
+						campaign.setFree_shipping(free_shipping);
+						campaign.setShipping_fee(shipping_fee);
+						campaign.setShipping_period(shipping_period);
+
+						mCampaigns.add(campaign);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				Log.e(TAG, "error");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
