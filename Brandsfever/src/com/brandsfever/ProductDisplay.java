@@ -80,12 +80,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	public static ArrayList<ProductsDataModel> home_prdt = new ArrayList<ProductsDataModel>();
 	public static ArrayList<ProductsDataModel> accesories_prdt = new ArrayList<ProductsDataModel>();
 
-	TabHost mTabHost;
-	ViewPager mViewPager;
-	HashMap<String, TabInfo> mapTabInfo = new HashMap<String, ProductDisplay.TabInfo>();
-	VPagerAdapter mPagerAdapter;
-	HorizontalScrollView mHorizontalScroll;
-
 	int color, colors;
 
 	public static String _list_type = "all";
@@ -94,38 +88,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	String _getToken = "";
 	String _getuserId = "";
 	private int mBackButtonCount;
-
-	private class TabInfo {
-		private String tag;
-		@SuppressWarnings("unused")
-		private Class<?> clss;
-		@SuppressWarnings("unused")
-		private Bundle args;
-		@SuppressWarnings("unused")
-		private Fragment fragment;
-
-		TabInfo(String tag, Class<?> clazz, Bundle args) {
-			this.tag = tag;
-			this.clss = clazz;
-			this.args = args;
-		}
-	}
-
-	class TabFactory implements TabContentFactory {
-		private final Context mContext;
-
-		public TabFactory(Context context) {
-			mContext = context;
-		}
-
-		public View createTabContent(String tag) {
-			View v = new View(mContext);
-			v.setMinimumWidth(0);
-			v.setMinimumHeight(0);
-
-			return v;
-		}
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -150,7 +112,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		}
 
 		if (savedInstanceState != null)
-			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+			mContent = getSupportFragmentManager().getFragment(
+					savedInstanceState, "mContent");
 		if (mContent == null) {
 			mContent = new CampaignFragment();
 		}
@@ -169,7 +132,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 
-		 new LoadProduct().execute();
+		new LoadProduct().execute();
 	}
 
 	public void switchContent(final Fragment fragment) {
@@ -187,38 +150,12 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()){
+		switch (item.getItemId()) {
 		case android.R.id.home:
 			toggle();
 		}
-		
+
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private void updateSlidingMenu() {
-
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		String username = _mypref.getString("_UserName", null);
-		String greeting = set_user_name.getText().toString();
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
-
-		if (username != null) {
-
-			if (greeting.contains(username)) {
-				return;
-			}
-
-			set_user_name.setText("Hi! " + username);
-		} else {
-
-			if (greeting.contains("Guest")) {
-				return;
-			}
-
-			set_user_name.setText("Hi! Guest");
-		}
-
 	}
 
 	@Override
@@ -229,253 +166,13 @@ public class ProductDisplay extends SlidingFragmentActivity {
 				+ ": campaigns/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 
-//		updateSlidingMenu();
 	}
 
 	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
-//		outState.putString("tab", mTabHost.getCurrentTabTag());
+		// outState.putString("tab", mTabHost.getCurrentTabTag());
 		super.onSaveInstanceState(outState);
 	}
-
-	private void intialiseViewPager() {
-		List<Fragment> fragments = new Vector<Fragment>();
-		fragments.add(Fragment.instantiate(this,
-				AllProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,
-				WomenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,
-				MenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,
-				ChildrenProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,
-				HomeProductDisplay.class.getName()));
-		fragments.add(Fragment.instantiate(this,
-				AccesroiesProductDisplay.class.getName()));
-		this.mPagerAdapter = new VPagerAdapter(
-				super.getSupportFragmentManager(), fragments);
-		this.mViewPager = (ViewPager) super.findViewById(R.id.viewPagers);
-		this.mViewPager.setAdapter(this.mPagerAdapter);
-//		this.mViewPager.setOnPageChangeListener(this);
-		if (bundle != null) {
-			if (_TabName.equalsIgnoreCase("all")) {
-				mViewPager.setCurrentItem(0);
-			} else if (_TabName.equalsIgnoreCase("women")) {
-				mViewPager.setCurrentItem(1);
-			} else if (_TabName.equalsIgnoreCase("men")) {
-				mViewPager.setCurrentItem(2);
-			} else if (_TabName.equalsIgnoreCase("children")) {
-				mViewPager.setCurrentItem(3);
-			} else if (_TabName.equalsIgnoreCase("home")) {
-				mViewPager.setCurrentItem(4);
-			} else if (_TabName.equalsIgnoreCase("accessories")) {
-				mViewPager.setCurrentItem(5);
-			} else {
-				mViewPager.setCurrentItem(0);
-			}
-		}
-	}
-
-	private void initialiseTabHost(Bundle args) {
-		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-		mTabHost.setup();
-		TabInfo tabInfo = null;
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab1").setIndicator("ALL"),
-				(tabInfo = new TabInfo("Tab1", AllProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay
-				.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2")
-						.setIndicator("WOMEN"), (tabInfo = new TabInfo("Tab2",
-						WomenProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab3").setIndicator("MEN"),
-				(tabInfo = new TabInfo("Tab3", MenProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab4").setIndicator("CHILDREN"),
-				(tabInfo = new TabInfo("Tab4", ChildrenProductDisplay.class,
-						args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay
-				.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab5")
-						.setIndicator("HOME"), (tabInfo = new TabInfo("Tab5",
-						HomeProductDisplay.class, args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-		ProductDisplay.AddTab(this, this.mTabHost,
-				this.mTabHost.newTabSpec("Tab6").setIndicator("ACCESSORIES"),
-				(tabInfo = new TabInfo("Tab6", AccesroiesProductDisplay.class,
-						args)));
-		this.mapTabInfo.put(tabInfo.tag, tabInfo);
-
-		TabWidget widget = mTabHost.getTabWidget();
-		for (int i = 0; i < widget.getChildCount(); i++) {
-			View v = widget.getChildAt(i);
-			TextView tv = (TextView) v.findViewById(android.R.id.title);
-			int color = Integer.parseInt("000000", 16) + 0xFF000000;
-			tv.setTextColor(color);
-			tv.setTypeface(_font, Typeface.BOLD);
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				tv.setTextSize(14);
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-				tv.setTextSize(20);
-			}
-
-			v.setBackgroundResource(R.drawable.selector);
-		}
-//		mTabHost.setOnTabChangedListener(this);
-	}
-
-	private static void AddTab(ProductDisplay activity, TabHost tabHost,
-			TabHost.TabSpec tabSpec, TabInfo tabInfo) {
-		tabSpec.setContent(activity.new TabFactory(activity));
-		tabHost.addTab(tabSpec);
-	}
-
-//	@Override
-//	public void onClick(View v) {
-//		switch (v.getId()) {
-
-		// case R.id.cat_men:
-		// _list_type="men";
-		// mViewPager.setCurrentItem(2);
-		// slide_me.closeRightSide();
-		// break;
-		// case R.id.cat_children:
-		// _list_type="children";
-		// mViewPager.setCurrentItem(3);
-		// slide_me.closeRightSide();
-		// break;
-		// case R.id.cat_home:
-		// _list_type="home";
-		// mViewPager.setCurrentItem(4);
-		// slide_me.closeRightSide();
-		// break;
-		// case R.id.cat_accesories:
-		// _list_type="accesories";
-		// mViewPager.setCurrentItem(5);
-		// slide_me.closeRightSide();
-		// break;
-		// case R.id.btn_login:
-		// if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-		// Intent login = new Intent(_ctx, PhoneLoginScreen.class);
-		// startActivityForResult(login, 1);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.puch_out_to_top,R.anim.push_out_to_bottom);
-		//
-		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-		// Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
-		// startActivityForResult(_login, 1);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.puch_out_to_top,R.anim.login_screen_back);
-		// }
-		// break;
-		// case R.id.my_cart:
-		// Intent _cart = new Intent(ProductDisplay.this, MyCartScreen.class);
-		// startActivity(_cart);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// break;
-		//
-		// case R.id.btn_support:
-		// Log.d(TAG, "support is clicked.");
-		// Intent support = new
-		// Intent(ProductDisplay.this,SupportActivity.class);
-		// startActivity(support);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// break;
-		// case R.id.btn_invite:
-		// Intent _invit = new Intent(_ctx, InviteSction_Screen.class);
-		// startActivity(_invit);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// break;
-		// case R.id.btn_logout:
-		// Editor editor = _mypref.edit();
-		// editor.clear();
-		// editor.commit();
-		// Intent _intent = new
-		// Intent(getApplicationContext(),ProductDisplay.class);
-		// startActivity(_intent);
-		// DataHolderClass.getInstance().setUsername("Hi! Guest");
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// break;
-		// case R.id.btn_setting:
-		// if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-		// Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-		// startActivity(_phonesetting);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-		// && DataHolderClass.getInstance().get_deviceInch() < 9) {
-		// Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-		// startActivity(_tabsetting);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// } else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-		// Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-		// startActivity(_tabsetting);
-		// slide_me.closeRightSide();
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// }
-		// break;
-		//
-		// case R.id.cart_btn:
-		// if((_getToken!=null)&& (_getuserId!=null)){
-		// Intent _gotocart = new Intent(_ctx,MyCartScreen.class);
-		// startActivity(_gotocart);
-		// overridePendingTransition(R.anim.push_out_to_right,R.anim.push_out_to_left);
-		// }else{
-		// LayoutInflater inflater = getLayoutInflater();
-		// View view = inflater.inflate(R.layout.error_popop,(ViewGroup)
-		// findViewById(R.id.relativeLayout1));
-		// final TextView _seterrormsg =
-		// (TextView)view.findViewById(R.id._seterrormsg);
-		// _seterrormsg.setText("Please login!");
-		// Toast toast = new Toast(_ctx);
-		// toast.setGravity(Gravity.CENTER, 0, 0);
-		// toast.setView(view);
-		// toast.show();
-		// }
-		// break;
-//		}
-//	}
-
-//	@Override
-//	public void onPageScrollStateChanged(int arg0) {
-//	}
-//
-//	@Override
-//	public void onPageScrolled(int position, float positionOffset,
-//			int positionOffsetPixels) {
-//		View tabView = mTabHost.getTabWidget().getChildAt(position);
-//		if (tabView != null) {
-//			final int width = mHorizontalScroll.getWidth();
-//			final int scrollPos = tabView.getLeft()
-//					- (width - tabView.getWidth()) / 2;
-//			mHorizontalScroll.scrollTo(scrollPos, 0);
-//		} else {
-//			mHorizontalScroll.scrollBy(positionOffsetPixels, 0);
-//		}
-//	}
-//
-//	@Override
-//	public void onPageSelected(int position) {
-//		this.mTabHost.setCurrentTab(position);
-//	}
-//
-//	@Override
-//	public void onTabChanged(String tabId) {
-//
-//		int pos = this.mTabHost.getCurrentTab();
-//
-//		if (this.mViewPager != null)
-//			this.mViewPager.setCurrentItem(pos);
-//
-//	}
 
 	class LoadProduct extends AsyncTask<Void, Void, Void> implements
 			OnCancelListener {
@@ -524,7 +221,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			mProgressHUD.dismiss();
-//			ProductDisplay.this.intialiseViewPager();
+			// ProductDisplay.this.intialiseViewPager();
 		}
 	}
 
