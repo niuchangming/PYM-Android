@@ -13,12 +13,16 @@ import android.widget.ListView;
 public class MenuFragment extends ListFragment {
 	private static final String TAG = "MenuFragment";
 	private String[] mMenus;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mMenus = getResources().getStringArray(R.array.menus);
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		mMenus = getResources().getStringArray(R.array.menus);
 		return inflater.inflate(R.layout.menu_list, null);
 	}
 	
@@ -26,7 +30,7 @@ public class MenuFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ArrayAdapter<String> menuAdapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_1,android.R.id.text1, mMenus);
+				R.layout.menu_list_textview,android.R.id.text1, mMenus);
 		setListAdapter(menuAdapter);
 	}
 	
@@ -38,8 +42,6 @@ public class MenuFragment extends ListFragment {
 			if(getActivity() instanceof ProductDisplay){
 				((ProductDisplay)getActivity()).toggle();
 			}
-			
-			Log.i(TAG, "Click on " + position);
 		}
 	}
 	

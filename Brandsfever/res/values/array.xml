@@ -2,10 +2,10 @@
 <resources>
    <string-array name="menus">
        <item>All</item>
-       <item>  Women</item>
-       <item>  Men</item>
-       <item>  Children</item>
-       <item>  Home</item>
-       <item>  Accessories</item>
+       <item>Women</item>
+       <item>Men</item>
+       <item>Children</item>
+       <item>Home</item>
+       <item>Accessories</item>
    </string-array> 
 </resources>

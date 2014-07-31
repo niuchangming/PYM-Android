@@ -3,7 +3,9 @@
     android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:paddingLeft="@dimen/list_padding"
+    android:divider="@android:color/white"
+    android:dividerHeight="1px"
+    android:background="@android:color/black"
     android:paddingRight="@dimen/list_padding"> 
 
 </ListView>
