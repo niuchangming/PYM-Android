@@ -48,7 +48,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
-		Log.d(TAG, "onCreate");
 
 		setContentView(R.layout.content_frame);
 
@@ -121,7 +120,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	}
 
-	// Creating tabs
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
