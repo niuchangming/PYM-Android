@@ -95,7 +95,15 @@ public class MenuFragment extends ListFragment {
 			}
 
 		} else if (selectedMenu.equalsIgnoreCase("Invite")) {
-
+			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)){
+				pd.toggle();
+			} else {
+				Fragment invite = new InviteFragment();
+				if (invite != null){
+					pd.switchContent(invite);
+					pd.setCurrentMenu(selectedMenu);
+				}
+			}
 		} else if (selectedMenu.equalsIgnoreCase("Logout")) {
 
 		} else if (selectedMenu.equalsIgnoreCase("Login")) {

@@ -598,7 +598,7 @@ public class GetFacebookData extends Activity implements OnClickListener{
 	//********************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
-		Intent _s = new Intent(GetFacebookData.this,InviteSction_Screen.class);
+		Intent _s = new Intent(GetFacebookData.this,InviteFragment.class);
 		startActivity(_s);
 		finish();
 	}

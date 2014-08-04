@@ -373,7 +373,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			
 			
 		case R.id.btn_invite:
-			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
+			Intent _invite = new Intent(_ctx, InviteFragment.class);
 			startActivity(_invite);
 			slide_me.closeRightSide();
 			overridePendingTransition(R.anim.push_out_to_right,
