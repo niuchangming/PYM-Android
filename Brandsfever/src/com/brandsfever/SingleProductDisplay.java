@@ -1107,7 +1107,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.setView(view);
 					toast.show();
-					Intent _bn = new Intent(_ctx, MyCartScreen.class);
+					Intent _bn = new Intent(_ctx, MyCartFragment.class);
 					startActivity(_bn);
 					finish();
 				} else {

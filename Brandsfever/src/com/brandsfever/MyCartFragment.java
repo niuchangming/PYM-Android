@@ -23,21 +23,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -54,163 +49,80 @@ import com.datamodel.OrderInfoModel;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class MyCartScreen extends FragmentActivity implements OnClickListener {
-	Context _ctx = MyCartScreen.this;
-	private ImageButton main_menu,back_buttons;
+public class MyCartFragment extends Fragment implements OnClickListener {
 	private ImageButton continue_shoping, checkout_cart;
 	private TextView shiping_fee_tag, shiping_fee_amount, payable_amount_tag,
 			payable_amount, cart_summery_tag, item_count_tag;
 	SharedPreferences _mypref;
-	SimpleSideDrawer slide_me;
 	private String _getToken = "";
 	private String _getuserId = "";
-	private Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	public static ArrayList<OrderInfoModel> Orderinfo = new ArrayList<OrderInfoModel>();
-	private ListView _setMyorders;
-	MyCartAdapter _myadapter;
-	private String shipping_fee, total_price, _pk, _cartcontext;
+	private ListView mOrderListView;
+	MyCartAdapter mOrderAdapter;
+	private String shipping_fee, total_price, _pk;
 	private String _updateResponse;
-	private String _msg, _itemcount;
+	private String _msg;
 	private TextView _seterrormsg;
 	int color, colors;
 	
 	int _display_items=0;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		int a = DataHolderClass.getInstance().get_deviceInch();
-		if (a <= 6) {
-			setContentView(R.layout.activity_my_cart_screen);
-		} else if (a >= 7 && a < 9) {
-			setContentView(R.layout.seven_inch_my_cart_screen);
-		} else if (a >= 9) {
-			setContentView(R.layout.my_cart_screen_tab);
-		}
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
+		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.activity_my_cart_screen, container,false);
+		
+		_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
+		_mypref = getActivity().getApplicationContext().getSharedPreferences("mypref", 0);
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
-		back_buttons=(ImageButton)findViewById(R.id.back_btn);
-		back_buttons.setOnClickListener(this);
-		shiping_fee_tag = (TextView) findViewById(R.id.shiping_fee_tag);
+		shiping_fee_tag = (TextView)view.findViewById(R.id.shiping_fee_tag);
 		shiping_fee_tag.setTypeface(_font, Typeface.NORMAL);
-		shiping_fee_amount = (TextView) findViewById(R.id.shiping_fee_amount);
+		shiping_fee_amount = (TextView)view.findViewById(R.id.shiping_fee_amount);
 		shiping_fee_amount.setTypeface(_font, Typeface.NORMAL);
-		payable_amount_tag = (TextView) findViewById(R.id.payable_amount_tag);
+		payable_amount_tag = (TextView)view.findViewById(R.id.payable_amount_tag);
 		payable_amount_tag.setTypeface(_font, Typeface.NORMAL);
-		payable_amount = (TextView) findViewById(R.id.payable_amount);
+		payable_amount = (TextView)view.findViewById(R.id.payable_amount);
 		payable_amount.setTypeface(_font, Typeface.NORMAL);
 
-		cart_summery_tag = (TextView) findViewById(R.id.cart_summery_tag);
+		cart_summery_tag = (TextView)view.findViewById(R.id.cart_summery_tag);
 		cart_summery_tag.setTypeface(_font, Typeface.NORMAL);
 
-		item_count_tag = (TextView) findViewById(R.id.item_count_tag);
+		item_count_tag = (TextView)view.findViewById(R.id.item_count_tag);
 
-		_setMyorders = (ListView) findViewById(R.id.mycartlist);
-
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-
-		checkout_cart = (ImageButton) findViewById(R.id.checkout_cart);
+		mOrderListView = (ListView)view.findViewById(R.id.mycartlist);
+		mOrderAdapter = new MyCartAdapter(getActivity(), Orderinfo);
+		mOrderListView.setAdapter(mOrderAdapter);
+		checkout_cart = (ImageButton)view.findViewById(R.id.checkout_cart);
 		checkout_cart.setOnClickListener(this);
 
-		continue_shoping = (ImageButton) findViewById(R.id.continue_shoping);
+		continue_shoping = (ImageButton)view.findViewById(R.id.continue_shoping);
 		continue_shoping.setOnClickListener(this);
 
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(colors);
-		_mycart.setTextColor(color);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
 
 		new GetAllCarts().execute();
 
+		return view;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public void onStart(){
 		super.onStart();
 		
-		EasyTracker tracker = EasyTracker.getInstance(this);
+		EasyTracker tracker = EasyTracker.getInstance(getActivity());
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": carts/"+_getuserId+"/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
@@ -223,9 +135,9 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		@Override
 		protected void onPreExecute() {
 			_display_items=0;
-			mProgressHUD = ProgressHUD.show(_ctx, "Loading", true, true, this);
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 			int displayHeight = displaymetrics.heightPixels;
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
 			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
@@ -252,10 +164,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		protected void onPostExecute(String result) {
-			int sd = Orderinfo.size();
 			if (Orderinfo.size() > 0) {
-				int s = Orderinfo.size();
-				
 				
 				item_count_tag.setText("" + _display_items + " " + "items(s)");
 				item_count_tag.setTypeface(_font, Typeface.NORMAL);
@@ -263,9 +172,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				
 				payable_amount.setText(total_price.replace("GD", "$"));
 				DataHolderClass.getInstance().setFinal_cart_pk(_pk);
-				_myadapter = new MyCartAdapter(MyCartScreen.this, Orderinfo);
-				_myadapter.notifyDataSetChanged();
-				_setMyorders.setAdapter(_myadapter);
+				mOrderAdapter.notifyDataSetChanged();
 
 			} else {
 				item_count_tag.setText("0 item");
@@ -274,7 +181,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				payable_amount.setText("S$0");
 				
 				_msg = "Your cart \n is empty";
-				_ResponsePopup();
+				responsePopup();
 			}
 
 			mProgressHUD.dismiss();
@@ -312,7 +219,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 							_pk = _obj.getString("pk");
 							shipping_fee = _obj.getString("shipping_fee");
 							total_price = _obj.getString("total_price");
-							_cartcontext = _obj.getString("context");
 
 							JSONArray _getcartitems = _obj
 									.getJSONArray("cart_items");
@@ -485,7 +391,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 								
 								@Override
 								public void onClick(View v) {
-									// TODO Auto-generated method stub
 									pwindo.dismiss();
 									
 								}
@@ -498,7 +403,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 								
 								@Override
 								public void onClick(View v) {
-									// TODO Auto-generated method stub
 									pwindo.dismiss();
 									new RemoveOrUpdateProduct(_sendAction, _sendquantity,
 											_senditempk).execute();
@@ -554,179 +458,19 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent all = new Intent(_ctx, ProductDisplay.class);
-				all.putExtra("tab", "all");
-				startActivity(all);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_men:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent men = new Intent(_ctx, ProductDisplay.class);
-				men.putExtra("tab", "men");
-				startActivity(men);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_women:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent women = new Intent(_ctx, ProductDisplay.class);
-				women.putExtra("tab", "women");
-				startActivity(women);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-		case R.id.back_btn:
-			finish();
-		break;
-		case R.id.cat_children:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent children = new Intent(_ctx, ProductDisplay.class);
-				children.putExtra("tab", "children");
-				startActivity(children);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_home:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent home = new Intent(_ctx, ProductDisplay.class);
-				home.putExtra("tab", "home");
-				startActivity(home);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_accesories:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent acc = new Intent(_ctx, ProductDisplay.class);
-				acc.putExtra("tab", "accessories");
-				startActivity(acc);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_setting:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					startActivity(_phonesetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				}
-			}
-			break;
-
-		case R.id.my_cart:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.toggleRightDrawer();
-			}
-			break;
-
-		case R.id.btn_invite:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-				startActivity(_invite);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_logout:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Editor editor = _mypref.edit();
-				editor.clear();
-				editor.commit();
-				Intent _intent = new Intent(getApplicationContext(),
-						ProductDisplay.class);
-				startActivity(_intent);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			}
-			break;
-
 		case R.id.checkout_cart:
 			if (Orderinfo.size() > 0) {
-				Intent _checkout = new Intent(_ctx, OrderDelivery_Screen.class);
-				startActivity(_checkout);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
+				Intent checkout = new Intent(getActivity(), OrderDelivery_Screen.class);
+				startActivity(checkout);
 			} else {
 				_msg = "your cart is empty";
-				_ResponsePopup();
+				responsePopup();
 			}
 
 			break;
 		case R.id.continue_shoping:
-			Intent _continueshop = new Intent(_ctx, ProductDisplay.class);
-			startActivity(_continueshop);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
+			Intent continueshop = new Intent(getActivity(), ProductDisplay.class);
+			startActivity(continueshop);
 			break;
 
 		default:
@@ -751,10 +495,10 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(MyCartScreen.this, "Loading", true,
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
 					true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 			int displayHeight = displaymetrics.heightPixels;
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
 			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
@@ -791,7 +535,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -802,13 +545,13 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 				String _Ret = jobj.getString("ret");
 				if (_Ret.equals("0")) {
 					Orderinfo.clear();
-					_myadapter.notifyDataSetChanged();
+					mOrderAdapter.notifyDataSetChanged();
 					new GetAllCarts().execute();
 					_msg = "Removed from cart!";
-					_ResponsePopup();
+					responsePopup();
 				} else {
 					_msg = jobj.getString("msg");
-					_ResponsePopup();
+					responsePopup();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -849,18 +592,14 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		return _Response;
 	}
 
-	@Override
-	public void onBackPressed() {
-		finish();
-	}
 
-	public void _ResponsePopup() {
-		LayoutInflater inflater = getLayoutInflater();
+	public void responsePopup() {
+		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
-				(ViewGroup) findViewById(R.id.relativeLayout1));
+				(ViewGroup)getView().findViewById(R.id.relativeLayout1));
 		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
 		_seterrormsg.setText(_msg);
-		Toast toast = new Toast(_ctx);
+		Toast toast = new Toast(getActivity());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();

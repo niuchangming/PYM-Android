@@ -498,7 +498,7 @@ public class SendInviteScreen extends FragmentActivity implements
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(_ctx, MyCartScreen.class);
+			Intent _cart = new Intent(_ctx, MyCartFragment.class);
 			startActivity(_cart);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
@@ -533,7 +533,7 @@ public class SendInviteScreen extends FragmentActivity implements
 
 		case R.id.cart_btn:
 			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
+				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
 				startActivity(_gotocart);
 				finish();
 				overridePendingTransition(R.anim.push_out_to_right,

@@ -518,7 +518,7 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 				slide_me.setEnabled(false);
 			} else {
 				slide_me.setEnabled(true);
-				Intent _cart = new Intent(_ctx, MyCartScreen.class);
+				Intent _cart = new Intent(_ctx, MyCartFragment.class);
 				startActivity(_cart);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -566,7 +566,7 @@ public class MyOrderHistory extends FragmentActivity implements OnClickListener 
 
 		case R.id.cart_btn:
 			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
+				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
 				startActivity(_gotocart);
 				finish();
 				overridePendingTransition(R.anim.push_out_to_right,

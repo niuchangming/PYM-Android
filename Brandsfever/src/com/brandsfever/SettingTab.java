@@ -271,7 +271,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			
 		case R.id.cart_btn:
 			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
+				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
 				startActivity(_gotocart);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -364,7 +364,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(SettingTab.this, MyCartScreen.class);
+			Intent _cart = new Intent(SettingTab.this, MyCartFragment.class);
 			startActivity(_cart);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);

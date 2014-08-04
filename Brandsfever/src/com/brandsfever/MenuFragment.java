@@ -74,7 +74,15 @@ public class MenuFragment extends ListFragment {
 				}
 			}
 		} else if (selectedMenu.equalsIgnoreCase("MyCart")) {
-
+			if (pd.getCurrentMenu().equalsIgnoreCase("MyCart")){
+				pd.toggle();
+			} else {
+				Fragment myCart = new MyCartFragment();
+				if(myCart != null){
+					pd.switchContent(myCart);
+					pd.setCurrentMenu(selectedMenu);
+				}
+			}
 		} else if (selectedMenu.equalsIgnoreCase("Settings")) {
 
 		} else if (selectedMenu.equalsIgnoreCase("Invite")) {
