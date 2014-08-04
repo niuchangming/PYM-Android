@@ -7,5 +7,19 @@
        <item>Children</item>
        <item>Home</item>
        <item>Accessories</item>
-   </string-array> 
+       <item>Support</item>
+       <item>MyCart</item>
+       <item>Settings</item>
+       <item>Invite</item>
+       <item>Logout</item>
+   </string-array>
+   
+   <string-array name="category">
+       <item>All</item>
+       <item>Women</item>
+       <item>Men</item>
+       <item>Children</item>
+       <item>Home</item>
+       <item>Accessories</item>
+   </string-array>
 </resources>

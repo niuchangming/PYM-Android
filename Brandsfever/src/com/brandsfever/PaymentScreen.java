@@ -616,17 +616,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			slide_me.toggleRightDrawer();
 			break;
 			
-		case R.id.btn_support:
-			
-			Intent support = new Intent(_ctx,SupportActivity.class);
-			startActivity(support);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			finish();
-			
-			break;
-
 		case R.id.btn_invite:
 			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
 			startActivity(_invite);

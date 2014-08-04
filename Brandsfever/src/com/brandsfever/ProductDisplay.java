@@ -1,16 +1,10 @@
 package com.brandsfever;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -25,23 +19,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	private static final String TAG = "ProductDisplay";
 
+	private String mCurrentMenu;
 	private Fragment mContent;
-
-	Context _ctx = ProductDisplay.this;
-	ImageButton _Menu, cart_btn;
-	Typeface _font;
-	String catagory_name;
-	String _TabName;
-	Bundle bundle;
-	TextView set_user_name;
-
-	int color, colors;
-
-	public static String _list_type = "all";
-
-	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
 	private int mBackButtonCount;
 
 	@Override
@@ -69,6 +48,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			mContent = getSupportFragmentManager().getFragment(
 					savedInstanceState, "mContent");
 		if (mContent == null) {
+			mCurrentMenu = "All";
 			mContent = new CampaignFragment();
 		}
 
@@ -122,6 +102,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		getSupportFragmentManager().putFragment(outState, "mContent", mContent);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,7 +122,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	public void onBackPressed() {
 
 		if (mBackButtonCount >= 1) {
-			Log.e(TAG, "EXIT");
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -152,4 +132,13 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			mBackButtonCount++;
 		}
 	}
+
+	public String getCurrentMenu() {
+		return mCurrentMenu;
+	}
+
+	public void setCurrentMenu(String currentMenu) {
+		mCurrentMenu = currentMenu;
+	}
+
 }

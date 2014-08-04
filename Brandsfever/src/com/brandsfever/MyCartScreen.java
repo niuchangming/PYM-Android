@@ -680,20 +680,6 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 			}
 			break;
 
-		case R.id.btn_support:
-			if(slide_me.isClosed()){
-				slide_me.setEnabled(false);
-			}
-			else {
-				slide_me.setEnabled(true);
-				Intent support = new Intent(_ctx,SupportActivity.class);
-				startActivity(support);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-			
 		case R.id.btn_invite:
 			if (slide_me.isClosed()) {
 				slide_me.setEnabled(false);

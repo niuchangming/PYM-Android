@@ -42,20 +42,13 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class TermsConditions extends FragmentActivity implements
-		OnClickListener {
+public class TermsConditions extends FragmentActivity  {
 	TextView t_c_tag, set_t_c;
 	Context _ctx = TermsConditions.this;
 	Typeface _font;
 	String _termsofservice;
-	ImageButton main_menu, back_btn, cart_btn;
 	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
 	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
-	int color, colors;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +65,6 @@ public class TermsConditions extends FragmentActivity implements
 			setContentView(R.layout.terms_and_conditions_tab);
 		}
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
-		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 		t_c_tag = (TextView) findViewById(R.id.terms_conditions_tag);
 		t_c_tag.setTypeface(_font);
 
@@ -95,73 +86,6 @@ public class TermsConditions extends FragmentActivity implements
 			set_user_name.setText("Hi! Guest");
 		}
 
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(color);
-		_mycart.setTextColor(colors);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
-
 		new GetTandCFromServer().execute();
 	}
 
@@ -174,8 +98,6 @@ public class TermsConditions extends FragmentActivity implements
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// ===============================================
-	// ====================================================================================//
 	private class GetTandCFromServer extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -230,8 +152,6 @@ public class TermsConditions extends FragmentActivity implements
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -261,221 +181,9 @@ public class TermsConditions extends FragmentActivity implements
 		}
 	}
 
-	// ============================================================================================================================//
 	@Override
 	public void onBackPressed() {
 		finish();
 	}
 
-	// ======================================================================================================================//
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent all = new Intent(_ctx, ProductDisplay.class);
-				all.putExtra("tab", "all");
-				startActivity(all);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_men:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent men = new Intent(_ctx, ProductDisplay.class);
-				men.putExtra("tab", "men");
-				startActivity(men);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_women:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent women = new Intent(_ctx, ProductDisplay.class);
-				women.putExtra("tab", "women");
-				startActivity(women);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_children:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent children = new Intent(_ctx, ProductDisplay.class);
-				children.putExtra("tab", "children");
-				startActivity(children);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_home:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent home = new Intent(_ctx, ProductDisplay.class);
-				home.putExtra("tab", "home");
-				startActivity(home);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_accesories:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent acc = new Intent(_ctx, ProductDisplay.class);
-				acc.putExtra("tab", "accessories");
-				startActivity(acc);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_setting:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
-					startActivity(_phonesetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-					finish();
-				}
-			}
-			break;
-
-		case R.id.my_cart:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _cart = new Intent(_ctx, MyCartScreen.class);
-				startActivity(_cart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_support:
-			if(slide_me.isClosed()){
-				slide_me.setEnabled(false);
-			}
-			else {
-				slide_me.setEnabled(true);
-				Intent support = new Intent(_ctx,SupportActivity.class);
-				startActivity(support);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-			
-		case R.id.btn_invite:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-				startActivity(_invite);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_logout:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Editor editor = _mypref.edit();
-				editor.clear();
-				editor.commit();
-				Intent _intent = new Intent(getApplicationContext(),
-						ProductDisplay.class);
-				startActivity(_intent);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			}
-			break;
-
-		case R.id.back_btn:
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cart_btn:
-			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
-				startActivity(_gotocart);
-				finish();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			} else {
-				Toast.makeText(_ctx, "please login", Toast.LENGTH_LONG).show();
-			}
-			break;
-
-		default:
-			break;
-
-		}
-
-	}
 }
