@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+    android:id="@+id/menu_list_text_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@android:color/white"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:textColor="@color/menu_list_text_color"
+    android:textAppearance="?android:attr/textAppearanceSmall"
     android:gravity="center_vertical"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
