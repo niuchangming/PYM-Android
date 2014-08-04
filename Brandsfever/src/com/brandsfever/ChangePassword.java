@@ -19,16 +19,12 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,7 +37,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +45,6 @@ import com.dataholder.DataHolderClass;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
@@ -59,10 +53,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 	Context _ctx = ChangePassword.this;
 	String _userfname, _userlname, _useremail;
 	String _ret;
-	ImageButton main_menu, back_btn, cart_btn;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings,  _mycart, mSupport, _invite, _logout;
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
@@ -78,9 +68,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		int a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			setContentView(R.layout.activity_change_password);
@@ -99,21 +86,19 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 
 		newpassword = (EditText) findViewById(R.id.Enter_new_password);
 		confirmnewpassword = (EditText) findViewById(R.id.Confirm_new_password);
-		parent_layout=(LinearLayout)findViewById(R.id.parent_layout);
+		parent_layout = (LinearLayout) findViewById(R.id.parent_layout);
 		new GetUserProfile().execute();
-		
-		
+
 		parent_layout.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(newpassword.getWindowToken(), 0);
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(newpassword.getWindowToken(), 0);
 				return true;
 			}
 		});
-		
 
 		Uname = (TextView) findViewById(R.id.user_name);
 		Uemail = (TextView) findViewById(R.id.user_email);
@@ -127,97 +112,18 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		submit_password = (Button) findViewById(R.id.change_paswrd_submit);
 		submit_password.setTypeface(mFont, Typeface.NORMAL);
 		submit_password.setOnClickListener(this);
-
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(mFont);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(mFont);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(mFont);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(mFont);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(mFont);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(mFont);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(mFont);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(mFont);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(mFont);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button)findViewById(R.id.btn_support);
-		mSupport.setTypeface(mFont);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(mFont);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(mFont);
-		_logout.setOnClickListener(this);
-
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(color);
-		_mycart.setTextColor(colors);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": users"+_getuserId+"/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": users" + _getuserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -267,195 +173,12 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			}
 			break;
 
-		case R.id.main_menu:
-			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(newpassword.getWindowToken(), 0);
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_men:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent men = new Intent(_ctx, ProductDisplay.class);
-				men.putExtra("tab", "men");
-				startActivity(men);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_women:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent women = new Intent(_ctx, ProductDisplay.class);
-				women.putExtra("tab", "women");
-				startActivity(women);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_children:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent children = new Intent(_ctx, ProductDisplay.class);
-				children.putExtra("tab", "children");
-				slide_me.closeRightSide();
-				startActivity(children);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_home:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent home = new Intent(_ctx, ProductDisplay.class);
-				home.putExtra("tab", "home");
-				startActivity(home);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_accesories:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				slide_me.closeRightSide();
-				Intent acc = new Intent(_ctx, ProductDisplay.class);
-				acc.putExtra("tab", "accessories");
-				startActivity(acc);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_setting:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
-					startActivity(_phonesetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-				}
-			}
-			break;
-
-		case R.id.my_cart:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _cart = new Intent(_ctx, MyCartFragment.class);
-				startActivity(_cart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_invite:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-				startActivity(_invite);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_logout:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Editor editor = _mypref.edit();
-				editor.clear();
-				editor.commit();
-				Intent _intent = new Intent(getApplicationContext(),
-						ProductDisplay.class);
-				startActivity(_intent);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			}
-			break;
-
-		case R.id.back_btn:
-			finish();
-			break;
-
-		case R.id.cart_btn:
-			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
-				startActivity(_gotocart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			} else {
-
-			}
-			break;
-
 		default:
 			break;
 		}
 
 	}
 
-	// =============================================================================================================================//
 	class GetUserProfile extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -490,7 +213,7 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		@Override
 		protected void onPostExecute(String result) {
 			try {
-				String s =  _userfname + " " + _userlname;
+				String s = _userfname + " " + _userlname;
 				if (!(_userfname.equalsIgnoreCase("null"))
 						&& !(_userlname.equalsIgnoreCase("null"))) {
 					Uname.setText(s);
@@ -518,8 +241,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -531,12 +252,10 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONObject obj1 = obj.getJSONObject("profile");
 						_userfname = obj1.getString("first_name");
@@ -552,7 +271,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 		}
 	}
 
-	/********************************************************************************************************************/
 	class RPassword extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -570,7 +288,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
-
 		}
 
 		@Override
@@ -590,10 +307,7 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			_namevalueList.add(_userid);
 			_namevalueList.add(_token);
 			_namevalueList.add(_passwrd);
-			System.out.println("all r" + _url + "/n" + _userid + "" + _token
-					+ "" + _passwrd);
 			_ResponseFromServer = SendData(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _ResponseFromServer);
 			return null;
 		}
 
@@ -627,8 +341,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
-					System.out.println("error");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -638,7 +350,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 
 	}
 
-	/***********************************************************************************************************************/
 	public String SendData(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -651,7 +362,6 @@ public class ChangePassword extends FragmentActivity implements OnClickListener 
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
 
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();

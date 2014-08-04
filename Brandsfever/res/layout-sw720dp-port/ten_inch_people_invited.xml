@@ -5,43 +5,6 @@
     android:background="@drawable/bg" >
 
     <RelativeLayout
-        android:id="@+id/RL1"
-        android:layout_width="fill_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/topbar" >
-
-        <ImageButton
-            android:id="@+id/main_menu"
-            android:layout_width="85dp"
-            android:layout_height="75dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="5dip"
-            android:background="@drawable/menu_bg"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="40dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="100dip"
-            android:background="@drawable/back_button"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/cart_btn"
-            android:layout_width="85dp"
-            android:layout_height="75dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/cart_btn_bg"
-            android:contentDescription="@string/brandsfever" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/RL2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

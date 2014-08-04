@@ -61,10 +61,6 @@ import com.ssl.TrustAllCertificates;
 public class Edit_Profile extends FragmentActivity implements OnClickListener {
 	Context _ctx = Edit_Profile.this;
 	String _ret;
-	ImageButton main_menu, back_btn, cart_btn;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, _invite, mSupport, _logout;
 	EditText _firstname, _lastname, _zender, _birthdate, _mobileno;
 	private String Ufname, Ulname, Urupdates, Upenglish, Umno, Ubdate, Ugender,
 			Uemail;
@@ -91,9 +87,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		int a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			setContentView(R.layout.activity_edit__profile);
@@ -109,8 +102,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
-
-		System.out.println(_getToken + _getuserId);
 
 		edit_my_profile = (TextView) findViewById(R.id.edit_my_profile);
 		mob_text = (TextView) findViewById(R.id.mob_text);
@@ -137,85 +128,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 
 		save_edited_profile = (ImageButton) findViewById(R.id.save_edited_profile);
 		save_edited_profile.setOnClickListener(this);
-
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(mFont);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(mFont);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(mFont);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(mFont);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(mFont);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(mFont);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(mFont);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(mFont);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(mFont);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(mFont);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(mFont);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(mFont);
-		_logout.setOnClickListener(this);
-
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(color);
-		_mycart.setTextColor(colors);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
 
 		new GetUserProfile().execute();
 	}
@@ -267,11 +179,7 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			if (!(_setZender == null) && !(_setZender.equals(""))) {
 				_zender.setText(_setZender);
 				_zender_pop.dismiss();
-			} else {
-				// please select zender image toast
-				System.out.println("zender is null or blank;");
-			}
-
+			} 
 			break;
 
 		case R.id.save_edited_profile:
@@ -309,167 +217,11 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			_setZender = "M";
 			break;
 
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_men:
-			slide_me.closeRightSide();
-			Intent men = new Intent(_ctx, ProductDisplay.class);
-			men.putExtra("tab", "men");
-			startActivity(men);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_women:
-			slide_me.closeRightSide();
-			Intent women = new Intent(_ctx, ProductDisplay.class);
-			women.putExtra("tab", "women");
-			startActivity(women);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_children:
-			slide_me.closeRightSide();
-			Intent children = new Intent(_ctx, ProductDisplay.class);
-			children.putExtra("tab", "children");
-			startActivity(children);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_home:
-			slide_me.closeRightSide();
-			Intent home = new Intent(_ctx, ProductDisplay.class);
-			home.putExtra("tab", "home");
-			startActivity(home);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_accesories:
-			slide_me.closeRightSide();
-			Intent acc = new Intent(_ctx, ProductDisplay.class);
-			acc.putExtra("tab", "accessories");
-			startActivity(acc);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_setting:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
-					startActivity(_phonesetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
-					startActivity(_tabsetting);
-					overridePendingTransition(R.anim.push_out_to_right,
-							R.anim.push_out_to_left);
-				}
-			}
-			break;
-
-		case R.id.my_cart:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _cart = new Intent(_ctx, MyCartFragment.class);
-				startActivity(_cart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_invite:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-				startActivity(_invite);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_logout:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Editor editor = _mypref.edit();
-				editor.clear();
-				editor.commit();
-				Intent _intent = new Intent(getApplicationContext(),
-						ProductDisplay.class);
-				startActivity(_intent);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			}
-			break;
-
-		case R.id.back_btn:
-			finish();
-			break;
-
-		case R.id.cart_btn:
-			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
-				startActivity(_gotocart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			} else {
-
-			}
-			break;
-
 		default:
 			break;
 		}
 
 	}
-
-	/**********************************************************************************************************************/
 
 	public void FillZenderPopup() {
 		try {
@@ -507,7 +259,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ============================================================================================================================//
 	class GetUserProfile extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -531,7 +282,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 					+ _getuserId + "&token=" + _getToken;
-			System.out.println("url is" + _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -557,7 +307,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					_zender.setText(Ugender);
 				} else {
 					_zender.setText("");
-					System.out.println("i am in else");
 				}
 				if (!(Umno.equalsIgnoreCase("null"))) {
 					_mobileno.setText(Umno);
@@ -608,8 +357,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -621,7 +368,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					total.append(line);
 				}
 				String _content = total.toString();
-				System.out.println("content is" + _content);
 
 				try {
 					JSONObject obj = new JSONObject(_content);
@@ -658,7 +404,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	/********************************************************************************************************************/
 	class SaveEditedinfo extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -686,7 +431,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _url = "https://www.brandsfever.com/api/v5/profiles/"
 					+ _getuserId + "/";
-			System.out.println(_url);
 			String firstname = _firstname.getText().toString();
 			String lastname = _lastname.getText().toString();
 			String gender = _zender.getText().toString();
@@ -703,10 +447,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			} else {
 				_checktwo = "false";
 			}
-
-			System.out.println("parameters are" + firstname + "" + lastname
-					+ "" + _zender + "" + birthdate + "" + _checkone + ""
-					+ _checktwo + _getToken + "" + _getuserId);
 
 			BasicNameValuePair _fname = new BasicNameValuePair("first_name",
 					firstname);
@@ -738,10 +478,7 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 			if (firstname.length() > 0 && lastname.length() > 0
 					&& !(_getuserId == null)) {
 				_EditResponse = _SendEditedInfo(_url, _namevalueList);
-				Log.e("===RESPONSE====>", "===RESPONSE====>" + _EditResponse);
-			} else {
-				System.out.println("pankaj");
-			}
+			} 
 			return null;
 		}
 
@@ -771,7 +508,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// =================================================================================================================//
 	public String _SendEditedInfo(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
@@ -783,7 +519,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(_inputstream));
@@ -808,8 +543,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		return _Response;
 	}
 
-	// ==================================================================================================================//
-	
 	public void _ResponsePopup() {
 		View view = View.inflate(getBaseContext(),R.layout.error_popop, null);
 		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
@@ -820,10 +553,6 @@ public class Edit_Profile extends FragmentActivity implements OnClickListener {
 		toast.show();
 	}
 	
-	
-	
-	
-	// ==================================================================================================================//
 	@Override
 	public void onBackPressed() {
 		finish();

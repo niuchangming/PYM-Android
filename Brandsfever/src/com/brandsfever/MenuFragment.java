@@ -74,7 +74,7 @@ public class MenuFragment extends ListFragment {
 				}
 			}
 		} else if (selectedMenu.equalsIgnoreCase("MyCart")) {
-			if (pd.getCurrentMenu().equalsIgnoreCase("MyCart")){
+			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)){
 				pd.toggle();
 			} else {
 				Fragment myCart = new MyCartFragment();
@@ -84,6 +84,15 @@ public class MenuFragment extends ListFragment {
 				}
 			}
 		} else if (selectedMenu.equalsIgnoreCase("Settings")) {
+			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)){
+				pd.toggle();
+			} else {
+				Fragment settings = new SettingPhone();
+				if (settings != null){
+					pd.switchContent(settings);
+					pd.setCurrentMenu(selectedMenu);
+				}
+			}
 
 		} else if (selectedMenu.equalsIgnoreCase("Invite")) {
 
