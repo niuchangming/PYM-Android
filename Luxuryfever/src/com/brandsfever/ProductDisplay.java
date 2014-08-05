@@ -151,6 +151,8 @@ public class ProductDisplay extends FragmentActivity implements
 		mTabName = null;
 		if (bundle != null) {
 			mTabName = bundle.getString("tab");
+		} else {
+			mTabName = "all";
 		}
 
 		mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
