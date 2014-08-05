@@ -425,6 +425,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 
+			if(ends_at == null)
+				return;
+			
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				
 					_pname.setText(name);
