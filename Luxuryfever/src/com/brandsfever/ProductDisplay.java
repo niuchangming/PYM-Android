@@ -317,6 +317,10 @@ public class ProductDisplay extends FragmentActivity implements
 		this.mViewPager = (ViewPager) super.findViewById(R.id.viewPagers);
 		this.mViewPager.setAdapter(this.mPagerAdapter);
 		this.mViewPager.setOnPageChangeListener(this);
+		
+		if(mTabName == null)
+			mTabName = "all";
+		
 		if (bundle != null) {
 			if (mTabName.equalsIgnoreCase("all")) {
 				mViewPager.setCurrentItem(0);
