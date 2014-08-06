@@ -14,14 +14,18 @@ import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.dataholder.DataHolderClass;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
@@ -30,7 +34,7 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PrivatePolicy extends FragmentActivity {
+public class PrivatePolicy extends SherlockFragmentActivity {
 	TextView pc_tag, set_private_policy;
 	Typeface _font;
 	String _ppData;
@@ -38,9 +42,7 @@ public class PrivatePolicy extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		int a = DataHolderClass.getInstance().get_deviceInch();
 
 		if (a <= 6) {
@@ -50,8 +52,36 @@ public class PrivatePolicy extends FragmentActivity {
 		} else if (a >= 9) {
 			setContentView(R.layout.private_policy_tab);
 		}
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarLeft = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarLeft.setImageDrawable(getResources().getDrawable(
+				R.drawable.back_button));
+		actionBarLeft.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+			}
+		});
+
+		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		pc_tag = (TextView) findViewById(R.id.pc_tag);
 		pc_tag.setTypeface(_font);
 

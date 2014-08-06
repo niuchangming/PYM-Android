@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -34,8 +38,34 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			setBehindContentView(R.layout.menu_frame);
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+
 			// show home as up so we can toggle
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			final ViewGroup actionBarLayout = (ViewGroup)getLayoutInflater().inflate(R.layout.action_bar, null);
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowTitleEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+			actionBar.setCustomView(actionBarLayout);
+
+			final ImageButton actionBarMenu = (ImageButton)findViewById(R.id.action_bar_left);
+			actionBarMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu_bg));
+			actionBarMenu.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					toggle();
+				}
+			});
+			final ImageButton actionBarCart = (ImageButton)findViewById(R.id.action_bar_right);
+			actionBarCart.setImageDrawable(getResources().getDrawable(R.drawable.cart_btn_bg));
+			actionBarCart.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Log.i(TAG, "Cart is clicked");
+				}
+			});
+			
 		} else {
 			// add a dummy view
 			View v = new View(this);
