@@ -256,12 +256,12 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				_zender_pop = new PopupWindow(layout,
-						android.view.ViewGroup.LayoutParams.FILL_PARENT, 300,
+						android.view.ViewGroup.LayoutParams.MATCH_PARENT, 300,
 						true);
 				_zender_pop.showAtLocation(layout, Gravity.BOTTOM, 0, 0);
 			} else {
 				_zender_pop = new PopupWindow(layout,
-						android.view.ViewGroup.LayoutParams.FILL_PARENT, 250,
+						android.view.ViewGroup.LayoutParams.MATCH_PARENT, 250,
 						true);
 				_zender_pop.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
 			}
@@ -396,7 +396,6 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 				try {
 					JSONObject obj = new JSONObject(_content);
 					String ret = obj.getString("ret");
-					System.out.println(ret);
 					if (ret.equals("0")) {
 						JSONObject obj1 = obj.getJSONObject("profile");
 						Ufname = obj1.getString("first_name");
@@ -408,7 +407,6 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 						Ugender = obj1.getString("gender");
 						Uemail = obj1.getString("email");
 						if (Urupdates.equalsIgnoreCase("true")) {
-							System.out.println("pankaj");
 							_checkbox1.setChecked(true);
 						} else {
 

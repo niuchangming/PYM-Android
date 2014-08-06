@@ -7,27 +7,29 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.adapter.PhoneLoginPager;
 import com.dataholder.DataHolderClass;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class PhoneLoginScreen extends FragmentActivity implements
+public class PhoneLoginScreen extends SherlockFragmentActivity implements
 		OnClickListener {
+	private static final String TAG = "PhoneLoginScreen";
 	private ViewPager _mViewPager;
 	private PhoneLoginPager _adapter;
 	ImageButton close_login_page;
@@ -44,9 +46,6 @@ public class PhoneLoginScreen extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 			setContentView(R.layout.activity_phone_login_screen);
@@ -57,6 +56,36 @@ public class PhoneLoginScreen extends FragmentActivity implements
 			setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
 			setContentView(R.layout.login_screen_ten_inch_tablet);
 		}
+
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarMenu.setImageDrawable(getResources().getDrawable(
+				R.drawable.menu_bg));
+		actionBarMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Cart is clicked");
+			}
+		});
+
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		close_login_page = (ImageButton) findViewById(R.id.close_login_page);
 		close_login_page.setOnClickListener(this);

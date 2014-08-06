@@ -34,7 +34,6 @@ import android.os.Handler;
 import android.service.textservice.SpellCheckerService.Session;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +56,6 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.datamodel.faceclass;
-
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.BaseRequestListener;
 import com.facebook.android.DialogError;
@@ -70,7 +68,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class GetFacebookData extends Activity implements OnClickListener{
+public class GetFacebookData extends Activity implements OnClickListener {
 	ListView listview, listview2;
 
 	SubCategoryCustomAdapter12345yu objcustomadapter;
@@ -85,7 +83,7 @@ public class GetFacebookData extends Activity implements OnClickListener{
 	Typeface tf;
 	String _fbid;
 	HashMap<String, String> takensession;
-	ImageButton post_to_wall,cancel_post;
+	ImageButton post_to_wall, cancel_post;
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
@@ -132,7 +130,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 
 		AsyncTask<Void, Void, Void> updateTask = new AsyncTask<Void, Void, Void>() {
 			ProgressDialog dialog = new ProgressDialog(GetFacebookData.this);
-			private String s;
 
 			@Override
 			protected void onPreExecute() {
@@ -150,12 +147,9 @@ public class GetFacebookData extends Activity implements OnClickListener{
 
 					try {
 
-						JSONObject me = new JSONObject(facebook.request("me"));
-
 						try {
 							jsonObj = Util.parseJson(facebook
 									.request("me/friends"));
-							System.out.println("value show" + jsonObj);
 						} catch (FacebookError e) {
 							e.printStackTrace();
 						}
@@ -228,18 +222,16 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		listview2 = (ListView) findViewById(R.id.listView2);
 		editText1 = (EditText) findViewById(R.id.editText1);
 		editText1.setCursorVisible(true);
-		
+
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
-		
-		
-		
-		post_to_wall = (ImageButton)findViewById(R.id.post_to_wall);
+
+		post_to_wall = (ImageButton) findViewById(R.id.post_to_wall);
 		post_to_wall.setOnClickListener(this);
-		cancel_post  = (ImageButton)findViewById(R.id.cancel_post);
+		cancel_post = (ImageButton) findViewById(R.id.cancel_post);
 		cancel_post.setOnClickListener(this);
-		
+
 		tf = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		try {
 			facebook = new Facebook(getResources().getString(R.string.fbid));
@@ -265,7 +257,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				System.out.println("value is");
 			}
 		});
 		editText1.addTextChangedListener(new TextWatcher() {
@@ -315,14 +306,15 @@ public class GetFacebookData extends Activity implements OnClickListener{
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": facebook/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": facebook/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	class MyCustomAdapter1 extends BaseAdapter {
 		Context c;
 		ArrayList<String> img, ttl;
@@ -382,8 +374,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			View row = convertView;
 
 			NotificationjavanHolder holder = null;
-			ImageView imageView2 = null;
-			CheckBox cb;
 			if (row == null) {
 				LayoutInflater inflater = ((Activity) context)
 						.getLayoutInflater();
@@ -410,9 +400,8 @@ public class GetFacebookData extends Activity implements OnClickListener{
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							int getPosition = (Integer) buttonView.getTag(); 
-						    _fbid= faceclassobj.get(getPosition).getId();
-						    System.out.println("fb id is" + _fbid);
+							int getPosition = (Integer) buttonView.getTag();
+							_fbid = faceclassobj.get(getPosition).getId();
 						}
 					});
 			holder.name.setOnClickListener(new OnClickListener() {
@@ -455,22 +444,19 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		t1 = (TextView) post.findViewById(R.id.textView0);
 		t1.setText("Messege:Brandsfever");
 		ImageView back = (ImageView) post.findViewById(R.id.imageView1);
-		ImageView post1 = (ImageView) post.findViewById(R.id.imageView2);
 		final Dialog mDialog = new Dialog(GetFacebookData.this,
 				android.R.style.Theme_Translucent_NoTitleBar);
 
 		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		mDialog.setContentView(post);
-		AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(
-				facebook);
+		AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(facebook);
 		Bundle params = new Bundle();
-		params.putString("message",
-				"Hi, I am using Android BrandsfeverApp\n\n"
-						+ "https://www.brandsfever.com/");
+		params.putString("message", "Hi, I am using Android BrandsfeverApp\n\n"
+				+ "https://www.brandsfever.com/");
 
-		mAsyncFbRunner.request(((userid == null) ? "me" : _fbid)
-				+ "/feed", params, "POST", new WallPostListener());
+		mAsyncFbRunner.request(((userid == null) ? "me" : _fbid) + "/feed",
+				params, "POST", new WallPostListener());
 		back.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -485,7 +471,6 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		public void onComplete(final String response) {
 			mRunOnUi.post(new Runnable() {
 				public void run() {
-					System.out.println("i m here in fb");
 					new sendinvitaions().execute();
 				}
 			});
@@ -528,15 +513,18 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			try {
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
 						3);
-				nameValuePairs.add(new BasicNameValuePair("user_id",_getuserId));
+				nameValuePairs
+						.add(new BasicNameValuePair("user_id", _getuserId));
 				nameValuePairs.add(new BasicNameValuePair("token", _getToken));
-				nameValuePairs.add(new BasicNameValuePair("channel","facebook"));
-				nameValuePairs.add(new BasicNameValuePair("invitee_identifiers",_fbid));
-				nameValuePairs.add(new BasicNameValuePair("request_id","4657865"));
+				nameValuePairs
+						.add(new BasicNameValuePair("channel", "facebook"));
+				nameValuePairs.add(new BasicNameValuePair(
+						"invitee_identifiers", _fbid));
+				nameValuePairs.add(new BasicNameValuePair("request_id",
+						"4657865"));
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				HttpResponse response = httpclient.execute(httppost);
 				jsonrsultdata = EntityUtils.toString(response.getEntity());
-				System.out.println("value show is" + jsonrsultdata);
 
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -566,24 +554,25 @@ public class GetFacebookData extends Activity implements OnClickListener{
 			dlog.cancel();
 		}
 	}
-  //**************************************************************************************************************************//  
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.cancel_post:
 			finish();
 			break;
-			
+
 		case R.id.post_to_wall:
 			postToWall(_fbid);
-		
+
 			break;
 
 		default:
 			break;
 		}
 	}
-	//************************************************************************************************************************//
+
+	// ************************************************************************************************************************//
 	public void _ResponsePopup() {
 		LayoutInflater inflater = getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
@@ -595,10 +584,11 @@ public class GetFacebookData extends Activity implements OnClickListener{
 		toast.setView(view);
 		toast.show();
 	}
-	//********************************************************************************************************************//
+
+	// ********************************************************************************************************************//
 	@Override
 	public void onBackPressed() {
-		Intent _s = new Intent(GetFacebookData.this,InviteFragment.class);
+		Intent _s = new Intent(GetFacebookData.this, InviteFragment.class);
 		startActivity(_s);
 		finish();
 	}

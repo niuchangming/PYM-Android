@@ -25,7 +25,6 @@ public class DatePickerDailog extends Dialog {
 
 	private int NoOfYear = 40; 
 	
-	@SuppressWarnings("deprecation")
 	public DatePickerDailog(Context context, Calendar calendar,
 			final DatePickerListner dtp) {
 
@@ -50,14 +49,14 @@ public class DatePickerDailog extends Dialog {
 		final WheelView day = new WheelView(Mcontex);
 		
 		lytbutton.addView(btnset, new LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT,
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,
 				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 		lytdate.addView(day, new LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT,200, 1.2f));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,200, 1.2f));
 		lytdate.addView(month, new LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT,200, 0.8f));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,200, 0.8f));
 		lytdate.addView(year, new LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT,200, 1f));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,200, 1f));
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		lytbutton.setPadding(5, 5, 5, 5);
@@ -67,7 +66,7 @@ public class DatePickerDailog extends Dialog {
 		lytmain.setBackgroundResource(R.drawable.image_layout_border);
 		setContentView(lytmain);
 
-		getWindow().setLayout(LayoutParams.FILL_PARENT,
+		getWindow().setLayout(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
 		getWindow().setGravity(Gravity.BOTTOM);
 		OnWheelChangedListener listener = new OnWheelChangedListener() {

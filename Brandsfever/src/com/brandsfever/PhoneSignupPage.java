@@ -288,7 +288,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 					+ _id + "&token=" + mtoken;
-			System.out.println("url is" + _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -298,7 +297,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			try {
 				JSONObject obj = new JSONObject(_content);
 				String ret = obj.getString("ret");
-				System.out.println(ret);
 				if (ret.equals("0")) {
 					JSONObject obj1 = obj.getJSONObject("profile");
 					// String _ss = obj1.getString("first_name")+ " " +
@@ -346,8 +344,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					total.append(line);
 				}
 				_content = total.toString();
-				System.out.println("my data is" + _content);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -440,16 +436,16 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					mFBLastName = me.getString("last_name");
 					mFBEmail = me.getString("email");
 					mFBGender = me.getString("gender");
-					
-					if(mFBGender != null){
-						mFBGender = ""+mFBGender.toUpperCase().charAt(0);
+
+					if (mFBGender != null) {
+						mFBGender = "" + mFBGender.toUpperCase().charAt(0);
 					}
-					
+
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				} catch (JSONException e){
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				return null;
@@ -498,10 +494,13 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
 			BasicNameValuePair socailemail = new BasicNameValuePair("email",
 					mFBEmail);
-			BasicNameValuePair firstName = new BasicNameValuePair("first_name",mFBFirstName);
-			BasicNameValuePair lastName = new BasicNameValuePair("last_name",mFBLastName);
-			BasicNameValuePair gender = new BasicNameValuePair("gender",mFBGender);
-			
+			BasicNameValuePair firstName = new BasicNameValuePair("first_name",
+					mFBFirstName);
+			BasicNameValuePair lastName = new BasicNameValuePair("last_name",
+					mFBLastName);
+			BasicNameValuePair gender = new BasicNameValuePair("gender",
+					mFBGender);
+
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			namevalueList.add(socailemail);
 			namevalueList.add(firstName);
@@ -533,7 +532,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 						_msg = jobj.getString("msg");
 						responsePopup();
 					}
-				}  else {
+				} else {
 					_msg = jobj.getString("msg");
 					responsePopup();
 					mProgressHUD.dismiss();

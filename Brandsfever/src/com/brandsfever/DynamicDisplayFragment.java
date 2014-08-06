@@ -284,7 +284,6 @@ public class DynamicDisplayFragment extends Fragment {
 					| Paint.ANTI_ALIAS_FLAG);
 			_marketprice.setText(obj.getMarket_price().replace("GD", "$"));
 			String a = "https:" + obj.getImg();
-			System.out.println("value of a is+" + a);
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.prdt_img);
 			imageView.setTag(position);
@@ -298,7 +297,6 @@ public class DynamicDisplayFragment extends Fragment {
 					ProductListDetailModel cs = _data.get(a);
 					int _s = Integer.parseInt(cs.getPk());
 					DataHolderClass.getInstance().set_subProductsPk(_s);
-					System.out.println("pk is" + _s);
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);

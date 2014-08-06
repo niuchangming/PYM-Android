@@ -22,14 +22,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +45,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.adapter.PaymentScreenDataAdapter;
 import com.dataholder.DataHolderClass;
 import com.datamodel.PaymentScreenOrderModel;
@@ -55,19 +54,16 @@ import com.datamodel.StoreCreditDetails;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PaymentScreen extends FragmentActivity implements OnClickListener {
+public class PaymentScreen extends SherlockFragmentActivity implements
+		OnClickListener {
+	private static final String TAG = "PaymentScreen";
 	Context _ctx = PaymentScreen.this;
 	Typeface _font;
 	private PopupWindow pwindo;
-	ImageButton main_menu, back_btn, cart_btn;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
 
 	TextView set_billing_address, set_shipping_address, ship_tag, bill_tag,
 			promotion_code;
@@ -82,7 +78,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	String _getuserId = "";
 	String mStatus, mIdentifier, mPaid, mDate, mCity, mTotalprice, mTaxprice,
 			mCountry, mState, mPk, mShippingfree, mMethod;
-	double	mSubtotal;
+	double mSubtotal;
 	public static ArrayList<PaymentScreenOrderModel> _Payorderinfo = new ArrayList<PaymentScreenOrderModel>();
 	public static ArrayList<StoreCreditDetails> _storeCredits = new ArrayList<StoreCreditDetails>();
 	TextView order_subtotal_amount, order_shiping_amount, order_total_amount,
@@ -101,13 +97,11 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 	String ch_totalprice;
 	JSONObject mOrderDetail;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 			setContentView(R.layout.activity_payment_screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
@@ -133,6 +127,34 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			set_totalprice_tag.setTypeface(_font, Typeface.NORMAL);
 		}
 
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarMenu.setImageDrawable(getResources().getDrawable(
+				R.drawable.menu_bg));
+		actionBarMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Cart is clicked");
+			}
+		});
 
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		set_shipping_address = (TextView) findViewById(R.id.set_shipping_address);
@@ -209,25 +231,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 		enter_promo_code = (EditText) findViewById(R.id.enter_promo_code);
 
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! " + _username.replace("Hi!", ""));
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
 		apply_promo_code = (Button) findViewById(R.id.apply_promo_code);
 		apply_promo_code.setOnClickListener(this);
 
@@ -237,62 +240,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		pay_with_paypal = (ImageButton) findViewById(R.id.pay_with_paypal);
 		pay_with_paypal.setOnClickListener(this);
 
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTextColor(Color.parseColor("#8e1345"));
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-
-		/*
-		 * _all.setTextColor(colors); _men.setTextColor(colors);
-		 * _women.setTextColor(colors); _childrens.setTextColor(colors);
-		 * _home.setTextColor(colors); _accessories.setTextColor(colors);
-		 * _settings.setTextColor(colors); _mycart.setTextColor(color);
-		 * _invite.setTextColor(colors);
-		 */
-		
 		new GetPaymentState().execute();
 
 		set_orders.setOnTouchListener(new OnTouchListener() {
@@ -306,11 +253,12 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": orders/"+_getuserId+"/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": orders/" + _getuserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
 
@@ -377,7 +325,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-		
+
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -406,7 +354,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-
 	class GetOrderList extends AsyncTask<String, String, String> {
 		@Override
 		protected String doInBackground(String... params) {
@@ -422,7 +369,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		protected void onPostExecute(String result) {
 			new GetStoreCredit().execute();
 
-			double subtotal = Math.round(mSubtotal * 100.00)/100.00;
+			double subtotal = Math.round(mSubtotal * 100.00) / 100.00;
 			order_subtotal_amount.setText("S$" + "" + subtotal + "0");
 			order_shiping_amount.setText("S$" + mShippingfree);
 			order_total_amount.setText("S$" + mTotalprice);
@@ -442,7 +389,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			
+
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -473,9 +420,10 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 						mPk = mOrderDetail.getString("pk");
 						mShippingfree = mOrderDetail.getString("shipping_fee");
 						mMethod = mOrderDetail.getString("method");
-						
+
 						mSubtotal = 0;
-						JSONArray _itemarray = mOrderDetail.getJSONArray("item_list");
+						JSONArray _itemarray = mOrderDetail
+								.getJSONArray("item_list");
 						for (int i = 0; i < _itemarray.length(); i++) {
 							JSONObject _jobj = _itemarray.getJSONObject(i);
 							String name = _jobj.getString("name");
@@ -484,9 +432,11 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 							String unit_price = _jobj.getString("unit_price");
 							String pk = _jobj.getString("pk");
 							String quantity = _jobj.getString("quantity");
-							
-							mSubtotal = mSubtotal + Double.parseDouble(quantity) * Double.parseDouble(unit_price);
-							
+
+							mSubtotal = mSubtotal
+									+ Double.parseDouble(quantity)
+									* Double.parseDouble(unit_price);
+
 							PaymentScreenOrderModel _listorder = new PaymentScreenOrderModel();
 							_listorder.setName(name);
 							_listorder.setCampaign(campaign);
@@ -517,120 +467,6 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 					PayWithPaypal_Screen.class);
 			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
 			startActivity(payIntent);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			break;
-		case R.id.back_btn:
-			finish();
-			break;
-
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-
-		case R.id.btn_all_cat:
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_men:
-			slide_me.closeRightSide();
-			Intent men = new Intent(_ctx, ProductDisplay.class);
-			men.putExtra("tab", "men");
-			startActivity(men);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_women:
-			slide_me.closeRightSide();
-			Intent women = new Intent(_ctx, ProductDisplay.class);
-			women.putExtra("tab", "women");
-			startActivity(women);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_children:
-			slide_me.closeRightSide();
-			Intent children = new Intent(_ctx, ProductDisplay.class);
-			children.putExtra("tab", "children");
-			startActivity(children);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_home:
-			slide_me.closeRightSide();
-			Intent home = new Intent(_ctx, ProductDisplay.class);
-			home.putExtra("tab", "home");
-			startActivity(home);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_accesories:
-			slide_me.closeRightSide();
-			Intent acc = new Intent(_ctx, ProductDisplay.class);
-			acc.putExtra("tab", "accessories");
-			startActivity(acc);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_setting:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				startActivity(_phonesetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-					&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.my_cart:
-			slide_me.toggleRightDrawer();
-			break;
-			
-		case R.id.btn_invite:
-			Intent _invite = new Intent(_ctx, InviteFragment.class);
-			startActivity(_invite);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_logout:
-			Editor editor = _mypref.edit();
-			editor.clear();
-			editor.commit();
-			Intent _intent = new Intent(getApplicationContext(),
-					ProductDisplay.class);
-			startActivity(_intent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			break;
@@ -885,20 +721,15 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 
 							_storeCredits.add(_credits);
 						}
-					} else {
-						// toast.show();
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				System.out.println("invalid user");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	class RemoveStoreCredits extends AsyncTask<String, String, String>
 			implements OnCancelListener {

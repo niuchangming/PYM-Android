@@ -69,75 +69,82 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	private String _msg;
 	private TextView _seterrormsg;
 	int color, colors;
-	
-	int _display_items=0;
+
+	int _display_items = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.activity_my_cart_screen, container,false);
-		
-		_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
+		ViewGroup view = (ViewGroup) inflater.inflate(
+				R.layout.activity_my_cart_screen, container, false);
+
+		_font = Typeface.createFromAsset(getActivity().getAssets(),
+				"fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
-		_mypref = getActivity().getApplicationContext().getSharedPreferences("mypref", 0);
+		_mypref = getActivity().getApplicationContext().getSharedPreferences(
+				"mypref", 0);
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
-		shiping_fee_tag = (TextView)view.findViewById(R.id.shiping_fee_tag);
+		shiping_fee_tag = (TextView) view.findViewById(R.id.shiping_fee_tag);
 		shiping_fee_tag.setTypeface(_font, Typeface.NORMAL);
-		shiping_fee_amount = (TextView)view.findViewById(R.id.shiping_fee_amount);
+		shiping_fee_amount = (TextView) view
+				.findViewById(R.id.shiping_fee_amount);
 		shiping_fee_amount.setTypeface(_font, Typeface.NORMAL);
-		payable_amount_tag = (TextView)view.findViewById(R.id.payable_amount_tag);
+		payable_amount_tag = (TextView) view
+				.findViewById(R.id.payable_amount_tag);
 		payable_amount_tag.setTypeface(_font, Typeface.NORMAL);
-		payable_amount = (TextView)view.findViewById(R.id.payable_amount);
+		payable_amount = (TextView) view.findViewById(R.id.payable_amount);
 		payable_amount.setTypeface(_font, Typeface.NORMAL);
 
-		cart_summery_tag = (TextView)view.findViewById(R.id.cart_summery_tag);
+		cart_summery_tag = (TextView) view.findViewById(R.id.cart_summery_tag);
 		cart_summery_tag.setTypeface(_font, Typeface.NORMAL);
 
-		item_count_tag = (TextView)view.findViewById(R.id.item_count_tag);
+		item_count_tag = (TextView) view.findViewById(R.id.item_count_tag);
 
-		mOrderListView = (ListView)view.findViewById(R.id.mycartlist);
+		mOrderListView = (ListView) view.findViewById(R.id.mycartlist);
 		mOrderAdapter = new MyCartAdapter(getActivity(), Orderinfo);
 		mOrderListView.setAdapter(mOrderAdapter);
-		checkout_cart = (ImageButton)view.findViewById(R.id.checkout_cart);
+		checkout_cart = (ImageButton) view.findViewById(R.id.checkout_cart);
 		checkout_cart.setOnClickListener(this);
 
-		continue_shoping = (ImageButton)view.findViewById(R.id.continue_shoping);
+		continue_shoping = (ImageButton) view
+				.findViewById(R.id.continue_shoping);
 		continue_shoping.setOnClickListener(this);
-
 
 		new GetAllCarts().execute();
 
 		return view;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(getActivity());
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": carts/"+_getuserId+"/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": carts/" + _getuserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
-	private class GetAllCarts extends AsyncTask<String, String, String> implements
-			OnCancelListener {
+
+	private class GetAllCarts extends AsyncTask<String, String, String>
+			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
-		
 
 		@Override
 		protected void onPreExecute() {
-			_display_items=0;
-			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true, true, this);
+			_display_items = 0;
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
+					true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			getActivity().getWindowManager().getDefaultDisplay()
+					.getMetrics(displaymetrics);
 			int displayHeight = displaymetrics.heightPixels;
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
 			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
@@ -165,11 +172,11 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			if (Orderinfo.size() > 0) {
-				
+
 				item_count_tag.setText("" + _display_items + " " + "items(s)");
 				item_count_tag.setTypeface(_font, Typeface.NORMAL);
 				shiping_fee_amount.setText(shipping_fee.replace("GD", "$"));
-				
+
 				payable_amount.setText(total_price.replace("GD", "$"));
 				DataHolderClass.getInstance().setFinal_cart_pk(_pk);
 				mOrderAdapter.notifyDataSetChanged();
@@ -177,9 +184,9 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			} else {
 				item_count_tag.setText("0 item");
 				item_count_tag.setTypeface(_font, Typeface.NORMAL);
-				shiping_fee_amount.setText( "S$0");
+				shiping_fee_amount.setText("S$0");
 				payable_amount.setText("S$0");
-				
+
 				_msg = "Your cart \n is empty";
 				responsePopup();
 			}
@@ -196,7 +203,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			
+
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -235,7 +242,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 										.getString("sales_price");
 								String pk = _objs.getString("pk");
 								String quantity = _objs.getString("quantity");
-								_display_items=(_display_items+Integer.valueOf(quantity));
+								_display_items = (_display_items + Integer
+										.valueOf(quantity));
 								String product_name = _objs
 										.getString("product_name");
 								String campaign_pk = _objs
@@ -372,47 +380,51 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			remove_text_click.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					
+
 					OrderInfoModel obj = (OrderInfoModel) v.getTag();
 					final String _sendAction = "remove_product";
 					final String _sendquantity = "";
 					final String _senditempk = obj.getProduct_item_pk();
-					View view = View.inflate(_mcontext,
-							R.layout.call_settings,null);			
-						final PopupWindow pwindo = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-							pwindo.showAtLocation(view, Gravity.CENTER, 0, 0);
-							
-							TextView _message=(TextView) view.findViewById(R.id.textview_popup);
-							_message.setText("Are you sure you want to delete this \n product?");
-							
-							Button cancel_password = (Button) view.findViewById(R.id.cancel_password);
-							cancel_password.setTypeface(_font, Typeface.NORMAL);
-							cancel_password.setOnClickListener(new OnClickListener() {
-								
-								@Override
-								public void onClick(View v) {
-									pwindo.dismiss();
-									
-								}
-							});
-							
-							Button reset_password = (Button) view.findViewById(R.id.reset_password);
-							reset_password.setText("OK");
-							reset_password.setTypeface(_font, Typeface.BOLD);
-							reset_password.setOnClickListener(new OnClickListener() {
-								
-								@Override
-								public void onClick(View v) {
-									pwindo.dismiss();
-									new RemoveOrUpdateProduct(_sendAction, _sendquantity,
-											_senditempk).execute();
-								}
-							});
-								
+					View view = View.inflate(_mcontext, R.layout.call_settings,
+							null);
+					final PopupWindow pwindo = new PopupWindow(view,
+							LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT, true);
+					pwindo.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+					TextView _message = (TextView) view
+							.findViewById(R.id.textview_popup);
+					_message.setText("Are you sure you want to delete this \n product?");
+
+					Button cancel_password = (Button) view
+							.findViewById(R.id.cancel_password);
+					cancel_password.setTypeface(_font, Typeface.NORMAL);
+					cancel_password.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							pwindo.dismiss();
+
+						}
+					});
+
+					Button reset_password = (Button) view
+							.findViewById(R.id.reset_password);
+					reset_password.setText("OK");
+					reset_password.setTypeface(_font, Typeface.BOLD);
+					reset_password.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							pwindo.dismiss();
+							new RemoveOrUpdateProduct(_sendAction,
+									_sendquantity, _senditempk).execute();
+						}
+					});
 
 				}
 			});
-			
+
 			add_quantity.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -429,7 +441,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 				}
 			});
-			
+
 			subtract_quantity.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -441,7 +453,6 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 					String _sendquantity = String.valueOf(temap1);
 					String _senditempk = obj.getProduct_item_pk();
 					if (_sendquantity.equals("0")) {
-						System.out.println("cant execute");
 					} else {
 						new RemoveOrUpdateProduct(_sendAction, _sendquantity,
 								_senditempk).execute();
@@ -460,7 +471,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.checkout_cart:
 			if (Orderinfo.size() > 0) {
-				Intent checkout = new Intent(getActivity(), OrderDelivery_Screen.class);
+				Intent checkout = new Intent(getActivity(),
+						OrderDelivery_Screen.class);
 				startActivity(checkout);
 			} else {
 				_msg = "your cart is empty";
@@ -469,7 +481,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 			break;
 		case R.id.continue_shoping:
-			Intent continueshop = new Intent(getActivity(), ProductDisplay.class);
+			Intent continueshop = new Intent(getActivity(),
+					ProductDisplay.class);
 			startActivity(continueshop);
 			break;
 
@@ -498,7 +511,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
 					true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			getActivity().getWindowManager().getDefaultDisplay()
+					.getMetrics(displaymetrics);
 			int displayHeight = displaymetrics.heightPixels;
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
 			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
@@ -592,11 +606,10 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		return _Response;
 	}
 
-
 	public void responsePopup() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
-				(ViewGroup)getView().findViewById(R.id.relativeLayout1));
+				(ViewGroup) getView().findViewById(R.id.relativeLayout1));
 		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
 		_seterrormsg.setText(_msg);
 		Toast toast = new Toast(getActivity());

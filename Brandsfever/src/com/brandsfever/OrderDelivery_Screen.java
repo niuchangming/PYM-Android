@@ -21,19 +21,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -43,44 +40,43 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.dataholder.DataHolderClass;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class OrderDelivery_Screen extends FragmentActivity implements
+public class OrderDelivery_Screen extends SherlockFragmentActivity implements
 		OnClickListener {
+	private static final String TAG = "OrderDelivery_Screen";
 	CheckBox _checkBillingaddress;
 	LinearLayout _shipping_address_layout;
 	Context _ctx = OrderDelivery_Screen.this;
 	TextView title_tag, billing_addrress, sameas_billing_tag;
 	Typeface _font;
-	ImageButton main_menu, back_btn, cart_btn, send_to_thid_address;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
+	ImageButton send_to_thid_address;
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
 	EditText first_name, last_name, address, zipcode, country, phone_nummber,
 			bfirst_name, blast_name, baddress, bzipcode, bcountry,
 			bphone_nummber;
-	String pnumber="", fname="", lname="", saddress="", scountry="", zcode="";
+	String pnumber = "", fname = "", lname = "", saddress = "", scountry = "",
+			zcode = "";
 	String _fname, _lname, _address, _zipcode, _country, _pnmber;
 	String _ResponseFromServer;
 	TextView _seterrormsg;
 	String _msg;
-	int color,colors;
+	int color, colors;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 			setContentView(R.layout.activity_order_delivery__screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
@@ -91,9 +87,39 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		}
 		_checkBillingaddress = (CheckBox) findViewById(R.id.checkBox1);
 		_shipping_address_layout = (LinearLayout) findViewById(R.id.four);
+
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarMenu.setImageDrawable(getResources().getDrawable(
+				R.drawable.menu_bg));
+		actionBarMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Cart is clicked");
+			}
+		});
+
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		color = Integer.parseInt("8e1345", 16)+0xFF000000;
-		colors = Integer.parseInt("ffffff", 16)+0xFF000000;
+		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
+		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 		title_tag = (TextView) findViewById(R.id.heading);
 		billing_addrress = (TextView) findViewById(R.id.billing_addrress);
 		billing_addrress.setTypeface(_font, Typeface.BOLD);
@@ -108,7 +134,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
-						// TODO Auto-generated method stub
 						if (isChecked) {
 							_shipping_address_layout.setVisibility(View.GONE);
 						} else {
@@ -153,213 +178,23 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		bcountry.setTypeface(_font, Typeface.NORMAL);
 		bphone_nummber.setTypeface(_font, Typeface.NORMAL);
 
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-		
-		TextView set_user_name = (TextView)findViewById(R.id.set_user_name);
-		String _username = _mypref .getString("_UserName", null);
-		if(!(_username==null)){
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		}else{
-			set_user_name.setText("Hi! Guest");
-		}
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
 		send_to_thid_address = (ImageButton) findViewById(R.id.send_to_thid_address);
 		send_to_thid_address.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button)findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-		
-		_all.setTextColor(colors);
-        _men.setTextColor(colors);
-        _women.setTextColor(colors);
-        _childrens.setTextColor(colors);
-        _home.setTextColor(colors);
-        _accessories.setTextColor(colors);
-		_settings.setTextColor(colors);
-		_mycart.setTextColor(color);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
-
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": shipping-address/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": shipping-address/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_men:
-			slide_me.closeRightSide();
-			Intent men = new Intent(_ctx, ProductDisplay.class);
-			men.putExtra("tab", "men");
-			startActivity(men);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_women:
-			slide_me.closeRightSide();
-			Intent women = new Intent(_ctx, ProductDisplay.class);
-			women.putExtra("tab", "women");
-			startActivity(women);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_children:
-			slide_me.closeRightSide();
-			Intent children = new Intent(_ctx, ProductDisplay.class);
-			children.putExtra("tab", "children");
-			startActivity(children);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_home:
-			slide_me.closeRightSide();
-			Intent home = new Intent(_ctx, ProductDisplay.class);
-			home.putExtra("tab", "home");
-			startActivity(home);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_accesories:
-			slide_me.closeRightSide();
-			Intent acc = new Intent(_ctx, ProductDisplay.class);
-			acc.putExtra("tab", "accessories");
-			startActivity(acc);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_setting:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				startActivity(_phonesetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-					&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.my_cart:
-			slide_me.toggleRightDrawer();
-			break;
-
-		case R.id.btn_invite:
-			Intent _invite = new Intent(_ctx, InviteFragment.class);
-			startActivity(_invite);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_logout:
-			Editor editor = _mypref.edit();
-			editor.clear();
-			editor.commit();
-			Intent _intent = new Intent(getApplicationContext(),
-					ProductDisplay.class);
-			startActivity(_intent);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			break;
-
-		case R.id.back_btn:
-			finish();
-			break;
 
 		case R.id.send_to_thid_address:
 			_fname = first_name.getText().toString();
@@ -707,7 +542,6 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		toast.setView(view);
 		toast.show();
 	}
-	
 
 	@Override
 	public void onBackPressed() {

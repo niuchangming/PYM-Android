@@ -612,9 +612,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 							_sizechartvalue.add(_singleobjs);
 						}
 
-					} else {
-						System.out.println("error");
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
