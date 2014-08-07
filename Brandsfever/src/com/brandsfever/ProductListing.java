@@ -30,6 +30,7 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -38,10 +39,10 @@ import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductListDetailModel;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -101,7 +102,7 @@ public class ProductListing extends SherlockFragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
+				directToCart();
 			}
 		});
 
@@ -396,14 +397,27 @@ public class ProductListing extends SherlockFragmentActivity {
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-		}
+	private void directToCart() {
 
-		return super.onOptionsItemSelected(item);
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(ProductListing.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(ProductListing.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
 	}
 
 	@Override

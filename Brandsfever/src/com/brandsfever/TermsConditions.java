@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -18,11 +19,13 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -76,6 +79,7 @@ public class TermsConditions extends SherlockFragmentActivity  {
 
 			@Override
 			public void onClick(View v) {
+				directToCart();
 			}
 		});
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
@@ -180,6 +184,29 @@ public class TermsConditions extends SherlockFragmentActivity  {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(TermsConditions.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(TermsConditions.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
 		}
 	}
 

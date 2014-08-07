@@ -25,7 +25,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -98,7 +97,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 
 		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
 		actionBarMenu.setImageDrawable(getResources().getDrawable(
-				R.drawable.menu_bg));
+				R.drawable.back_button));
 		actionBarMenu.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -109,14 +108,8 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
 		actionBarCart.setImageDrawable(getResources().getDrawable(
 				R.drawable.cart_btn_bg));
-		actionBarCart.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
-			}
-		});
-
+		actionBarCart.setVisibility(View.INVISIBLE);
+		
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;

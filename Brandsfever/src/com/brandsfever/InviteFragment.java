@@ -147,31 +147,31 @@ public class InviteFragment extends Fragment implements OnClickListener {
 
 		case R.id.gmail_contacts:
 			Intent _gmail = new Intent(getActivity(),
-					SendInviteActiviy.class);
+					SendInviteActivity.class);
 			startActivity(_gmail);
 			break;
 
 		case R.id.yahoo_contacts:
 			Intent _yahoo = new Intent(getActivity(),
-					SendInviteActiviy.class);
+					SendInviteActivity.class);
 			startActivity(_yahoo);
 			break;
 
 		case R.id.hotmail_contacts:
 			Intent _hotmail = new Intent(getActivity(),
-					SendInviteActiviy.class);
+					SendInviteActivity.class);
 			startActivity(_hotmail);
 			break;
 
 		case R.id.msngr_contacts:
 			Intent _msn = new Intent(getActivity(),
-					SendInviteActiviy.class);
+					SendInviteActivity.class);
 			startActivity(_msn);
 			break;
 
 		case R.id.aol_contacts:
 			Intent _aol = new Intent(getActivity(),
-					SendInviteActiviy.class);
+					SendInviteActivity.class);
 			startActivity(_aol);
 			break;
 

@@ -1,17 +1,19 @@
 package com.brandsfever;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
@@ -27,7 +29,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private Fragment mContent;
 	private int mBackButtonCount;
 	private MenuFragment mMenu;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,37 +42,40 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 
-			final ViewGroup actionBarLayout = (ViewGroup)getLayoutInflater().inflate(R.layout.action_bar, null);
+			final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+					.inflate(R.layout.action_bar, null);
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setDisplayShowHomeEnabled(false);
 			actionBar.setDisplayShowTitleEnabled(false);
 			actionBar.setDisplayShowCustomEnabled(true);
 			actionBar.setCustomView(actionBarLayout);
 
-			final ImageButton actionBarMenu = (ImageButton)findViewById(R.id.action_bar_left);
-			actionBarMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu_bg));
+			final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
+			actionBarMenu.setImageDrawable(getResources().getDrawable(
+					R.drawable.menu_bg));
 			actionBarMenu.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					toggle();
-					if(getSlidingMenu().isMenuShowing()){
-						if(mMenu != null){
+					if (getSlidingMenu().isMenuShowing()) {
+						if (mMenu != null) {
 							mMenu.resetMenu();
 						}
 					}
 				}
 			});
-			final ImageButton actionBarCart = (ImageButton)findViewById(R.id.action_bar_right);
-			actionBarCart.setImageDrawable(getResources().getDrawable(R.drawable.cart_btn_bg));
+			final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+			actionBarCart.setImageDrawable(getResources().getDrawable(
+					R.drawable.cart_btn_bg));
 			actionBarCart.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					Log.i(TAG, "Cart is clicked");
+					directToCart();
 				}
 			});
-			
+
 		} else {
 			// add a dummy view
 			View v = new View(this);
@@ -86,7 +91,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			mCurrentMenu = "All";
 			mContent = new CampaignFragment();
 		}
-		
+
 		if (mMenu == null) {
 			mMenu = new MenuFragment();
 		}
@@ -158,6 +163,29 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			Toast.makeText(this, "Press the back button once again to exit.",
 					Toast.LENGTH_SHORT).show();
 			mBackButtonCount++;
+		}
+	}
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(ProductDisplay.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(ProductDisplay.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
 		}
 	}
 

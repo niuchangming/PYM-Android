@@ -138,7 +138,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.PayWithPaypalActiviy"
+            android:name="com.brandsfever.PayWithPaypalActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -164,7 +164,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name="com.brandsfever.SendInviteActiviy"
+            android:name="com.brandsfever.SendInviteActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
@@ -185,9 +185,14 @@
         <activity
             android:name="com.brandsfever.SupportActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_support" >
         </activity>
+       	<activity
+       	    android:name="com.brandsfever.MyCartActivity"
+       	    android:screenOrientation="portrait"> 
+       	</activity>
+       	   
+        
     </application>
 
 </manifest>

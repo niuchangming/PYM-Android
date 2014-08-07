@@ -27,7 +27,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +53,11 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class SendInviteActiviy extends SherlockFragmentActivity implements
+public class SendInviteActivity extends SherlockFragmentActivity implements
 		OnItemClickListener, OnClickListener {
 	private static final String TAG = "SendInviteScreen";
 	ListView _getemails;
-	Context _ctx = SendInviteActiviy.this;
+	Context _ctx = SendInviteActivity.this;
 	ArrayList<String> _storeEmails = new ArrayList<String>();
 	Typeface _font;
 	private String _email;
@@ -112,7 +111,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
+				directToCart();
 			}
 		});
 
@@ -145,7 +144,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SendInviteActiviy.this, "Loading",
+			mProgressHUD = ProgressHUD.show(SendInviteActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -191,7 +190,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-					SendInviteActiviy.this, android.R.layout.simple_list_item_1,
+					SendInviteActivity.this, android.R.layout.simple_list_item_1,
 					_storeEmails);
 			_getemails.setAdapter(arrayAdapter);
 			mProgressHUD.dismiss();
@@ -209,7 +208,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 	public void _InitializePopup() {
 
 		try {
-			LayoutInflater inflater = (LayoutInflater) SendInviteActiviy.this
+			LayoutInflater inflater = (LayoutInflater) SendInviteActivity.this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.send_invite_popup,
 					(ViewGroup) findViewById(R.id.invite_popup));
@@ -239,7 +238,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SendInviteActiviy.this, "Loading",
+			mProgressHUD = ProgressHUD.show(SendInviteActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -289,7 +288,7 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 			if (_retValue.equals("0") || _retValue.equals("502")) {
 				_invitewindow.dismiss();
 				_ResponsePopup();
-				Intent _sucess = new Intent(SendInviteActiviy.this,
+				Intent _sucess = new Intent(SendInviteActivity.this,
 						InviteFragment.class);
 				startActivity(_sucess);
 				finish();
@@ -356,15 +355,38 @@ public class SendInviteActiviy extends SherlockFragmentActivity implements
 				(ViewGroup) findViewById(R.id.pop));
 		TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
 		_seterrormsg.setText("Invite Send Successfully!");
-		Toast toast = new Toast(SendInviteActiviy.this);
+		Toast toast = new Toast(SendInviteActivity.this);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();
 	}
 
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(SendInviteActivity.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(SendInviteActivity.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
+	}
 	@Override
 	public void onBackPressed() {
-		Intent i = new Intent(SendInviteActiviy.this, InviteFragment.class);
+		Intent i = new Intent(SendInviteActivity.this, InviteFragment.class);
 		startActivity(i);
 	}
 

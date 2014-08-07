@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -95,6 +96,7 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 
 			@Override
 			public void onClick(View v) {
+				directToCart();
 			}
 		});
 
@@ -317,6 +319,30 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 			return itemView;
 		}
 
+	}
+
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(MyOrderHistory.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(MyOrderHistory.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
 	}
 
 	@Override

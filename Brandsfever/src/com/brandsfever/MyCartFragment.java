@@ -474,6 +474,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				Intent checkout = new Intent(getActivity(),
 						OrderDeliveryActiviy.class);
 				startActivity(checkout);
+				getActivity().overridePendingTransition(R.anim.push_out_to_right,
+						R.anim.push_out_to_left);
 			} else {
 				_msg = "your cart is empty";
 				responsePopup();

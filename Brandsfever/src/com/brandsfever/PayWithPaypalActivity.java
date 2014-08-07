@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +45,9 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PayWithPaypalActiviy extends SherlockFragmentActivity {
-	private static final String TAG = "PayWithPaypal_Screen";
-	Context _ctx = PayWithPaypalActiviy.this;
+public class PayWithPaypalActivity extends SherlockFragmentActivity {
+	private static final String TAG = "PayWithPaypalActivity";
+	Context _ctx = PayWithPaypalActivity.this;
 	WebView mPaypalWebView;
 	String mPaypalUrl;
 	SharedPreferences _mypref;
@@ -92,7 +91,7 @@ public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 
 		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
 		actionBarMenu.setImageDrawable(getResources().getDrawable(
-				R.drawable.menu_bg));
+				R.drawable.back_button));
 		actionBarMenu.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -102,15 +101,7 @@ public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 			}
 		});
 		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
-		actionBarCart.setImageDrawable(getResources().getDrawable(
-				R.drawable.cart_btn_bg));
-		actionBarCart.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
-			}
-		});
+		actionBarCart.setVisibility(View.INVISIBLE);
 
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
@@ -245,7 +236,7 @@ public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 		@Override
 		protected void onPreExecute() {
 
-			mProgressHUD = ProgressHUD.show(PayWithPaypalActiviy.this,
+			mProgressHUD = ProgressHUD.show(PayWithPaypalActivity.this,
 					"Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -257,7 +248,7 @@ public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 
-			CookieSyncManager.createInstance(PayWithPaypalActiviy.this);
+			CookieSyncManager.createInstance(PayWithPaypalActivity.this);
 			cookieManager = CookieManager.getInstance();
 
 			if (sessionCookie != null) {
@@ -304,14 +295,11 @@ public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		paymentHandler.removeCallbacks(paymentRun);
 		finish();
 	}

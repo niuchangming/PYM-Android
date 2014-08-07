@@ -197,7 +197,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
+				directToCart();
 			}
 		});
 		
@@ -888,6 +888,29 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(SingleProductDisplay.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(SingleProductDisplay.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
+	}
 	@Override
 	public void onBackPressed() {
 		finish();

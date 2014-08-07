@@ -3,35 +3,8 @@
     android:layout_width="match_parent"
     android:background="@drawable/bg"
     android:layout_height="match_parent"
-    tools:context=".PayWithPaypalActiviy" >
+    tools:context=".PayWithPaypalActivity" >
 
-   <RelativeLayout
-        android:id="@+id/one"
-        android:layout_width="fill_parent"
-        android:layout_height="90dip"
-        android:background="@drawable/topbar" >
-
-        <ImageButton
-            android:id="@+id/main_menu"
-            android:layout_width="75dip"
-            android:layout_height="85dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="5dip"
-            android:background="@drawable/menu_bg"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="40dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="100dip"
-            android:background="@drawable/back_button"
-            android:contentDescription="@string/brandsfever" />
-
-    </RelativeLayout>
     <WebView
         android:id="@+id/webView1"
         android:layout_below="@+id/one"
