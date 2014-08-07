@@ -68,8 +68,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	private String mFBGender;
 	Facebook facebook;
 	ViewGroup root;
-	TextView _seterrormsg;
-	String _msg;
 	CheckBox checkBox1;
 	private String _content;
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
@@ -143,27 +141,21 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 				_Password = choose_password.getText().toString();
 				_Email = email_address.getText().toString();
 				if (_Fname.length() == 0) {
-					_msg = "Please fill first name!";
-					responsePopup();
+					responsePopup("Please fill first name!");
 				} else if (_Lname.length() == 0) {
-					_msg = "Please fill last name!";
-					responsePopup();
+					responsePopup("Please fill last name!");
 				} else if (_Email.length() == 0) {
-					_msg = "Please enter email-id!";
-					responsePopup();
+					responsePopup("Please enter email-id!");
 				} else if (_Password.length() == 0) {
-					_msg = "Please fill password";
-					responsePopup();
+					responsePopup("Please fill password");
 				} else if (!checkBox1.isChecked()) {
-					_msg = "Please agree to the terms ";
-					responsePopup();
+					responsePopup("Please agree to the terms ");
 				} else if (_Fname.length() > 0 && _Lname.length() > 0
 						&& _Password.length() > 0 && _Email.length() > 0) {
 					if (_Email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
 						new RegisterCustomer().execute();
 					} else {
-						_msg = "Invalid email\nPlease enter a valid email!";
-						responsePopup();
+						responsePopup("Invalid email\nPlease enter a valid email!");
 					}
 				}
 
@@ -266,8 +258,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					}
 				} else {
 					mProgressHUD.dismiss();
-					_msg = "Username is alreay existed";
-					responsePopup();
+					responsePopup("Username is alreay existed");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -310,10 +301,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					prefsEditor.commit();
 					try {
 						((PhoneLoginActivity) getActivity()).refreshPage();
-						getActivity().overridePendingTransition(0,
-								R.anim.puch_login_down);
-						_msg = "login successful!";
-						responsePopup();
+						responsePopup("login successful!");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -527,19 +515,11 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						new GetUserName(_token, _UserId).execute();
 					} else {
-						_msg = jobj.getString("msg");
-						responsePopup();
+						responsePopup(jobj.getString("msg"));
 					}
 				} else {
-					_msg = jobj.getString("msg");
-					responsePopup();
+					responsePopup(jobj.getString("msg"));
 					mProgressHUD.dismiss();
-					try {
-						_msg = jobj.getString("msg");
-						responsePopup();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -548,11 +528,11 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	public void responsePopup() {
+	public void responsePopup(String message) {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
-		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText(_msg);
+		TextView textView = (TextView) view.findViewById(R.id._seterrormsg);
+		textView.setText(message);
 		Toast toast = new Toast(getActivity().getBaseContext());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);

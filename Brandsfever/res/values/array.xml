@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string-array name="menus">
-       <item>All</item>
-       <item>Women</item>
-       <item>Men</item>
-       <item>Children</item>
-       <item>Home</item>
-       <item>Accessories</item>
-       <item>Support</item>
-       <item>MyCart</item>
-       <item>Settings</item>
-       <item>Invite</item>
-       <item>Logout</item>
-   </string-array>
-   
-   <string-array name="category">
-       <item>All</item>
-       <item>Women</item>
-       <item>Men</item>
-       <item>Children</item>
-       <item>Home</item>
-       <item>Accessories</item>
-   </string-array>
+
+    <string-array name="logout">
+        <item>Support</item>
+        <item>MyCart</item>
+        <item>Settings</item>
+        <item>Invite</item>
+        <item>Logout</item>
+    </string-array>
+    <string-array name="login">
+        <item>Support</item>
+        <item>Login</item>
+    </string-array>
+    <string-array name="category">
+        <item>All</item>
+        <item>Women</item>
+        <item>Men</item>
+        <item>Children</item>
+        <item>Home</item>
+        <item>Accessories</item>
+    </string-array>
+
 </resources>

@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -66,29 +65,19 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 		actionBar.setCustomView(actionBarLayout);
 
 		final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
-		actionBarMenu.setImageDrawable(getResources().getDrawable(
-				R.drawable.menu_bg));
-		actionBarMenu.setOnClickListener(new View.OnClickListener() {
+		actionBarMenu.setVisibility(View.INVISIBLE);
+		final ImageButton actionBarClose = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarClose.setImageDrawable(getResources().getDrawable(
+				R.drawable.btn_cross_login));
+		actionBarClose.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				finish();
 			}
 		});
-		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
-		actionBarCart.setImageDrawable(getResources().getDrawable(
-				R.drawable.cart_btn_bg));
-		actionBarCart.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.i(TAG, "Cart is clicked");
-			}
-		});
 
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		close_login_page = (ImageButton) findViewById(R.id.close_login_page);
-		close_login_page.setOnClickListener(this);
 
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -119,9 +108,7 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 	}
 
 	public void refreshPage() {
-		Intent returnIntent = new Intent();
-		setResult(RESULT_OK, returnIntent);
-		PhoneLoginActivity.this.finish();
+		finish();
 	}
 
 	private void setUpView() {
@@ -213,14 +200,7 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.close_login_page:
-			PhoneLoginActivity.this.finish();
-			overridePendingTransition(R.anim.puch_out_to_top,
-					R.anim.push_out_to_bottom);
-			break;
-
 		case R.id.textView1:
-			imm.hideSoftInputFromWindow(dummy.getWindowToken(), 0);
 			_mViewPager.setCurrentItem(0);
 			int color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 			textView1.setTextColor(color);
@@ -230,7 +210,6 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 			break;
 
 		case R.id.textView2:
-			imm.hideSoftInputFromWindow(dummy.getWindowToken(), 0);
 			_mViewPager.setCurrentItem(1);
 			int color1 = Integer.parseInt("8e1345", 16) + 0xFF000000;
 			textView2.setTextColor(color1);

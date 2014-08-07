@@ -26,7 +26,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private String mCurrentMenu;
 	private Fragment mContent;
 	private int mBackButtonCount;
-
+	private MenuFragment mMenu;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +40,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 
-			// show home as up so we can toggle
 			final ViewGroup actionBarLayout = (ViewGroup)getLayoutInflater().inflate(R.layout.action_bar, null);
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setDisplayShowHomeEnabled(false);
@@ -54,6 +54,11 @@ public class ProductDisplay extends SlidingFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					toggle();
+					if(getSlidingMenu().isMenuShowing()){
+						if(mMenu != null){
+							mMenu.resetMenu();
+						}
+					}
 				}
 			});
 			final ImageButton actionBarCart = (ImageButton)findViewById(R.id.action_bar_right);
@@ -81,13 +86,17 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			mCurrentMenu = "All";
 			mContent = new CampaignFragment();
 		}
+		
+		if (mMenu == null) {
+			mMenu = new MenuFragment();
+		}
 
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, mContent).commit();
 
 		// set the Behind View Fragment
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, new MenuFragment()).commit();
+				.replace(R.id.menu_frame, mMenu).commit();
 
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
@@ -111,23 +120,12 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			toggle();
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public void onStart() {
 		super.onStart();
 		EasyTracker tracker = EasyTracker.getInstance(this);
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
 				+ ": campaigns/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
-
 	}
 
 	protected void onSaveInstanceState(Bundle outState) {

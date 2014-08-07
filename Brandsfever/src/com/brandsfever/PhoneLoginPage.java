@@ -20,8 +20,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.ActionBar.LayoutParams;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,15 +49,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dataholder.DataHolderClass;
-import com.progressbar.ProgressHUD;
-import com.ssl.HttpsClient;
-import com.ssl.TrustAllCertificates;
-
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
+import com.progressbar.ProgressHUD;
+import com.ssl.HttpsClient;
+import com.ssl.TrustAllCertificates;
 
 public class PhoneLoginPage extends Fragment implements OnClickListener {
 
@@ -556,9 +554,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					prefsEditor.commit();
 					try {
 						((PhoneLoginActivity) getActivity()).refreshPage();
-						getActivity().overridePendingTransition(
-								R.anim.puch_out_to_top,
-								R.anim.push_out_to_bottom);
 						_msg = "login successful!";
 						responsePopup();
 					} catch (Exception e) {
