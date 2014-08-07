@@ -472,7 +472,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		case R.id.checkout_cart:
 			if (Orderinfo.size() > 0) {
 				Intent checkout = new Intent(getActivity(),
-						OrderDelivery_Screen.class);
+						OrderDeliveryActiviy.class);
 				startActivity(checkout);
 			} else {
 				_msg = "your cart is empty";

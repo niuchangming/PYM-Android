@@ -50,12 +50,12 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class OrderDelivery_Screen extends SherlockFragmentActivity implements
+public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		OnClickListener {
 	private static final String TAG = "OrderDelivery_Screen";
 	CheckBox _checkBillingaddress;
 	LinearLayout _shipping_address_layout;
-	Context _ctx = OrderDelivery_Screen.this;
+	Context _ctx = OrderDeliveryActiviy.this;
 	TextView title_tag, billing_addrress, sameas_billing_tag;
 	Typeface _font;
 	ImageButton send_to_thid_address;
@@ -263,7 +263,7 @@ public class OrderDelivery_Screen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(OrderDelivery_Screen.this,
+			mProgressHUD = ProgressHUD.show(OrderDeliveryActiviy.this,
 					"Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -395,7 +395,7 @@ public class OrderDelivery_Screen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(OrderDelivery_Screen.this,
+			mProgressHUD = ProgressHUD.show(OrderDeliveryActiviy.this,
 					"Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -487,7 +487,7 @@ public class OrderDelivery_Screen extends SherlockFragmentActivity implements
 					String _orderPK = obj.getString("order_pk");
 					DataHolderClass.getInstance().set_orderpk(_orderPK);
 					Intent _sendforpayment = new Intent(_ctx,
-							PaymentScreen.class);
+							PaymentActivity.class);
 					startActivity(_sendforpayment);
 					overridePendingTransition(R.anim.push_out_to_right,
 							R.anim.push_out_to_left);
@@ -533,11 +533,11 @@ public class OrderDelivery_Screen extends SherlockFragmentActivity implements
 	}
 
 	public void _ResponsePopup() {
-		View view = View.inflate(OrderDelivery_Screen.this,
+		View view = View.inflate(OrderDeliveryActiviy.this,
 				R.layout.error_popop, null);
 		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
 		_seterrormsg.setText(_msg);
-		Toast toast = new Toast(OrderDelivery_Screen.this);
+		Toast toast = new Toast(OrderDeliveryActiviy.this);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();

@@ -302,14 +302,14 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					// String _ss = obj1.getString("first_name")+ " " +
 					// obj1.getString("last_name");
 
-					String _ss = obj1.getString("first_name");
+					String name = obj1.getString("first_name");
 					_mypref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
 					Editor prefsEditor = _mypref.edit();
-					prefsEditor.putString("_UserName", _ss);
+					prefsEditor.putString("UserName", name);
 					prefsEditor.commit();
 					try {
-						((PhoneLoginScreen) getActivity()).refreshPage();
+						((PhoneLoginActivity) getActivity()).refreshPage();
 						getActivity().overridePendingTransition(0,
 								R.anim.puch_login_down);
 						_msg = "login successful!";
@@ -392,12 +392,10 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	public final class LoginDialogListener implements DialogListener {
 		public void onComplete(Bundle values) {
 			try {
-
 				SessionStore.save(facebook, getActivity());
 				facebook();
 			} catch (Exception error) {
 				error.printStackTrace();
-
 			}
 
 		}

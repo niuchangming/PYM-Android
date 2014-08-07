@@ -73,7 +73,7 @@ public class StoreCreditWindow extends DialogFragment implements
 		_getuserId = _mypref.getString("ID", null);
 		_getToken = _mypref.getString("TOKEN", null);
 
-		_adapter = new CreditAdapter(getActivity(), PaymentScreen._storeCredits);
+		_adapter = new CreditAdapter(getActivity(), PaymentActivity._storeCredits);
 		store_credit_list.setAdapter(_adapter);
 
 		store_credit_list.setOnItemClickListener(new OnItemClickListener() {
@@ -81,7 +81,7 @@ public class StoreCreditWindow extends DialogFragment implements
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View _view,
 					int position, long arg3) {
-				StoreCreditDetails _Sc = PaymentScreen._storeCredits
+				StoreCreditDetails _Sc = PaymentActivity._storeCredits
 						.get(position);
 				String getpk = _Sc.getPk();
 				double getcreditamount = Double.parseDouble(_Sc.getAmount());

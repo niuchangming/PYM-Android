@@ -68,7 +68,7 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 	private ImageButton submit, signup, phone_fb_login;
 	private TextView forgot_password;
 	private String _emailId, _password;
-	SharedPreferences _mypref;
+	SharedPreferences mMyPref;
 	private String _ResponseFromServer, _SocailResponseFromServer,
 			_ResetResponseFromServer;
 	Facebook facebook;
@@ -194,13 +194,11 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				Log.i(TAG, "popup here");
-			}
+			} 
 			break;
 
 		case R.id.go_to_register:
-			((PhoneLoginScreen) getActivity())._ChangeTabs();
+			((PhoneLoginActivity) getActivity())._ChangeTabs();
 			break;
 		case R.id.phone_fb_login:
 			Toast.makeText(getActivity(), "Redirecting you on facebook", 2)
@@ -272,19 +270,19 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 		protected void onPostExecute(String result) {
 			try {
 				JSONObject jobj = new JSONObject(_ResponseFromServer);
-				String _Ret = jobj.getString("ret");
-				if (_Ret.equals("0")) {
-					String _token = jobj.getString("token");
-					String _UserId = jobj.getString("user_id");
-					_mypref = getActivity().getApplicationContext()
+				String ret = jobj.getString("ret");
+				if (ret.equals("0")) {
+					String token = jobj.getString("token");
+					String UserId = jobj.getString("user_id");
+					mMyPref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
-					Editor prefsEditor = _mypref.edit();
+					Editor prefsEditor = mMyPref.edit();
 					prefsEditor.clear();
-					prefsEditor.putString("ID", _UserId);
-					prefsEditor.putString("TOKEN", _token);
+					prefsEditor.putString("ID", UserId);
+					prefsEditor.putString("TOKEN", token);
 					prefsEditor.commit();
-					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
-						new GetUserName(_token, _UserId).execute();
+					if ((UserId.length() != 0) && (token.length() != 0)) {
+						new GetUserName(token, UserId).execute();
 					} else {
 						_msg = jobj.getString("msg");
 						responsePopup();
@@ -479,9 +477,9 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				if (_Ret.equals("0")) {
 					String _token = jobj.getString("token");
 					String _UserId = jobj.getString("user_id");
-					_mypref = getActivity().getApplicationContext()
+					mMyPref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
-					Editor prefsEditor = _mypref.edit();
+					Editor prefsEditor = mMyPref.edit();
 					prefsEditor.clear();
 					prefsEditor.putString("ID", _UserId);
 					prefsEditor.putString("TOKEN", _token);
@@ -536,10 +534,9 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
+			String profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 					+ _id + "&token=" + mtoken;
-			Log.d(TAG, _profileurl);
-			GetProfile(_profileurl);
+			GetProfile(profileurl);
 			return null;
 		}
 
@@ -548,18 +545,17 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			try {
 				JSONObject obj = new JSONObject(_content);
 				String ret = obj.getString("ret");
-				Log.d(TAG, ret);
 				if (ret.equals("0")) {
 					JSONObject obj1 = obj.getJSONObject("profile");
 
 					String name = obj1.getString("first_name");
-					_mypref = getActivity().getApplicationContext()
+					mMyPref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
-					Editor prefsEditor = _mypref.edit();
-					prefsEditor.putString("_UserName", name);
+					Editor prefsEditor = mMyPref.edit();
+					prefsEditor.putString("UserName", name);
 					prefsEditor.commit();
 					try {
-						((PhoneLoginScreen) getActivity()).refreshPage();
+						((PhoneLoginActivity) getActivity()).refreshPage();
 						getActivity().overridePendingTransition(
 								R.anim.puch_out_to_top,
 								R.anim.push_out_to_bottom);
@@ -596,7 +592,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 					total.append(line);
 				}
 				_content = total.toString();
-				Log.d(TAG, _content);
 
 			}
 		} catch (Exception e) {
@@ -657,7 +652,6 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
 			_namevalueList.add(_socailemail);
 			_ResetResponseFromServer = SendData(_resetP, _namevalueList);
-			Log.d(TAG, _ResetResponseFromServer);
 			return null;
 		}
 

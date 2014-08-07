@@ -58,10 +58,10 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PaymentScreen extends SherlockFragmentActivity implements
+public class PaymentActivity extends SherlockFragmentActivity implements
 		OnClickListener {
-	private static final String TAG = "PaymentScreen";
-	Context _ctx = PaymentScreen.this;
+	private static final String TAG = "PaymentActivity";
+	Context _ctx = PaymentActivity.this;
 	Typeface _font;
 	private PopupWindow pwindo;
 
@@ -273,7 +273,7 @@ public class PaymentScreen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(PaymentScreen.this, "Loading",
+			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -373,7 +373,7 @@ public class PaymentScreen extends SherlockFragmentActivity implements
 			order_subtotal_amount.setText("S$" + "" + subtotal + "0");
 			order_shiping_amount.setText("S$" + mShippingfree);
 			order_total_amount.setText("S$" + mTotalprice);
-			_adapter = new PaymentScreenDataAdapter(PaymentScreen.this,
+			_adapter = new PaymentScreenDataAdapter(PaymentActivity.this,
 					_Payorderinfo);
 			set_orders.setAdapter(_adapter);
 
@@ -463,8 +463,8 @@ public class PaymentScreen extends SherlockFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pay_with_paypal:
-			Intent payIntent = new Intent(PaymentScreen.this,
-					PayWithPaypal_Screen.class);
+			Intent payIntent = new Intent(PaymentActivity.this,
+					PayWithPaypalActiviy.class);
 			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
 			startActivity(payIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
@@ -524,7 +524,7 @@ public class PaymentScreen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(PaymentScreen.this, "Loading",
+			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -737,7 +737,7 @@ public class PaymentScreen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(PaymentScreen.this, "Loading",
+			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);

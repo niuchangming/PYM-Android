@@ -78,7 +78,6 @@ public class SupportFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "Submit is clicked.");
 
 				if (mOrderId.getText().toString().length() < 1) {
 					showMessage("Please input your Order Identifier.");
@@ -101,7 +100,6 @@ public class SupportFragment extends Fragment {
 					SubmitSupport submit = new SubmitSupport();
 					submit.execute(nameValuePairs);
 				}
-				// getActivity().getFragmentManager().beginTransaction().remove(SupportFragment.this).commit();
 			}
 		});
 
@@ -111,8 +109,6 @@ public class SupportFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-//		InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//		imm.hideSoftInputFromWindow(mOrderId.getWindowToken(), 0);
 	}
 
 	class SubmitSupport extends AsyncTask<List<NameValuePair>, String, String>
@@ -138,7 +134,6 @@ public class SupportFragment extends Fragment {
 		@Override
 		protected String doInBackground(List<NameValuePair>... params) {
 			String supportUrl = "https://www.brandsfever.com/api/v5/customer-support/";
-
 			String result = postData(supportUrl, params[0]);
 			return result;
 		}

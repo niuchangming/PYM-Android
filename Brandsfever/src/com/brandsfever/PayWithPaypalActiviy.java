@@ -46,9 +46,9 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PayWithPaypal_Screen extends SherlockFragmentActivity {
+public class PayWithPaypalActiviy extends SherlockFragmentActivity {
 	private static final String TAG = "PayWithPaypal_Screen";
-	Context _ctx = PayWithPaypal_Screen.this;
+	Context _ctx = PayWithPaypalActiviy.this;
 	WebView mPaypalWebView;
 	String mPaypalUrl;
 	SharedPreferences _mypref;
@@ -245,7 +245,7 @@ public class PayWithPaypal_Screen extends SherlockFragmentActivity {
 		@Override
 		protected void onPreExecute() {
 
-			mProgressHUD = ProgressHUD.show(PayWithPaypal_Screen.this,
+			mProgressHUD = ProgressHUD.show(PayWithPaypalActiviy.this,
 					"Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -257,7 +257,7 @@ public class PayWithPaypal_Screen extends SherlockFragmentActivity {
 			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 
-			CookieSyncManager.createInstance(PayWithPaypal_Screen.this);
+			CookieSyncManager.createInstance(PayWithPaypalActiviy.this);
 			cookieManager = CookieManager.getInstance();
 
 			if (sessionCookie != null) {

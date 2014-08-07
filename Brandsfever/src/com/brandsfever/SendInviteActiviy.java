@@ -54,11 +54,11 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class SendInviteScreen extends SherlockFragmentActivity implements
+public class SendInviteActiviy extends SherlockFragmentActivity implements
 		OnItemClickListener, OnClickListener {
 	private static final String TAG = "SendInviteScreen";
 	ListView _getemails;
-	Context _ctx = SendInviteScreen.this;
+	Context _ctx = SendInviteActiviy.this;
 	ArrayList<String> _storeEmails = new ArrayList<String>();
 	Typeface _font;
 	private String _email;
@@ -145,7 +145,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SendInviteScreen.this, "Loading",
+			mProgressHUD = ProgressHUD.show(SendInviteActiviy.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -191,7 +191,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-					SendInviteScreen.this, android.R.layout.simple_list_item_1,
+					SendInviteActiviy.this, android.R.layout.simple_list_item_1,
 					_storeEmails);
 			_getemails.setAdapter(arrayAdapter);
 			mProgressHUD.dismiss();
@@ -209,7 +209,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 	public void _InitializePopup() {
 
 		try {
-			LayoutInflater inflater = (LayoutInflater) SendInviteScreen.this
+			LayoutInflater inflater = (LayoutInflater) SendInviteActiviy.this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.send_invite_popup,
 					(ViewGroup) findViewById(R.id.invite_popup));
@@ -239,7 +239,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SendInviteScreen.this, "Loading",
+			mProgressHUD = ProgressHUD.show(SendInviteActiviy.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -289,7 +289,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 			if (_retValue.equals("0") || _retValue.equals("502")) {
 				_invitewindow.dismiss();
 				_ResponsePopup();
-				Intent _sucess = new Intent(SendInviteScreen.this,
+				Intent _sucess = new Intent(SendInviteActiviy.this,
 						InviteFragment.class);
 				startActivity(_sucess);
 				finish();
@@ -356,7 +356,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 				(ViewGroup) findViewById(R.id.pop));
 		TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
 		_seterrormsg.setText("Invite Send Successfully!");
-		Toast toast = new Toast(SendInviteScreen.this);
+		Toast toast = new Toast(SendInviteActiviy.this);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();
@@ -364,7 +364,7 @@ public class SendInviteScreen extends SherlockFragmentActivity implements
 
 	@Override
 	public void onBackPressed() {
-		Intent i = new Intent(SendInviteScreen.this, InviteFragment.class);
+		Intent i = new Intent(SendInviteActiviy.this, InviteFragment.class);
 		startActivity(i);
 	}
 

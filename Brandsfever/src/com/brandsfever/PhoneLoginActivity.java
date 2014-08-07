@@ -27,9 +27,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class PhoneLoginScreen extends SherlockFragmentActivity implements
+public class PhoneLoginActivity extends SherlockFragmentActivity implements
 		OnClickListener {
-	private static final String TAG = "PhoneLoginScreen";
+	private static final String TAG = "PhoneLoginActivity";
 	private ViewPager _mViewPager;
 	private PhoneLoginPager _adapter;
 	ImageButton close_login_page;
@@ -121,7 +121,7 @@ public class PhoneLoginScreen extends SherlockFragmentActivity implements
 	public void refreshPage() {
 		Intent returnIntent = new Intent();
 		setResult(RESULT_OK, returnIntent);
-		PhoneLoginScreen.this.finish();
+		PhoneLoginActivity.this.finish();
 	}
 
 	private void setUpView() {
@@ -214,7 +214,7 @@ public class PhoneLoginScreen extends SherlockFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.close_login_page:
-			PhoneLoginScreen.this.finish();
+			PhoneLoginActivity.this.finish();
 			overridePendingTransition(R.anim.puch_out_to_top,
 					R.anim.push_out_to_bottom);
 			break;

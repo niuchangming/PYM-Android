@@ -47,7 +47,6 @@ public class Splash extends Activity {
 			double y = Math.pow(displaymetrics.heightPixels
 					/ displaymetrics.ydpi, 2);
 			double screenInches = Math.sqrt(x + y);
-			Log.d("debug", "Screen inches : " + screenInches);
 			int _deviceinch = (int) (screenInches);
 			DataHolderClass.getInstance().set_deviceHeight(displayHeight);
 			DataHolderClass.getInstance().set_deviceWidth(displayWidth);
@@ -113,8 +112,6 @@ public class Splash extends Activity {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."
-					+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();

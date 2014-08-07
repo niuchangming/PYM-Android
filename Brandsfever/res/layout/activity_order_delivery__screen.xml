@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".OrderDelivery_Screen" >
+    tools:context=".OrderDeliveryActiviy" >
 
     <RelativeLayout
         android:id="@+id/one"

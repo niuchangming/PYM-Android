@@ -46,7 +46,6 @@ public class DynamicDisplayFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tab_name = getArguments().getString("name");
-		Log.i("SWIPE", "tab name i frganment" + tab_name);
 		_mctx = getActivity();
 	}
 
@@ -169,8 +168,7 @@ public class DynamicDisplayFragment extends Fragment {
 				marketprice.setTypeface(mFont, Typeface.BOLD);
 				name.setTypeface(mFont, Typeface.NORMAL);
 			} catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
-						+ e.getMessage());
+				e.printStackTrace();
 			}
 
 			ProductListDetailModel obj = data.get(position);
@@ -266,8 +264,7 @@ public class DynamicDisplayFragment extends Fragment {
 				_marketprice.setTypeface(mFont);
 				_name.setTypeface(mFont);
 			} catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
-						+ e.getMessage());
+				e.printStackTrace();
 			}
 			ProductListDetailModel obj = _data.get(position);
 			LinearLayout _lm = (LinearLayout) itemView
