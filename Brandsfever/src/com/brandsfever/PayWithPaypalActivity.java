@@ -96,7 +96,7 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				paymentHandler.removeCallbacks(paymentRun);
+				paymentHandler.removeCallbacksAndMessages(null);
 				finish();
 			}
 		});
@@ -136,7 +136,7 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 				// state: -1 -- unknown, 0-- waiting for payment 1:success
 				if (state == 1) {
 					onPurchaseCompleted();
-					paymentHandler.removeCallbacks(this);
+					paymentHandler.removeCallbacksAndMessages(null);
 				} else {
 					paymentHandler.postDelayed(this, HANDLER_DELAY);
 				}
@@ -300,7 +300,7 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		paymentHandler.removeCallbacks(paymentRun);
+		paymentHandler.removeCallbacksAndMessages(null);
 		finish();
 	}
 

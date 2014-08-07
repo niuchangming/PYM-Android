@@ -732,8 +732,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			break;
 
 		case R.id.add_to_cart:
-			if (click_button % 2 != 0) {
-			}
 			try {
 				if (!(_getToken == null) && !(_getuserId == null)) {
 					new AddToCartClass().execute();
@@ -1025,9 +1023,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					toast.show();
 
 					SingleProductDisplay.this.finish();
-					Intent _sendbck = new Intent(SingleProductDisplay.this,
-							ProductListing.class);
-					startActivity(_sendbck);
 				} else {
 					String _errormsg = jobj.getString("msg");
 					LayoutInflater inflater = getLayoutInflater();
