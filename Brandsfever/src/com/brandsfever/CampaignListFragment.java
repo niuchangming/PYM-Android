@@ -176,7 +176,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			TextView ends_in, discount_rate;
 			ImageView set_product_image;
 			Button go_for_sale;
-
 			View itemView;
 			if (convertView == null) {
 				itemView = getActivity().getLayoutInflater().inflate(
@@ -184,6 +183,9 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			} else {
 				itemView = convertView;
 			}
+
+			if(position >= data.size())
+				return itemView;
 
 			LinearLayout f_l = (LinearLayout) itemView.findViewById(R.id.pr_bg);
 			if (position % 3 == 0) {
