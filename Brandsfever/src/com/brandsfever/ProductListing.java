@@ -68,14 +68,20 @@ public class ProductListing extends SherlockFragmentActivity {
 	public static ArrayList<ProductListDetailModel> mProductList = new ArrayList<ProductListDetailModel>();
 	private Set<String> ss = new HashSet<String>();
 
-	SharedPreferences _mypref;
 	int color, colors;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_product_listing);
+		int a = DataHolderClass.getInstance().get_deviceInch();
+		if (a <= 6) {
+			setContentView(R.layout.activity_product_listing);
+		} else if (a >= 7 && a < 9) {
+			setContentView(R.layout.seven_inch_product_listing);
+		} else if (a >= 9) {
+			setContentView(R.layout.product_listing_ten_inch);
+		}
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
 				.inflate(R.layout.action_bar, null);
@@ -110,10 +116,9 @@ public class ProductListing extends SherlockFragmentActivity {
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-
 		tabs = (TabHost) findViewById(R.id.tabhost);
 		tabs.setup();
+
 		mHorizontalScroll = (HorizontalScrollView) findViewById(R.id.hsv);
 		_mViewPager = (ViewPager) findViewById(R.id.dynamic_pager);
 		mTabsAdapter = new TabsAdapter(ProductListing.this, tabs, _mViewPager);
@@ -401,9 +406,10 @@ public class ProductListing extends SherlockFragmentActivity {
 		SharedPreferences mypref = getApplicationContext()
 				.getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
-		
+
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(ProductListing.this, MyCartActivity.class);
+			Intent gotocart = new Intent(ProductListing.this,
+					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
