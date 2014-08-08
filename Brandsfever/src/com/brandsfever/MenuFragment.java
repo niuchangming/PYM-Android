@@ -79,7 +79,7 @@ public class MenuFragment extends ListFragment {
 			} else if ((mUserName != null)
 					&& (!mUserName.equalsIgnoreCase(userName))) { // change
 																	// username
-				if (userName != null){
+				if (userName != null) {
 					updateToLogin = true;
 					mUserName = userName;
 				}
@@ -95,7 +95,7 @@ public class MenuFragment extends ListFragment {
 				mMenus.addAll(mLogoutList);
 				mMenuAdapter.notifyDataSetChanged();
 			} else {
-				if (mUserName == null & userName == null){ // init to login
+				if (mUserName == null & userName == null) { // init to login
 					mHeaderTextView.setText("Hi! Guest");
 					mMenus.clear();
 					mMenus.addAll(mCategories);
@@ -175,7 +175,8 @@ public class MenuFragment extends ListFragment {
 			mMenus.addAll(mCategories);
 			mMenus.addAll(mLoginList);
 			mMenuAdapter.notifyDataSetChanged();
-			
+			mHeaderTextView.setText("Hi! Guest");
+
 			SharedPreferences pref = getActivity().getApplicationContext()
 					.getSharedPreferences("mypref", 0);
 			Editor editor = pref.edit();
@@ -197,8 +198,7 @@ public class MenuFragment extends ListFragment {
 			}
 		}
 	}
-	
-	
+
 	public void responsePopup(String message) {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
