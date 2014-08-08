@@ -9,6 +9,9 @@
         android:id="@+id/campaign_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="4dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="15dp" >
     </ListView>
