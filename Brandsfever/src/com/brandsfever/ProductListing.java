@@ -235,7 +235,6 @@ public class ProductListing extends SherlockFragmentActivity {
 					tv.setTextSize(17);
 				}
 
-				// tv.setTypeface(_font);
 				tv.setTextColor(Color.parseColor("#000000"));
 				v.setBackgroundResource(R.drawable.selector);
 			}

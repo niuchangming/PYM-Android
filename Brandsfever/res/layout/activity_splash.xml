@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Splash" >
+    tools:context=".SplashActivity" >
 
     <ImageView 
       android:id="@+id/splash"
@@ -10,7 +10,6 @@
       android:layout_width="fill_parent"
       android:scaleType="fitXY"
       android:contentDescription="@string/brandsfever"
-      android:adjustViewBounds="true"
-      android:background="@drawable/splash"/>
+      android:adjustViewBounds="true"/>
 
 </RelativeLayout>

@@ -362,8 +362,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public void responsePopup() {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
-		TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText("Coming Soon!!!");
+		TextView seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
+		seterrormsg.setText("Coming Soon!!!");
 		Toast toast = new Toast(getActivity().getBaseContext());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
