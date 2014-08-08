@@ -28,12 +28,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
@@ -47,6 +49,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.dataholder.DataHolderClass;
 import com.datamodel.ProductsDataModel;
+import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
@@ -55,31 +58,35 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	private static final String TAG = "CampaignListFragment";
 
 	private ListView mCampaignList;
-//	private Button mScrollUp;
+	// private Button mScrollUp;
+	private ArrayList<ProductsDataModel> mNewCampaigns;
 	private ArrayList<ProductsDataModel> mCampaigns;
 	private SwipeRefreshLayout mSwipeLayout;
 	private PhoneAdapter mAdapter;
 	private String mCategoryName;
 	private boolean mIsVisible;
-	
+	private boolean mIsFirstLoad;
+
 	public static CampaignListFragment newInstance(String category) {
 
 		CampaignListFragment fragment = new CampaignListFragment(category);
 		return fragment;
 	}
 
-	CampaignListFragment(){
+	CampaignListFragment() {
 		mCategoryName = "all";
 	}
-	
+
 	CampaignListFragment(String category) {
 		mCategoryName = category;
+		mIsFirstLoad = true;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mCampaigns = new ArrayList<ProductsDataModel>();
+		mNewCampaigns = new ArrayList<ProductsDataModel>();
 	}
 
 	@Override
@@ -89,13 +96,14 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
 				R.layout.campaign_list, null);
 		mSwipeLayout.setOnRefreshListener(this);
-		mSwipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright, 
-                android.R.color.holo_green_light, 
-                android.R.color.holo_orange_light, 
-                android.R.color.holo_red_light);
-		mCampaignList = (ListView) mSwipeLayout.findViewById(R.id.campaign_list);
-//		mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
-//		mScrollUp.setVisibility(View.GONE);
+		mSwipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
+				android.R.color.holo_green_light,
+				android.R.color.holo_orange_light,
+				android.R.color.holo_red_light);
+		mCampaignList = (ListView) mSwipeLayout
+				.findViewById(R.id.campaign_list);
+		// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
+		// mScrollUp.setVisibility(View.GONE);
 		mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
 		mCampaignList.setAdapter(mAdapter);
 
@@ -107,24 +115,25 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-//				if (firstVisibleItem > 4) {
-//					mScrollUp.setVisibility(View.VISIBLE);
-//				} else {
-//					mScrollUp.setVisibility(View.GONE);
-//				}
+				// if (firstVisibleItem > 4) {
+				// mScrollUp.setVisibility(View.VISIBLE);
+				// } else {
+				// mScrollUp.setVisibility(View.GONE);
+				// }
 			}
 		});
-//		mScrollUp.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				mCampaignList.setSelection(0);
-//				mScrollUp.setVisibility(View.GONE);
-//			}
-//		});
+		// mScrollUp.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// mCampaignList.setSelection(0);
+		// mScrollUp.setVisibility(View.GONE);
+		// }
+		// });
 
-		if (mCampaigns.isEmpty()) {
+		if (mIsFirstLoad) {
+			mIsFirstLoad = false;
 			new LoadProduct(mCategoryName).execute();
-		} 
+		}
 
 		return mSwipeLayout;
 	}
@@ -134,7 +143,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		super.setUserVisibleHint(isVisibleToUser);
 		mIsVisible = isVisibleToUser;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -195,7 +204,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 				itemView = convertView;
 			}
 
-			if(position >= data.size())
+			if (position >= data.size())
 				return itemView;
 
 			LinearLayout f_l = (LinearLayout) itemView.findViewById(R.id.pr_bg);
@@ -383,7 +392,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 	class LoadProduct extends AsyncTask<Void, Void, Void> implements
 			OnCancelListener {
-//		ProgressHUD mProgressHUD;
+		ProgressHUD mProgressHUD;
 		String mCategoryName;
 
 		LoadProduct(String category) {
@@ -392,16 +401,16 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 		@Override
 		protected void onPreExecute() {
-//			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
-//					true, this);
-//			DisplayMetrics displaymetrics = new DisplayMetrics();
-//			int displayHeight = displaymetrics.heightPixels;
-//			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-//			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-//					.getAttributes();
-//			wmlp.y = displayHeight / 4;
-//			mProgressHUD.getWindow().setAttributes(wmlp);
-//			mProgressHUD.setCancelable(false);
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
+					true, this);
+			DisplayMetrics displaymetrics = new DisplayMetrics();
+			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
+			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
+					.getAttributes();
+			wmlp.y = displayHeight / 4;
+			mProgressHUD.getWindow().setAttributes(wmlp);
+			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
 		}
 
@@ -412,7 +421,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		@Override
 		protected Void doInBackground(Void... arg0) {
 
-			mCampaigns.clear();
+			mNewCampaigns.clear();
 
 			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
 					+ getActivity().getResources().getString(
@@ -425,15 +434,19 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		}
 
 		protected void onProgressUpdate(String... values) {
-//			mProgressHUD.setMessage(values[0]);
+			mProgressHUD.setMessage(values[0]);
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-//			mProgressHUD.dismiss();
-			if(mIsVisible)
-				Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT).show();
-			mAdapter.notifyDataSetChanged();
+			Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT)
+					.show();
+			mProgressHUD.dismiss();
+			if (mCampaigns.size() < mNewCampaigns.size()) {
+				mCampaigns = mNewCampaigns;
+//				mAdapter.notifyDataSetChanged();
+				mCampaignList.invalidateViews();
+			}
 		}
 	}
 
@@ -487,7 +500,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 						campaign.setShipping_fee(shipping_fee);
 						campaign.setShipping_period(shipping_period);
 
-						mCampaigns.add(campaign);
+						mNewCampaigns.add(campaign);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -504,12 +517,12 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	@Override
 	public void onRefresh() {
 		new LoadProduct(mCategoryName).execute();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 2000);
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mSwipeLayout.setRefreshing(false);
+			}
+		}, 2000);
 	}
 
 }
