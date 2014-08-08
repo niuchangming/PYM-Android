@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/actionbar_background"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:id="@+id/action_bar_left"
+        style="@style/ActionBarButton"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:id="@+id/action_bar_title"
+        style="@style/ActionBarButton"
+        android:src="@drawable/logo_brandsfever"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_centerHorizontal="true" />
+
+    
+    <ImageButton
+        android:id="@+id/action_bar_right"
+        style="@style/ActionBarButton"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

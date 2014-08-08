@@ -9,47 +9,38 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.SharedPreferences.Editor;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.dataholder.DataHolderClass;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.navdrawer.SimpleSideDrawer;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class Faq extends FragmentActivity implements OnClickListener {
-	Context _ctx = Faq.this;
+public class Faq extends SherlockFragmentActivity {
 	TextView faq_tag, set_faq;
 	String _faqData;
 	Typeface _font;
-	ImageButton main_menu, back_btn, cart_btn;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
 
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -59,9 +50,6 @@ public class Faq extends FragmentActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		int a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			setContentView(R.layout.activity_faq);
@@ -71,6 +59,35 @@ public class Faq extends FragmentActivity implements OnClickListener {
 			setContentView(R.layout.faq_tablet);
 		}
 
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarLeft = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarLeft.setImageDrawable(getResources().getDrawable(
+				R.drawable.back_button));
+		actionBarLeft.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				directToCart();
+			}
+		});
+		
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
@@ -85,88 +102,7 @@ public class Faq extends FragmentActivity implements OnClickListener {
 		set_faq.setMovementMethod(new ScrollingMovementMethod());
 		set_faq.setTypeface(_font);
 
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setTypeface(_font);
-			set_user_name.setText("Hi! "+_username.replace("Hi!",""));
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login.setVisibility(View.GONE);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
-
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(color);
-		_mycart.setTextColor(colors);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
-
 		new GetFAQFromServer().execute();
-
 	}
 
 	@Override
@@ -178,7 +114,6 @@ public class Faq extends FragmentActivity implements OnClickListener {
 		tracker.send(MapBuilder.createAppView().build());
 	}
 	
-	// ========================================================================================================================//
 	private class GetFAQFromServer extends AsyncTask<String, String, String>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -237,7 +172,6 @@ public class Faq extends FragmentActivity implements OnClickListener {
 		try {
 			HttpResponse _httpresponse = _httpclient.execute(_httpget);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Https Responsecode----------", "."	+ _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -268,199 +202,33 @@ public class Faq extends FragmentActivity implements OnClickListener {
 		}
 	}
 
-	// ========================================================================================================================//
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(Faq.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(Faq.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		finish();
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.main_menu:
-			slide_me.toggleLeftDrawer();
-			break;
-		case R.id.btn_all_cat:
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_men:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.closeRightSide();
-				Intent men = new Intent(_ctx, ProductDisplay.class);
-				men.putExtra("tab", "men");
-				startActivity(men);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_women:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.closeRightSide();
-				Intent women = new Intent(_ctx, ProductDisplay.class);
-				women.putExtra("tab", "women");
-				startActivity(women);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_children:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.closeRightSide();
-				Intent children = new Intent(_ctx, ProductDisplay.class);
-				children.putExtra("tab", "children");
-				startActivity(children);
-				finish();
-			}
-			break;
-
-		case R.id.cat_home:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.closeRightSide();
-				Intent home = new Intent(_ctx, ProductDisplay.class);
-				home.putExtra("tab", "home");
-				startActivity(home);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.cat_accesories:
-			if (slide_me.isClosed()) {
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.closeRightSide();
-				Intent acc = new Intent(_ctx, ProductDisplay.class);
-				acc.putExtra("tab", "accessories");
-				startActivity(acc);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_setting:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-					System.out.println("in phone");
-					startActivity(_phonesetting);
-
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 7 inch tab");
-					startActivity(_tabsetting);
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-					System.out.println("in 10 inch tab");
-					startActivity(_tabsetting);
-				}
-			}
-			break;
-
-		case R.id.my_cart:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _cart = new Intent(_ctx, MyCartScreen.class);
-				startActivity(_cart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_support:
-			if(slide_me.isClosed()){
-				slide_me.setEnabled(false);
-			}
-			else {
-				slide_me.setEnabled(true);
-				Intent support = new Intent(_ctx,SupportActivity.class);
-				startActivity(support);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-			
-		case R.id.btn_invite:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-				startActivity(_invite);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.btn_logout:
-			if (slide_me.isClosed()) {
-
-				slide_me.setEnabled(false);
-			} else {
-				slide_me.setEnabled(true);
-				Editor editor = _mypref.edit();
-				editor.clear();
-				editor.commit();
-				Intent _intent = new Intent(getApplicationContext(),
-						ProductDisplay.class);
-				startActivity(_intent);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			}
-			break;
-
-		case R.id.back_btn:
-			finish();
-			break;
-
-		case R.id.cart_btn:
-			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
-				startActivity(_gotocart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			} else {
-
-			}
-			break;
-
-		default:
-			break;
-		}
-
-	}
 }

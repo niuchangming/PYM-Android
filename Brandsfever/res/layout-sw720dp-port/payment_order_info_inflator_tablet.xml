@@ -6,33 +6,6 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/RL1"
-        android:layout_width="fill_parent"
-        android:layout_height="90dip"
-        android:background="@drawable/topbar" >
-
-        <ImageButton
-            android:id="@+id/main_menu"
-            android:layout_width="85dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dip"
-            android:background="@drawable/menu_bg"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="35dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="100dip"
-            android:background="@drawable/back_button"
-            android:contentDescription="@string/brandsfever" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/RL2"
         android:layout_width="fill_parent"
         android:layout_height="50dip"

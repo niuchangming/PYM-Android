@@ -271,7 +271,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			
 		case R.id.cart_btn:
 			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
+				Intent _gotocart = new Intent(_ctx, MyCartFragment.class);
 				startActivity(_gotocart);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -342,7 +342,6 @@ public class SettingTab extends Activity implements OnClickListener {
 		case R.id.btn_setting:
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				System.out.println("in phone");
 				startActivity(_phonesetting);
 				overridePendingTransition(R.anim.push_out_to_right,
 						R.anim.push_out_to_left);
@@ -364,24 +363,16 @@ public class SettingTab extends Activity implements OnClickListener {
 			break;
 
 		case R.id.my_cart:
-			Intent _cart = new Intent(SettingTab.this, MyCartScreen.class);
+			Intent _cart = new Intent(SettingTab.this, MyCartFragment.class);
 			startActivity(_cart);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			finish();
 			break;
 			
-		case R.id.btn_support:
-			Intent support = new Intent(_ctx,SupportActivity.class);
-			startActivity(support);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
 			
 		case R.id.btn_invite:
-			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
+			Intent _invite = new Intent(_ctx, InviteFragment.class);
 			startActivity(_invite);
 			slide_me.closeRightSide();
 			overridePendingTransition(R.anim.push_out_to_right,

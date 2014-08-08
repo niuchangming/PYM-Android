@@ -289,11 +289,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
             
-             <View
-                 android:id="@+id/btn_logout_view"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#848484" />
         </LinearLayout>
     </ScrollView>
 

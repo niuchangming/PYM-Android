@@ -23,16 +23,15 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,15 +45,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dataholder.DataHolderClass;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+import com.facebook.android.SessionStore;
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
-
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.SessionStore;
-import com.facebook.android.Facebook.DialogListener;
 
 public class PhoneSignupPage extends Fragment implements OnClickListener {
 	EditText first_name, last_name, email_address, choose_password;
@@ -70,8 +68,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	private String mFBGender;
 	Facebook facebook;
 	ViewGroup root;
-	TextView _seterrormsg;
-	String _msg;
 	CheckBox checkBox1;
 	private String _content;
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
@@ -145,27 +141,21 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 				_Password = choose_password.getText().toString();
 				_Email = email_address.getText().toString();
 				if (_Fname.length() == 0) {
-					_msg = "Please fill first name!";
-					responsePopup();
+					responsePopup("Please fill first name!");
 				} else if (_Lname.length() == 0) {
-					_msg = "Please fill last name!";
-					responsePopup();
+					responsePopup("Please fill last name!");
 				} else if (_Email.length() == 0) {
-					_msg = "Please enter email-id!";
-					responsePopup();
+					responsePopup("Please enter email-id!");
 				} else if (_Password.length() == 0) {
-					_msg = "Please fill password";
-					responsePopup();
+					responsePopup("Please fill password");
 				} else if (!checkBox1.isChecked()) {
-					_msg = "Please agree to the terms ";
-					responsePopup();
+					responsePopup("Please agree to the terms ");
 				} else if (_Fname.length() > 0 && _Lname.length() > 0
 						&& _Password.length() > 0 && _Email.length() > 0) {
 					if (_Email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
 						new RegisterCustomer().execute();
 					} else {
-						_msg = "Invalid email\nPlease enter a valid email!";
-						responsePopup();
+						responsePopup("Invalid email\nPlease enter a valid email!");
 					}
 				}
 
@@ -268,8 +258,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					}
 				} else {
 					mProgressHUD.dismiss();
-					_msg = "Username is alreay existed";
-					responsePopup();
+					responsePopup("Username is alreay existed");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -290,7 +279,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
 					+ _id + "&token=" + mtoken;
-			System.out.println("url is" + _profileurl);
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -300,24 +288,20 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			try {
 				JSONObject obj = new JSONObject(_content);
 				String ret = obj.getString("ret");
-				System.out.println(ret);
 				if (ret.equals("0")) {
 					JSONObject obj1 = obj.getJSONObject("profile");
 					// String _ss = obj1.getString("first_name")+ " " +
 					// obj1.getString("last_name");
 
-					String _ss = obj1.getString("first_name");
+					String name = obj1.getString("first_name");
 					_mypref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
 					Editor prefsEditor = _mypref.edit();
-					prefsEditor.putString("_UserName", _ss);
+					prefsEditor.putString("UserName", name);
 					prefsEditor.commit();
 					try {
-						((PhoneLoginScreen) getActivity()).refreshPage();
-						getActivity().overridePendingTransition(0,
-								R.anim.puch_login_down);
-						_msg = "login successful!";
-						responsePopup();
+						((PhoneLoginActivity) getActivity()).refreshPage();
+						responsePopup("login successful!");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -348,8 +332,6 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					total.append(line);
 				}
 				_content = total.toString();
-				System.out.println("my data is" + _content);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,12 +380,10 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 	public final class LoginDialogListener implements DialogListener {
 		public void onComplete(Bundle values) {
 			try {
-
 				SessionStore.save(facebook, getActivity());
 				facebook();
 			} catch (Exception error) {
 				error.printStackTrace();
-
 			}
 
 		}
@@ -442,16 +422,16 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					mFBLastName = me.getString("last_name");
 					mFBEmail = me.getString("email");
 					mFBGender = me.getString("gender");
-					
-					if(mFBGender != null){
-						mFBGender = ""+mFBGender.toUpperCase().charAt(0);
+
+					if (mFBGender != null) {
+						mFBGender = "" + mFBGender.toUpperCase().charAt(0);
 					}
-					
+
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				} catch (JSONException e){
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				return null;
@@ -500,10 +480,13 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 			String url_socaillogin = "https://www.brandsfever.com/api/v5/social-login/";
 			BasicNameValuePair socailemail = new BasicNameValuePair("email",
 					mFBEmail);
-			BasicNameValuePair firstName = new BasicNameValuePair("first_name",mFBFirstName);
-			BasicNameValuePair lastName = new BasicNameValuePair("last_name",mFBLastName);
-			BasicNameValuePair gender = new BasicNameValuePair("gender",mFBGender);
-			
+			BasicNameValuePair firstName = new BasicNameValuePair("first_name",
+					mFBFirstName);
+			BasicNameValuePair lastName = new BasicNameValuePair("last_name",
+					mFBLastName);
+			BasicNameValuePair gender = new BasicNameValuePair("gender",
+					mFBGender);
+
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			namevalueList.add(socailemail);
 			namevalueList.add(firstName);
@@ -532,19 +515,11 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						new GetUserName(_token, _UserId).execute();
 					} else {
-						_msg = jobj.getString("msg");
-						responsePopup();
+						responsePopup(jobj.getString("msg"));
 					}
-				}  else {
-					_msg = jobj.getString("msg");
-					responsePopup();
+				} else {
+					responsePopup(jobj.getString("msg"));
 					mProgressHUD.dismiss();
-					try {
-						_msg = jobj.getString("msg");
-						responsePopup();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -553,11 +528,11 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 		}
 	}
 
-	public void responsePopup() {
+	public void responsePopup(String message) {
 		View view = View.inflate(getActivity().getBaseContext(),
 				R.layout.error_popop, null);
-		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText(_msg);
+		TextView textView = (TextView) view.findViewById(R.id._seterrormsg);
+		textView.setText(message);
 		Toast toast = new Toast(getActivity().getBaseContext());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);

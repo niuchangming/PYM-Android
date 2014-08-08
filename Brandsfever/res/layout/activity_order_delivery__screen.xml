@@ -3,45 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".OrderDelivery_Screen" >
-
-    <RelativeLayout
-        android:id="@+id/one"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/top_head_phone" >
-
-        <ImageButton
-            android:id="@+id/main_menu"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="5dip"
-            android:background="@drawable/menu_bg"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="30dip"
-            android:layout_height="45dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="50dip"
-            android:background="@drawable/back_button"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/cart_btn"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dip"
-            android:visibility="gone"
-            android:background="@drawable/cart_btn_bg"
-            android:contentDescription="@string/brandsfever" />
-    </RelativeLayout>
+    tools:context=".OrderDeliveryActiviy" >
 
     <LinearLayout
         android:id="@+id/ones"

@@ -46,7 +46,6 @@ public class DynamicDisplayFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tab_name = getArguments().getString("name");
-		Log.i("SWIPE", "tab name i frganment" + tab_name);
 		_mctx = getActivity();
 	}
 
@@ -169,8 +168,7 @@ public class DynamicDisplayFragment extends Fragment {
 				marketprice.setTypeface(mFont, Typeface.BOLD);
 				name.setTypeface(mFont, Typeface.NORMAL);
 			} catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
-						+ e.getMessage());
+				e.printStackTrace();
 			}
 
 			ProductListDetailModel obj = data.get(position);
@@ -266,8 +264,7 @@ public class DynamicDisplayFragment extends Fragment {
 				_marketprice.setTypeface(mFont);
 				_name.setTypeface(mFont);
 			} catch (Exception e) {
-				Log.e(TAG, "Could not get typeface 'fonts/georgia.ttf' because"
-						+ e.getMessage());
+				e.printStackTrace();
 			}
 			ProductListDetailModel obj = _data.get(position);
 			LinearLayout _lm = (LinearLayout) itemView
@@ -284,7 +281,6 @@ public class DynamicDisplayFragment extends Fragment {
 					| Paint.ANTI_ALIAS_FLAG);
 			_marketprice.setText(obj.getMarket_price().replace("GD", "$"));
 			String a = "https:" + obj.getImg();
-			System.out.println("value of a is+" + a);
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.prdt_img);
 			imageView.setTag(position);
@@ -298,7 +294,6 @@ public class DynamicDisplayFragment extends Fragment {
 					ProductListDetailModel cs = _data.get(a);
 					int _s = Integer.parseInt(cs.getPk());
 					DataHolderClass.getInstance().set_subProductsPk(_s);
-					System.out.println("pk is" + _s);
 					Intent i = new Intent(context, SingleProductDisplay.class);
 					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					context.startActivity(i);

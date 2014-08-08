@@ -19,13 +19,18 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme" >
+        android:screenOrientation="portrait" >
         <activity
-            android:name="com.brandsfever.Splash"
+            android:name="com.brandsfever.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:theme="@style/splashScreenTheme"
             android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.brandsfever.ProfileImage"
@@ -36,12 +41,8 @@
         <activity
             android:name="com.brandsfever.ProductDisplay"
             android:screenOrientation="portrait"
-            android:theme="@style/splashScreenTheme"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.brandsfever.ProductListing"
@@ -114,7 +115,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.PhoneLoginScreen"
+            android:name="com.brandsfever.PhoneLoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -124,27 +125,27 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.MyCartScreen"
+            android:name="com.brandsfever.MyCartFragment"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.OrderDelivery_Screen"
+            android:name="com.brandsfever.OrderDeliveryActiviy"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.PaymentScreen"
+            android:name="com.brandsfever.PaymentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.PayWithPaypal_Screen"
+            android:name="com.brandsfever.PayWithPaypalActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.InviteSction_Screen"
+            android:name="com.brandsfever.InviteFragment"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
@@ -165,7 +166,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name="com.brandsfever.SendInviteScreen"
+            android:name="com.brandsfever.SendInviteActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
@@ -185,9 +186,12 @@
 
         <activity
             android:name="com.brandsfever.SupportActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/title_activity_support" >
+            android:label="@string/title_activity_support"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.brandsfever.MyCartActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

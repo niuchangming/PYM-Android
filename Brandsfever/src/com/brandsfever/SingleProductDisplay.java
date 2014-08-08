@@ -31,7 +31,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -40,19 +39,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.method.ScrollingMovementMethod;
@@ -82,10 +78,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-
 import com.dataholder.DataHolderClass;
 import com.datamodel.SingleItemDataModel;
 import com.facebook.android.AsyncFacebookRunner;
@@ -98,24 +96,17 @@ import com.facebook.android.SessionStore;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-
-import com.navdrawer.SimpleSideDrawer;
-
 import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class SingleProductDisplay extends FragmentActivity implements
+public class SingleProductDisplay extends SherlockFragmentActivity implements
 		OnClickListener, OnItemSelectedListener {
-	
+
 	private static final String TAG = "SingleProductDisplay";
-	
+
 	Context _ctx = SingleProductDisplay.this;
-	ImageButton main_menu, back_btn, cart_btn;
-	SimpleSideDrawer slide_me;
-	Button _all, _men, _women, _childrens, _home, _accessories, _login,
-			_settings, _mycart, mSupport, _invite, _logout;
 	Typeface _font;
 	int color, colors;
 	ImageButton productinfo, shipinginfo, open_size_chart, add_to_cart,
@@ -169,14 +160,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	RelativeLayout parent_layout;
 
-	View _settings_view, _login_view, _mycart_view, _invite_view;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		int a = DataHolderClass.getInstance().get_deviceInch();
 		if (a <= 6) {
 			setContentView(R.layout.activity_single_product_display);
@@ -186,6 +172,35 @@ public class SingleProductDisplay extends FragmentActivity implements
 			setContentView(R.layout.single_product_display_tab);
 		}
 
+		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
+				.inflate(R.layout.action_bar, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionBarLayout);
+
+		final ImageButton actionBarLeft = (ImageButton) findViewById(R.id.action_bar_left);
+		actionBarLeft.setImageDrawable(getResources().getDrawable(
+				R.drawable.back_button));
+		actionBarLeft.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
+		actionBarCart.setImageDrawable(getResources().getDrawable(
+				R.drawable.cart_btn_bg));
+		actionBarCart.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				directToCart();
+			}
+		});
+		
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
@@ -209,7 +224,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		shares = (ImageButton) findViewById(R.id.share);
 		shares.setOnClickListener(this);
 
-		// ********************* social site ********************//
 		display = getWindowManager().getDefaultDisplay();
 		width = display.getWidth();
 		height = display.getHeight();
@@ -246,9 +260,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		buy_now = (ImageButton) findViewById(R.id.buy_now);
 		buy_now.setOnClickListener(this);
 
-		back_btn = (ImageButton) findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(this);
-
 		add_to_cart = (ImageButton) findViewById(R.id.add_to_cart);
 		add_to_cart.setOnClickListener(this);
 
@@ -264,80 +275,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 		set_quantity = (Spinner) findViewById(R.id.display_quantity);
 
-		slide_me = new SimpleSideDrawer(this);
-		slide_me.setLeftBehindContentView(R.layout.menu_bar);
-		slide_me.setBackgroundColor(Color.parseColor("#000000"));
-
-		main_menu = (ImageButton) findViewById(R.id.main_menu);
-		main_menu.setOnClickListener(this);
-
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
+		_getuserId = _mypref.getString("ID",null);
 		_getToken = _mypref.getString("TOKEN", null);
-
-		TextView set_user_name = (TextView) findViewById(R.id.set_user_name);
-		String _username = _mypref.getString("_UserName", null);
-		if (!(_username == null)) {
-			set_user_name.setText(_username);
-		} else {
-			set_user_name.setText("Hi! Guest");
-		}
-
-		cart_btn = (ImageButton) findViewById(R.id.cart_btn);
-		cart_btn.setOnClickListener(this);
-
-		_all = (Button) findViewById(R.id.btn_all_cat);
-		_all.setTypeface(_font);
-		_all.setOnClickListener(this);
-
-		_men = (Button) findViewById(R.id.cat_men);
-		_men.setTypeface(_font);
-		_men.setOnClickListener(this);
-
-		_women = (Button) findViewById(R.id.cat_women);
-		_women.setTypeface(_font);
-		_women.setOnClickListener(this);
-
-		_childrens = (Button) findViewById(R.id.cat_children);
-		_childrens.setTypeface(_font);
-		_childrens.setOnClickListener(this);
-
-		_home = (Button) findViewById(R.id.cat_home);
-		_home.setTypeface(_font);
-		_home.setOnClickListener(this);
-
-		_accessories = (Button) findViewById(R.id.cat_accesories);
-		_accessories.setTypeface(_font);
-		_accessories.setOnClickListener(this);
-
-		_login = (Button) findViewById(R.id.btn_login);
-		_login_view = (View) findViewById(R.id.btn_login_view);
-		_login.setTypeface(_font);
-		_login.setOnClickListener(this);
-
-		_settings = (Button) findViewById(R.id.btn_setting);
-		_settings_view = (View) findViewById(R.id.btn_setting_view);
-		_settings.setTypeface(_font);
-		_settings.setOnClickListener(this);
-
-		_mycart = (Button) findViewById(R.id.my_cart);
-		_mycart_view = (View) findViewById(R.id.my_cart_view);
-		_mycart.setTypeface(_font);
-		_mycart.setOnClickListener(this);
-
-		
-		mSupport = (Button) findViewById(R.id.btn_support);
-		mSupport.setTypeface(_font);
-		mSupport.setOnClickListener(this);
-		
-		_invite = (Button) findViewById(R.id.btn_invite);
-		_invite_view = (View) findViewById(R.id.btn_invite_view);
-		_invite.setTypeface(_font);
-		_invite.setOnClickListener(this);
-
-		_logout = (Button) findViewById(R.id.btn_logout);
-		_logout.setTypeface(_font);
-		_logout.setOnClickListener(this);
 
 		scrollbutton = (Button) findViewById(R.id.scrollbutton);
 		scrollbutton.setOnClickListener(this);
@@ -345,78 +285,20 @@ public class SingleProductDisplay extends FragmentActivity implements
 		_scroll = (ScrollView) findViewById(R.id.scroll);
 		_scroll.setSmoothScrollingEnabled(true);
 
-		try {
-			if (_getToken == null && _getuserId == null) {
-				_login.setVisibility(View.VISIBLE);
-				_mycart.setVisibility(View.GONE);
-				_settings.setVisibility(View.GONE);
-				mSupport.setVisibility(View.GONE);
-				_invite.setVisibility(View.GONE);
-				_logout.setVisibility(View.GONE);
-
-				_login_view.setVisibility(View.GONE);
-				_mycart_view.setVisibility(View.GONE);
-				_settings_view.setVisibility(View.GONE);
-				_invite_view.setVisibility(View.GONE);
-			} else {
-				_login.setVisibility(View.GONE);
-				_mycart.setVisibility(View.VISIBLE);
-				_settings.setVisibility(View.VISIBLE);
-				mSupport.setVisibility(View.VISIBLE);
-				_invite.setVisibility(View.VISIBLE);
-				_logout.setVisibility(View.VISIBLE);
-
-				_login_view.setVisibility(View.VISIBLE);
-				_mycart_view.setVisibility(View.VISIBLE);
-				_settings_view.setVisibility(View.VISIBLE);
-				_invite_view.setVisibility(View.VISIBLE);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		_all.setTextColor(colors);
-		_men.setTextColor(colors);
-		_women.setTextColor(colors);
-		_childrens.setTextColor(colors);
-		_home.setTextColor(colors);
-		_accessories.setTextColor(colors);
-		_settings.setTextColor(colors);
-		_mycart.setTextColor(colors);
-		mSupport.setTextColor(colors);
-		_invite.setTextColor(colors);
-
-		if (ProductDisplay._list_type.equalsIgnoreCase("all")) {
-			_all.setTextColor(color);
-		} else if (ProductDisplay._list_type.equalsIgnoreCase("men")) {
-			_men.setTextColor(color);
-		} else if (ProductDisplay._list_type.equalsIgnoreCase("women")) {
-			_women.setTextColor(color);
-		} else if (ProductDisplay._list_type.equalsIgnoreCase("children")) {
-			_childrens.setTextColor(color);
-		} else if (ProductDisplay._list_type.equalsIgnoreCase("home")) {
-			_home.setTextColor(color);
-		} else if (ProductDisplay._list_type.equalsIgnoreCase("accessories")) {
-			_accessories.setTextColor(color);
-		}
-
 		pk = DataHolderClass.getInstance().get_subProductsPk();
 		new SingleItemDetails().execute();
-
-		
-
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": products/"+pk+"/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": products/" + pk + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	class SingleItemDetails extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -460,203 +342,188 @@ public class SingleProductDisplay extends FragmentActivity implements
 				return;
 			
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				
-					_pname.setText(name);
-					_pname.setTypeface(_font, Typeface.BOLD);
-					try{
-						set_sales_price.setText(offer_price.replace("GD", "$"));
-						set_sales_price.setTypeface(_font, Typeface.BOLD);
-						set_market_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
-								| Paint.ANTI_ALIAS_FLAG);
-						set_market_price.setText(market_price.replace("GD", "$"));
-						set_market_price.setTypeface(_font, Typeface.BOLD);
-					} 
-					catch (Exception e){
-						e.printStackTrace();
-					}
-					
-					long timeInMilliseconds = Long.valueOf(ends_at);
-					long end = timeInMilliseconds * 1000;
-					long current = System.currentTimeMillis();
-					long diff = end - current;
-					int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-					int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-					int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-					int seconds_left = (int) ((diff / 1000) % 60);
-					String _s = "Sale ends in" + " "
-							+ Integer.toString(dayCount) + " Days" + " "
-							+ Integer.toString(hours_left) + ":"
-							+ Integer.toString(minutes_left) + ":"
-							+ Integer.toString(seconds_left);
-					_settimeframe.setText(_s);
-					_settimeframe.setTypeface(_font, Typeface.NORMAL);
 
-					final TextView set_quantity = (TextView) findViewById(R.id.set_quantity);
-					set_quantity.setTypeface(_font, Typeface.NORMAL);
-
-					final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-					final ImagePagerAdapter adapter = new ImagePagerAdapter();
-					viewPager.setAdapter(adapter);
-					final CirclePageIndicator circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-					circleIndicator.setViewPager(viewPager);
-
-					set_product_description.setText(description);
-					set_product_description.setTypeface(_font, Typeface.BOLD);
-					String _s1 = DataHolderClass.getInstance()
-							.getShipping_fee();
-					String _s2 = DataHolderClass.getInstance()
-							.getShipping_period();
-					String _s3 = DataHolderClass.getInstance()
-							.getFree_shipping();
-					String _sI = "How much does shipping cost?\nShipping on Brandsfever costs "
-							+ "S$"
-							+ _s1
-							+ " For every order above "
-							+ "S$"
-							+ _s3
-							+ " shipping is free.\n\nWhen will my order arrive?\nYour order is eligible for Express Shipping and will be ready for shipping within "
-							+ _s2
-							+ " after the campaign is over. We will notify you via email when your order is shipped.";
-					set_shiping_info.setText(_sI);
-					set_shiping_info.setTypeface(_font, Typeface.BOLD);
-					// play with visibility of size chart
-				
-					for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
-						SingleItemDataModel _obj = _sizechartvalue.get(_k);
-						if (_obj.get_propertylistName().equalsIgnoreCase(
-								"Size Chart")) {
-							_acharturl = _obj.get_propertylistValue();
-							open_size_chart.setEnabled(true);
-							open_size_chart.setVisibility(View.VISIBLE);
-						} 
-					}
-	
-					
-					int firstAvailablePosition = -1;
-					boolean	isSizeAvailable = false;
-					
-					for(int i = 0; i < _product_items_arraylist.size(); i++){
-						SingleItemDataModel model = _product_items_arraylist.get(i);
-						if(!model.getProduct_item_property().equalsIgnoreCase("")){
-							if(!isSizeAvailable){
-								isSizeAvailable = true;
-							}
-						}
-						
-						if(!model.get_availablestock().equalsIgnoreCase("0")){
-							if(firstAvailablePosition == -1)
-								firstAvailablePosition = i;
-						}
-					}
-					
-					if(isSizeAvailable){
-						_sizes.setVisibility(View.VISIBLE);
-						_adapter = new CustomSpinnerSizeAdapter(
-								SingleProductDisplay.this,
-								_product_items_arraylist);
-						_sizes.setAdapter(_adapter);
-						if(firstAvailablePosition != -1)
-						_sizes.setSelection(firstAvailablePosition);
-					}
-		
-
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-				
-					_pname.setText(name);
-					_pname.setTypeface(_font, Typeface.BOLD);
+				_pname.setText(name);
+				_pname.setTypeface(_font, Typeface.BOLD);
+				try {
 					set_sales_price.setText(offer_price.replace("GD", "$"));
-					set_sales_price.setTypeface(_font, Typeface.NORMAL);
+					set_sales_price.setTypeface(_font, Typeface.BOLD);
 					set_market_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
 							| Paint.ANTI_ALIAS_FLAG);
 					set_market_price.setText(market_price.replace("GD", "$"));
-					set_market_price.setTypeface(_font, Typeface.NORMAL);
-					TextView retail_price_tag = (TextView) findViewById(R.id.retail_price_tag);
-					retail_price_tag.setTypeface(_font, Typeface.NORMAL);
-					TextView offer_price_tag = (TextView) findViewById(R.id.offer_price_tag);
-					offer_price_tag.setTypeface(_font, Typeface.NORMAL);
-					long timeInMilliseconds = Long.valueOf(ends_at);
-					long end = timeInMilliseconds * 1000;
-					long current = System.currentTimeMillis();
-					long diff = end - current;
-					int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-					int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-					int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-					int seconds_left = (int) ((diff / 1000) % 60);
-					String _s = "Sale ends in" + " "
-							+ Integer.toString(dayCount) + " Days" + " "
-							+ Integer.toString(hours_left) + ":"
-							+ Integer.toString(minutes_left) + ":"
-							+ Integer.toString(seconds_left);
-					_settimeframe.setText(_s);
-					_settimeframe.setTypeface(_font, Typeface.NORMAL);
+					set_market_price.setTypeface(_font, Typeface.BOLD);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-					final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-					final ImagePagerAdapter adapter = new ImagePagerAdapter();
-					viewPager.setAdapter(adapter);
-					final CirclePageIndicator circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+				long timeInMilliseconds = Long.valueOf(ends_at);
+				long end = timeInMilliseconds * 1000;
+				long current = System.currentTimeMillis();
+				long diff = end - current;
+				int dayCount = (int) diff / (24 * 60 * 60 * 1000);
+				int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
+				int minutes_left = (int) ((diff / (1000 * 60)) % 60);
+				int seconds_left = (int) ((diff / 1000) % 60);
+				String _s = "Sale ends in" + " " + Integer.toString(dayCount)
+						+ " Days" + " " + Integer.toString(hours_left) + ":"
+						+ Integer.toString(minutes_left) + ":"
+						+ Integer.toString(seconds_left);
+				_settimeframe.setText(_s);
+				_settimeframe.setTypeface(_font, Typeface.NORMAL);
 
-					circleIndicator.setViewPager(viewPager);
+				final TextView set_quantity = (TextView) findViewById(R.id.set_quantity);
+				set_quantity.setTypeface(_font, Typeface.NORMAL);
 
-					set_product_description.setText(description);
-					set_product_description.setTypeface(_font, Typeface.NORMAL);
-					String _s1 = DataHolderClass.getInstance()
-							.getShipping_fee();
-					String _s2 = DataHolderClass.getInstance()
-							.getShipping_period();
-					String _s3 = DataHolderClass.getInstance()
-							.getFree_shipping();
-					String _sI = "How much does shipping cost?\nShipping on Brandsfever costs "
-							+ "S$"
-							+ _s1
-							+ " For every order above "
-							+ "S$"
-							+ _s3
-							+ " shipping is free.\n\nWhen will my order arrive?\nYour order is eligible for Express Shipping and will be ready for shipping within "
-							+ _s2
-							+ " after the campaign is over. We will notify you via email when your order is shipped.";
-					set_shiping_info.setText(_sI);
-					set_shiping_info.setTypeface(_font, Typeface.NORMAL);
+				final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+				final ImagePagerAdapter adapter = new ImagePagerAdapter();
+				viewPager.setAdapter(adapter);
+				final CirclePageIndicator circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+				circleIndicator.setViewPager(viewPager);
 
-					// palying with visibility of size chart
-					for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
-						SingleItemDataModel _obj = _sizechartvalue.get(_k);
-						if (_obj.get_propertylistName().equalsIgnoreCase(
-								"Size Chart")) {
-							_acharturl = _obj.get_propertylistValue();
-							open_size_chart
-									.setBackgroundResource(R.drawable.size);
-							open_size_chart.setEnabled(true);
+				set_product_description.setText(description);
+				set_product_description.setTypeface(_font, Typeface.BOLD);
+				String _s1 = DataHolderClass.getInstance().getShipping_fee();
+				String _s2 = DataHolderClass.getInstance().getShipping_period();
+				String _s3 = DataHolderClass.getInstance().getFree_shipping();
+				String _sI = "How much does shipping cost?\nShipping on Brandsfever costs "
+						+ "S$"
+						+ _s1
+						+ " For every order above "
+						+ "S$"
+						+ _s3
+						+ " shipping is free.\n\nWhen will my order arrive?\nYour order is eligible for Express Shipping and will be ready for shipping within "
+						+ _s2
+						+ " after the campaign is over. We will notify you via email when your order is shipped.";
+				set_shiping_info.setText(_sI);
+				set_shiping_info.setTypeface(_font, Typeface.BOLD);
+				// play with visibility of size chart
+
+				for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
+					SingleItemDataModel _obj = _sizechartvalue.get(_k);
+					if (_obj.get_propertylistName().equalsIgnoreCase(
+							"Size Chart")) {
+						_acharturl = _obj.get_propertylistValue();
+						open_size_chart.setEnabled(true);
+						open_size_chart.setVisibility(View.VISIBLE);
+					}
+				}
+
+				int firstAvailablePosition = -1;
+				boolean isSizeAvailable = false;
+
+				for (int i = 0; i < _product_items_arraylist.size(); i++) {
+					SingleItemDataModel model = _product_items_arraylist.get(i);
+					if (!model.getProduct_item_property().equalsIgnoreCase("")) {
+						if (!isSizeAvailable) {
+							isSizeAvailable = true;
 						}
 					}
-					
 
-					// playing with size spinner
-					int firstAvailablePosition = -1;
-					boolean	isSizeAvailable = false;
-					
-					for(int i = 0; i < _product_items_arraylist.size(); i++){
-						SingleItemDataModel model = _product_items_arraylist.get(i);
-						if(!model.getProduct_item_property().equalsIgnoreCase("")){
-							if(!isSizeAvailable){
-								isSizeAvailable = true;
-							}
-						}
-						
-						if(!model.get_availablestock().equalsIgnoreCase("0")){
-							if(firstAvailablePosition == -1)
-								firstAvailablePosition = i;
-						}
+					if (!model.get_availablestock().equalsIgnoreCase("0")) {
+						if (firstAvailablePosition == -1)
+							firstAvailablePosition = i;
 					}
-					
-					if(isSizeAvailable){
-						_sizes.setVisibility(View.VISIBLE);
-						_adapter = new CustomSpinnerSizeAdapter(
-								SingleProductDisplay.this,
-								_product_items_arraylist);
-						_sizes.setAdapter(_adapter);
-						if(firstAvailablePosition != -1)
+				}
+
+				if (isSizeAvailable) {
+					_sizes.setVisibility(View.VISIBLE);
+					_adapter = new CustomSpinnerSizeAdapter(
+							SingleProductDisplay.this, _product_items_arraylist);
+					_sizes.setAdapter(_adapter);
+					if (firstAvailablePosition != -1)
 						_sizes.setSelection(firstAvailablePosition);
+				}
+
+			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
+
+				_pname.setText(name);
+				_pname.setTypeface(_font, Typeface.BOLD);
+				set_sales_price.setText(offer_price.replace("GD", "$"));
+				set_sales_price.setTypeface(_font, Typeface.NORMAL);
+				set_market_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG
+						| Paint.ANTI_ALIAS_FLAG);
+				set_market_price.setText(market_price.replace("GD", "$"));
+				set_market_price.setTypeface(_font, Typeface.NORMAL);
+				TextView retail_price_tag = (TextView) findViewById(R.id.retail_price_tag);
+				retail_price_tag.setTypeface(_font, Typeface.NORMAL);
+				TextView offer_price_tag = (TextView) findViewById(R.id.offer_price_tag);
+				offer_price_tag.setTypeface(_font, Typeface.NORMAL);
+				long timeInMilliseconds = Long.valueOf(ends_at);
+				long end = timeInMilliseconds * 1000;
+				long current = System.currentTimeMillis();
+				long diff = end - current;
+				int dayCount = (int) diff / (24 * 60 * 60 * 1000);
+				int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
+				int minutes_left = (int) ((diff / (1000 * 60)) % 60);
+				int seconds_left = (int) ((diff / 1000) % 60);
+				String _s = "Sale ends in" + " " + Integer.toString(dayCount)
+						+ " Days" + " " + Integer.toString(hours_left) + ":"
+						+ Integer.toString(minutes_left) + ":"
+						+ Integer.toString(seconds_left);
+				_settimeframe.setText(_s);
+				_settimeframe.setTypeface(_font, Typeface.NORMAL);
+
+				final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+				final ImagePagerAdapter adapter = new ImagePagerAdapter();
+				viewPager.setAdapter(adapter);
+				final CirclePageIndicator circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+
+				circleIndicator.setViewPager(viewPager);
+
+				set_product_description.setText(description);
+				set_product_description.setTypeface(_font, Typeface.NORMAL);
+				String _s1 = DataHolderClass.getInstance().getShipping_fee();
+				String _s2 = DataHolderClass.getInstance().getShipping_period();
+				String _s3 = DataHolderClass.getInstance().getFree_shipping();
+				String _sI = "How much does shipping cost?\nShipping on Brandsfever costs "
+						+ "S$"
+						+ _s1
+						+ " For every order above "
+						+ "S$"
+						+ _s3
+						+ " shipping is free.\n\nWhen will my order arrive?\nYour order is eligible for Express Shipping and will be ready for shipping within "
+						+ _s2
+						+ " after the campaign is over. We will notify you via email when your order is shipped.";
+				set_shiping_info.setText(_sI);
+				set_shiping_info.setTypeface(_font, Typeface.NORMAL);
+
+				// palying with visibility of size chart
+				for (int _k = 0; _k < _sizechartvalue.size(); _k++) {
+					SingleItemDataModel _obj = _sizechartvalue.get(_k);
+					if (_obj.get_propertylistName().equalsIgnoreCase(
+							"Size Chart")) {
+						_acharturl = _obj.get_propertylistValue();
+						open_size_chart.setBackgroundResource(R.drawable.size);
+						open_size_chart.setEnabled(true);
 					}
+				}
+
+				// playing with size spinner
+				int firstAvailablePosition = -1;
+				boolean isSizeAvailable = false;
+
+				for (int i = 0; i < _product_items_arraylist.size(); i++) {
+					SingleItemDataModel model = _product_items_arraylist.get(i);
+					if (!model.getProduct_item_property().equalsIgnoreCase("")) {
+						if (!isSizeAvailable) {
+							isSizeAvailable = true;
+						}
+					}
+
+					if (!model.get_availablestock().equalsIgnoreCase("0")) {
+						if (firstAvailablePosition == -1)
+							firstAvailablePosition = i;
+					}
+				}
+
+				if (isSizeAvailable) {
+					_sizes.setVisibility(View.VISIBLE);
+					_adapter = new CustomSpinnerSizeAdapter(
+							SingleProductDisplay.this, _product_items_arraylist);
+					_sizes.setAdapter(_adapter);
+					if (firstAvailablePosition != -1)
+						_sizes.setSelection(firstAvailablePosition);
+				}
 
 			}
 			mProgressHUD.dismiss();
@@ -748,9 +615,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 							_sizechartvalue.add(_singleobjs);
 						}
 
-					} else {
-						System.out.println("error");
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -808,11 +673,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.main_menu:
-			if (click_button % 2 != 0) {
-			}
-			slide_me.toggleLeftDrawer();
-			break;
 		case R.id.share:
 			if (click_button % 2 == 0) {
 				popupWindow_status = 1;
@@ -823,176 +683,9 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 			break;
 
-		case R.id.cart_btn:
-			if (click_button % 2 != 0) {
-			}
-			if (!(_getToken == null) && !(_getuserId == null)) {
-				Intent _gotocart = new Intent(_ctx, MyCartScreen.class);
-				startActivity(_gotocart);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-			} else {
-
-				LayoutInflater inflater = getLayoutInflater();
-				View view = inflater.inflate(R.layout.error_popop,
-						(ViewGroup) findViewById(R.id.relativeLayout1));
-				_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-				_seterrormsg.setText("Please login!");
-				toast = new Toast(_ctx);
-				toast.setGravity(Gravity.CENTER, 0, 0);
-				toast.setView(view);
-				toast.show();
-			}
-			break;
-
-		case R.id.btn_all_cat:
-			ProductDisplay._list_type = "all";
-			slide_me.closeRightSide();
-			Intent all = new Intent(_ctx, ProductDisplay.class);
-			all.putExtra("tab", "all");
-			startActivity(all);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
 		case R.id.click_to_zoom:
 			Intent _zoom = new Intent(getApplicationContext(), ZoomShow.class);
 			startActivity(_zoom);
-			break;
-
-		case R.id.cat_men:
-			ProductDisplay._list_type = "men";
-			slide_me.closeRightSide();
-			Intent men = new Intent(_ctx, ProductDisplay.class);
-			men.putExtra("tab", "men");
-			startActivity(men);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_women:
-			ProductDisplay._list_type = "women";
-			slide_me.closeRightSide();
-			Intent women = new Intent(_ctx, ProductDisplay.class);
-			women.putExtra("tab", "women");
-			startActivity(women);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_children:
-			ProductDisplay._list_type = "children";
-			slide_me.closeRightSide();
-			Intent children = new Intent(_ctx, ProductDisplay.class);
-			children.putExtra("tab", "children");
-			startActivity(children);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_home:
-			ProductDisplay._list_type = "home";
-			slide_me.closeRightSide();
-			Intent home = new Intent(_ctx, ProductDisplay.class);
-			home.putExtra("tab", "home");
-			startActivity(home);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.cat_accesories:
-			ProductDisplay._list_type = "accessories";
-			slide_me.closeRightSide();
-			Intent acc = new Intent(_ctx, ProductDisplay.class);
-			acc.putExtra("tab", "accessories");
-			startActivity(acc);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_login:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
-				startActivityForResult(_login, 1);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.puch_out_to_top,
-						R.anim.push_out_to_bottom);
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-				Intent _login = new Intent(_ctx, PhoneLoginScreen.class);
-				startActivityForResult(_login, 1);
-				slide_me.closeRightSide();
-				overridePendingTransition(R.anim.puch_out_to_top,
-						R.anim.login_screen_back);
-			}
-			break;
-
-		case R.id.btn_setting:
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-				Intent _phonesetting = new Intent(_ctx, SettingPhone.class);
-				startActivity(_phonesetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-					&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-				Intent _tabsetting = new Intent(_ctx, SettingTab.class);
-				startActivity(_tabsetting);
-				overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
-				finish();
-			}
-			break;
-
-		case R.id.my_cart:
-			Intent _cart = new Intent(SingleProductDisplay.this,
-					MyCartScreen.class);
-			startActivity(_cart);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_support:
-			
-			Intent support = new Intent(_ctx,SupportActivity.class);
-			startActivity(support);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-			
-		case R.id.btn_invite:
-			Intent _invite = new Intent(_ctx, InviteSction_Screen.class);
-			startActivity(_invite);
-			slide_me.closeRightSide();
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
-			break;
-
-		case R.id.btn_logout:
-			Editor editor = _mypref.edit();
-			editor.clear();
-			editor.commit();
-			Intent _intent = new Intent(getApplicationContext(),
-					ProductDisplay.class);
-			startActivity(_intent);
-			overridePendingTransition(R.anim.push_out_to_right,
-					R.anim.push_out_to_left);
-			finish();
 			break;
 
 		case R.id.scrollbutton:
@@ -1042,8 +735,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			break;
 
 		case R.id.add_to_cart:
-			if (click_button % 2 != 0) {
-			}
 			try {
 				if (!(_getToken == null) && !(_getuserId == null)) {
 					new AddToCartClass().execute();
@@ -1103,7 +794,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 		LayoutInflater inflater;
 		public ArrayList<SingleItemDataModel> _sizedata;
 		View itemView;
-		
+
 		public CustomSpinnerSizeAdapter(Context c,
 				ArrayList<SingleItemDataModel> _arraylist) {
 			this._ctxx = c;
@@ -1188,6 +879,39 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+
+	private void directToCart() {
+
+		SharedPreferences mypref = getApplicationContext()
+				.getSharedPreferences("mypref", 0);
+		String username = mypref.getString("UserName", null);
+		
+		if (username != null) { // check login status
+			Intent gotocart = new Intent(SingleProductDisplay.this, MyCartActivity.class);
+			startActivity(gotocart);
+		} else {
+			LayoutInflater inflater = getLayoutInflater();
+			View view = inflater.inflate(R.layout.error_popop,
+					(ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view
+					.findViewById(R.id._seterrormsg);
+			msgTextView.setText("Please login!");
+			Toast toast = new Toast(SingleProductDisplay.this);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.setView(view);
+			toast.show();
+		}
+	}
 	@Override
 	public void onBackPressed() {
 		finish();
@@ -1281,7 +1005,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
 			_cartResponse = _AddProduct(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _cartResponse);
 			return null;
 		}
 
@@ -1303,9 +1026,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 					toast.show();
 
 					SingleProductDisplay.this.finish();
-					Intent _sendbck = new Intent(SingleProductDisplay.this,
-							ProductListing.class);
-					startActivity(_sendbck);
 				} else {
 					String _errormsg = jobj.getString("msg");
 					LayoutInflater inflater = getLayoutInflater();
@@ -1338,7 +1058,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 					HTTP.UTF_8));
 			HttpResponse _httpresponse = _httpclient.execute(_httppost);
 			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			Log.i("--------------Responsecode----------", "." + _responsecode);
 			if (_responsecode == 200) {
 				InputStream _inputstream = _httpresponse.getEntity()
 						.getContent();
@@ -1411,7 +1130,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 			_namevalueList.add(quantity);
 			_namevalueList.add(itempk);
 			_cartResponse = _AddProduct(_url, _namevalueList);
-			Log.e("===RESPONSE====>", "===RESPONSE====>" + _cartResponse);
 			return null;
 		}
 
@@ -1436,10 +1154,10 @@ public class SingleProductDisplay extends FragmentActivity implements
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.setView(view);
 					toast.show();
-					Intent _bn = new Intent(_ctx, MyCartScreen.class);
+					Intent _bn = new Intent(_ctx, MyCartActivity.class);
 					startActivity(_bn);
 					finish();
-				} else {// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				} else {
 					String _msg = jobj.getString("msg");
 					LayoutInflater inflater = getLayoutInflater();
 					View view = inflater.inflate(R.layout.error_popop,
@@ -1467,8 +1185,10 @@ public class SingleProductDisplay extends FragmentActivity implements
 		LayoutInflater li = LayoutInflater.from(getApplicationContext());
 
 		choose = li.inflate(R.layout.choose_dailog_shaire, null);
-		Button facebook_shaire = (Button) choose.findViewById(R.id.facebook_shaire);
-		Button Twitter_shaire = (Button) choose.findViewById(R.id.Twitter_shaire);
+		Button facebook_shaire = (Button) choose
+				.findViewById(R.id.facebook_shaire);
+		Button Twitter_shaire = (Button) choose
+				.findViewById(R.id.Twitter_shaire);
 		Button cancel = (Button) choose.findViewById(R.id.Cancel);
 		final Dialog mDialog = new Dialog(SingleProductDisplay.this,
 				android.R.style.Theme_Translucent_NoTitleBar);
@@ -1541,7 +1261,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 
 	}
 
-	//  facebook //
+	// facebook //
 	public void postToWall() {
 		// post on user's wall.
 		View post = null;
@@ -1679,7 +1399,7 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 	}
 
-	//twitter
+	// twitter
 
 	public void tweetToWall() {
 		// post on user's wall.
@@ -1763,8 +1483,6 @@ public class SingleProductDisplay extends FragmentActivity implements
 		}
 
 		protected String doInBackground(String... args) {
-			Log.d("Tweet Text", "> " + args[0]);
-			String status = args[0];
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();
 
