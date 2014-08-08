@@ -77,7 +77,7 @@ public class CampaignFragment extends Fragment {
 		public CharSequence getPageTitle(int position) {
 			return mCategories[position % mCategories.length].toUpperCase();
 		}
-
+		
 		@Override
 		public int getCount() {
 			return mCategories.length;
