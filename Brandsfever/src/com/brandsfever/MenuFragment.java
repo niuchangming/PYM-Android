@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -31,7 +32,7 @@ public class MenuFragment extends ListFragment {
 	private List<String> mCategories;
 	private String mUserName;
 	private TextView mHeaderTextView;
-	private ArrayAdapter<String> mMenuAdapter;
+	private MenuListAdapter mMenuAdapter;
 	private Typeface mTypeface;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,7 @@ public class MenuFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mMenuAdapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.menu_list_textview, R.id.menu_list_text_view, mMenus);
+		mMenuAdapter = new MenuListAdapter(getActivity(),R.layout.menu_list_textview,mMenus);
 		setListAdapter(mMenuAdapter);
 	}
 
@@ -215,4 +215,33 @@ public class MenuFragment extends ListFragment {
 		toast.setView(view);
 		toast.show();
 	}
+	
+	private class MenuListAdapter extends ArrayAdapter<String>{
+		
+		public MenuListAdapter(Context context, int resource, List<String> items){
+			super(context,resource,items);
+		
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView v = (TextView)convertView;
+
+			if(v == null){
+				LayoutInflater vi;
+				vi = LayoutInflater.from(getContext());
+				v = (TextView)vi.inflate(R.layout.menu_list_textview, null);
+			}
+			
+			String menu = getItem(position);
+			if(mCategories.contains(menu) &&(!menu.equalsIgnoreCase("All"))){
+				v.setText("\t"+menu);
+			} else {
+				v.setText(menu);
+			}
+			
+			return v;
+		}
+	}
+	
 }
