@@ -7,6 +7,7 @@ import java.util.List;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ public class MenuFragment extends ListFragment {
 	private String mUserName;
 	private TextView mHeaderTextView;
 	private ArrayAdapter<String> mMenuAdapter;
-
+	private Typeface mTypeface;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,10 +47,15 @@ public class MenuFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		if(getActivity() != null){
+			mTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf"); // setting a custom TypeFace
+		}
 		ListView view = (ListView) inflater.inflate(R.layout.menu_list, null);
 		LinearLayout headerView = (LinearLayout) inflater.inflate(
 				R.layout.menu_list_header, null);
 		mHeaderTextView = (TextView) headerView.findViewById(R.id.menu_header);
+		mHeaderTextView.setTypeface(mTypeface);
 		view.addHeaderView(headerView);
 
 		return view;
