@@ -60,7 +60,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	private SwipeRefreshLayout mSwipeLayout;
 	private PhoneAdapter mAdapter;
 	private String mCategoryName;
-
+	private boolean mIsVisible;
+	
 	public static CampaignListFragment newInstance(String category) {
 
 		CampaignListFragment fragment = new CampaignListFragment(category);
@@ -124,6 +125,12 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		return mSwipeLayout;
 	}
 
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		mIsVisible = isVisibleToUser;
+	}
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -420,7 +427,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		@Override
 		protected void onPostExecute(Void result) {
 //			mProgressHUD.dismiss();
-			Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT).show();
+			if(mIsVisible)
+				Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT).show();
 			mAdapter.notifyDataSetChanged();
 		}
 	}

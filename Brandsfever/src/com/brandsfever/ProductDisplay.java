@@ -1,5 +1,8 @@
 package com.brandsfever;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +32,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private Fragment mContent;
 	private int mBackButtonCount;
 	private MenuFragment mMenu;
-
+	private List<String> mCategories;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,6 +113,9 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
+
+		String[] categories = getResources().getStringArray(R.array.category);
+		mCategories = Arrays.asList(categories);
 	}
 
 	public void switchContent(final Fragment fragment) {
@@ -195,6 +202,10 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	public void setCurrentMenu(String currentMenu) {
 		mCurrentMenu = currentMenu;
+
+		if(mContent instanceof CampaignFragment){
+			((CampaignFragment) mContent).pager.setCurrentItem(mCategories.indexOf(mCurrentMenu), true);
+		}
 	}
 
 }

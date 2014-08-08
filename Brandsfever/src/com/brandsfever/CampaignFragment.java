@@ -14,12 +14,18 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class CampaignFragment extends Fragment {
 
-	private static final String[] CONTENT = new String[] { "All", "Women",
-			"Men", "Children", "Home", "Accessories" };
-
+	private String[] mCategories;
+	public ViewPager pager;
 	public CampaignFragment() {
+	
 	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mCategories = getResources().getStringArray(R.array.category);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -30,7 +36,7 @@ public class CampaignFragment extends Fragment {
 		FrameLayout linearLayout = (FrameLayout) inflater.inflate(
 				R.layout.fragment_campaign, null);
 
-		ViewPager pager = (ViewPager) linearLayout.findViewById(R.id.pager);
+		pager = (ViewPager) linearLayout.findViewById(R.id.pager);
 		pager.setAdapter(adapter);
 
 		TabPageIndicator indicator = (TabPageIndicator) linearLayout
@@ -64,17 +70,17 @@ public class CampaignFragment extends Fragment {
 		@Override
 		public Fragment getItem(int position) {
 
-			return CampaignListFragment.newInstance(CONTENT[position%CONTENT.length].toLowerCase());
+			return CampaignListFragment.newInstance(mCategories[position%mCategories.length].toLowerCase());
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return CONTENT[position % CONTENT.length].toUpperCase();
+			return mCategories[position % mCategories.length].toUpperCase();
 		}
 
 		@Override
 		public int getCount() {
-			return CONTENT.length;
+			return mCategories.length;
 		}
 	}
 }
