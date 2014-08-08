@@ -68,6 +68,10 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		return fragment;
 	}
 
+	CampaignListFragment(){
+		mCategoryName = "all";
+	}
+	
 	CampaignListFragment(String category) {
 		mCategoryName = category;
 	}

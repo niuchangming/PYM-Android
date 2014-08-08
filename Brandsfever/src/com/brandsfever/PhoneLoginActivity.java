@@ -73,7 +73,9 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
+				
 				finish();
+				PhoneLoginActivity.this.closeKeyboard(PhoneLoginActivity.this, getCurrentFocus().getWindowToken());
 			}
 		});
 
@@ -191,7 +193,7 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 		textView1.setTextColor(colors);
 	}
 
-	public static void closeKeyboard(Context c, IBinder windowToken) {
+	private void closeKeyboard(Context c, IBinder windowToken) {
 		InputMethodManager mgr = (InputMethodManager) c
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		mgr.hideSoftInputFromWindow(windowToken, 0);
@@ -222,5 +224,12 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 			break;
 		}
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+		closeKeyboard(this,getCurrentFocus().getWindowToken());
 	}
 }
