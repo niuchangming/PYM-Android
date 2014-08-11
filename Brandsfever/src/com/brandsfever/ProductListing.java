@@ -313,6 +313,12 @@ public class ProductListing extends SherlockFragmentActivity {
 							DynamicDisplayFragment.class, bundle);
 
 				}
+				
+			    for(int i=0;i<tabs.getTabWidget().getChildCount();i++) 
+			    {
+			        TextView tv = (TextView) tabs.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+			        tv.setTextColor(Color.parseColor("#000000")); // set all tab text color to black
+			    } 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
