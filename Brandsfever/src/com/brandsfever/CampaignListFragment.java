@@ -59,7 +59,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 	private ListView mCampaignList;
 	// private Button mScrollUp;
-	private ArrayList<ProductsDataModel> mNewCampaigns;
 	private ArrayList<ProductsDataModel> mCampaigns;
 	private SwipeRefreshLayout mSwipeLayout;
 	private PhoneAdapter mAdapter;
@@ -86,7 +85,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mCampaigns = new ArrayList<ProductsDataModel>();
-		mNewCampaigns = new ArrayList<ProductsDataModel>();
 	}
 
 	@Override
@@ -131,7 +129,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		// });
 
 		if (mIsFirstLoad) {
-			mIsFirstLoad = false;
 			new LoadProduct(mCategoryName).execute();
 		}
 
@@ -421,7 +418,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		@Override
 		protected Void doInBackground(Void... arg0) {
 
-			mNewCampaigns.clear();
+			mCampaigns.clear();
 
 			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
 					+ getActivity().getResources().getString(
@@ -439,14 +436,15 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT)
+			
+			if(mIsFirstLoad){
+				mIsFirstLoad = false;
+			} else {
+				Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT)
 					.show();
-			mProgressHUD.dismiss();
-			if (mCampaigns.size() < mNewCampaigns.size()) {
-				mCampaigns = mNewCampaigns;
-//				mAdapter.notifyDataSetChanged();
-				mCampaignList.invalidateViews();
 			}
+			mProgressHUD.dismiss();
+			mCampaignList.invalidateViews();
 		}
 	}
 
@@ -500,7 +498,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 						campaign.setShipping_fee(shipping_fee);
 						campaign.setShipping_period(shipping_period);
 
-						mNewCampaigns.add(campaign);
+						mCampaigns.add(campaign);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
