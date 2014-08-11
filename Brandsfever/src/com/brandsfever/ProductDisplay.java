@@ -22,6 +22,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class ProductDisplay extends SlidingFragmentActivity {
@@ -113,7 +114,13 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
-
+		sm.setOnOpenListener(new OnOpenListener(){
+			@Override
+			public void onOpen() {
+				if(mMenu != null)
+					mMenu.resetMenu();
+			}
+		});
 		String[] categories = getResources().getStringArray(R.array.category);
 		mCategories = Arrays.asList(categories);
 	}

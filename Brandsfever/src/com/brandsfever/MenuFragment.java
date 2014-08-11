@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class MenuFragment extends ListFragment {
 	private TextView mHeaderTextView;
 	private MenuListAdapter mMenuAdapter;
 	private Typeface mTypeface;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,9 +50,10 @@ public class MenuFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		if(getActivity() != null){
-			mTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf"); // setting a custom TypeFace
+
+		if (getActivity() != null) {
+			mTypeface = Typeface.createFromAsset(getActivity().getAssets(),
+					"fonts/georgia.ttf"); // setting a custom TypeFace
 		}
 		ListView view = (ListView) inflater.inflate(R.layout.menu_list, null);
 		LinearLayout headerView = (LinearLayout) inflater.inflate(
@@ -66,10 +69,12 @@ public class MenuFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mMenuAdapter = new MenuListAdapter(getActivity(),R.layout.menu_list_textview,mMenus);
+		mMenuAdapter = new MenuListAdapter(getActivity(),
+				R.layout.menu_list_textview, mMenus);
 		setListAdapter(mMenuAdapter);
+		resetMenu();
 	}
-
+	
 	public void resetMenu() {
 
 		if (getActivity() != null) {
@@ -182,6 +187,7 @@ public class MenuFragment extends ListFragment {
 			mMenus.addAll(mLoginList);
 			mMenuAdapter.notifyDataSetChanged();
 			mHeaderTextView.setText("Hi! Guest");
+			mUserName = null;
 
 			SharedPreferences pref = getActivity().getApplicationContext()
 					.getSharedPreferences("mypref", 0);
@@ -215,33 +221,33 @@ public class MenuFragment extends ListFragment {
 		toast.setView(view);
 		toast.show();
 	}
-	
-	private class MenuListAdapter extends ArrayAdapter<String>{
-		
-		public MenuListAdapter(Context context, int resource, List<String> items){
-			super(context,resource,items);
-		
+
+	private class MenuListAdapter extends ArrayAdapter<String> {
+
+		public MenuListAdapter(Context context, int resource, List<String> items) {
+			super(context, resource, items);
+
 		}
-		
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView v = (TextView)convertView;
+			TextView v = (TextView) convertView;
 
-			if(v == null){
+			if (v == null) {
 				LayoutInflater vi;
 				vi = LayoutInflater.from(getContext());
-				v = (TextView)vi.inflate(R.layout.menu_list_textview, null);
+				v = (TextView) vi.inflate(R.layout.menu_list_textview, null);
 			}
-			
+
 			String menu = getItem(position);
-			if(mCategories.contains(menu) &&(!menu.equalsIgnoreCase("All"))){
-				v.setText("\t"+menu);
+			if (mCategories.contains(menu) && (!menu.equalsIgnoreCase("All"))) {
+				v.setText("\t" + menu);
 			} else {
 				v.setText(menu);
 			}
-			
+
 			return v;
 		}
 	}
-	
+
 }
