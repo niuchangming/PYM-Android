@@ -300,6 +300,13 @@ public class DynamicDisplayFragment extends Fragment {
 				}
 			});
 
+			ImageView soldOutImageView = (ImageView) itemView
+					.findViewById(R.id.soldout_img);
+			if (obj.get_availstock() == 0) {
+				soldOutImageView.setVisibility(View.VISIBLE);
+			} else {
+				soldOutImageView.setVisibility(View.GONE);
+			}
 			return itemView;
 		}
 	}

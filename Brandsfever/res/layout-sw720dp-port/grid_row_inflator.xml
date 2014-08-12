@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="245dp"
     android:id="@+id/custom_layout"
+    android:layout_width="245dp"
     android:layout_height="390dp"
     android:background="@android:color/white"
     android:orientation="vertical" >
-    
+
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_height="260dp" >
+        android:layout_height="260dp"
+        android:background="@android:color/transparent" >
 
         <ProgressBar
             android:id="@+id/progress"
@@ -19,68 +19,79 @@
 
         <ImageView
             android:id="@+id/prdt_img"
-            android:layout_centerInParent="true"
             android:layout_width="fill_parent"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/brandsfever"
-            android:layout_marginRight="35dp"
+            android:layout_height="240dp"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:contentDescription="@string/brandsfever"
             android:padding="2dp"
-            android:layout_height="240dp" />
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/soldout_img"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ribbon_soldout"
+            android:visibility="gone" />
     </RelativeLayout>
-       
-    <TextView 
+
+    <TextView
         android:id="@+id/prdt_name"
+        android:layout_width="fill_parent"
         android:layout_height="80dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:padding="3dp"
-        android:textColor="@android:color/darker_gray"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:textSize="17sp"
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"/>
-    <View 
-        android:layout_height="1dp"        
+        android:textColor="@android:color/darker_gray"
+        android:textSize="17sp" />
+
+    <View
         android:layout_width="fill_parent"
-        android:background="@android:color/darker_gray"/>
-    
-    <RelativeLayout 
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:gravity="bottom"
-        android:layout_width="fill_parent">
-        
-        <TextView 
-	        android:id="@+id/prdt_mrkt_price"
-	        android:layout_height="30dp"
-	        android:layout_marginLeft="20dp"
-	        android:layout_alignParentLeft="true"
-	        android:gravity="center"
-	        android:textColor="@android:color/black"
-	        android:textSize="17sp"
-	        android:layout_centerInParent="true"
-	        android:layout_width="wrap_content"/>
-        
-        <View 
-	        android:layout_height="wrap_content"
-	        android:layout_width="1dp"
-	        android:layout_marginTop="2dp"
-	        android:layout_marginBottom="3dp"
-	        android:layout_centerInParent="true"
-	        android:background="@android:color/darker_gray"/>
-        
-        <TextView 
-	        android:id="@+id/prdt_sales_price"
-	        android:layout_alignParentRight="true"
-	        android:layout_marginRight="20dp"
-	        android:layout_centerInParent="true"
-	        android:textColor="#ff8e1345"
-	        android:gravity="center"
-	        android:textSize="17sp"
-	        android:layout_height="30dp"
-	        android:layout_width="wrap_content"/>
-        
- </RelativeLayout>
+        android:gravity="bottom" >
+
+        <TextView
+            android:id="@+id/prdt_mrkt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/prdt_sales_price"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:textColor="#ff8e1345"
+            android:textSize="17sp" />
+    </RelativeLayout>
 
 </LinearLayout>
