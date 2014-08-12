@@ -13,11 +13,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Typeface;
@@ -40,9 +42,11 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +65,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	// private Button mScrollUp;
 	private ArrayList<ProductsDataModel> mCampaigns;
 	private SwipeRefreshLayout mSwipeLayout;
-	private PhoneAdapter mAdapter;
+	private BaseAdapter mAdapter;
 	private String mCategoryName;
 	private boolean mIsVisible;
 	private boolean mIsFirstLoad;
@@ -102,7 +106,15 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 				.findViewById(R.id.campaign_list);
 		// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
 		// mScrollUp.setVisibility(View.GONE);
-		mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
+
+		
+		int inch = DataHolderClass.getInstance().get_deviceInch();
+		if (inch <= 6) {
+			mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
+		} else {
+			mAdapter = new TabAdapter(getActivity(), mCampaigns);
+		}
+
 		mCampaignList.setAdapter(mAdapter);
 
 		mCampaignList.setOnScrollListener(new OnScrollListener() {
@@ -436,12 +448,12 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 		@Override
 		protected void onPostExecute(Void result) {
-			
-			if(mIsFirstLoad){
+
+			if (mIsFirstLoad) {
 				mIsFirstLoad = false;
 			} else {
 				Toast.makeText(getActivity(), "Refreshed", Toast.LENGTH_SHORT)
-					.show();
+						.show();
 			}
 			mProgressHUD.dismiss();
 			mCampaignList.invalidateViews();
@@ -509,6 +521,255 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	class TabAdapter extends BaseAdapter {
+		Context _mcontext = null;
+		LayoutInflater inflater;
+		ArrayList<ProductsDataModel> data;
+
+		public TabAdapter(Context context,
+				ArrayList<ProductsDataModel> arraylist) {
+			this._mcontext = context;
+			data = arraylist;
+		}
+
+		@Override
+		public int getCount() {
+			return data.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@SuppressLint("ResourceAsColor")
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView ends_in, discount_rate, t;
+			ImageButton go_for_sale;
+			View itemView = convertView;
+
+			int a = DataHolderClass.getInstance().get_deviceInch();
+			long start, currenttime;
+
+			if (itemView == null) {
+
+				if (a >= 6 && a < 9) {
+					inflater = (LayoutInflater) _mcontext
+							.getApplicationContext().getSystemService(
+									Context.LAYOUT_INFLATER_SERVICE);
+					itemView = inflater.inflate(
+							R.layout.seven_inch_product_display_inflator,
+							parent, false);
+				} else if (a >= 9) {
+					inflater = (LayoutInflater) _mcontext
+							.getApplicationContext().getSystemService(
+									Context.LAYOUT_INFLATER_SERVICE);
+					itemView = inflater.inflate(
+							R.layout.ten_inch_product_display_inflator, parent,
+							false);
+				}
+			} 
+
+			t = (TextView) itemView.findViewById(R.id.t);
+			ends_in = (TextView) itemView.findViewById(R.id.set_time);
+			discount_rate = (TextView) itemView.findViewById(R.id.set_dicount);
+			Typeface mFont = Typeface.createFromAsset(
+					getActivity().getAssets(), "fonts/georgia.ttf");
+			ends_in.setTypeface(mFont);
+			discount_rate.setTypeface(mFont, Typeface.BOLD);
+			t.setTypeface(mFont, Typeface.BOLD);
+			ImageView imageView = (ImageView) itemView
+					.findViewById(R.id.set_product_img);
+			imageView.setTag(position);
+			go_for_sale = (ImageButton) itemView.findViewById(R.id.go_for_sale);
+			go_for_sale.setTag(position);
+			if (position % 7 == 0) {
+				ends_in.setBackgroundColor(Color.rgb(142, 19, 69));
+			} else if (position % 7 == 1) {
+				ends_in.setBackgroundColor(Color.rgb(29, 131, 107));
+			} else if (position % 7 == 2) {
+				ends_in.setBackgroundColor(Color.rgb(223, 12, 99));
+			} else if (position % 7 == 3) {
+				ends_in.setBackgroundColor(Color.rgb(31, 72, 102));
+			} else if (position % 7 == 4) {
+				ends_in.setBackgroundColor(Color.rgb(200, 17, 23));
+			} else if (position % 7 == 5) {
+				ends_in.setBackgroundColor(Color.rgb(90, 47, 97));
+			} else if (position % 7 == 6) {
+				ends_in.setBackgroundColor(Color.rgb(236, 71, 42));
+			} else if (position % 7 == 7) {
+				ends_in.setBackgroundColor(Color.rgb(169, 194, 21));
+			}
+
+			String hours_left_str, minutes_left_str, seconds_left_str;
+
+			ProductsDataModel obj = data.get(position);
+			long timeInMilliseconds = obj.getEnds_at();
+			long end = timeInMilliseconds * 1000;
+			long current = System.currentTimeMillis();
+			long diff = end - current;
+			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
+
+			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
+			if (String.valueOf(hours_left).length() < 2) {
+				hours_left_str = "0" + String.valueOf(hours_left);
+			} else {
+				hours_left_str = String.valueOf(hours_left);
+			}
+
+			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
+			if (String.valueOf(minutes_left).length() < 2) {
+				minutes_left_str = "0" + String.valueOf(minutes_left);
+			} else {
+				minutes_left_str = String.valueOf(minutes_left);
+			}
+
+			int seconds_left = (int) ((diff / 1000) % 60);
+			if (String.valueOf(seconds_left).length() < 2) {
+				seconds_left_str = "0" + String.valueOf(seconds_left);
+			} else {
+				seconds_left_str = String.valueOf(seconds_left);
+
+			}
+
+			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+			cal.setTimeInMillis(end);
+			String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
+
+			String s = Integer.toString(dayCount) + " Days" + " "
+					+ hours_left_str + ":" + minutes_left_str + ":"
+					+ seconds_left_str;
+
+			String _to = Integer.toString(hours_left) + ":"
+					+ Integer.toString(minutes_left) + ":"
+					+ Integer.toString(seconds_left);
+
+			String _endDate = date + "\n" + _to;
+
+			long timeInMillisecond = obj.getStarts_at();
+			start = timeInMillisecond * 1000L;
+			currenttime = System.currentTimeMillis();
+			long diffs = start - currenttime;
+			int hours_lefts = (int) ((diffs / (1000 * 60 * 60)) % 24);
+			int minutes_lefts = (int) ((diffs / (1000 * 60)) % 60);
+			int seconds_lefts = (int) ((diffs / 1000) % 60);
+
+			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
+			cals.setTimeInMillis(start);
+			String start_date = DateFormat.format("dd-MMMM-yyyy", cals)
+					.toString();
+			String _from = Integer.toString(hours_lefts) + ":"
+					+ Integer.toString(minutes_lefts) + ":"
+					+ Integer.toString(seconds_lefts);
+
+			String _startFrom = start_date + "\n" + _from;
+
+			if (start > currenttime) {
+				RelativeLayout base_layout = (RelativeLayout) itemView
+						.findViewById(R.id.base_layout);
+				base_layout.setBackgroundColor(Color.parseColor("#ADFF2F"));
+				TextView aa, ab, bb, ba;
+				aa = (TextView) itemView.findViewById(R.id.aa);
+				ab = (TextView) itemView.findViewById(R.id.ab);
+				bb = (TextView) itemView.findViewById(R.id.bb);
+				ba = (TextView) itemView.findViewById(R.id.ba);
+
+				aa.setTypeface(mFont, Typeface.NORMAL);
+				ab.setTypeface(mFont, Typeface.NORMAL);
+				bb.setTypeface(mFont, Typeface.NORMAL);
+				ba.setTypeface(mFont, Typeface.NORMAL);
+
+				aa.setVisibility(View.VISIBLE);
+				ab.setVisibility(View.VISIBLE);
+				bb.setVisibility(View.VISIBLE);
+				ba.setVisibility(View.VISIBLE);
+
+				ab.setText(_startFrom);
+				ba.setText(_endDate);
+
+				t.setVisibility(View.GONE);
+				ends_in.setText(s);
+				ends_in.setVisibility(View.GONE);
+				discount_rate.setText(obj.getDiscount_text());
+				discount_rate.setVisibility(View.GONE);
+				String imgUrl = "https:" + obj.getTeaser_url();
+				go_for_sale.setTag(50000);
+				go_for_sale.setVisibility(View.GONE);
+				imageView.setTag(50000);
+				AQuery aq = new AQuery(_mcontext);
+				aq.id(imageView).image(imgUrl);
+				ColorMatrix matrix = new ColorMatrix();
+				matrix.setSaturation(0);
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(
+						matrix);
+				imageView.setColorFilter(filter);
+			} else {
+				ends_in.setText(s);
+				discount_rate.setText(obj.getDiscount_text());
+				String imgUrl = "https:" + obj.getTeaser_url();
+				AQuery aq = new AQuery(_mcontext);
+				aq.id(imageView).image(imgUrl);
+			}
+
+			go_for_sale.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					int a = (Integer) v.getTag();
+					if (a == 50000) {
+						responsePopup();
+					} else {
+						ProductsDataModel cs = data.get(a);
+						String _sf = cs.getShipping_fee();
+						String _sp = cs.getShipping_period();
+						String _fs = cs.getFree_shipping();
+						DataHolderClass.getInstance().setShipping_fee(_sf);
+						DataHolderClass.getInstance().setShipping_period(_sp);
+						DataHolderClass.getInstance().setFree_shipping(_fs);
+						int _s = Integer.parseInt(cs.getPk());
+						DataHolderClass.getInstance().set_mainProductsPk(_s);
+						Intent i = new Intent(_mcontext, ProductListing.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						_mcontext.startActivity(i);
+					}
+				}
+			});
+
+			imageView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					int a = (Integer) v.getTag();
+					if (a == 50000) {
+						responsePopup();
+					} else {
+						ProductsDataModel cs = data.get(a);
+						String _sf = cs.getShipping_fee();
+						String _sp = cs.getShipping_period();
+						String _fs = cs.getFree_shipping();
+						DataHolderClass.getInstance().setShipping_fee(_sf);
+						DataHolderClass.getInstance().setShipping_period(_sp);
+						DataHolderClass.getInstance().setFree_shipping(_fs);
+						int _s = Integer.parseInt(cs.getPk());
+						DataHolderClass.getInstance().set_mainProductsPk(_s);
+						Intent i = new Intent(_mcontext, ProductListing.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						_mcontext.startActivity(i);
+
+					}
+
+				}
+			});
+			return itemView;
 		}
 	}
 
