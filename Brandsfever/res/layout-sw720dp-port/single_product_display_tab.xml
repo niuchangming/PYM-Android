@@ -5,43 +5,6 @@
     android:background="@drawable/bg" >
 
     <RelativeLayout
-        android:id="@+id/RL1"
-        android:layout_width="fill_parent"
-        android:layout_height="90dip"
-        android:background="@drawable/topbar" >
-
-        <ImageButton
-            android:id="@+id/main_menu"
-            android:layout_width="85dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dip"
-            android:background="@drawable/menu_bg"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="40dip"
-            android:layout_height="75dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="100dip"
-            android:background="@drawable/back_button"
-            android:contentDescription="@string/brandsfever" />
-
-        <ImageButton
-            android:id="@+id/cart_btn"
-            android:layout_width="85dip"
-            android:layout_height="75dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="20dip"
-            android:background="@drawable/cart_btn_bg"
-            android:contentDescription="@string/brandsfever" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/RL2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -101,20 +64,21 @@
                     android:layout_width="500dp"
                     android:layout_height="500dp"
                     android:layout_gravity="center_horizontal" />
-                
+
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dip" />
-                <ImageButton 
-                        android:id="@+id/click_to_zoom"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/brandsfever"
-                        android:layout_marginTop="15dp"
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/zoom_icon_phone"/>
+
+                <ImageButton
+                    android:id="@+id/click_to_zoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/zoom_icon_phone"
+                    android:contentDescription="@string/brandsfever" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -144,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="RETAIL PRICE"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
                     </LinearLayout>
 
                     <View
@@ -176,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="OFFER PRICE"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -281,9 +245,9 @@
                             android:id="@+id/open_size_chart"
                             android:layout_width="200dp"
                             android:layout_height="55dp"
-                            android:contentDescription="@string/brandsfever"
                             android:background="@drawable/size_light"
                             android:clickable="false"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center" />
                     </LinearLayout>
 
@@ -305,9 +269,9 @@
                         <ImageButton
                             android:id="@+id/share"
                             android:layout_width="200dp"
-                            android:contentDescription="@string/brandsfever"
                             android:layout_height="55dp"
                             android:background="@drawable/share"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -337,11 +301,11 @@
                         <ImageButton
                             android:id="@+id/add_to_cart"
                             android:layout_width="200dp"
-                            android:contentDescription="@string/brandsfever"
                             android:layout_height="55dp"
                             android:background="@drawable/add_to_cart"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center" />
-                      </LinearLayout>
+                    </LinearLayout>
 
                     <View
                         android:layout_width="1dp"
@@ -361,9 +325,9 @@
                         <ImageButton
                             android:id="@+id/buy_now"
                             android:layout_width="200dp"
-                            android:contentDescription="@string/brandsfever"
                             android:layout_height="55dp"
                             android:background="@drawable/buynw"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -386,18 +350,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center"
-                        android:layout_marginLeft="30dp"
                         android:layout_centerInParent="true"
+                        android:layout_marginLeft="30dp"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
                         <ImageButton
                             android:id="@+id/product_info"
                             android:layout_width="400dp"
-                            android:contentDescription="@string/brandsfever"
-                            android:layout_gravity="center"
                             android:layout_height="80dp"
+                            android:layout_gravity="center"
                             android:background="@drawable/prdt_info_dark_tab"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center|bottom" />
                     </LinearLayout>
 
@@ -417,10 +381,10 @@
 
                         <ImageButton
                             android:id="@+id/shiping_info"
-                            android:contentDescription="@string/brandsfever"
                             android:layout_width="400dp"
                             android:layout_height="80dp"
                             android:background="@drawable/shipping_light_tab"
+                            android:contentDescription="@string/brandsfever"
                             android:gravity="center" />
                     </LinearLayout>
                 </RelativeLayout>
