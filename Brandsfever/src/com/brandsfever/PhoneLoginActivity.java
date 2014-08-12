@@ -46,15 +46,16 @@ public class PhoneLoginActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-			setContentView(R.layout.activity_phone_login_screen);
-		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-			setContentView(R.layout.login_screen_seven_inch_tablet);
-		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-			setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-			setContentView(R.layout.login_screen_ten_inch_tablet);
-		}
+		setContentView(R.layout.activity_phone_login_screen);
+//		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+//			setContentView(R.layout.activity_phone_login_screen);
+//		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+//				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
+//			setContentView(R.layout.login_screen_seven_inch_tablet);
+//		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
+//			setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+//			setContentView(R.layout.login_screen_ten_inch_tablet);
+//		}
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
 				.inflate(R.layout.action_bar, null);

@@ -59,11 +59,11 @@ public class DynamicDisplayFragment extends Fragment {
 		mGridView = (GridView) view.findViewById(R.id.gridView1);
 		_filterDynamicData();
 
-		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+		if (DataHolderClass.getInstance().get_deviceInch() <= 7) {
 			mPAdapter = new PhoneAdpter(getActivity(),
 					R.layout.phone_grid_inflator, mDataList);
 			mGridView.setAdapter(mPAdapter);
-		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+		} else if (DataHolderClass.getInstance().get_deviceInch() > 7
 				&& DataHolderClass.getInstance().get_deviceInch() <= 8) {
 			mPAdapter = new PhoneAdpter(getActivity(),
 					R.layout.seven_inch_grid_inflator, mDataList);
