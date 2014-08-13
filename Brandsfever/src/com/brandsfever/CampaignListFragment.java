@@ -107,7 +107,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
 		// mScrollUp.setVisibility(View.GONE);
 
-		
 		int inch = DataHolderClass.getInstance().get_deviceInch();
 		if (inch <= 6) {
 			mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
@@ -399,7 +398,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		toast.show();
 	}
 
-	class LoadProduct extends AsyncTask<Void, Void, Void> implements
+	class LoadProduct extends
+			AsyncTask<Void, Void, ArrayList<ProductsDataModel>> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
 		String mCategoryName;
@@ -428,9 +428,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		}
 
 		@Override
-		protected Void doInBackground(Void... arg0) {
-
-			mCampaigns.clear();
+		protected ArrayList<ProductsDataModel> doInBackground(Void... arg0) {
 
 			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
 					+ getActivity().getResources().getString(
@@ -438,8 +436,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			if (mCategoryName != null && mCategoryName.length() > 0) {
 				url_campaigns = url_campaigns + "/category/" + mCategoryName;
 			}
-			GetProducts(url_campaigns);
-			return null;
+			ArrayList<ProductsDataModel> campaigns = getProducts(url_campaigns);
+			return campaigns;
 		}
 
 		protected void onProgressUpdate(String... values) {
@@ -447,7 +445,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(ArrayList<ProductsDataModel> result) {
 
 			if (mIsFirstLoad) {
 				mIsFirstLoad = false;
@@ -456,11 +454,18 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 						.show();
 			}
 			mProgressHUD.dismiss();
-			mCampaignList.invalidateViews();
+
+			if (result != null) {
+				mCampaigns.clear();
+				mCampaigns.addAll(result);
+				mAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 
-	public void GetProducts(String url) {
+	public ArrayList<ProductsDataModel> getProducts(String url) {
+
+		ArrayList<ProductsDataModel> campaigns = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
 		HttpClient httpclient = HttpsClient.getNewHttpClient();
@@ -469,6 +474,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			HttpResponse httpresponse = httpclient.execute(httpget);
 			int responsecode = httpresponse.getStatusLine().getStatusCode();
 			if (responsecode == 200) {
+				campaigns = new ArrayList<ProductsDataModel>();
 				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
 						inputstream));
@@ -478,42 +484,35 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 					total.append(line);
 				}
 				String data = total.toString();
-				try {
-					JSONObject obj = new JSONObject(data);
-					JSONArray get_campaigns = obj.getJSONArray("campaigns");
-					for (int i = 0; i < get_campaigns.length(); i++) {
-						JSONObject jsonobj = get_campaigns.getJSONObject(i);
-						long ends_at = jsonobj.getLong("ends_at");
-						String teaser_url = jsonobj.getString("teaser_url");
-						String name = jsonobj.getString("name");
-						long starts_at = jsonobj.getLong("starts_at");
-						String pk = jsonobj.getString("pk");
-						String express = jsonobj.getString("express");
-						String discount_text = jsonobj
-								.getString("discount_text");
-						String shipping_fee = jsonobj.getString("shipping_fee");
-						String shipping_period = jsonobj
-								.getString("shipping_period");
-						String free_shipping = jsonobj
-								.getString("free_shipping");
+				JSONObject obj = new JSONObject(data);
+				JSONArray get_campaigns = obj.getJSONArray("campaigns");
+				for (int i = 0; i < get_campaigns.length(); i++) {
+					JSONObject jsonobj = get_campaigns.getJSONObject(i);
+					long ends_at = jsonobj.getLong("ends_at");
+					String teaser_url = jsonobj.getString("teaser_url");
+					String name = jsonobj.getString("name");
+					long starts_at = jsonobj.getLong("starts_at");
+					String pk = jsonobj.getString("pk");
+					String express = jsonobj.getString("express");
+					String discount_text = jsonobj.getString("discount_text");
+					String shipping_fee = jsonobj.getString("shipping_fee");
+					String shipping_period = jsonobj
+							.getString("shipping_period");
+					String free_shipping = jsonobj.getString("free_shipping");
 
-						ProductsDataModel campaign = new ProductsDataModel();
+					ProductsDataModel campaign = new ProductsDataModel();
+					campaign.setEnds_at(ends_at);
+					campaign.setTeaser_url(teaser_url);
+					campaign.setName(name);
+					campaign.setStarts_at(starts_at);
+					campaign.setPk(pk);
+					campaign.setExpress(express);
+					campaign.setDiscount_text(discount_text);
+					campaign.setFree_shipping(free_shipping);
+					campaign.setShipping_fee(shipping_fee);
+					campaign.setShipping_period(shipping_period);
 
-						campaign.setEnds_at(ends_at);
-						campaign.setTeaser_url(teaser_url);
-						campaign.setName(name);
-						campaign.setStarts_at(starts_at);
-						campaign.setPk(pk);
-						campaign.setExpress(express);
-						campaign.setDiscount_text(discount_text);
-						campaign.setFree_shipping(free_shipping);
-						campaign.setShipping_fee(shipping_fee);
-						campaign.setShipping_period(shipping_period);
-
-						mCampaigns.add(campaign);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					campaigns.add(campaign);
 				}
 			} else {
 				Log.e(TAG, "error");
@@ -522,6 +521,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return campaigns;
 	}
 
 	class TabAdapter extends BaseAdapter {
@@ -562,14 +563,14 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 			if (itemView == null) {
 
-				if (a >= 6 && a < 9) {
+				if ( a < 9) {
 					inflater = (LayoutInflater) _mcontext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
 					itemView = inflater.inflate(
 							R.layout.seven_inch_product_display_inflator,
 							parent, false);
-				} else if (a >= 9) {
+				} else {
 					inflater = (LayoutInflater) _mcontext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
@@ -577,7 +578,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 							R.layout.ten_inch_product_display_inflator, parent,
 							false);
 				}
-			} 
+			}
 
 			t = (TextView) itemView.findViewById(R.id.t);
 			ends_in = (TextView) itemView.findViewById(R.id.set_time);
@@ -764,7 +765,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 						Intent i = new Intent(_mcontext, ProductListing.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						_mcontext.startActivity(i);
-
 					}
 
 				}
