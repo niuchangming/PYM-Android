@@ -55,20 +55,19 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class Edit_Profile extends SherlockFragmentActivity implements OnClickListener {
+public class Edit_Profile extends SherlockFragmentActivity implements
+		OnClickListener {
 	Context _ctx = Edit_Profile.this;
-	String _ret;
 	EditText _firstname, _lastname, _zender, _birthdate, _mobileno;
 	private String Ufname, Ulname, Urupdates, Upenglish, Umno, Ubdate, Ugender,
 			Uemail;
 	ImageButton save_edited_profile;
-	SharedPreferences _mypref;
+	SharedPreferences mPref;
 	TextView setusername, setuseremail, edit_my_profile, mob_text;
 	CheckBox _checkbox1, _checkbox2;
-	String _getToken = "";
-	String _getuserId = "";
-	String _EditResponse;
-	Calendar DateandTime;
+	String mToken = "";
+	String mUserId = "";
+	Calendar mDateAndTime;
 	Button cancel_zender;
 	String _checkone, _checktwo;
 	Button done_zender;
@@ -76,10 +75,7 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 	TextView female_text, male_text;
 	String _setZender = "";
 	Typeface mFont;
-	TextView _seterrormsg;
 	int color, colors;
-	
-	private String _msg="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +88,6 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 		} else if (a >= 9) {
 			setContentView(R.layout.activity_edit_your_profile_screen);
 		}
-
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
 				.inflate(R.layout.action_bar, null);
@@ -125,9 +120,9 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 		mFont = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
+		mPref= getApplicationContext().getSharedPreferences("mypref", 0);
+		mUserId = mPref.getString("ID", null);
+		mToken = mPref.getString("TOKEN", null);
 
 		edit_my_profile = (TextView) findViewById(R.id.edit_my_profile);
 		mob_text = (TextView) findViewById(R.id.mob_text);
@@ -159,28 +154,32 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": profiles/"+_getuserId+"/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": profiles/" + mUserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.Enter_birthdate:
-			DateandTime = Calendar.getInstance(Locale.US);
-			DatePickerDailog dp = new DatePickerDailog(_ctx, DateandTime,
+			mDateAndTime = Calendar.getInstance(Locale.US);
+			DatePickerDailog dp = new DatePickerDailog(_ctx, mDateAndTime,
 					new DatePickerDailog.DatePickerListner() {
 						@SuppressLint("SimpleDateFormat")
 						@Override
 						public void OnDoneButton(Dialog datedialog, Calendar c) {
 							datedialog.dismiss();
-							DateandTime.set(Calendar.YEAR, c.get(Calendar.YEAR));
-							DateandTime.set(Calendar.MONTH,c.get(Calendar.MONTH));
-							DateandTime.set(Calendar.DAY_OF_MONTH,c.get(Calendar.DAY_OF_MONTH));
+							mDateAndTime
+									.set(Calendar.YEAR, c.get(Calendar.YEAR));
+							mDateAndTime.set(Calendar.MONTH,
+									c.get(Calendar.MONTH));
+							mDateAndTime.set(Calendar.DAY_OF_MONTH,
+									c.get(Calendar.DAY_OF_MONTH));
 							_birthdate.setText(new SimpleDateFormat(
 									"yyyy-MM-dd").format(c.getTime()));
 						}
@@ -205,30 +204,23 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 			if (!(_setZender == null) && !(_setZender.equals(""))) {
 				_zender.setText(_setZender);
 				_zender_pop.dismiss();
-			} 
+			}
 			break;
 
 		case R.id.save_edited_profile:
-			if(_firstname.getText().toString().length()==0){
-				_msg="Please fill first name!";
-				_ResponsePopup();
-			}else if(_lastname.getText().toString().length()==0){
-				_msg="Please fill last name!";
-				_ResponsePopup();
-			}else if(_zender.getText().toString().length()==0){
-				_msg="Please fill the gender";
-				_ResponsePopup();
+			if (_firstname.getText().toString().length() == 0) {
+				responsePopup("Please fill first name!");
+			} else if (_lastname.getText().toString().length() == 0) {
+				responsePopup("Please fill last name!");
+			} else if (_zender.getText().toString().length() == 0) {
+				responsePopup("Please fill the gender");
+			} else if (_birthdate.getText().toString().length() == 0) {
+				responsePopup("Please fill the birthday \n date");
+			} else if (_mobileno.getText().toString().length() < 6) {
+				responsePopup("Please fill valid mobile \n number");
+			} else {
+				new SaveEditedinfo().execute();
 			}
-			else if(_birthdate.getText().toString().length()==0){
-				_msg="Please fill the birthday \n date";
-				_ResponsePopup();
-			}else if(_mobileno.getText().toString().length()<6){
-				_msg="Please fill valid mobile \n number";
-				_ResponsePopup();
-			}
-			else {
-			new SaveEditedinfo().execute();
-				}
 			break;
 
 		case R.id.female:
@@ -307,7 +299,7 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 		@Override
 		protected String doInBackground(String... params) {
 			String _profileurl = "https://www.brandsfever.com/api/v5/profiles/?user_id="
-					+ _getuserId + "&token=" + _getToken;
+					+ mUserId + "&token=" + mToken;
 			GetProfile(_profileurl);
 			return null;
 		}
@@ -453,8 +445,8 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/profiles/"
-					+ _getuserId + "/";
+			String url = "https://www.brandsfever.com/api/v5/profiles/"
+					+ mUserId + "/";
 			String firstname = _firstname.getText().toString();
 			String lastname = _lastname.getText().toString();
 			String gender = _zender.getText().toString();
@@ -472,120 +464,104 @@ public class Edit_Profile extends SherlockFragmentActivity implements OnClickLis
 				_checktwo = "false";
 			}
 
-			BasicNameValuePair _fname = new BasicNameValuePair("first_name",
+			BasicNameValuePair fname = new BasicNameValuePair("first_name",
 					firstname);
-			BasicNameValuePair _lname = new BasicNameValuePair("last_name",
+			BasicNameValuePair lname = new BasicNameValuePair("last_name",
 					lastname);
-			BasicNameValuePair _gender = new BasicNameValuePair("gender",
+			BasicNameValuePair genderPair = new BasicNameValuePair("gender",
 					gender);
-			BasicNameValuePair _birthdate = new BasicNameValuePair(
+			BasicNameValuePair birthdatePair = new BasicNameValuePair(
 					"birth_date", birthdate);
-			BasicNameValuePair _muserid = new BasicNameValuePair("user_id",
-					_getuserId);
-			BasicNameValuePair _mtoken = new BasicNameValuePair("token",
-					_getToken);
-			BasicNameValuePair _checksOne = new BasicNameValuePair(
+			BasicNameValuePair muserid = new BasicNameValuePair("user_id",
+					mUserId);
+			BasicNameValuePair mtoken = new BasicNameValuePair("token",
+					mToken);
+			BasicNameValuePair checksOne = new BasicNameValuePair(
 					"receive_updates", _checkone);
-			BasicNameValuePair _checksTwo = new BasicNameValuePair(
+			BasicNameValuePair checksTwo = new BasicNameValuePair(
 					"prefer_english", _checktwo);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 
-			_namevalueList.add(_fname);
-			_namevalueList.add(_lname);
-			_namevalueList.add(_gender);
-			_namevalueList.add(_birthdate);
-			_namevalueList.add(_muserid);
-			_namevalueList.add(_mtoken);
-			_namevalueList.add(_checksOne);
-			_namevalueList.add(_checksTwo);
-
+			namevalueList.add(fname);
+			namevalueList.add(lname);
+			namevalueList.add(genderPair);
+			namevalueList.add(birthdatePair);
+			namevalueList.add(muserid);
+			namevalueList.add(mtoken);
+			namevalueList.add(checksOne);
+			namevalueList.add(checksTwo);
+			
+			String result = null;
 			if (firstname.length() > 0 && lastname.length() > 0
-					&& !(_getuserId == null)) {
-				_EditResponse = _SendEditedInfo(_url, _namevalueList);
-			} 
-			return null;
+					&& !(mUserId == null)) {
+				result = sendEditedInfo(url, namevalueList);
+			}
+			return result;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (_ret.equals("0")) {
+			if (result != null && result.equals("0")) {
 				mProgressHUD.dismiss();
-				try {
-					String _errormsg = "Changes Saved";
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText(_errormsg);
-					Toast toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
-					finish();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				responsePopup("Changes Saved");
+				finish();
 			} else {
 				mProgressHUD.dismiss();
 			}
 		}
 	}
 
-	public String _SendEditedInfo(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+	public String sendEditedInfo(String url, List<NameValuePair> namevalueList) {
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpPost httppost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httppost.setEntity(new UrlEncodedFormEntity(namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity().getContent();
-				BufferedReader r = new BufferedReader(new InputStreamReader(_inputstream));
+			HttpResponse httpresponse = httpclient.execute(httppost);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
+				BufferedReader r = new BufferedReader(new InputStreamReader(
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
-				try {
-					JSONObject obj = new JSONObject(_Response);
-					_ret = obj.getString("ret");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				JSONObject obj = new JSONObject(total.toString());
+				response = obj.getString("ret");
 			} else {
-				_Response = "Error";
+				response = "Please try again later.";
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
-	public void _ResponsePopup() {
-		View view = View.inflate(getBaseContext(),R.layout.error_popop, null);
-		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText(_msg);
+	public void responsePopup(String msg) {
+		View view = View.inflate(getBaseContext(), R.layout.error_popop, null);
+		TextView errormsg = (TextView) view.findViewById(R.id._seterrormsg);
+		errormsg.setText(msg);
 		Toast toast = new Toast(getBaseContext());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
 		toast.show();
 	}
 
-
 	private void directToCart() {
 
 		SharedPreferences mypref = getApplicationContext()
 				.getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
-		
+
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(Edit_Profile.this, MyCartActivity.class);
+			Intent gotocart = new Intent(Edit_Profile.this,
+					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
