@@ -43,7 +43,7 @@ public class CampaignFragment extends Fragment {
 					.getSupportFragmentManager());
 			mViewPager = (ViewPager) mLinearLayout.findViewById(R.id.pager);
 			mViewPager.setAdapter(adapter);
-			
+
 			TabPageIndicator indicator = (TabPageIndicator) mLinearLayout
 					.findViewById(R.id.indicator);
 			indicator.setViewPager(mViewPager);
@@ -60,6 +60,12 @@ public class CampaignFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		((ViewGroup)mLinearLayout.getParent()).removeView(mLinearLayout);	
 	}
 
 	@Override

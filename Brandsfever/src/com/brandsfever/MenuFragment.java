@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +123,7 @@ public class MenuFragment extends ListFragment {
 		position -= l.getHeaderViewsCount();
 		if (position < 0) // when click on header view
 			return;
-		String selectedMenu = mMenus.get(position);
+		final String selectedMenu = mMenus.get(position);
 		final ProductDisplay pd = (ProductDisplay) getActivity();
 		if (pd == null) {
 			return;
@@ -135,9 +134,18 @@ public class MenuFragment extends ListFragment {
 				pd.toggle();
 				pd.setCurrentMenu(selectedMenu);
 			} else {
-				Fragment campaign = new CampaignFragment();
-				pd.setCurrentMenu(selectedMenu);
-				pd.switchContent(campaign);
+				
+				if(pd.mCampaignFragment == null){
+					CampaignFragment campaign = CampaignFragment.newInstance();
+					pd.mCampaignFragment = campaign;
+				}
+				pd.switchContent(pd.mCampaignFragment);
+				Handler h = new Handler();
+				h.postDelayed(new Runnable() {
+					public void run() {
+						pd.setCurrentMenu(selectedMenu);
+					}
+				}, 50);
 			}
 		} else if (selectedMenu.equalsIgnoreCase("Support")) {
 			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)) {

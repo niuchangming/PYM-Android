@@ -146,7 +146,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		}
 		if (mIsFirstLoad) {
 			new LoadProduct(mCategoryName).execute();
-		}
+		} 
 
 		return mSwipeLayout;
 	}

@@ -34,7 +34,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private int mBackButtonCount;
 	private MenuFragment mMenu;
 	private List<String> mCategories;
-
+	public  CampaignFragment mCampaignFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +94,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 					savedInstanceState, "mContent");
 		if (mContent == null) {
 			mCurrentMenu = "All";
-			mContent = CampaignFragment.newInstance();
+			mCampaignFragment = CampaignFragment.newInstance();
+			mContent = mCampaignFragment;
 		}
 
 		if (mMenu == null) {
