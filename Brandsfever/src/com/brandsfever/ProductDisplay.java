@@ -34,7 +34,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private int mBackButtonCount;
 	private MenuFragment mMenu;
 	private List<String> mCategories;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +94,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 					savedInstanceState, "mContent");
 		if (mContent == null) {
 			mCurrentMenu = "All";
-			mContent = new CampaignFragment();
+			mContent = CampaignFragment.newInstance();
 		}
 
 		if (mMenu == null) {
@@ -114,10 +114,10 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
-		sm.setOnOpenListener(new OnOpenListener(){
+		sm.setOnOpenListener(new OnOpenListener() {
 			@Override
 			public void onOpen() {
-				if(mMenu != null)
+				if (mMenu != null)
 					mMenu.resetMenu();
 			}
 		});
@@ -185,9 +185,10 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		SharedPreferences mypref = getApplicationContext()
 				.getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
-		
+
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(ProductDisplay.this, MyCartActivity.class);
+			Intent gotocart = new Intent(ProductDisplay.this,
+					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
@@ -210,8 +211,9 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	public void setCurrentMenu(String currentMenu) {
 		mCurrentMenu = currentMenu;
 
-		if(mContent instanceof CampaignFragment){
-			((CampaignFragment) mContent).pager.setCurrentItem(mCategories.indexOf(mCurrentMenu), true);
+		if (mContent instanceof CampaignFragment) {
+			((CampaignFragment) mContent).mViewPager.setCurrentItem(
+					mCategories.indexOf(mCurrentMenu), true);
 		}
 	}
 

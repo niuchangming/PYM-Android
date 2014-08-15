@@ -15,9 +15,14 @@ import com.viewpagerindicator.TabPageIndicator;
 public class CampaignFragment extends Fragment {
 
 	private String[] mCategories;
-	public ViewPager pager;
-	public CampaignFragment() {
-	
+	public ViewPager mViewPager;
+	private FrameLayout mLinearLayout;
+
+	public static CampaignFragment newInstance() {
+
+		CampaignFragment fragment = new CampaignFragment();
+
+		return fragment;
 	}
 
 	@Override
@@ -25,25 +30,26 @@ public class CampaignFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		mCategories = getResources().getStringArray(R.array.category);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		FragmentPagerAdapter adapter = new CampaignAdapter(getActivity()
-				.getSupportFragmentManager());
+		if (mLinearLayout == null) {
 
-		FrameLayout linearLayout = (FrameLayout) inflater.inflate(
-				R.layout.fragment_campaign, null);
+			mLinearLayout = (FrameLayout) inflater.inflate(
+					R.layout.fragment_campaign, container, false);
+			FragmentPagerAdapter adapter = new CampaignAdapter(getActivity()
+					.getSupportFragmentManager());
+			mViewPager = (ViewPager) mLinearLayout.findViewById(R.id.pager);
+			mViewPager.setAdapter(adapter);
+			
+			TabPageIndicator indicator = (TabPageIndicator) mLinearLayout
+					.findViewById(R.id.indicator);
+			indicator.setViewPager(mViewPager);
+		}
 
-		pager = (ViewPager) linearLayout.findViewById(R.id.pager);
-		pager.setAdapter(adapter);
-
-		TabPageIndicator indicator = (TabPageIndicator) linearLayout
-				.findViewById(R.id.indicator);
-		indicator.setViewPager(pager);
-
-		return linearLayout;
+		return mLinearLayout;
 	}
 
 	@Override
@@ -70,14 +76,15 @@ public class CampaignFragment extends Fragment {
 		@Override
 		public Fragment getItem(int position) {
 
-			return CampaignListFragment.newInstance(mCategories[position%mCategories.length].toLowerCase());
+			return CampaignListFragment.newInstance(mCategories[position
+					% mCategories.length].toLowerCase());
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
 			return mCategories[position % mCategories.length].toUpperCase();
 		}
-		
+
 		@Override
 		public int getCount() {
 			return mCategories.length;

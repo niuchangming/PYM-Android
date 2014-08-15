@@ -71,18 +71,13 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	private boolean mIsFirstLoad;
 
 	public static CampaignListFragment newInstance(String category) {
+		CampaignListFragment fragment = new CampaignListFragment();
 
-		CampaignListFragment fragment = new CampaignListFragment(category);
+		Bundle args = new Bundle();
+		args.putString("category", category);
+		fragment.setArguments(args);
+
 		return fragment;
-	}
-
-	CampaignListFragment() {
-		mCategoryName = "all";
-	}
-
-	CampaignListFragment(String category) {
-		mCategoryName = category;
-		mIsFirstLoad = true;
 	}
 
 	@Override
@@ -95,50 +90,60 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
-				R.layout.campaign_list, null);
-		mSwipeLayout.setOnRefreshListener(this);
-		mSwipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
-				android.R.color.holo_green_light,
-				android.R.color.holo_orange_light,
-				android.R.color.holo_red_light);
-		mCampaignList = (ListView) mSwipeLayout
-				.findViewById(R.id.campaign_list);
-		// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
-		// mScrollUp.setVisibility(View.GONE);
-
-		int inch = DataHolderClass.getInstance().get_deviceInch();
-		if (inch <= 6) {
-			mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
-		} else {
-			mAdapter = new TabAdapter(getActivity(), mCampaigns);
+		if (mCategoryName == null) {
+			Bundle args = getArguments();
+			mCategoryName = args.getString("category");
+			mIsFirstLoad = true;
 		}
 
-		mCampaignList.setAdapter(mAdapter);
+		if (mSwipeLayout == null) {
 
-		mCampaignList.setOnScrollListener(new OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
+					R.layout.campaign_list, container, false);
+			mSwipeLayout.setOnRefreshListener(this);
+			mSwipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
+					android.R.color.holo_green_light,
+					android.R.color.holo_orange_light,
+					android.R.color.holo_red_light);
+
+			mCampaignList = (ListView) mSwipeLayout
+					.findViewById(R.id.campaign_list);
+			// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
+			// mScrollUp.setVisibility(View.GONE);
+
+			int inch = DataHolderClass.getInstance().get_deviceInch();
+			if (inch <= 6) {
+				mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
+			} else {
+				mAdapter = new TabAdapter(getActivity(), mCampaigns);
 			}
 
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				// if (firstVisibleItem > 4) {
-				// mScrollUp.setVisibility(View.VISIBLE);
-				// } else {
-				// mScrollUp.setVisibility(View.GONE);
-				// }
-			}
-		});
-		// mScrollUp.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// mCampaignList.setSelection(0);
-		// mScrollUp.setVisibility(View.GONE);
-		// }
-		// });
+			mCampaignList.setAdapter(mAdapter);
 
+			mCampaignList.setOnScrollListener(new OnScrollListener() {
+				@Override
+				public void onScrollStateChanged(AbsListView view,
+						int scrollState) {
+				}
+
+				@Override
+				public void onScroll(AbsListView view, int firstVisibleItem,
+						int visibleItemCount, int totalItemCount) {
+					// if (firstVisibleItem > 4) {
+					// mScrollUp.setVisibility(View.VISIBLE);
+					// } else {
+					// mScrollUp.setVisibility(View.GONE);
+					// }
+				}
+			});
+			// mScrollUp.setOnClickListener(new OnClickListener() {
+			// @Override
+			// public void onClick(View v) {
+			// mCampaignList.setSelection(0);
+			// mScrollUp.setVisibility(View.GONE);
+			// }
+			// });
+		}
 		if (mIsFirstLoad) {
 			new LoadProduct(mCategoryName).execute();
 		}
@@ -165,6 +170,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		((ViewGroup)mSwipeLayout.getParent()).removeView(mSwipeLayout);	
 	}
 
 	@Override
@@ -563,7 +569,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 			if (itemView == null) {
 
-				if ( a < 9) {
+				if (a < 9) {
 					inflater = (LayoutInflater) _mcontext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
