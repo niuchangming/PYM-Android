@@ -34,6 +34,8 @@ public class MenuFragment extends ListFragment {
 	private TextView mHeaderTextView;
 	private MenuListAdapter mMenuAdapter;
 	private Typeface mTypeface;
+	private ListView mListView;
+	private LinearLayout mHeaderView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,30 +52,41 @@ public class MenuFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		if (getActivity() != null) {
-			mTypeface = Typeface.createFromAsset(getActivity().getAssets(),
-					"fonts/georgia.ttf"); // setting a custom TypeFace
+		if (mListView == null) {
+			mListView = (ListView) inflater.inflate(R.layout.menu_list, null);
+			mHeaderView = (LinearLayout) inflater.inflate(
+					R.layout.menu_list_header, null);
+			mHeaderTextView = (TextView) mHeaderView
+					.findViewById(R.id.menu_header);
 		}
-		ListView view = (ListView) inflater.inflate(R.layout.menu_list, null);
-		LinearLayout headerView = (LinearLayout) inflater.inflate(
-				R.layout.menu_list_header, null);
-		mHeaderTextView = (TextView) headerView.findViewById(R.id.menu_header);
-		mHeaderTextView.setTypeface(mTypeface);
-		view.addHeaderView(headerView);
-
-		return view;
+		return mListView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mMenuAdapter = new MenuListAdapter(getActivity(),
-				R.layout.menu_list_textview, mMenus);
-		setListAdapter(mMenuAdapter);
+		if (mTypeface == null) {
+			mTypeface = Typeface.createFromAsset(getActivity().getAssets(),
+					"fonts/georgia.ttf"); // setting a custom TypeFace
+			mHeaderTextView.setTypeface(mTypeface);
+			mListView.addHeaderView(mHeaderView);
+		}
+
+		if (mMenuAdapter == null) {
+			mMenuAdapter = new MenuListAdapter(getActivity(),
+					R.layout.menu_list_textview, mMenus);
+			setListAdapter(mMenuAdapter);
+		}
 		resetMenu();
 	}
-	
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		((ViewGroup)mListView.getParent()).removeView(mListView);
+	}
+
 	public void resetMenu() {
 
 		if (getActivity() != null) {
@@ -134,8 +147,8 @@ public class MenuFragment extends ListFragment {
 				pd.toggle();
 				pd.setCurrentMenu(selectedMenu);
 			} else {
-				
-				if(pd.mCampaignFragment == null){
+
+				if (pd.mCampaignFragment == null) {
 					CampaignFragment campaign = CampaignFragment.newInstance();
 					pd.mCampaignFragment = campaign;
 				}
