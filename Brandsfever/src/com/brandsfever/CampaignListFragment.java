@@ -90,7 +90,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		Log.e(TAG,"onCreateView");
 		if (mSwipeLayout == null) {
 
 			mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
@@ -147,7 +146,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Log.e(TAG, "onActivityCreated");
 		if (mCategoryUrl == null) {
 			Bundle args = getArguments();
 			String category = args.getString("category");

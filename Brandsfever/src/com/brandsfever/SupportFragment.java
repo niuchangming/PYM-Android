@@ -22,13 +22,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,19 +36,21 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-
 public class SupportFragment extends Fragment {
 
 	private static final String TAG = "SupportFragment";
 	Button mSubmit;
 	Typeface mFont;
 
-	EditText mOrderId;
-	EditText mIssue;
-	EditText mDetail;
-	EditText mEmail;
+	private EditText mOrderId;
+	private EditText mIssue;
+	private EditText mDetail;
+	private EditText mEmail;
+	private LinearLayout mView;
 
-	public SupportFragment() {
+	public static SupportFragment newInstance() {
+		SupportFragment fragment = new SupportFragment();
+		return fragment;
 	}
 
 	@Override
@@ -59,56 +61,64 @@ public class SupportFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_support, container,
-				false);
+		if (mView == null) {
 
-		mFont = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/georgia.ttf");
-		TextView title = (TextView) rootView.findViewById(R.id.support_title);
-		title.setTypeface(mFont, Typeface.ITALIC);
+			mView = (LinearLayout) inflater.inflate(R.layout.fragment_support,
+					container, false);
 
-		mOrderId = (EditText) rootView.findViewById(R.id.order_id);
-		mIssue = (EditText) rootView.findViewById(R.id.issue);
-		mDetail = (EditText) rootView.findViewById(R.id.detail);
-		mEmail = (EditText) rootView.findViewById(R.id.email);
+			mFont = Typeface.createFromAsset(getActivity().getAssets(),
+					"fonts/georgia.ttf");
+			TextView title = (TextView) mView.findViewById(R.id.support_title);
+			title.setTypeface(mFont, Typeface.ITALIC);
 
-		mSubmit = (Button) rootView.findViewById(R.id.support_submit);
-		mSubmit.setTypeface(mFont);
-		mSubmit.setOnClickListener(new View.OnClickListener() {
+			mOrderId = (EditText) mView.findViewById(R.id.order_id);
+			mIssue = (EditText) mView.findViewById(R.id.issue);
+			mDetail = (EditText) mView.findViewById(R.id.detail);
+			mEmail = (EditText) mView.findViewById(R.id.email);
 
-			@Override
-			public void onClick(View v) {
+			mSubmit = (Button) mView.findViewById(R.id.support_submit);
+			mSubmit.setTypeface(mFont);
+			mSubmit.setOnClickListener(new View.OnClickListener() {
 
-				if (mOrderId.getText().toString().length() < 1) {
-					showMessage("Please input your Order Identifier.");
-				} else if (mIssue.getText().toString().length() < 1) {
-					showMessage("Please input your issue.");
-				} else if (!isValidEmail(mEmail.getText().toString())) {
-					showMessage("Please input a valid Email address.");
-				} else {
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-							4);
-					nameValuePairs.add(new BasicNameValuePair("order_number",
-							mOrderId.getText().toString()));
-					nameValuePairs.add(new BasicNameValuePair("issue", mIssue
-							.getText().toString()));
-					nameValuePairs.add(new BasicNameValuePair("detail", mDetail
-							.getText().toString()));
-					nameValuePairs.add(new BasicNameValuePair("email", mEmail
-							.getText().toString()));
+				@Override
+				public void onClick(View v) {
 
-					SubmitSupport submit = new SubmitSupport();
-					submit.execute(nameValuePairs);
+					if (mOrderId.getText().toString().length() < 1) {
+						showMessage("Please input your Order Identifier.");
+					} else if (mIssue.getText().toString().length() < 1) {
+						showMessage("Please input your issue.");
+					} else if (!isValidEmail(mEmail.getText().toString())) {
+						showMessage("Please input a valid Email address.");
+					} else {
+						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+								4);
+						nameValuePairs.add(new BasicNameValuePair(
+								"order_number", mOrderId.getText().toString()));
+						nameValuePairs.add(new BasicNameValuePair("issue",
+								mIssue.getText().toString()));
+						nameValuePairs.add(new BasicNameValuePair("detail",
+								mDetail.getText().toString()));
+						nameValuePairs.add(new BasicNameValuePair("email",
+								mEmail.getText().toString()));
+
+						SubmitSupport submit = new SubmitSupport();
+						submit.execute(nameValuePairs);
+					}
 				}
-			}
-		});
-
-		return rootView;
+			});
+		}
+		return mView;
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		((ViewGroup) mView.getParent()).removeView(mView);
 	}
 
 	class SubmitSupport extends AsyncTask<List<NameValuePair>, String, String>
@@ -118,16 +128,14 @@ public class SupportFragment extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
-			mProgressHUD = ProgressHUD.show(getActivity(), "Loading",
-					true, true, this);
+			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
+					true, this);
 
 		}
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -140,7 +148,6 @@ public class SupportFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			mProgressHUD.dismiss();
 			showMessage(result);
@@ -188,8 +195,7 @@ public class SupportFragment extends Fragment {
 	}
 
 	private void showMessage(String message) {
-		View view = View.inflate(getActivity(),
-				R.layout.error_popop, null);
+		View view = View.inflate(getActivity(), R.layout.error_popop, null);
 		TextView msg = (TextView) view.findViewById(R.id._seterrormsg);
 		msg.setText(message);
 		Toast toast = new Toast(getActivity());
