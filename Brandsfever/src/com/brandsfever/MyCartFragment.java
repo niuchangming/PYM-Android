@@ -40,6 +40,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,21 +55,21 @@ import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
 public class MyCartFragment extends Fragment implements OnClickListener {
+
+	private static final String TAG = "MyCartFragment";
+	private RelativeLayout mView;
 	private ImageButton continue_shoping, checkout_cart;
 	private TextView shiping_fee_tag, shiping_fee_amount, payable_amount_tag,
 			payable_amount, cart_summery_tag, item_count_tag;
-	SharedPreferences _mypref;
-	private String _getToken = "";
-	private String _getuserId = "";
-	Typeface _font;
+	SharedPreferences mPref;
+	private String mToken;
+	private String mUserId;
+	Typeface mTypeface;
 	public static ArrayList<OrderInfoModel> Orderinfo = new ArrayList<OrderInfoModel>();
 	private ListView mOrderListView;
 	MyCartAdapter mOrderAdapter;
 	private String shipping_fee, total_price, _pk;
 	private String _updateResponse;
-	private String _msg;
-	private TextView _seterrormsg;
-	int color, colors;
 
 	int _display_items = 0;
 
@@ -76,51 +77,54 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		ViewGroup view = (ViewGroup) inflater.inflate(
-				R.layout.activity_my_cart_screen, container, false);
+		if (mView == null) {
+			mView = (RelativeLayout) inflater.inflate(
+					R.layout.activity_my_cart_screen, container, false);
+			shiping_fee_tag = (TextView) mView
+					.findViewById(R.id.shiping_fee_tag);
+			shiping_fee_amount = (TextView) mView
+					.findViewById(R.id.shiping_fee_amount);
+			payable_amount_tag = (TextView) mView
+					.findViewById(R.id.payable_amount_tag);
+			payable_amount = (TextView) mView.findViewById(R.id.payable_amount);
+			cart_summery_tag = (TextView) mView
+					.findViewById(R.id.cart_summery_tag);
+			item_count_tag = (TextView) mView.findViewById(R.id.item_count_tag);
+			mOrderListView = (ListView) mView.findViewById(R.id.mycartlist);
+			checkout_cart = (ImageButton) mView
+					.findViewById(R.id.checkout_cart);
+			checkout_cart.setOnClickListener(this);
+			continue_shoping = (ImageButton) mView
+					.findViewById(R.id.continue_shoping);
+			continue_shoping.setOnClickListener(this);
+		}
 
-		_font = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/georgia.ttf");
-		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
-		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
-		_mypref = getActivity().getApplicationContext().getSharedPreferences(
-				"mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
-		shiping_fee_tag = (TextView) view.findViewById(R.id.shiping_fee_tag);
-		shiping_fee_tag.setTypeface(_font, Typeface.NORMAL);
-		shiping_fee_amount = (TextView) view
-				.findViewById(R.id.shiping_fee_amount);
-		shiping_fee_amount.setTypeface(_font, Typeface.NORMAL);
-		payable_amount_tag = (TextView) view
-				.findViewById(R.id.payable_amount_tag);
-		payable_amount_tag.setTypeface(_font, Typeface.NORMAL);
-		payable_amount = (TextView) view.findViewById(R.id.payable_amount);
-		payable_amount.setTypeface(_font, Typeface.NORMAL);
-
-		cart_summery_tag = (TextView) view.findViewById(R.id.cart_summery_tag);
-		cart_summery_tag.setTypeface(_font, Typeface.NORMAL);
-
-		item_count_tag = (TextView) view.findViewById(R.id.item_count_tag);
-
-		mOrderListView = (ListView) view.findViewById(R.id.mycartlist);
-		mOrderAdapter = new MyCartAdapter(getActivity(), Orderinfo);
-		mOrderListView.setAdapter(mOrderAdapter);
-		checkout_cart = (ImageButton) view.findViewById(R.id.checkout_cart);
-		checkout_cart.setOnClickListener(this);
-
-		continue_shoping = (ImageButton) view
-				.findViewById(R.id.continue_shoping);
-		continue_shoping.setOnClickListener(this);
-
-		new GetAllCarts().execute();
-
-		return view;
+		return mView;
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (mTypeface == null) {
+			mTypeface = Typeface.createFromAsset(getActivity().getAssets(),
+					"fonts/georgia.ttf");
+			shiping_fee_tag.setTypeface(mTypeface, Typeface.NORMAL);
+			shiping_fee_amount.setTypeface(mTypeface, Typeface.NORMAL);
+			payable_amount_tag.setTypeface(mTypeface, Typeface.NORMAL);
+			payable_amount.setTypeface(mTypeface, Typeface.NORMAL);
+			cart_summery_tag.setTypeface(mTypeface, Typeface.NORMAL);
+		}
+		if (mPref == null) {
+			mPref = getActivity().getApplicationContext().getSharedPreferences(
+					"mypref", 0);
+			mUserId = mPref.getString("ID", null);
+			mToken = mPref.getString("TOKEN", null);
+		}
+		if (mOrderAdapter == null) {
+			mOrderAdapter = new MyCartAdapter(getActivity(), Orderinfo);
+			mOrderListView.setAdapter(mOrderAdapter);
+		}
+		new GetAllCarts().execute();
 	}
 
 	@Override
@@ -129,8 +133,14 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 		EasyTracker tracker = EasyTracker.getInstance(getActivity());
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
-				+ ": carts/" + _getuserId + "/?device=2");
+				+ ": carts/" + mUserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		((ViewGroup) mView.getParent()).removeView(mView);
 	}
 
 	private class GetAllCarts extends AsyncTask<String, String, String>
@@ -163,9 +173,9 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		@Override
 		protected String doInBackground(String... arg0) {
 			Orderinfo.clear();
-			String _url = "https://www.brandsfever.com/api/v5/carts/?user_id="
-					+ _getuserId + "&token=" + _getToken;
-			GetCarts(_url);
+			String url = "https://www.brandsfever.com/api/v5/carts/?user_id="
+					+ mUserId + "&token=" + mToken;
+			getCarts(url);
 			return null;
 		}
 
@@ -174,7 +184,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			if (Orderinfo.size() > 0) {
 
 				item_count_tag.setText("" + _display_items + " " + "items(s)");
-				item_count_tag.setTypeface(_font, Typeface.NORMAL);
+				item_count_tag.setTypeface(mTypeface, Typeface.NORMAL);
 				shiping_fee_amount.setText(shipping_fee.replace("GD", "$"));
 
 				payable_amount.setText(total_price.replace("GD", "$"));
@@ -183,93 +193,80 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 			} else {
 				item_count_tag.setText("0 item");
-				item_count_tag.setTypeface(_font, Typeface.NORMAL);
+				item_count_tag.setTypeface(mTypeface, Typeface.NORMAL);
 				shiping_fee_amount.setText("S$0");
 				payable_amount.setText("S$0");
 
-				_msg = "Your cart \n is empty";
-				responsePopup();
+				responsePopup("Your cart \n is empty");
 			}
 
 			mProgressHUD.dismiss();
 		}
 	}
 
-	public void GetCarts(String url) {
+	public void getCarts(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
 
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				String _content = total.toString();
-				try {
-					JSONObject obj = new JSONObject(_content);
-					String ret = obj.getString("ret");
-					String mesg = obj.getString("msg");
-					if (ret.equals("0") && mesg.equalsIgnoreCase("ok")) {
-						JSONArray _getcart = obj.getJSONArray("carts");
-						for (int i = 0; i < _getcart.length(); i++) {
-							JSONObject _obj = _getcart.getJSONObject(i);
-							_pk = _obj.getString("pk");
-							shipping_fee = _obj.getString("shipping_fee");
-							total_price = _obj.getString("total_price");
+				String content = total.toString();
+				JSONObject obj = new JSONObject(content);
+				String ret = obj.getString("ret");
+				String msg = obj.getString("msg");
+				if (ret.equals("0") && msg.equalsIgnoreCase("ok")) {
+					JSONArray carts = obj.getJSONArray("carts");
+					for (int i = 0; i < carts.length(); i++) {
+						JSONObject _obj = carts.getJSONObject(i);
+						_pk = _obj.getString("pk");
+						shipping_fee = _obj.getString("shipping_fee");
+						total_price = _obj.getString("total_price");
 
-							JSONArray _getcartitems = _obj
-									.getJSONArray("cart_items");
-							for (int j = 0; j < _getcartitems.length(); j++) {
-								JSONObject _objs = _getcartitems
-										.getJSONObject(j);
-								String product_image = _objs
-										.getString("product_image");
-								String _totalprice = _objs
-										.getString("total_price");
-								String product_item_pk = _objs
-										.getString("product_item_pk");
-								String sales_price = _objs
-										.getString("sales_price");
-								String pk = _objs.getString("pk");
-								String quantity = _objs.getString("quantity");
-								_display_items = (_display_items + Integer
-										.valueOf(quantity));
-								String product_name = _objs
-										.getString("product_name");
-								String campaign_pk = _objs
-										.getString("campaign_pk");
+						JSONArray _getcartitems = _obj
+								.getJSONArray("cart_items");
+						for (int j = 0; j < _getcartitems.length(); j++) {
+							JSONObject _objs = _getcartitems.getJSONObject(j);
+							String product_image = _objs
+									.getString("product_image");
+							String _totalprice = _objs.getString("total_price");
+							String product_item_pk = _objs
+									.getString("product_item_pk");
+							String sales_price = _objs.getString("sales_price");
+							String pk = _objs.getString("pk");
+							String quantity = _objs.getString("quantity");
+							_display_items = (_display_items + Integer
+									.valueOf(quantity));
+							String product_name = _objs
+									.getString("product_name");
+							String campaign_pk = _objs.getString("campaign_pk");
 
-								OrderInfoModel _model = new OrderInfoModel();
-								_model.setProduct_image(product_image);
-								_model.setTotal_price(_totalprice);
-								_model.setProduct_item_pk(product_item_pk);
-								_model.setSales_price(sales_price);
-								_model.setPk(pk);
-								_model.setQuantity(quantity);
-								_model.setProduct_name(product_name);
-								_model.setCampaign_pk(campaign_pk);
-								Orderinfo.add(_model);
-							}
+							OrderInfoModel model = new OrderInfoModel();
+							model.setProduct_image(product_image);
+							model.setTotal_price(_totalprice);
+							model.setProduct_item_pk(product_item_pk);
+							model.setSales_price(sales_price);
+							model.setPk(pk);
+							model.setQuantity(quantity);
+							model.setProduct_name(product_name);
+							model.setCampaign_pk(campaign_pk);
+							Orderinfo.add(model);
 						}
-
-					} else if (ret.equals("003")
-							&& mesg.equals("login required")) {
-						_msg = "You are already logged in \n from another device";
-					} else {
-						_msg = mesg;
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+
+				} else if (ret.equals("003") && msg.equals("login required")) {
+					responsePopup("Please login");
 				}
 			}
 		} catch (Exception e) {
@@ -281,7 +278,6 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		Context _mcontext = null;
 		LayoutInflater inflater;
 		ArrayList<OrderInfoModel> data;
-		View _view;
 
 		public MyCartAdapter(Context context,
 				ArrayList<OrderInfoModel> arraylist) {
@@ -307,61 +303,66 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
+
 			TextView Quantity_tag, setQuantity_text, total_tag, _total_amount, product_name, unitprice_tag, unit_price;
 			Button remove_text_click, add_quantity, subtract_quantity;
-			if (DataHolderClass.getInstance().get_deviceInch() <= 7) {
-				inflater = (LayoutInflater) _mcontext.getApplicationContext()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				_view = inflater.inflate(R.layout.cart_inflator_phone, parent,
-						false);
+			if (convertView == null) {
+				if (DataHolderClass.getInstance().get_deviceInch() <= 7) {
+					inflater = (LayoutInflater) _mcontext
+							.getApplicationContext().getSystemService(
+									Context.LAYOUT_INFLATER_SERVICE);
+					convertView = inflater.inflate(
+							R.layout.cart_inflator_phone, parent, false);
 
-			} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
-					&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-				inflater = (LayoutInflater) _mcontext.getApplicationContext()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				_view = inflater.inflate(R.layout.seven_inch_cart_inflator,
-						parent, false);
+				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
+						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
+					inflater = (LayoutInflater) _mcontext
+							.getApplicationContext().getSystemService(
+									Context.LAYOUT_INFLATER_SERVICE);
+					convertView = inflater.inflate(
+							R.layout.seven_inch_cart_inflator, parent, false);
+				}
+
+				else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
+					inflater = (LayoutInflater) _mcontext
+							.getApplicationContext().getSystemService(
+									Context.LAYOUT_INFLATER_SERVICE);
+					convertView = inflater.inflate(R.layout.my_cart_inflator,
+							parent, false);
+				}
 			}
+			Quantity_tag = (TextView) convertView.findViewById(R.id.Quantity_tag);
+			Quantity_tag.setTypeface(mTypeface);
 
-			else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-				inflater = (LayoutInflater) _mcontext.getApplicationContext()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				_view = inflater.inflate(R.layout.my_cart_inflator, parent,
-						false);
-			}
-
-			Quantity_tag = (TextView) _view.findViewById(R.id.Quantity_tag);
-			Quantity_tag.setTypeface(_font);
-
-			setQuantity_text = (TextView) _view
+			setQuantity_text = (TextView) convertView
 					.findViewById(R.id.setQuantity_text);
-			setQuantity_text.setTypeface(_font);
+			setQuantity_text.setTypeface(mTypeface);
 
-			total_tag = (TextView) _view.findViewById(R.id.total_tag);
-			total_tag.setTypeface(_font);
+			total_tag = (TextView) convertView.findViewById(R.id.total_tag);
+			total_tag.setTypeface(mTypeface);
 
-			_total_amount = (TextView) _view.findViewById(R.id._total_amount);
-			_total_amount.setTypeface(_font);
+			_total_amount = (TextView) convertView.findViewById(R.id._total_amount);
+			_total_amount.setTypeface(mTypeface);
 
-			product_name = (TextView) _view.findViewById(R.id.set_product_name);
-			product_name.setTypeface(_font);
+			product_name = (TextView) convertView.findViewById(R.id.set_product_name);
+			product_name.setTypeface(mTypeface);
 
-			unitprice_tag = (TextView) _view.findViewById(R.id.unitprice_tag);
-			unitprice_tag.setTypeface(_font);
+			unitprice_tag = (TextView) convertView.findViewById(R.id.unitprice_tag);
+			unitprice_tag.setTypeface(mTypeface);
 
-			unit_price = (TextView) _view.findViewById(R.id.set_unit_price);
-			unit_price.setTypeface(_font);
+			unit_price = (TextView) convertView.findViewById(R.id.set_unit_price);
+			unit_price.setTypeface(mTypeface);
 
-			remove_text_click = (Button) _view
+			remove_text_click = (Button) convertView
 					.findViewById(R.id.remove_text_click);
-			remove_text_click.setTypeface(_font);
+			remove_text_click.setTypeface(mTypeface);
 
-			add_quantity = (Button) _view.findViewById(R.id.add_quantity);
-			add_quantity.setTypeface(_font);
+			add_quantity = (Button) convertView.findViewById(R.id.add_quantity);
+			add_quantity.setTypeface(mTypeface);
 
-			subtract_quantity = (Button) _view
+			subtract_quantity = (Button) convertView
 					.findViewById(R.id.subtract_quantity);
-			subtract_quantity.setTypeface(_font);
+			subtract_quantity.setTypeface(mTypeface);
 
 			OrderInfoModel obj = data.get(position);
 			remove_text_click.setTag(obj);
@@ -372,7 +373,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			String _pic = "https:" + obj.getProduct_image();
 			unit_price.setText(obj.getSales_price().replace("GD", "$"));
 			_total_amount.setText(obj.getTotal_price().replace("GD", "$"));
-			ImageView imageView = (ImageView) _view
+			ImageView imageView = (ImageView) convertView
 					.findViewById(R.id.my_oder_img);
 			AQuery aq = new AQuery(_mcontext);
 			aq.id(imageView).image(_pic);
@@ -398,7 +399,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 					Button cancel_password = (Button) view
 							.findViewById(R.id.cancel_password);
-					cancel_password.setTypeface(_font, Typeface.NORMAL);
+					cancel_password.setTypeface(mTypeface, Typeface.NORMAL);
 					cancel_password.setOnClickListener(new OnClickListener() {
 
 						@Override
@@ -411,7 +412,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 					Button reset_password = (Button) view
 							.findViewById(R.id.reset_password);
 					reset_password.setText("OK");
-					reset_password.setTypeface(_font, Typeface.BOLD);
+					reset_password.setTypeface(mTypeface, Typeface.BOLD);
 					reset_password.setOnClickListener(new OnClickListener() {
 
 						@Override
@@ -461,7 +462,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				}
 			});
 
-			return _view;
+			return convertView;
 		}
 
 	}
@@ -474,11 +475,10 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				Intent checkout = new Intent(getActivity(),
 						OrderDeliveryActiviy.class);
 				startActivity(checkout);
-				getActivity().overridePendingTransition(R.anim.push_out_to_right,
-						R.anim.push_out_to_left);
+				getActivity().overridePendingTransition(
+						R.anim.push_out_to_right, R.anim.push_out_to_left);
 			} else {
-				_msg = "your cart is empty";
-				responsePopup();
+				responsePopup("your cart is empty");
 			}
 
 			break;
@@ -527,25 +527,26 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/carts/";
-			String _userid = _getuserId;
-			String _token = _getToken;
+			String url = "https://www.brandsfever.com/api/v5/carts/";
+			String userid = mUserId;
+			String token = mToken;
 			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			BasicNameValuePair userid = new BasicNameValuePair("user_id",
-					_userid);
-			BasicNameValuePair token = new BasicNameValuePair("token", _token);
-			BasicNameValuePair action = new BasicNameValuePair("action",
+			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
+					userid);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
+					token);
+			BasicNameValuePair actionPair = new BasicNameValuePair("action",
 					_urACTION);
-			BasicNameValuePair quantity = new BasicNameValuePair("quantity",
-					_urQUAN);
-			BasicNameValuePair itempk = new BasicNameValuePair(
+			BasicNameValuePair quantityPair = new BasicNameValuePair(
+					"quantity", _urQUAN);
+			BasicNameValuePair itempkPair = new BasicNameValuePair(
 					"product_item_pk", _urPK);
-			_namevalueList.add(userid);
-			_namevalueList.add(token);
-			_namevalueList.add(action);
-			_namevalueList.add(quantity);
-			_namevalueList.add(itempk);
-			_updateResponse = _UPDATEProduct(_url, _namevalueList);
+			_namevalueList.add(useridPair);
+			_namevalueList.add(tokenPair);
+			_namevalueList.add(actionPair);
+			_namevalueList.add(quantityPair);
+			_namevalueList.add(itempkPair);
+			_updateResponse = updateProduct(url, _namevalueList);
 			return null;
 		}
 
@@ -563,11 +564,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 					Orderinfo.clear();
 					mOrderAdapter.notifyDataSetChanged();
 					new GetAllCarts().execute();
-					_msg = "Removed from cart!";
-					responsePopup();
 				} else {
-					_msg = jobj.getString("msg");
-					responsePopup();
+					responsePopup(jobj.getString("msg"));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -577,7 +575,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		}
 	}
 
-	public String _UPDATEProduct(String url, List<NameValuePair> _namevalueList) {
+	public String updateProduct(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -608,12 +606,12 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		return _Response;
 	}
 
-	public void responsePopup() {
+	public void responsePopup(String msg) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.error_popop,
 				(ViewGroup) getView().findViewById(R.id.relativeLayout1));
-		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText(_msg);
+		TextView msgView = (TextView) view.findViewById(R.id._seterrormsg);
+		msgView.setText(msg);
 		Toast toast = new Toast(getActivity());
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
