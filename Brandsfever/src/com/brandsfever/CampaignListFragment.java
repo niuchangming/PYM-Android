@@ -151,7 +151,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			String category = args.getString("category");
 
 			mCategoryUrl = "https://api-1.brandsfever.com/campaigns/channel/"
-					+ getActivity().getResources().getString(R.string.channel_code);
+					+ getActivity().getResources().getString(
+							R.string.channel_code);
 			if (category != null && category.length() > 0) {
 				mCategoryUrl = mCategoryUrl + "/category/" + category;
 			}
@@ -162,7 +163,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			new LoadProduct(mCategoryUrl).execute();
 		}
 	}
-	
+
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
@@ -220,7 +221,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView ends_in, discount_rate;
-			ImageView set_product_image;
+			ImageView productImageView;
 			Button go_for_sale;
 			View itemView;
 			if (convertView == null) {
@@ -243,12 +244,21 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			}
 
 			ends_in = (TextView) itemView.findViewById(R.id.set_time_left);
+			ends_in.setVisibility(View.VISIBLE);
 			discount_rate = (TextView) itemView.findViewById(R.id.set_discount);
-			set_product_image = (ImageView) itemView
+			discount_rate.setVisibility(View.VISIBLE);
+			productImageView = (ImageView) itemView
 					.findViewById(R.id.product_image);
+			productImageView.setTag(position);
+			productImageView.clearColorFilter();
 			go_for_sale = (Button) itemView.findViewById(R.id.go_for_sale);
+			go_for_sale.setVisibility(View.VISIBLE);
 			go_for_sale.setTag(position);
-			set_product_image.setTag(position);
+
+			TextView set_from = (TextView) itemView.findViewById(R.id.set_from);
+			TextView set_to = (TextView) itemView.findViewById(R.id.set_to);
+			set_from.setVisibility(View.GONE);
+			set_to.setVisibility(View.GONE);
 
 			Typeface mFont = Typeface.createFromAsset(
 					getActivity().getAssets(), "fonts/georgia.ttf");
@@ -322,9 +332,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 				ends_in.setVisibility(View.GONE);
 				discount_rate.setText(obj.getDiscount_text());
 				discount_rate.setVisibility(View.GONE);
-				TextView set_from = (TextView) itemView
-						.findViewById(R.id.set_from);
-				TextView set_to = (TextView) itemView.findViewById(R.id.set_to);
 				set_to.setTypeface(mFont, Typeface.NORMAL);
 				set_to.setText(_endDate);
 
@@ -336,21 +343,21 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 				String a = "https:" + obj.getTeaser_url();
 				go_for_sale.setTag(50000);
 				go_for_sale.setVisibility(View.GONE);
-				set_product_image.setTag(50000);
+				productImageView.setTag(50000);
 				AQuery aq = new AQuery(_scontext);
-				aq.id(set_product_image).image(a);
+				aq.id(productImageView).image(a);
 				ColorMatrix matrix = new ColorMatrix();
 				matrix.setSaturation(0);
 				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(
 						matrix);
-				set_product_image.setColorFilter(filter);
+				productImageView.setColorFilter(filter);
 				f_l.setBackgroundResource(R.drawable.green_base);
 			} else {
 				ends_in.setText(s);
 				discount_rate.setText(obj.getDiscount_text());
 				String a = "https:" + obj.getTeaser_url();
 				AQuery aq = new AQuery(_scontext);
-				aq.id(set_product_image).image(a);
+				aq.id(productImageView).image(a);
 			}
 
 			go_for_sale.setOnClickListener(new OnClickListener() {
@@ -377,7 +384,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 					}
 				}
 			});
-			set_product_image.setOnClickListener(new OnClickListener() {
+			productImageView.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -787,7 +794,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 	@Override
 	public void onRefresh() {
-		if(mCategoryUrl != null)
+		if (mCategoryUrl != null)
 			new LoadProduct(mCategoryUrl).execute();
 		new Handler().postDelayed(new Runnable() {
 			@Override
