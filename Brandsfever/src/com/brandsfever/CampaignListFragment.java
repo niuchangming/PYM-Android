@@ -600,8 +600,11 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			}
 
 			t = (TextView) itemView.findViewById(R.id.t);
+			t.setVisibility(View.VISIBLE);
 			ends_in = (TextView) itemView.findViewById(R.id.set_time);
+			ends_in.setVisibility(View.VISIBLE);
 			discount_rate = (TextView) itemView.findViewById(R.id.set_dicount);
+			discount_rate.setVisibility(View.VISIBLE);
 			Typeface mFont = Typeface.createFromAsset(
 					getActivity().getAssets(), "fonts/georgia.ttf");
 			ends_in.setTypeface(mFont);
@@ -610,8 +613,23 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.set_product_img);
 			imageView.setTag(position);
+			imageView.clearColorFilter();
 			go_for_sale = (ImageButton) itemView.findViewById(R.id.go_for_sale);
 			go_for_sale.setTag(position);
+			go_for_sale.setVisibility(View.VISIBLE);
+
+			TextView aa, ab, bb, ba;
+			aa = (TextView) itemView.findViewById(R.id.aa);
+			ab = (TextView) itemView.findViewById(R.id.ab);
+			bb = (TextView) itemView.findViewById(R.id.bb);
+			ba = (TextView) itemView.findViewById(R.id.ba);
+			RelativeLayout base_layout = (RelativeLayout) itemView
+					.findViewById(R.id.base_layout);
+			aa.setVisibility(View.GONE);
+			ab.setVisibility(View.GONE);
+			bb.setVisibility(View.GONE);
+			ba.setVisibility(View.GONE);
+
 			if (position % 7 == 0) {
 				ends_in.setBackgroundColor(Color.rgb(142, 19, 69));
 			} else if (position % 7 == 1) {
@@ -694,14 +712,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			String _startFrom = start_date + "\n" + _from;
 
 			if (start > currenttime) {
-				RelativeLayout base_layout = (RelativeLayout) itemView
-						.findViewById(R.id.base_layout);
 				base_layout.setBackgroundColor(Color.parseColor("#ADFF2F"));
-				TextView aa, ab, bb, ba;
-				aa = (TextView) itemView.findViewById(R.id.aa);
-				ab = (TextView) itemView.findViewById(R.id.ab);
-				bb = (TextView) itemView.findViewById(R.id.bb);
-				ba = (TextView) itemView.findViewById(R.id.ba);
 
 				aa.setTypeface(mFont, Typeface.NORMAL);
 				ab.setTypeface(mFont, Typeface.NORMAL);
@@ -733,6 +744,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 						matrix);
 				imageView.setColorFilter(filter);
 			} else {
+				base_layout.setBackgroundColor(Color.WHITE);
 				ends_in.setText(s);
 				discount_rate.setText(obj.getDiscount_text());
 				String imgUrl = "https:" + obj.getTeaser_url();
