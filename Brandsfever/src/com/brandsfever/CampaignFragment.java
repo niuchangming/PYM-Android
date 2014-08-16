@@ -17,11 +17,11 @@ public class CampaignFragment extends Fragment {
 	private String[] mCategories;
 	public ViewPager mViewPager;
 	private FrameLayout mLinearLayout;
+	private CampaignAdapter mAdapter;
+	private TabPageIndicator mIndicator;
 
 	public static CampaignFragment newInstance() {
-
 		CampaignFragment fragment = new CampaignFragment();
-
 		return fragment;
 	}
 
@@ -34,19 +34,12 @@ public class CampaignFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		if (mLinearLayout == null) {
-
 			mLinearLayout = (FrameLayout) inflater.inflate(
 					R.layout.fragment_campaign, container, false);
-			FragmentPagerAdapter adapter = new CampaignAdapter(getActivity()
-					.getSupportFragmentManager());
 			mViewPager = (ViewPager) mLinearLayout.findViewById(R.id.pager);
-			mViewPager.setAdapter(adapter);
-
-			TabPageIndicator indicator = (TabPageIndicator) mLinearLayout
+			mIndicator = (TabPageIndicator) mLinearLayout
 					.findViewById(R.id.indicator);
-			indicator.setViewPager(mViewPager);
 		}
 
 		return mLinearLayout;
@@ -55,6 +48,12 @@ public class CampaignFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if (mAdapter == null) {
+			mAdapter = new CampaignAdapter(getActivity()
+					.getSupportFragmentManager());
+			mViewPager.setAdapter(mAdapter);
+			mIndicator.setViewPager(mViewPager);
+		}
 	}
 
 	@Override
@@ -65,7 +64,7 @@ public class CampaignFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		((ViewGroup)mLinearLayout.getParent()).removeView(mLinearLayout);	
+		((ViewGroup) mLinearLayout.getParent()).removeView(mLinearLayout);
 	}
 
 	@Override

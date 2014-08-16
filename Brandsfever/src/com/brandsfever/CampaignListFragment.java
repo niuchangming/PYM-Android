@@ -66,7 +66,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	private ArrayList<ProductsDataModel> mCampaigns;
 	private SwipeRefreshLayout mSwipeLayout;
 	private BaseAdapter mAdapter;
-	private String mCategoryName;
+	private String mCategoryUrl;
 	private boolean mIsVisible;
 	private boolean mIsFirstLoad;
 
@@ -90,12 +90,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		if (mCategoryName == null) {
-			Bundle args = getArguments();
-			mCategoryName = args.getString("category");
-			mIsFirstLoad = true;
-		}
-
+		Log.e(TAG,"onCreateView");
 		if (mSwipeLayout == null) {
 
 			mSwipeLayout = (SwipeRefreshLayout) inflater.inflate(
@@ -144,13 +139,32 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			// }
 			// });
 		}
-		if (mIsFirstLoad) {
-			new LoadProduct(mCategoryName).execute();
-		} 
 
 		return mSwipeLayout;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		Log.e(TAG, "onActivityCreated");
+		if (mCategoryUrl == null) {
+			Bundle args = getArguments();
+			String category = args.getString("category");
+
+			mCategoryUrl = "https://api-1.brandsfever.com/campaigns/channel/"
+					+ getActivity().getResources().getString(R.string.channel_code);
+			if (category != null && category.length() > 0) {
+				mCategoryUrl = mCategoryUrl + "/category/" + category;
+			}
+			mIsFirstLoad = true;
+		}
+
+		if (mIsFirstLoad) {
+			new LoadProduct(mCategoryUrl).execute();
+		}
+	}
+	
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
@@ -170,7 +184,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		((ViewGroup)mSwipeLayout.getParent()).removeView(mSwipeLayout);	
+		((ViewGroup) mSwipeLayout.getParent()).removeView(mSwipeLayout);
 	}
 
 	@Override
@@ -408,10 +422,10 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			AsyncTask<Void, Void, ArrayList<ProductsDataModel>> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
-		String mCategoryName;
+		String mCategoryURL;
 
 		LoadProduct(String category) {
-			mCategoryName = category;
+			mCategoryURL = category;
 		}
 
 		@Override
@@ -436,13 +450,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 		@Override
 		protected ArrayList<ProductsDataModel> doInBackground(Void... arg0) {
 
-			String url_campaigns = "https://api-1.brandsfever.com/campaigns/channel/"
-					+ getActivity().getResources().getString(
-							R.string.channel_code);
-			if (mCategoryName != null && mCategoryName.length() > 0) {
-				url_campaigns = url_campaigns + "/category/" + mCategoryName;
-			}
-			ArrayList<ProductsDataModel> campaigns = getProducts(url_campaigns);
+			ArrayList<ProductsDataModel> campaigns = getProducts(mCategoryURL);
 			return campaigns;
 		}
 
@@ -781,7 +789,8 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 
 	@Override
 	public void onRefresh() {
-		new LoadProduct(mCategoryName).execute();
+		if(mCategoryUrl != null)
+			new LoadProduct(mCategoryUrl).execute();
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
