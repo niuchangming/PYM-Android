@@ -78,8 +78,15 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 
 		if (mView == null) {
-			mView = (RelativeLayout) inflater.inflate(
-					R.layout.activity_my_cart_screen, container, false);
+
+			int a = DataHolderClass.getInstance().get_deviceInch();
+			if (a < 7) {
+				mView = (RelativeLayout) inflater.inflate(R.layout.activity_my_cart_screen, container, false);
+			} else if (a >= 7 && a < 9) {
+				mView = (RelativeLayout) inflater.inflate(R.layout.seven_inch_my_cart_screen, container, false);
+			} else if (a >= 9) {
+				mView = (RelativeLayout) inflater.inflate(R.layout.my_cart_screen_tab, container, false);
+			}
 			shiping_fee_tag = (TextView) mView
 					.findViewById(R.id.shiping_fee_tag);
 			shiping_fee_amount = (TextView) mView
@@ -307,7 +314,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			TextView Quantity_tag, setQuantity_text, total_tag, _total_amount, product_name, unitprice_tag, unit_price;
 			Button remove_text_click, add_quantity, subtract_quantity;
 			if (convertView == null) {
-				if (DataHolderClass.getInstance().get_deviceInch() <= 7) {
+				if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 					inflater = (LayoutInflater) _mcontext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
@@ -331,7 +338,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 							parent, false);
 				}
 			}
-			Quantity_tag = (TextView) convertView.findViewById(R.id.Quantity_tag);
+			Quantity_tag = (TextView) convertView
+					.findViewById(R.id.Quantity_tag);
 			Quantity_tag.setTypeface(mTypeface);
 
 			setQuantity_text = (TextView) convertView
@@ -341,16 +349,20 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			total_tag = (TextView) convertView.findViewById(R.id.total_tag);
 			total_tag.setTypeface(mTypeface);
 
-			_total_amount = (TextView) convertView.findViewById(R.id._total_amount);
+			_total_amount = (TextView) convertView
+					.findViewById(R.id._total_amount);
 			_total_amount.setTypeface(mTypeface);
 
-			product_name = (TextView) convertView.findViewById(R.id.set_product_name);
+			product_name = (TextView) convertView
+					.findViewById(R.id.set_product_name);
 			product_name.setTypeface(mTypeface);
 
-			unitprice_tag = (TextView) convertView.findViewById(R.id.unitprice_tag);
+			unitprice_tag = (TextView) convertView
+					.findViewById(R.id.unitprice_tag);
 			unitprice_tag.setTypeface(mTypeface);
 
-			unit_price = (TextView) convertView.findViewById(R.id.set_unit_price);
+			unit_price = (TextView) convertView
+					.findViewById(R.id.set_unit_price);
 			unit_price.setTypeface(mTypeface);
 
 			remove_text_click = (Button) convertView

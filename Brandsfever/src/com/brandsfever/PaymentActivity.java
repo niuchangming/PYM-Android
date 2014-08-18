@@ -105,7 +105,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			setContentView(R.layout.activity_payment_screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-			setContentView(R.layout.payment_order_info_inflator_tablet);
+			setContentView(R.layout.seven_inch_payment_screen);
 			_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 			color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 			colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
@@ -292,7 +292,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -553,7 +552,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -767,7 +765,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
