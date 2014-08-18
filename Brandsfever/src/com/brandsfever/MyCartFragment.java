@@ -68,10 +68,10 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	public static ArrayList<OrderInfoModel> Orderinfo = new ArrayList<OrderInfoModel>();
 	private ListView mOrderListView;
 	MyCartAdapter mOrderAdapter;
-	private String shipping_fee, total_price, _pk;
-	private String _updateResponse;
+	private String mShippingFee, mTotalPrice, mPK;
+	private String mUpdateResponse;
 
-	int _display_items = 0;
+	int mDisplayItems = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -156,7 +156,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 		@Override
 		protected void onPreExecute() {
-			_display_items = 0;
+			mDisplayItems = 0;
 			mProgressHUD = ProgressHUD.show(getActivity(), "Loading", true,
 					true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -190,12 +190,12 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		protected void onPostExecute(String result) {
 			if (Orderinfo.size() > 0) {
 
-				item_count_tag.setText("" + _display_items + " " + "items(s)");
+				item_count_tag.setText("" + mDisplayItems + " " + "items(s)");
 				item_count_tag.setTypeface(mTypeface, Typeface.NORMAL);
-				shiping_fee_amount.setText(shipping_fee.replace("GD", "$"));
+				shiping_fee_amount.setText(mShippingFee.replace("GD", "$"));
 
-				payable_amount.setText(total_price.replace("GD", "$"));
-				DataHolderClass.getInstance().setFinal_cart_pk(_pk);
+				payable_amount.setText(mTotalPrice.replace("GD", "$"));
+				DataHolderClass.getInstance().setFinal_cart_pk(mPK);
 				mOrderAdapter.notifyDataSetChanged();
 
 			} else {
@@ -236,32 +236,32 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				if (ret.equals("0") && msg.equalsIgnoreCase("ok")) {
 					JSONArray carts = obj.getJSONArray("carts");
 					for (int i = 0; i < carts.length(); i++) {
-						JSONObject _obj = carts.getJSONObject(i);
-						_pk = _obj.getString("pk");
-						shipping_fee = _obj.getString("shipping_fee");
-						total_price = _obj.getString("total_price");
+						JSONObject cart = carts.getJSONObject(i);
+						mPK = cart.getString("pk");
+						mShippingFee = cart.getString("shipping_fee");
+						mTotalPrice = cart.getString("total_price");
 
-						JSONArray _getcartitems = _obj
+						JSONArray cartitems = cart
 								.getJSONArray("cart_items");
-						for (int j = 0; j < _getcartitems.length(); j++) {
-							JSONObject _objs = _getcartitems.getJSONObject(j);
-							String product_image = _objs
+						for (int j = 0; j < cartitems.length(); j++) {
+							JSONObject product = cartitems.getJSONObject(j);
+							String product_image = product
 									.getString("product_image");
-							String _totalprice = _objs.getString("total_price");
-							String product_item_pk = _objs
+							String totalprice = product.getString("total_price");
+							String product_item_pk = product
 									.getString("product_item_pk");
-							String sales_price = _objs.getString("sales_price");
-							String pk = _objs.getString("pk");
-							String quantity = _objs.getString("quantity");
-							_display_items = (_display_items + Integer
+							String sales_price = product.getString("sales_price");
+							String pk = product.getString("pk");
+							String quantity = product.getString("quantity");
+							mDisplayItems = (mDisplayItems + Integer
 									.valueOf(quantity));
-							String product_name = _objs
+							String product_name = product
 									.getString("product_name");
-							String campaign_pk = _objs.getString("campaign_pk");
+							String campaign_pk = product.getString("campaign_pk");
 
 							OrderInfoModel model = new OrderInfoModel();
 							model.setProduct_image(product_image);
-							model.setTotal_price(_totalprice);
+							model.setTotal_price(totalprice);
 							model.setProduct_item_pk(product_item_pk);
 							model.setSales_price(sales_price);
 							model.setPk(pk);
@@ -282,13 +282,13 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	}
 
 	public class MyCartAdapter extends BaseAdapter {
-		Context _mcontext = null;
+		Context mContext = null;
 		LayoutInflater inflater;
 		ArrayList<OrderInfoModel> data;
 
 		public MyCartAdapter(Context context,
 				ArrayList<OrderInfoModel> arraylist) {
-			this._mcontext = context;
+			this.mContext = context;
 			this.data = arraylist;
 		}
 
@@ -311,11 +311,11 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
 
-			TextView Quantity_tag, setQuantity_text, total_tag, _total_amount, product_name, unitprice_tag, unit_price;
+			TextView Quantity_tag, setQuantity_text, total_tag, total_amount, product_name, unitprice_tag, unit_price;
 			Button remove_text_click, add_quantity, subtract_quantity;
 			if (convertView == null) {
 				if (DataHolderClass.getInstance().get_deviceInch() < 7) {
-					inflater = (LayoutInflater) _mcontext
+					inflater = (LayoutInflater) mContext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
 					convertView = inflater.inflate(
@@ -323,7 +323,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 						&& DataHolderClass.getInstance().get_deviceInch() < 9) {
-					inflater = (LayoutInflater) _mcontext
+					inflater = (LayoutInflater) mContext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
 					convertView = inflater.inflate(
@@ -331,7 +331,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				}
 
 				else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
-					inflater = (LayoutInflater) _mcontext
+					inflater = (LayoutInflater) mContext
 							.getApplicationContext().getSystemService(
 									Context.LAYOUT_INFLATER_SERVICE);
 					convertView = inflater.inflate(R.layout.my_cart_inflator,
@@ -349,9 +349,9 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			total_tag = (TextView) convertView.findViewById(R.id.total_tag);
 			total_tag.setTypeface(mTypeface);
 
-			_total_amount = (TextView) convertView
+			total_amount = (TextView) convertView
 					.findViewById(R.id._total_amount);
-			_total_amount.setTypeface(mTypeface);
+			total_amount.setTypeface(mTypeface);
 
 			product_name = (TextView) convertView
 					.findViewById(R.id.set_product_name);
@@ -384,10 +384,10 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			product_name.setText(obj.getProduct_name());
 			String _pic = "https:" + obj.getProduct_image();
 			unit_price.setText(obj.getSales_price().replace("GD", "$"));
-			_total_amount.setText(obj.getTotal_price().replace("GD", "$"));
+			total_amount.setText(obj.getTotal_price().replace("GD", "$"));
 			ImageView imageView = (ImageView) convertView
 					.findViewById(R.id.my_oder_img);
-			AQuery aq = new AQuery(_mcontext);
+			AQuery aq = new AQuery(mContext);
 			aq.id(imageView).image(_pic);
 
 			remove_text_click.setOnClickListener(new OnClickListener() {
@@ -395,19 +395,19 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 				public void onClick(View v) {
 
 					OrderInfoModel obj = (OrderInfoModel) v.getTag();
-					final String _sendAction = "remove_product";
-					final String _sendquantity = "";
-					final String _senditempk = obj.getProduct_item_pk();
-					View view = View.inflate(_mcontext, R.layout.call_settings,
+					final String sendAction = "remove_product";
+					final String sendquantity = "";
+					final String senditempk = obj.getProduct_item_pk();
+					View view = View.inflate(mContext, R.layout.call_settings,
 							null);
 					final PopupWindow pwindo = new PopupWindow(view,
 							LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT, true);
 					pwindo.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-					TextView _message = (TextView) view
+					TextView message = (TextView) view
 							.findViewById(R.id.textview_popup);
-					_message.setText("Are you sure you want to delete this \n product?");
+					message.setText("Are you sure you want to delete this \n product?");
 
 					Button cancel_password = (Button) view
 							.findViewById(R.id.cancel_password);
@@ -430,8 +430,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 						@Override
 						public void onClick(View v) {
 							pwindo.dismiss();
-							new RemoveOrUpdateProduct(_sendAction,
-									_sendquantity, _senditempk).execute();
+							new RemoveOrUpdateProduct(sendAction,
+									sendquantity, senditempk).execute();
 						}
 					});
 
@@ -442,15 +442,15 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 				@Override
 				public void onClick(View v) {
-					String _sendAction = "update_product";
+					String sendAction = "update_product";
 					OrderInfoModel obj = (OrderInfoModel) v.getTag();
 					int temp = Integer.parseInt(obj.getQuantity());
 					int temap1 = temp + 1;
-					String _sendquantity = String.valueOf(temap1);
-					String _senditempk = obj.getProduct_item_pk();
+					String sendquantity = String.valueOf(temap1);
+					String senditempk = obj.getProduct_item_pk();
 
-					new RemoveOrUpdateProduct(_sendAction, _sendquantity,
-							_senditempk).execute();
+					new RemoveOrUpdateProduct(sendAction, sendquantity,
+							senditempk).execute();
 
 				}
 			});
@@ -459,16 +459,16 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 				@Override
 				public void onClick(View v) {
-					String _sendAction = "update_product";
+					String sendAction = "update_product";
 					OrderInfoModel obj = (OrderInfoModel) v.getTag();
 					int temp = Integer.parseInt(obj.getQuantity());
 					int temap1 = temp - 1;
-					String _sendquantity = String.valueOf(temap1);
-					String _senditempk = obj.getProduct_item_pk();
-					if (_sendquantity.equals("0")) {
+					String sendquantity = String.valueOf(temap1);
+					String senditempk = obj.getProduct_item_pk();
+					if (sendquantity.equals("0")) {
 					} else {
-						new RemoveOrUpdateProduct(_sendAction, _sendquantity,
-								_senditempk).execute();
+						new RemoveOrUpdateProduct(sendAction, sendquantity,
+								senditempk).execute();
 
 					}
 				}
@@ -509,15 +509,15 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	public class RemoveOrUpdateProduct extends
 			AsyncTask<String, String, String> implements OnCancelListener {
 		ProgressHUD mProgressHUD;
-		String _urPK;
-		String _urACTION;
-		String _urQUAN;
+		String mPK;
+		String mAction;
+		String mProductQuantity;
 
-		public RemoveOrUpdateProduct(String _action, String _quan,
-				String _sendpk) {
-			_urACTION = _action;
-			_urPK = _sendpk;
-			_urQUAN = _quan;
+		public RemoveOrUpdateProduct(String action, String quan,
+				String sendpk) {
+			mAction = action;
+			mPK = sendpk;
+			mProductQuantity = quan;
 		}
 
 		@Override
@@ -542,23 +542,23 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			String url = "https://www.brandsfever.com/api/v5/carts/";
 			String userid = mUserId;
 			String token = mToken;
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
 					userid);
 			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
 					token);
 			BasicNameValuePair actionPair = new BasicNameValuePair("action",
-					_urACTION);
+					mAction);
 			BasicNameValuePair quantityPair = new BasicNameValuePair(
-					"quantity", _urQUAN);
+					"quantity", mProductQuantity);
 			BasicNameValuePair itempkPair = new BasicNameValuePair(
-					"product_item_pk", _urPK);
-			_namevalueList.add(useridPair);
-			_namevalueList.add(tokenPair);
-			_namevalueList.add(actionPair);
-			_namevalueList.add(quantityPair);
-			_namevalueList.add(itempkPair);
-			_updateResponse = updateProduct(url, _namevalueList);
+					"product_item_pk", mPK);
+			namevalueList.add(useridPair);
+			namevalueList.add(tokenPair);
+			namevalueList.add(actionPair);
+			namevalueList.add(quantityPair);
+			namevalueList.add(itempkPair);
+			mUpdateResponse = updateProduct(url, namevalueList);
 			return null;
 		}
 
@@ -570,7 +570,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			try {
-				JSONObject jobj = new JSONObject(_updateResponse);
+				JSONObject jobj = new JSONObject(mUpdateResponse);
 				String _Ret = jobj.getString("ret");
 				if (_Ret.equals("0")) {
 					Orderinfo.clear();
@@ -588,34 +588,34 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 	}
 
 	public String updateProduct(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpClient = HttpsClient.getNewHttpClient();
+		HttpPost httpPost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httpPost.setEntity(new UrlEncodedFormEntity(_namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
+			if (responseCode == 200) {
+				InputStream inputStream = httpResponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputStream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
+				response = total.toString();
 			} else {
-				_Response = "Error";
+				response = "Error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
 	public void responsePopup(String msg) {
