@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -57,7 +58,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 	Context _ctx = OrderDeliveryActiviy.this;
 	TextView title_tag, billing_addrress, sameas_billing_tag;
 	Typeface _font;
-	ImageButton send_to_thid_address;
+	Button send_to_this_address;
 	SharedPreferences _mypref;
 	String _getToken = "";
 	String _getuserId = "";
@@ -171,8 +172,9 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		bcountry.setTypeface(_font, Typeface.NORMAL);
 		bphone_nummber.setTypeface(_font, Typeface.NORMAL);
 
-		send_to_thid_address = (ImageButton) findViewById(R.id.send_to_thid_address);
-		send_to_thid_address.setOnClickListener(this);
+		send_to_this_address = (Button) findViewById(R.id.send_to_this_address);
+		send_to_this_address.setOnClickListener(this);
+		send_to_this_address.setTypeface(_font,Typeface.NORMAL);
 	}
 
 	@Override
@@ -189,7 +191,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 
-		case R.id.send_to_thid_address:
+		case R.id.send_to_this_address:
 			_fname = first_name.getText().toString();
 			_lname = last_name.getText().toString();
 			_address = address.getText().toString();

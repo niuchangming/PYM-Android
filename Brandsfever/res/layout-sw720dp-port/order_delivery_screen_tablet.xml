@@ -323,14 +323,17 @@
             android:layout_below="@+id/fourS"
             android:layout_marginTop="50dp" >
 
-            <ImageButton
-                android:id="@+id/send_to_thid_address"
+            <Button
+                android:id="@+id/send_to_this_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/shippadrr"
+                android:background="@color/gold"
                 android:contentDescription="@string/brandsfever"
-                android:scaleType="fitXY" />
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Ship To This Address"
+                android:textColor="@color/white" />
         </RelativeLayout>
 
         <RelativeLayout

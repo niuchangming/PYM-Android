@@ -66,9 +66,9 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_height="30dp"
                     android:orientation="horizontal" >
 
                     <CheckBox
@@ -76,11 +76,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:checked="true"
                         android:button="@drawable/check_box_bg"
+                        android:checked="true"
+                        android:gravity="center"
                         android:scaleX="1"
-                        android:scaleY="1"/>
+                        android:scaleY="1" />
 
                     <TextView
                         android:id="@+id/sameas_billing_tag"
@@ -321,19 +321,22 @@
             android:id="@+id/fiveS"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
+            android:layout_below="@+id/fourS"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_below="@+id/fourS"
             android:layout_marginTop="30dp" >
 
-            <ImageButton
-                android:id="@+id/send_to_thid_address"
+            <Button
+                android:id="@+id/send_to_this_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@drawable/shippadrr"
+                android:background="@color/gold"
+                android:textColor="@color/white"
                 android:contentDescription="@string/brandsfever"
-                android:scaleType="fitXY" />
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Ship To This Address" />
         </RelativeLayout>
 
         <RelativeLayout
