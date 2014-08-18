@@ -3,5 +3,7 @@
 
     <color name="menu_list_text_color">#FFD1D1D1</color>
     <color name="black">#FF000000</color>
-
+    <color name="gold">#F7941D</color>
+    <color name="white">#FFFFFF</color>
+	<color name="purple">#FF8E1345</color>
 </resources>

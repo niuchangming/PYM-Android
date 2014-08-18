@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -58,7 +57,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 	private static final String TAG = "MyCartFragment";
 	private RelativeLayout mView;
-	private ImageButton continue_shoping, checkout_cart;
+	private Button mContinueShopping, mCheckOutCart;
 	private TextView shiping_fee_tag, shiping_fee_amount, payable_amount_tag,
 			payable_amount, cart_summery_tag, item_count_tag;
 	SharedPreferences mPref;
@@ -81,11 +80,14 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 
 			int a = DataHolderClass.getInstance().get_deviceInch();
 			if (a < 7) {
-				mView = (RelativeLayout) inflater.inflate(R.layout.activity_my_cart_screen, container, false);
+				mView = (RelativeLayout) inflater.inflate(
+						R.layout.activity_my_cart_screen, container, false);
 			} else if (a >= 7 && a < 9) {
-				mView = (RelativeLayout) inflater.inflate(R.layout.seven_inch_my_cart_screen, container, false);
+				mView = (RelativeLayout) inflater.inflate(
+						R.layout.seven_inch_my_cart_screen, container, false);
 			} else if (a >= 9) {
-				mView = (RelativeLayout) inflater.inflate(R.layout.my_cart_screen_tab, container, false);
+				mView = (RelativeLayout) inflater.inflate(
+						R.layout.my_cart_screen_tab, container, false);
 			}
 			shiping_fee_tag = (TextView) mView
 					.findViewById(R.id.shiping_fee_tag);
@@ -98,12 +100,11 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 					.findViewById(R.id.cart_summery_tag);
 			item_count_tag = (TextView) mView.findViewById(R.id.item_count_tag);
 			mOrderListView = (ListView) mView.findViewById(R.id.mycartlist);
-			checkout_cart = (ImageButton) mView
-					.findViewById(R.id.checkout_cart);
-			checkout_cart.setOnClickListener(this);
-			continue_shoping = (ImageButton) mView
-					.findViewById(R.id.continue_shoping);
-			continue_shoping.setOnClickListener(this);
+			mCheckOutCart = (Button) mView.findViewById(R.id.checkout_cart);
+			mCheckOutCart.setOnClickListener(this);
+			mContinueShopping = (Button) mView
+					.findViewById(R.id.continue_shopping);
+			mContinueShopping.setOnClickListener(this);
 		}
 
 		return mView;
@@ -120,6 +121,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			payable_amount_tag.setTypeface(mTypeface, Typeface.NORMAL);
 			payable_amount.setTypeface(mTypeface, Typeface.NORMAL);
 			cart_summery_tag.setTypeface(mTypeface, Typeface.NORMAL);
+			mContinueShopping.setTypeface(mTypeface, Typeface.NORMAL);
+			mCheckOutCart.setTypeface(mTypeface, Typeface.NORMAL);
 		}
 		if (mPref == null) {
 			mPref = getActivity().getApplicationContext().getSharedPreferences(
@@ -241,23 +244,25 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 						mShippingFee = cart.getString("shipping_fee");
 						mTotalPrice = cart.getString("total_price");
 
-						JSONArray cartitems = cart
-								.getJSONArray("cart_items");
+						JSONArray cartitems = cart.getJSONArray("cart_items");
 						for (int j = 0; j < cartitems.length(); j++) {
 							JSONObject product = cartitems.getJSONObject(j);
 							String product_image = product
 									.getString("product_image");
-							String totalprice = product.getString("total_price");
+							String totalprice = product
+									.getString("total_price");
 							String product_item_pk = product
 									.getString("product_item_pk");
-							String sales_price = product.getString("sales_price");
+							String sales_price = product
+									.getString("sales_price");
 							String pk = product.getString("pk");
 							String quantity = product.getString("quantity");
 							mDisplayItems = (mDisplayItems + Integer
 									.valueOf(quantity));
 							String product_name = product
 									.getString("product_name");
-							String campaign_pk = product.getString("campaign_pk");
+							String campaign_pk = product
+									.getString("campaign_pk");
 
 							OrderInfoModel model = new OrderInfoModel();
 							model.setProduct_image(product_image);
@@ -430,8 +435,8 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 						@Override
 						public void onClick(View v) {
 							pwindo.dismiss();
-							new RemoveOrUpdateProduct(sendAction,
-									sendquantity, senditempk).execute();
+							new RemoveOrUpdateProduct(sendAction, sendquantity,
+									senditempk).execute();
 						}
 					});
 
@@ -494,10 +499,20 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			}
 
 			break;
-		case R.id.continue_shoping:
-			Intent continueshop = new Intent(getActivity(),
-					ProductDisplay.class);
-			startActivity(continueshop);
+		case R.id.continue_shopping:
+			
+			if(getActivity() instanceof ProductDisplay){
+
+				ProductDisplay pd = (ProductDisplay)getActivity();
+				if (pd.mCampaignFragment == null) {
+					CampaignFragment campaign = CampaignFragment.newInstance();
+					pd.mCampaignFragment = campaign;
+				}
+				pd.switchContent(pd.mCampaignFragment);
+				
+			} else if(getActivity() instanceof MyCartActivity) {
+				getActivity().finish();
+			}
 			break;
 
 		default:
@@ -513,8 +528,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 		String mAction;
 		String mProductQuantity;
 
-		public RemoveOrUpdateProduct(String action, String quan,
-				String sendpk) {
+		public RemoveOrUpdateProduct(String action, String quan, String sendpk) {
 			mAction = action;
 			mPK = sendpk;
 			mProductQuantity = quan;
@@ -599,8 +613,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			int responseCode = httpResponse.getStatusLine().getStatusCode();
 			if (responseCode == 200) {
-				InputStream inputStream = httpResponse.getEntity()
-						.getContent();
+				InputStream inputStream = httpResponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
 						inputStream));
 				StringBuilder total = new StringBuilder();

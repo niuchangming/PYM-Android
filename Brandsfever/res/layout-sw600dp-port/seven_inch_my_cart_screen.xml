@@ -107,28 +107,32 @@
                     android:orientation="horizontal"
                     android:weightSum="4" >
 
-                    <ImageButton
-                        android:id="@+id/continue_shoping"
+                    <Button
+                        android:id="@+id/continue_shopping"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:contentDescription="@string/brandsfever"
-                        android:layout_marginRight="15dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="7dp"
                         android:layout_weight="1.2"
-                        android:background="@drawable/continue_shop_btn" />
+                        android:background="@color/gold"
+                        android:contentDescription="@string/brandsfever"
+                        android:text="Continue Shopping"
+                        android:textColor="@color/white" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/checkout_cart"
                         android:layout_width="0dp"
-                        android:contentDescription="@string/brandsfever"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="7dp"
                         android:layout_weight="1.2"
-                        android:background="@drawable/chakou" />
+                        android:background="@color/gold"
+                        android:contentDescription="@string/brandsfever"
+                        android:text="Checkout This Cart"
+                        android:textColor="@color/white" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="60dp"
-                        android:layout_marginLeft="40dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_weight="1.6" >
 
                         <TextView
@@ -139,19 +143,19 @@
                             android:layout_alignParentTop="true"
                             android:gravity="right"
                             android:text="Shipping:"
-                            android:textColor="#ff8e1345"
-                            android:textSize="21sp"
+                            android:textColor="@color/purple"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/payable_amount_tag"
-                            android:layout_width="220dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:text="Payable Amount:"
-                            android:textColor="#000"
-                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -159,24 +163,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginLeft="150dp"
-                            android:layout_toRightOf="@+id/shiping_fee_amount"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/payable_amount_tag"
                             android:text="S$0"
-                            android:textColor="#000"
-                            android:textSize="17sp" />
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/shiping_fee_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:layout_marginLeft="23dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/shiping_fee_tag"
                             android:text="S$0"
-                            android:textColor="#ff8e1345"
-                            android:textSize="17sp" />
-
+                            android:textColor="@color/purple"
+                            android:textSize="14sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

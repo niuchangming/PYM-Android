@@ -107,23 +107,27 @@
                     android:orientation="horizontal"
                     android:weightSum="4" >
 
-                    <ImageButton
-                        android:id="@+id/continue_shoping"
+                    <Button
+                        android:id="@+id/continue_shopping"
                         android:layout_width="0dp"
                         android:layout_height="60dp"
-                        android:contentDescription="@string/brandsfever"
                         android:layout_marginRight="15dp"
                         android:layout_weight="1.2"
-                        android:background="@drawable/continue_shop_btn" />
+                        android:background="@color/gold"
+                        android:contentDescription="@string/brandsfever"
+                        android:text="Checkout This Cart"
+                        android:textColor="@color/white" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/checkout_cart"
                         android:layout_width="0dp"
-                        android:contentDescription="@string/brandsfever"
                         android:layout_height="60dp"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1.2"
-                        android:background="@drawable/chakou" />
+                        android:background="@color/gold"
+                        android:contentDescription="@string/brandsfever"
+                        android:text="Checkout This Cart"
+                        android:textColor="@color/white" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -176,7 +180,6 @@
                             android:text="S$0"
                             android:textColor="#ff8e1345"
                             android:textSize="17sp" />
-
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

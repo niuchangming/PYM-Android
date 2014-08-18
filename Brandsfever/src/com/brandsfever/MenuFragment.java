@@ -84,7 +84,7 @@ public class MenuFragment extends ListFragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		((ViewGroup)mListView.getParent()).removeView(mListView);
+		((ViewGroup) mListView.getParent()).removeView(mListView);
 	}
 
 	public void resetMenu() {
