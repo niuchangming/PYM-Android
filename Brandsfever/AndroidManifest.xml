@@ -165,6 +165,12 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
+            android:name="com.brandsfever.PayWithCreditCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
             android:name="com.brandsfever.InviteFragment"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme"

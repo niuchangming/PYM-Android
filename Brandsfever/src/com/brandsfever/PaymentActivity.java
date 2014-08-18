@@ -456,17 +456,22 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pay_with_paypal:
-			Intent payIntent = new Intent(PaymentActivity.this,
+			Intent payWithPaypalIntent = new Intent(PaymentActivity.this,
 					PayWithPaypalActivity.class);
-			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
-			startActivity(payIntent);
+			payWithPaypalIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
+			startActivity(payWithPaypalIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			break;
 
 			
 		case R.id.pay_with_credit_card:
-			Log.e(TAG, "Pay with credit card.");
+			Intent payWithCreditCardIntent = new Intent(PaymentActivity.this,
+					PayWithCreditCardActivity.class);
+			payWithCreditCardIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
+			startActivity(payWithCreditCardIntent);
+			overridePendingTransition(R.anim.push_out_to_right,
+					R.anim.push_out_to_left);
 			break;
 			
 		case R.id.apply_promo_code:
