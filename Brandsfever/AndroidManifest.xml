@@ -47,131 +47,156 @@
         <activity
             android:name="com.brandsfever.ProductListing"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.SingleProductDisplay"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.SettingPhone"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.SettingTab"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.AboutApp"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.PrivatePolicy"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.TermsConditions"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.Faq"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.TwitterLogin"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.MyAccount"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.Edit_Profile"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.ChangePassword"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.StoreCredis_SettingPage"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.MyOrderHistory"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.PhoneLoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.DialogFragmentWindow"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.MyCartFragment"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.OrderDeliveryActiviy"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.PaymentActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.PayWithPaypalActivity"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.brandsfever.InviteFragment"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.brandsfever.TenInch_login"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Animation.Translucent"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.brandsfever.GetFacebookData"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.brandsfever.ZoomShow"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.brandsfever.SendInviteActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.brandsfever.People_I_Invited"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
@@ -187,10 +212,12 @@
         <activity
             android:name="com.brandsfever.SupportActivity"
             android:label="@string/title_activity_support"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.brandsfever.MyCartActivity"
+            android:theme="@style/NewAppTheme"
             android:screenOrientation="portrait" >
         </activity>
     </application>

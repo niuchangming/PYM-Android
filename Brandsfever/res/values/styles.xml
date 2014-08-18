@@ -83,8 +83,13 @@
 
     <style name="NewAppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <item name="android:editTextStyle">@style/AppEditTextStyle</item>
     </style>
 
+    <style name="AppEditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
     </style>
