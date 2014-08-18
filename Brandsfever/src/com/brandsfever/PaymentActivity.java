@@ -91,7 +91,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 	String _getPromoCode;
 	Button cancel_dialouge;
 	LinearLayout remove_SC, apply_SC;
-	int color, colors;
 	double _setCamount;
 
 	String ch_totalprice;
@@ -107,8 +106,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 			setContentView(R.layout.seven_inch_payment_screen);
 			_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-			color = Integer.parseInt("8e1345", 16) + 0xFF000000;
-			colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 			set_quantity_tag = (TextView) findViewById(R.id.set_quantity_tag);
 			set_quantity_tag.setTypeface(_font, Typeface.NORMAL);
 			set_unitprice_tag = (TextView) findViewById(R.id.set_unitprice_tag);
