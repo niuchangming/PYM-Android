@@ -27,6 +27,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -70,7 +71,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			set_campaign_tag, set_product_tag;
 	TextView set_quantity_tag, set_unitprice_tag, set_totalprice_tag,
 			store_credit_tag;
-	ImageButton pay_with_paypal;
+	Button pay_with_paypal, pay_with_credit;
 	String _ResponseFromServer, _ResponseFromServerCredits;
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -100,7 +101,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+		if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 			setContentView(R.layout.activity_payment_screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
@@ -225,9 +226,14 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		remove_pcode = (Button) findViewById(R.id.remove_pcode);
 		remove_pcode.setOnClickListener(this);
 
-		pay_with_paypal = (ImageButton) findViewById(R.id.pay_with_paypal);
+		pay_with_paypal = (Button) findViewById(R.id.pay_with_paypal);
+		pay_with_paypal.setTypeface(_font);
 		pay_with_paypal.setOnClickListener(this);
 
+		pay_with_credit = (Button) findViewById(R.id.pay_with_credit_card);
+		pay_with_credit.setTypeface(_font);
+		pay_with_credit.setOnClickListener(this);
+		
 		new GetPaymentState().execute();
 
 		set_orders.setOnTouchListener(new OnTouchListener() {
@@ -458,6 +464,11 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 					R.anim.push_out_to_left);
 			break;
 
+			
+		case R.id.pay_with_credit_card:
+			Log.e(TAG, "Pay with credit card.");
+			break;
+			
 		case R.id.apply_promo_code:
 			String _action = "promo_code_add";
 			_getPromoCode = enter_promo_code.getText().toString();

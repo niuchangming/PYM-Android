@@ -29,262 +29,269 @@
             android:layout_centerInParent="true" >
 
             <LinearLayout
-                android:id="@+id/two"
+                android:id="@+id/scrollView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:id="@+id/Three"
+                    android:id="@+id/two"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:orientation="vertical" >
 
-                    <TextView
-                        android:id="@+id/heading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Enter a shiping address"
-                        android:textColor="#000" />
-
-                    <EditText
-                        android:id="@+id/first_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="First Name"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/last_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="Last Name"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/address"
-                        android:layout_width="fill_parent"
-                        android:layout_height="160dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:gravity="top|left"
-                        android:hint="address"
-                        android:padding="10dp"
-                        android:singleLine="false" />
-
                     <LinearLayout
-                        android:id="@+id/five"
+                        android:id="@+id/Three"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2" >
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/heading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enter a shiping address"
+                            android:textColor="#000" />
 
                         <EditText
-                            android:id="@+id/zipcode"
-                            android:layout_width="0dp"
+                            android:id="@+id/first_name"
+                            android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="1"
                             android:background="@drawable/edit_bg"
-                            android:hint="zipcode"
+                            android:hint="First Name"
                             android:paddingLeft="10dp"
                             android:paddingRight="5dp"
                             android:singleLine="true" />
 
                         <EditText
-                            android:id="@+id/country"
-                            android:layout_width="0dp"
+                            android:id="@+id/last_name"
+                            android:layout_width="fill_parent"
                             android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="1"
                             android:background="@drawable/edit_bg"
-                            android:hint="country"
+                            android:hint="Last Name"
                             android:paddingLeft="10dp"
                             android:paddingRight="5dp"
                             android:singleLine="true" />
+
+                        <EditText
+                            android:id="@+id/address"
+                            android:layout_width="fill_parent"
+                            android:layout_height="160dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:gravity="top|left"
+                            android:hint="address"
+                            android:padding="10dp"
+                            android:singleLine="false" />
+
+                        <LinearLayout
+                            android:id="@+id/five"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2" >
+
+                            <EditText
+                                android:id="@+id/zipcode"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bg"
+                                android:hint="zipcode"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true" />
+
+                            <EditText
+                                android:id="@+id/country"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bg"
+                                android:hint="country"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/phone_nummber"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:hint="Phone Number"
+                            android:inputType="phone"
+                            android:maxLength="8"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true" />
+
+                        <LinearLayout
+                            android:id="@+id/six"
+                            android:layout_width="fill_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="10sp"
+                            android:gravity="bottom"
+                            android:orientation="horizontal"
+                            android:weightSum="2" >
+
+                            <TextView
+                                android:id="@+id/billing_addrress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="left|center"
+                                android:text="Billing address"
+                                android:textColor="#000" />
+
+                            <CheckBox
+                                android:id="@+id/checkBox1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:button="@drawable/check_box_bg"
+                                android:checked="true"
+                                android:gravity="right|center"
+                                android:scaleX="1"
+                                android:scaleY="1" />
+
+                            <TextView
+                                android:id="@+id/sameas_billing_tag"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:gravity="left|center"
+                                android:text="Same as shiping"
+                                android:textColor="#000" />
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/phone_nummber"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="Phone Number"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-
                     <LinearLayout
-                        android:id="@+id/six"
+                        android:id="@+id/four"
                         android:layout_width="fill_parent"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="10sp"
-                        android:gravity="bottom"
-                        android:orientation="horizontal"
-                        android:weightSum="2" >
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="vertical"
+                        android:visibility="gone" >
 
-                        <TextView
-                            android:id="@+id/billing_addrress"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left|center"
-                            android:text="Billing address"
-                            android:textColor="#000" />
+                        <EditText
+                            android:id="@+id/bfirst_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:hint="First Name"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true" />
 
-                        <CheckBox
-                            android:id="@+id/checkBox1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
-                            android:button="@drawable/check_box_bg"
-                            android:checked="true"
-                            android:gravity="right|center"
-                            android:scaleX="1"
-                            android:scaleY="1" />
+                        <EditText
+                            android:id="@+id/blast_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:hint="Last Name"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true" />
 
-                        <TextView
-                            android:id="@+id/sameas_billing_tag"
-                            android:layout_width="0dp"
+                        <EditText
+                            android:id="@+id/baddress"
+                            android:layout_width="fill_parent"
+                            android:layout_height="160dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:gravity="top|left"
+                            android:hint="address"
+                            android:padding="10dp"
+                            android:singleLine="false" />
+
+                        <LinearLayout
+                            android:id="@+id/bfive"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:gravity="left|center"
-                            android:text="Same as shiping"
-                            android:textColor="#000" />
+                            android:orientation="horizontal"
+                            android:weightSum="2" >
+
+                            <EditText
+                                android:id="@+id/bzipcode"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bg"
+                                android:hint="zipcode"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true" />
+
+                            <EditText
+                                android:id="@+id/bcountry"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_bg"
+                                android:hint="country"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/bphone_nummber"
+                            android:layout_width="fill_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_bg"
+                            android:hint="Phone Number"
+                            android:inputType="phone"
+                            android:maxLength="8"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/four"
+                <RelativeLayout
+                    android:id="@+id/bottom"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" >
+                    android:layout_height="wrap_content" >
 
-                    <EditText
-                        android:id="@+id/bfirst_name"
+                    <Button
+                        android:id="@+id/send_to_this_address"
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="First Name"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/blast_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="Last Name"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-
-                    <EditText
-                        android:id="@+id/baddress"
-                        android:layout_width="fill_parent"
-                        android:layout_height="160dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:gravity="top|left"
-                        android:hint="address"
-                        android:padding="10dp"
-                        android:singleLine="false" />
-
-                    <LinearLayout
-                        android:id="@+id/bfive"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2" >
-
-                        <EditText
-                            android:id="@+id/bzipcode"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bg"
-                            android:hint="zipcode"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="5dp"
-                            android:singleLine="true" />
-
-                        <EditText
-                            android:id="@+id/bcountry"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_bg"
-                            android:hint="country"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="5dp"
-                            android:singleLine="true" />
-                    </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/bphone_nummber"
-                        android:layout_width="fill_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="Phone Number"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true" />
-                </LinearLayout>
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gold"
+                        android:contentDescription="@string/brandsfever"
+                        android:text="Ship To This Address"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="5dp" >
-
-        <Button
-            android:id="@+id/send_to_this_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@color/gold"
-            android:contentDescription="@string/brandsfever"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="Ship To This Address"
-            android:textColor="@color/white" />
     </RelativeLayout>
 
 </RelativeLayout>
