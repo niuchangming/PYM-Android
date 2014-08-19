@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	private int mBackButtonCount;
 	private MenuFragment mMenu;
 	private List<String> mCategories;
-	public  CampaignFragment mCampaignFragment;
+	public CampaignFragment mCampaignFragment;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -215,6 +217,17 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		if (mContent instanceof CampaignFragment) {
 			((CampaignFragment) mContent).mViewPager.setCurrentItem(
 					mCategories.indexOf(mCurrentMenu), true);
+		}
+	}
+
+	public void resetCurrentMenu() {
+		
+		if(mContent instanceof CampaignFragment){
+			int index = ((CampaignFragment)mContent).mViewPager.getCurrentItem();
+			if (index < mMenu.mCategories.size()){
+				mCurrentMenu = mMenu.mCategories.get(index);
+				Log.e(TAG,"CurrentMenu: "+mCurrentMenu);
+			}
 		}
 	}
 

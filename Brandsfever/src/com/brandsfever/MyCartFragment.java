@@ -509,7 +509,7 @@ public class MyCartFragment extends Fragment implements OnClickListener {
 					pd.mCampaignFragment = campaign;
 				}
 				pd.switchContent(pd.mCampaignFragment);
-				
+				pd.resetCurrentMenu();
 			} else if(getActivity() instanceof MyCartActivity) {
 				getActivity().finish();
 			}

@@ -29,14 +29,14 @@ public class MenuFragment extends ListFragment {
 	private ArrayList<String> mMenus = new ArrayList<String>();
 	private List<String> mLoginList;
 	private List<String> mLogoutList;
-	private List<String> mCategories;
+	public	List<String> mCategories;
 	private String mUserName;
 	private TextView mHeaderTextView;
 	private MenuListAdapter mMenuAdapter;
 	private Typeface mTypeface;
 	private ListView mListView;
 	private LinearLayout mHeaderView;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
