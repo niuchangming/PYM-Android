@@ -105,15 +105,6 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
 			// mScrollUp.setVisibility(View.GONE);
 
-			int inch = DataHolderClass.getInstance().get_deviceInch();
-			if (inch <= 6) {
-				mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
-			} else {
-				mAdapter = new TabAdapter(getActivity(), mCampaigns);
-			}
-
-			mCampaignList.setAdapter(mAdapter);
-
 			mCampaignList.setOnScrollListener(new OnScrollListener() {
 				@Override
 				public void onScrollStateChanged(AbsListView view,
@@ -157,6 +148,18 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 				mCategoryUrl = mCategoryUrl + "/category/" + category;
 			}
 			mIsFirstLoad = true;
+		}
+
+		if (mAdapter == null) {
+
+			int inch = DataHolderClass.getInstance().get_deviceInch();
+			if (inch <= 6) {
+				mAdapter = new PhoneAdapter(getActivity(), mCampaigns);
+			} else {
+				mAdapter = new TabAdapter(getActivity(), mCampaigns);
+			}
+
+			mCampaignList.setAdapter(mAdapter);
 		}
 
 		if (mIsFirstLoad) {
