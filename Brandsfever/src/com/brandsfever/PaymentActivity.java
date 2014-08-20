@@ -1,6 +1,7 @@
 package com.brandsfever;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -62,7 +64,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		OnClickListener {
 	private static final String TAG = "PaymentActivity";
 	Context _ctx = PaymentActivity.this;
-	Typeface _font;
+	Typeface mFont;
 	private PopupWindow pwindo;
 
 	TextView set_billing_address, set_shipping_address, ship_tag, bill_tag,
@@ -73,20 +75,19 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			store_credit_tag;
 	Button pay_with_paypal, pay_with_credit;
 	String _ResponseFromServer, _ResponseFromServerCredits;
-	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
+	SharedPreferences mPref;
+	String mToken = "";
+	String mUserId = "";
 	String mStatus, mIdentifier, mPaid, mDate, mCity, mTotalprice, mTaxprice,
 			mCountry, mState, mPk, mShippingfree, mMethod;
 	double mSubtotal;
-	public static ArrayList<PaymentScreenOrderModel> _Payorderinfo = new ArrayList<PaymentScreenOrderModel>();
 	public static ArrayList<StoreCreditDetails> _storeCredits = new ArrayList<StoreCreditDetails>();
+	private ArrayList<PaymentScreenOrderModel> mOrders;
 	TextView order_subtotal_amount, order_shiping_amount, order_total_amount,
 			order_subtotal_text, order_shiping_text, order_total_text,
 			Set_store_credit;
-	PaymentScreenDataAdapter _adapter;
+	PaymentScreenDataAdapter mOrdersAdapter;
 	ListView set_orders, store_credit_list;
-	private int _paymentstate;
 	Button apply_promo_code, remove_pcode;
 	EditText enter_promo_code;
 	String _getPromoCode;
@@ -101,27 +102,27 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		
+		mFont = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 			setContentView(R.layout.activity_payment_screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
 			setContentView(R.layout.seven_inch_payment_screen);
-			_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 			set_quantity_tag = (TextView) findViewById(R.id.set_quantity_tag);
-			set_quantity_tag.setTypeface(_font, Typeface.NORMAL);
+			set_quantity_tag.setTypeface(mFont, Typeface.NORMAL);
 			set_unitprice_tag = (TextView) findViewById(R.id.set_unitprice_tag);
-			set_unitprice_tag.setTypeface(_font, Typeface.NORMAL);
+			set_unitprice_tag.setTypeface(mFont, Typeface.NORMAL);
 			set_totalprice_tag = (TextView) findViewById(R.id.set_totalprice_tag);
-			set_totalprice_tag.setTypeface(_font, Typeface.NORMAL);
+			set_totalprice_tag.setTypeface(mFont, Typeface.NORMAL);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 			setContentView(R.layout.payment_order_info_inflator_tablet);
-			_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 			set_quantity_tag = (TextView) findViewById(R.id.set_quantity_tag);
-			set_quantity_tag.setTypeface(_font, Typeface.NORMAL);
+			set_quantity_tag.setTypeface(mFont, Typeface.NORMAL);
 			set_unitprice_tag = (TextView) findViewById(R.id.set_unitprice_tag);
-			set_unitprice_tag.setTypeface(_font, Typeface.NORMAL);
+			set_unitprice_tag.setTypeface(mFont, Typeface.NORMAL);
 			set_totalprice_tag = (TextView) findViewById(R.id.set_totalprice_tag);
-			set_totalprice_tag.setTypeface(_font, Typeface.NORMAL);
+			set_totalprice_tag.setTypeface(mFont, Typeface.NORMAL);
 		}
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
@@ -145,73 +146,78 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
 		actionBarCart.setVisibility(View.INVISIBLE);
 
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		set_shipping_address = (TextView) findViewById(R.id.set_shipping_address);
-		set_shipping_address.setTypeface(_font, Typeface.NORMAL);
+		set_shipping_address.setTypeface(mFont, Typeface.NORMAL);
 
 		remove_SC = (LinearLayout) findViewById(R.id.remove_SC);
 		remove_SC.setOnClickListener(this);
 		apply_SC = (LinearLayout) findViewById(R.id.apply_SC);
 
 		set_billing_address = (TextView) findViewById(R.id.set_billing_address);
-		set_billing_address.setTypeface(_font, Typeface.NORMAL);
+		set_billing_address.setTypeface(mFont, Typeface.NORMAL);
 
 		your_order_tag = (TextView) findViewById(R.id.your_order_tag);
-		your_order_tag.setTypeface(_font, Typeface.NORMAL);
+		your_order_tag.setTypeface(mFont, Typeface.NORMAL);
 
 		store_credit_tag = (TextView) findViewById(R.id.store_credit_tag);
-		store_credit_tag.setTypeface(_font, Typeface.NORMAL);
+		store_credit_tag.setTypeface(mFont, Typeface.NORMAL);
 		store_credit_tag.setPaintFlags(store_credit_tag.getPaintFlags()
 				| Paint.UNDERLINE_TEXT_FLAG);
 		store_credit_tag.setOnClickListener(this);
 
 		Set_store_credit = (TextView) findViewById(R.id.Set_store_credit);
-		Set_store_credit.setTypeface(_font);
+		Set_store_credit.setTypeface(mFont);
 
 		promotion_code = (TextView) findViewById(R.id.promotion_code);
-		promotion_code.setTypeface(_font);
+		promotion_code.setTypeface(mFont);
 
 		order_confirmation_tag = (TextView) findViewById(R.id.order_confirmation_tag);
-		order_confirmation_tag.setTypeface(_font, Typeface.NORMAL);
+		order_confirmation_tag.setTypeface(mFont, Typeface.NORMAL);
 
 		payment_option_tag = (TextView) findViewById(R.id.payment_option_tag);
-		payment_option_tag.setTypeface(_font, Typeface.NORMAL);
+		payment_option_tag.setTypeface(mFont, Typeface.NORMAL);
 
 		set_campaign_tag = (TextView) findViewById(R.id.set_campaign_tag);
-		set_campaign_tag.setTypeface(_font, Typeface.NORMAL);
+		set_campaign_tag.setTypeface(mFont, Typeface.NORMAL);
 
 		set_product_tag = (TextView) findViewById(R.id.set_product_tag);
-		set_product_tag.setTypeface(_font, Typeface.NORMAL);
+		set_product_tag.setTypeface(mFont, Typeface.NORMAL);
 
 		ship_tag = (TextView) findViewById(R.id.ship_tag);
-		ship_tag.setTypeface(_font, Typeface.BOLD);
+		ship_tag.setTypeface(mFont, Typeface.BOLD);
 
 		bill_tag = (TextView) findViewById(R.id.bill_tag);
-		bill_tag.setTypeface(_font, Typeface.BOLD);
+		bill_tag.setTypeface(mFont, Typeface.BOLD);
 
 		order_subtotal_amount = (TextView) findViewById(R.id.order_subtotal_amount);
-		order_subtotal_amount.setTypeface(_font);
+		order_subtotal_amount.setTypeface(mFont);
 
 		order_shiping_amount = (TextView) findViewById(R.id.order_shiping_amount);
-		order_shiping_amount.setTypeface(_font);
+		order_shiping_amount.setTypeface(mFont);
 
 		order_total_amount = (TextView) findViewById(R.id.order_total_amount);
-		order_total_amount.setTypeface(_font);
+		order_total_amount.setTypeface(mFont);
 
 		order_subtotal_text = (TextView) findViewById(R.id.order_subtotal_text);
-		order_subtotal_text.setTypeface(_font);
+		order_subtotal_text.setTypeface(mFont);
 
 		order_shiping_text = (TextView) findViewById(R.id.order_shiping_text);
-		order_shiping_text.setTypeface(_font);
+		order_shiping_text.setTypeface(mFont);
 
 		order_total_text = (TextView) findViewById(R.id.order_total_text);
-		order_total_text.setTypeface(_font);
+		order_total_text.setTypeface(mFont);
 
 		set_orders = (ListView) findViewById(R.id.set_orders);
+		if (mOrders == null) {
+			mOrders = new ArrayList<PaymentScreenOrderModel>();
+		}
+		mOrdersAdapter = new PaymentScreenDataAdapter(PaymentActivity.this,
+				mOrders);
+		set_orders.setAdapter(mOrdersAdapter);
 
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
+		mPref = getApplicationContext().getSharedPreferences("mypref", 0);
+		mUserId = mPref.getString("ID", null);
+		mToken = mPref.getString("TOKEN", null);
 
 		set_shipping_address.setText(DataHolderClass.getInstance()
 				.getBill_ship_address());
@@ -227,15 +233,14 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		remove_pcode.setOnClickListener(this);
 
 		pay_with_paypal = (Button) findViewById(R.id.pay_with_paypal);
-		pay_with_paypal.setTypeface(_font);
+		pay_with_paypal.setTypeface(mFont);
 		pay_with_paypal.setOnClickListener(this);
 
 		pay_with_credit = (Button) findViewById(R.id.pay_with_credit_card);
-		pay_with_credit.setTypeface(_font);
+		pay_with_credit.setTypeface(mFont);
 		pay_with_credit.setOnClickListener(this);
-		
-		new GetPaymentState().execute();
 
+		getOrderList();
 		set_orders.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -252,7 +257,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		EasyTracker tracker = EasyTracker.getInstance(this);
 		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
-				+ ": orders/" + _getuserId + "/?device=2");
+				+ ": orders/" + mUserId + "/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
 
@@ -261,12 +266,19 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		finish();
 	}
 
-	class GetPaymentState extends AsyncTask<String, String, String> implements
-			OnCancelListener {
+	public void getOrderList(){
+		new GetOrderList().execute();
+	}
+	
+	class GetOrderList extends
+			AsyncTask<String, String, ArrayList<PaymentScreenOrderModel>>
+			implements OnCancelListener {
+
 		ProgressHUD mProgressHUD;
 
 		@Override
 		protected void onPreExecute() {
+			super.onPreExecute();
 			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -278,178 +290,111 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			wmlp.y = displayHeight / 4;
 			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
-			super.onPreExecute();
 		}
 
 		@Override
-		protected String doInBackground(String... params) {
-			_Payorderinfo.clear();
-			_storeCredits.clear();
-			String order_pk = DataHolderClass.getInstance().get_orderpk();
-			String stateUrl = "https://www.brandsfever.com/api/v5/orders/"
-					+ order_pk + "/states/?token=" + _getToken + "&user_id="
-					+ _getuserId;
-			GetState(stateUrl);
-			return null;
-		}
-
-		@Override
-		public void onCancel(DialogInterface arg0) {
+		public void onCancel(DialogInterface dialog) {
 
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			if (_paymentstate == 0) {
-				new GetOrderList().execute();
-
-			} else if (_paymentstate == 1) {
-				// go to order summery screen
-			}
-			mProgressHUD.dismiss();
-		}
-	}
-
-	public void GetState(String _url) {
-		TrustAllCertificates cert = new TrustAllCertificates();
-		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(_url);
-		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
-				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
-				StringBuilder total = new StringBuilder();
-				String line;
-				while ((line = r.readLine()) != null) {
-					total.append(line);
-				}
-				String _content = total.toString();
-				try {
-					JSONObject _jobj = new JSONObject(_content);
-					String ret = _jobj.getString("ret");
-					if (ret.equals("0")) {
-						String statenumber = _jobj.getString("state");
-						_paymentstate = Integer.parseInt(statenumber);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		} catch (Exception _e) {
-			_e.printStackTrace();
-		}
-	}
-
-	class GetOrderList extends AsyncTask<String, String, String> {
-		@Override
-		protected String doInBackground(String... params) {
-			String _setorderpk = DataHolderClass.getInstance().get_orderpk();
-			String url = "https://www.brandsfever.com/api/v5/orders/"
-					+ _setorderpk + "/" + "?user_id=" + _getuserId + "&token="
-					+ _getToken;
-			GetData(url);
-			return null;
+		protected ArrayList<PaymentScreenOrderModel> doInBackground(
+				String... params) {
+			String orderpk = DataHolderClass.getInstance().get_orderpk();
+			String url = "https://www.brandsfever.com/api/v5/orders/" + orderpk
+					+ "/" + "?user_id=" + mUserId + "&token=" + mToken;
+			ArrayList<PaymentScreenOrderModel> orders = GetData(url);
+			return orders;
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(ArrayList<PaymentScreenOrderModel> result) {
 			new GetStoreCredit().execute();
+			mProgressHUD.dismiss();
 
 			double subtotal = Math.round(mSubtotal * 100.00) / 100.00;
 			order_subtotal_amount.setText("S$" + "" + subtotal + "0");
 			order_shiping_amount.setText("S$" + mShippingfree);
 			order_total_amount.setText("S$" + mTotalprice);
-			_adapter = new PaymentScreenDataAdapter(PaymentActivity.this,
-					_Payorderinfo);
-			set_orders.setAdapter(_adapter);
-
+			mOrders.clear();
+			mOrders.addAll(result);
+			mOrdersAdapter.notifyDataSetChanged();
 		}
-
 	}
 
-	public void GetData(String _url) {
+	public ArrayList<PaymentScreenOrderModel> GetData(String url) {
+		ArrayList<PaymentScreenOrderModel> orders = new ArrayList<PaymentScreenOrderModel>();
+
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(_url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
 
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
+			if (responsecode == 200) {
+				InputStream inputstream;
+				inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				String _content = total.toString();
+				String content = total.toString();
 
-				try {
+				JSONObject obj = new JSONObject(content);
+				String ret = obj.getString("ret");
+				if (ret.equals("0")) {
+					mOrderDetail = obj.getJSONObject("data");
+					mStatus = mOrderDetail.getString("status");
+					mIdentifier = mOrderDetail.getString("identifier");
+					mPaid = mOrderDetail.getString("paid");
+					mDate = mOrderDetail.getString("date");
+					mCity = mOrderDetail.getString("city");
+					mTotalprice = mOrderDetail.getString("total_price");
+					mTaxprice = mOrderDetail.getString("tax_price");
+					mCountry = mOrderDetail.getString("country");
+					mState = mOrderDetail.getString("state");
+					mPk = mOrderDetail.getString("pk");
+					mShippingfree = mOrderDetail.getString("shipping_fee");
+					mMethod = mOrderDetail.getString("method");
 
-					JSONObject obj = new JSONObject(_content);
-					String ret = obj.getString("ret");
-					if (ret.equals("0")) {
-						mOrderDetail = obj.getJSONObject("data");
-						mStatus = mOrderDetail.getString("status");
-						mIdentifier = mOrderDetail.getString("identifier");
-						mPaid = mOrderDetail.getString("paid");
-						mDate = mOrderDetail.getString("date");
-						mCity = mOrderDetail.getString("city");
-						mTotalprice = mOrderDetail.getString("total_price");
-						mTaxprice = mOrderDetail.getString("tax_price");
-						mCountry = mOrderDetail.getString("country");
-						mState = mOrderDetail.getString("state");
-						mPk = mOrderDetail.getString("pk");
-						mShippingfree = mOrderDetail.getString("shipping_fee");
-						mMethod = mOrderDetail.getString("method");
+					mSubtotal = 0;
+					JSONArray itemarray = mOrderDetail
+							.getJSONArray("item_list");
+					for (int i = 0; i < itemarray.length(); i++) {
+						JSONObject jobj = itemarray.getJSONObject(i);
+						String name = jobj.getString("name");
+						String campaign = jobj.getString("campaign");
+						String image = jobj.getString("image");
+						String unit_price = jobj.getString("unit_price");
+						String pk = jobj.getString("pk");
+						String quantity = jobj.getString("quantity");
 
-						mSubtotal = 0;
-						JSONArray _itemarray = mOrderDetail
-								.getJSONArray("item_list");
-						for (int i = 0; i < _itemarray.length(); i++) {
-							JSONObject _jobj = _itemarray.getJSONObject(i);
-							String name = _jobj.getString("name");
-							String campaign = _jobj.getString("campaign");
-							String image = _jobj.getString("image");
-							String unit_price = _jobj.getString("unit_price");
-							String pk = _jobj.getString("pk");
-							String quantity = _jobj.getString("quantity");
+						mSubtotal = mSubtotal + Double.parseDouble(quantity)
+								* Double.parseDouble(unit_price);
 
-							mSubtotal = mSubtotal
-									+ Double.parseDouble(quantity)
-									* Double.parseDouble(unit_price);
-
-							PaymentScreenOrderModel _listorder = new PaymentScreenOrderModel();
-							_listorder.setName(name);
-							_listorder.setCampaign(campaign);
-							_listorder.setImage(image);
-							_listorder.setUnit_price(unit_price);
-							_listorder.setPk(pk);
-							_listorder.setQuantity(quantity);
-							_listorder.setTotal_price(mTotalprice);
-							_Payorderinfo.add(_listorder);
-						}
-					} else {
-						// parsing error
+						PaymentScreenOrderModel listorder = new PaymentScreenOrderModel();
+						listorder.setName(name);
+						listorder.setCampaign(campaign);
+						listorder.setImage(image);
+						listorder.setUnit_price(unit_price);
+						listorder.setPk(pk);
+						listorder.setQuantity(quantity);
+						listorder.setTotal_price(mTotalprice);
+						orders.add(listorder);
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
-		} catch (Exception e) {
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		return orders;
 	}
 
 	@Override
@@ -458,22 +403,23 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		case R.id.pay_with_paypal:
 			Intent payWithPaypalIntent = new Intent(PaymentActivity.this,
 					PayWithPaypalActivity.class);
-			payWithPaypalIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
+			payWithPaypalIntent.putExtra("OrderDetailKey",
+					mOrderDetail.toString());
 			startActivity(payWithPaypalIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			break;
 
-			
 		case R.id.pay_with_credit_card:
 			Intent payWithCreditCardIntent = new Intent(PaymentActivity.this,
 					PayWithCreditCardActivity.class);
-			payWithCreditCardIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
+			payWithCreditCardIntent.putExtra("OrderDetailKey",
+					mOrderDetail.toString());
 			startActivity(payWithCreditCardIntent);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
 			break;
-			
+
 		case R.id.apply_promo_code:
 			String _action = "promo_code_add";
 			_getPromoCode = enter_promo_code.getText().toString();
@@ -543,23 +489,23 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _getpk = DataHolderClass.getInstance().get_orderpk();
-			String _urlpromo = "https://www.brandsfever.com/api/v5/orders/"
-					+ _getpk + "/discount/";
-			BasicNameValuePair _puserid = new BasicNameValuePair("user_id",
-					_getuserId);
-			BasicNameValuePair _ptoken = new BasicNameValuePair("token",
-					_getToken);
-			BasicNameValuePair _paction = new BasicNameValuePair(
+			String getpk = DataHolderClass.getInstance().get_orderpk();
+			String urlpromo = "https://www.brandsfever.com/api/v5/orders/"
+					+ getpk + "/discount/";
+			BasicNameValuePair puserid = new BasicNameValuePair("user_id",
+					mUserId);
+			BasicNameValuePair ptoken = new BasicNameValuePair("token",
+					mToken);
+			BasicNameValuePair paction = new BasicNameValuePair(
 					"apply_action", _sendaction);
-			BasicNameValuePair _psCredits = new BasicNameValuePair(
+			BasicNameValuePair psCredits = new BasicNameValuePair(
 					"identifier", _sendcode);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_puserid);
-			_namevalueList.add(_ptoken);
-			_namevalueList.add(_paction);
-			_namevalueList.add(_psCredits);
-			_ResponseFromServer = SendData(_urlpromo, _namevalueList);
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(puserid);
+			namevalueList.add(ptoken);
+			namevalueList.add(paction);
+			namevalueList.add(psCredits);
+			_ResponseFromServer = SendData(urlpromo, namevalueList);
 			return null;
 		}
 
@@ -581,19 +527,17 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 					remove_pcode.setVisibility(View.VISIBLE);
 					promotion_code.setText("Discount");
 				} else {
-					String _msg = obj.getString("msg");
-
+					String msg = obj.getString("msg");
 					LayoutInflater inflater = getLayoutInflater();
 					View view = inflater.inflate(R.layout.error_popop,
 							(ViewGroup) findViewById(R.id.relativeLayout1));
-					TextView _seterrormsg = (TextView) view
+					TextView seterrormsg = (TextView) view
 							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText(_msg);
+					seterrormsg.setText(msg);
 					Toast toast = new Toast(_ctx);
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.setView(view);
 					toast.show();
-					// popup like iphone
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -604,44 +548,43 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 	}
 
-	public String SendData(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+	public String SendData(String url, List<NameValuePair> namevalueList) {
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpPost httppost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httppost.setEntity(new UrlEncodedFormEntity(namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
+			HttpResponse httpresponse = httpclient.execute(httppost);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
+				response = total.toString();
 			} else {
-				_Response = "Error";
+				response = "Error";
 			}
-		} catch (Exception e) {
+		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
 	class GetStoreCredit extends AsyncTask<String, String, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/storecredits/?user_id="
-					+ _getuserId + "&token=" + _getToken;
-			Get_Store_Credits(_url);
+			String url = "https://www.brandsfever.com/api/v5/storecredits/?user_id="
+					+ mUserId + "&token=" + mToken;
+			getStoreCredits(url);
 			return null;
 		}
 
@@ -650,13 +593,13 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			if (_storeCredits.size() > 0) {
 				apply_SC.setVisibility(View.VISIBLE);
 				TextView Remove_credit_tag = (TextView) findViewById(R.id.Remove_credit_tag);
-				Remove_credit_tag.setTypeface(_font);
+				Remove_credit_tag.setTypeface(mFont);
 				TextView Remove_store_credit = (TextView) findViewById(R.id.Remove_store_credit);
-				Remove_store_credit.setTypeface(_font);
+				Remove_store_credit.setTypeface(mFont);
 
 				_setCamount = DataHolderClass.getInstance().get_creditAmount();
 				if (_setCamount > 0) {
-					String sw = "+S$" + _setCamount;
+					String sw = "-S$" + _setCamount;
 					Remove_store_credit.setText(sw);
 					remove_SC.setVisibility(View.VISIBLE);
 					apply_SC.setVisibility(View.GONE);
@@ -671,64 +614,62 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	public void Get_Store_Credits(String url_get_store_credits) {
+	public void getStoreCredits(String url_get_store_credits) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(url_get_store_credits);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url_get_store_credits);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
 				String G_P = total.toString();
-				try {
-					JSONObject obj = new JSONObject(G_P);
-					String ret = obj.getString("ret");
-					if (ret.equals("0")) {
-						JSONArray get_credit_details = obj
-								.getJSONArray("store_credits");
+				JSONObject obj = new JSONObject(G_P);
+				String ret = obj.getString("ret");
+				if (ret.equals("0")) {
+					JSONArray get_credit_details = obj
+							.getJSONArray("store_credits");
+					_storeCredits.clear();
+					for (int i = 0; i < get_credit_details.length(); i++) {
+						JSONObject jsonobj = get_credit_details
+								.getJSONObject(i);
+						String one = jsonobj.getString("granted_by");
+						String two = jsonobj.getString("expired_at");
+						String three = jsonobj.getString("amount");
+						String four = jsonobj.getString("redeemed_order");
+						String five = jsonobj.getString("is_redeemable");
+						String six = jsonobj.getString("pk");
+						String seven = jsonobj.getString("redeemed_at");
+						String eight = jsonobj.getString("state");
+						String nine = jsonobj.getString("channel");
 
-						for (int i = 0; i < get_credit_details.length(); i++) {
-							JSONObject jsonobj = get_credit_details
-									.getJSONObject(i);
-							String one = jsonobj.getString("granted_by");
-							String two = jsonobj.getString("expired_at");
-							String three = jsonobj.getString("amount");
-							String four = jsonobj.getString("redeemed_order");
-							String five = jsonobj.getString("is_redeemable");
-							String six = jsonobj.getString("pk");
-							String seven = jsonobj.getString("redeemed_at");
-							String eight = jsonobj.getString("state");
-							String nine = jsonobj.getString("channel");
+						StoreCreditDetails credits = new StoreCreditDetails();
+						credits.setGranted_by(one);
+						credits.setAmount(three);
+						credits.setExpired_at(two);
+						credits.setChannel(nine);
+						credits.setIs_redeemable(five);
+						credits.setPk(six);
+						credits.setState(eight);
+						credits.setRedeemed_at(seven);
+						credits.setRedeemed_order(four);
 
-							StoreCreditDetails _credits = new StoreCreditDetails();
-							_credits.setGranted_by(one);
-							_credits.setAmount(three);
-							_credits.setExpired_at(two);
-							_credits.setChannel(nine);
-							_credits.setIs_redeemable(five);
-							_credits.setPk(six);
-							_credits.setState(eight);
-							_credits.setRedeemed_at(seven);
-							_credits.setRedeemed_order(four);
-
-							_storeCredits.add(_credits);
-						}
-					} 
-				} catch (Exception e) {
-					e.printStackTrace();
+						_storeCredits.add(credits);
+					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
@@ -756,23 +697,23 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _opk = DataHolderClass.getInstance().get_orderpk();
-			String _url = "https://www.brandsfever.com/api/v5/orders/" + _opk
+			String opk = DataHolderClass.getInstance().get_orderpk();
+			String url = "https://www.brandsfever.com/api/v5/orders/" + opk
 					+ "/discount/";
 			String apply_action = "store_credit_apply";
-			BasicNameValuePair _uid = new BasicNameValuePair("user_id",
-					_getuserId);
-			BasicNameValuePair _ut = new BasicNameValuePair("token", _getToken);
-			BasicNameValuePair _apply_action = new BasicNameValuePair(
+			BasicNameValuePair uidPair = new BasicNameValuePair("user_id",
+					mUserId);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair(
 					"apply_action", apply_action);
-			BasicNameValuePair _store_credits = new BasicNameValuePair(
+			BasicNameValuePair creditsPair = new BasicNameValuePair(
 					"store_credits", "");
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_uid);
-			_namevalueList.add(_ut);
-			_namevalueList.add(_apply_action);
-			_namevalueList.add(_store_credits);
-			_ResponseFromServerCredits = SendData(_url, _namevalueList);
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(uidPair);
+			namevalueList.add(tokenPair);
+			namevalueList.add(actionPair);
+			namevalueList.add(creditsPair);
+			_ResponseFromServerCredits = SendData(url, namevalueList);
 			return null;
 		}
 
@@ -784,7 +725,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		protected void onPostExecute(String result) {
 			remove_SC.setVisibility(View.GONE);
 			apply_SC.setVisibility(View.VISIBLE);
-			new GetPaymentState().execute();
+			new GetOrderList().execute();
 			mProgressHUD.dismiss();
 		}
 
