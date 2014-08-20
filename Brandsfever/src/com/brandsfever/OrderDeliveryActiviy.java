@@ -52,16 +52,16 @@ import com.ssl.TrustAllCertificates;
 
 public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		OnClickListener {
-	private static final String TAG = "OrderDelivery_Screen";
-	CheckBox _checkBillingaddress;
-	LinearLayout _shipping_address_layout;
+	private static final String TAG = "OrderDeliveryActivity";
+	CheckBox mCheckBillingAddress;
+	LinearLayout mShippingAddressLayout;
 	Context _ctx = OrderDeliveryActiviy.this;
 	TextView title_tag, billing_addrress, sameas_billing_tag;
-	Typeface _font;
+	Typeface mFont;
 	Button send_to_this_address;
 	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
+	String mToken = "";
+	String mUserID = "";
 	EditText first_name, last_name, address, zipcode, country, phone_nummber,
 			bfirst_name, blast_name, baddress, bzipcode, bcountry,
 			bphone_nummber;
@@ -69,15 +69,13 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 			zcode = "";
 	String _fname, _lname, _address, _zipcode, _country, _pnmber;
 	String _ResponseFromServer;
-	TextView _seterrormsg;
-	String _msg;
 	int color, colors;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+		if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 			setContentView(R.layout.activity_order_delivery__screen);
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 7
 				&& DataHolderClass.getInstance().get_deviceInch() < 9) {
@@ -85,8 +83,8 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 			setContentView(R.layout.order_delivery_screen_tablet);
 		}
-		_checkBillingaddress = (CheckBox) findViewById(R.id.checkBox1);
-		_shipping_address_layout = (LinearLayout) findViewById(R.id.four);
+		mCheckBillingAddress = (CheckBox) findViewById(R.id.checkBox1);
+		mShippingAddressLayout = (LinearLayout) findViewById(R.id.four);
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
 				.inflate(R.layout.action_bar, null);
@@ -110,37 +108,36 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		actionBarCart.setImageDrawable(getResources().getDrawable(
 				R.drawable.cart_btn_bg));
 		actionBarCart.setVisibility(View.INVISIBLE);
-		
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
+
+		mFont = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 		title_tag = (TextView) findViewById(R.id.heading);
 		billing_addrress = (TextView) findViewById(R.id.billing_addrress);
-		billing_addrress.setTypeface(_font, Typeface.BOLD);
+		billing_addrress.setTypeface(mFont, Typeface.BOLD);
 		sameas_billing_tag = (TextView) findViewById(R.id.sameas_billing_tag);
-		sameas_billing_tag.setTypeface(_font, Typeface.BOLD);
-		title_tag.setTypeface(_font, Typeface.BOLD);
-		_checkBillingaddress.setTypeface(_font, Typeface.BOLD);
+		sameas_billing_tag.setTypeface(mFont, Typeface.BOLD);
+		title_tag.setTypeface(mFont, Typeface.BOLD);
+		mCheckBillingAddress.setTypeface(mFont, Typeface.BOLD);
 
-		_checkBillingaddress
+		mCheckBillingAddress
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						if (isChecked) {
-							_shipping_address_layout.setVisibility(View.GONE);
+							mShippingAddressLayout.setVisibility(View.GONE);
 						} else {
-							_shipping_address_layout
-									.setVisibility(View.VISIBLE);
+							mShippingAddressLayout.setVisibility(View.VISIBLE);
 						}
 
 					}
 				});
 
 		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
+		mUserID = _mypref.getString("ID", null);
+		mToken = _mypref.getString("TOKEN", null);
 
 		new GetShipingAddress().execute();
 
@@ -151,12 +148,12 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		country = (EditText) findViewById(R.id.country);
 		phone_nummber = (EditText) findViewById(R.id.phone_nummber);
 
-		first_name.setTypeface(_font, Typeface.NORMAL);
-		last_name.setTypeface(_font, Typeface.NORMAL);
-		address.setTypeface(_font, Typeface.NORMAL);
-		zipcode.setTypeface(_font, Typeface.NORMAL);
-		country.setTypeface(_font, Typeface.NORMAL);
-		phone_nummber.setTypeface(_font, Typeface.NORMAL);
+		first_name.setTypeface(mFont, Typeface.NORMAL);
+		last_name.setTypeface(mFont, Typeface.NORMAL);
+		address.setTypeface(mFont, Typeface.NORMAL);
+		zipcode.setTypeface(mFont, Typeface.NORMAL);
+		country.setTypeface(mFont, Typeface.NORMAL);
+		phone_nummber.setTypeface(mFont, Typeface.NORMAL);
 
 		bfirst_name = (EditText) findViewById(R.id.bfirst_name);
 		blast_name = (EditText) findViewById(R.id.blast_name);
@@ -165,16 +162,16 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		bcountry = (EditText) findViewById(R.id.bcountry);
 		bphone_nummber = (EditText) findViewById(R.id.bphone_nummber);
 
-		bfirst_name.setTypeface(_font, Typeface.NORMAL);
-		blast_name.setTypeface(_font, Typeface.NORMAL);
-		baddress.setTypeface(_font, Typeface.NORMAL);
-		bzipcode.setTypeface(_font, Typeface.NORMAL);
-		bcountry.setTypeface(_font, Typeface.NORMAL);
-		bphone_nummber.setTypeface(_font, Typeface.NORMAL);
+		bfirst_name.setTypeface(mFont, Typeface.NORMAL);
+		blast_name.setTypeface(mFont, Typeface.NORMAL);
+		baddress.setTypeface(mFont, Typeface.NORMAL);
+		bzipcode.setTypeface(mFont, Typeface.NORMAL);
+		bcountry.setTypeface(mFont, Typeface.NORMAL);
+		bphone_nummber.setTypeface(mFont, Typeface.NORMAL);
 
 		send_to_this_address = (Button) findViewById(R.id.send_to_this_address);
 		send_to_this_address.setOnClickListener(this);
-		send_to_this_address.setTypeface(_font,Typeface.NORMAL);
+		send_to_this_address.setTypeface(mFont, Typeface.NORMAL);
 	}
 
 	@Override
@@ -221,29 +218,17 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 
 				new CreateOrderOfUser().execute();
 			} else if (_fname.length() == 0) {
-				_msg = "Please enter\nfirst name!";
-				_ResponsePopup();
-
+				responsePopup("Please enter\nfirst name!");
 			} else if (_lname.length() == 0) {
-				_msg = "Please enter\nlast name";
-				_ResponsePopup();
-
+				responsePopup("Please enter\nlast name");
 			} else if (_address.length() == 0) {
-				_msg = "Please enter address!";
-				_ResponsePopup();
-
+				responsePopup("Please enter address!");
 			} else if (_zipcode.length() == 0) {
-				_msg = "Please enter zipcode!";
-				_ResponsePopup();
-
+				responsePopup("Please enter zipcode!");
 			} else if (_country.length() == 0) {
-				_msg = "Please enter\ncountry name!";
-				_ResponsePopup();
-
+				responsePopup("Please enter\ncountry name!");
 			} else if (_pnmber.length() == 0) {
-				_msg = "Please enter\ncontact number!";
-				_ResponsePopup();
-
+				responsePopup("Please enter\ncontact number!");
 			}
 			break;
 		default:
@@ -275,9 +260,9 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/shipping-address/?user_id="
-					+ _getuserId + "&token=" + _getToken;
-			GetAddress(_url);
+			String url = "https://www.brandsfever.com/api/v5/shipping-address/?user_id="
+					+ mUserID + "&token=" + mToken;
+			GetAddress(url);
 			return null;
 		}
 
@@ -339,44 +324,37 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 	private void GetAddress(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
 
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				String _content = total.toString();
-				try {
-					JSONObject _jobj = new JSONObject(_content);
-					String ret = _jobj.getString("ret");
-					if (ret.equals("0")) {
-						pnumber = _jobj.getString("phone_number");
-						fname = _jobj.getString("first_name");
-						lname = _jobj.getString("last_name");
-						saddress = _jobj.getString("address");
-						scountry = _jobj.getString("country");
-						zcode = _jobj.getString("zipcode");
+				String content = total.toString();
+				JSONObject jobj = new JSONObject(content);
+				String ret = jobj.getString("ret");
+				if (ret.equals("0")) {
+					pnumber = jobj.getString("phone_number");
+					fname = jobj.getString("first_name");
+					lname = jobj.getString("last_name");
+					saddress = jobj.getString("address");
+					scountry = jobj.getString("country");
+					zcode = jobj.getString("zipcode");
 
-						String _sendnext = fname + "" + lname + "\n" + saddress
-								+ "\n" + zcode + "," + scountry + "\n"
-								+ "Phone:(+65)" + pnumber;
-						DataHolderClass.getInstance().setBill_ship_address(
-								_sendnext);
-					} else {
-
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					String sendnext = fname + "" + lname + "\n" + saddress
+							+ "\n" + zcode + "," + scountry + "\n"
+							+ "Phone:(+65)" + pnumber;
+					DataHolderClass.getInstance()
+							.setBill_ship_address(sendnext);
 				}
 			}
 		} catch (Exception e) {
@@ -386,7 +364,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 
 	private class CreateOrderOfUser extends AsyncTask<String, String, String>
 			implements OnCancelListener {
-		ProgressHUD mProgressHUD;;
+		ProgressHUD mProgressHUD;
 
 		@Override
 		protected void onPreExecute() {
@@ -407,68 +385,66 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _createCartUrl = "https://www.brandsfever.com/api/v5/orders/";
-			String _sendCartpk = DataHolderClass.getInstance()
+			String createCartUrl = "https://www.brandsfever.com/api/v5/orders/";
+			String sendCartpk = DataHolderClass.getInstance()
 					.getFinal_cart_pk();
-			BasicNameValuePair _senduser_id = new BasicNameValuePair("user_id",
-					_getuserId);
-			BasicNameValuePair _sendtoken = new BasicNameValuePair("token",
-					_getToken);
-			BasicNameValuePair _sendcart_pk = new BasicNameValuePair("cart_pk",
-					_sendCartpk);
-			BasicNameValuePair _sendshipping_first_name = new BasicNameValuePair(
+			BasicNameValuePair senduser_id = new BasicNameValuePair("user_id",
+					mUserID);
+			BasicNameValuePair sendtoken = new BasicNameValuePair("token",
+					mToken);
+			BasicNameValuePair sendcart_pk = new BasicNameValuePair("cart_pk",
+					sendCartpk);
+			BasicNameValuePair sendshipping_first_name = new BasicNameValuePair(
 					"shipping-first_name", _fname);
-			BasicNameValuePair _sendshipping_last_name = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_last_name = new BasicNameValuePair(
 					"shipping-last_name", _lname);
-			BasicNameValuePair _sendshipping_address = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_address = new BasicNameValuePair(
 					"shipping-address", _address);
-			BasicNameValuePair _sendshipping_zipcode = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_zipcode = new BasicNameValuePair(
 					"shipping-zipcode", _zipcode);
-			BasicNameValuePair _sendshipping_phone_number = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_phone_number = new BasicNameValuePair(
 					"shipping-phone_number", _pnmber);
-			BasicNameValuePair _sendshipping_district = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_district = new BasicNameValuePair(
 					"shipping-district", _country);
-			BasicNameValuePair _sendshipping_country = new BasicNameValuePair(
+			BasicNameValuePair sendshipping_country = new BasicNameValuePair(
 					"shipping-country", _country);
-			BasicNameValuePair _sendbilling_first_name = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_first_name = new BasicNameValuePair(
 					"billing-first_name", _fname);
-			BasicNameValuePair _sendbilling_last_name = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_last_name = new BasicNameValuePair(
 					"billing-last_name", _lname);
-			BasicNameValuePair _sendbilling_address = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_address = new BasicNameValuePair(
 					"billing-address", _address);
-			BasicNameValuePair _sendbilling_zipcode = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_zipcode = new BasicNameValuePair(
 					"billing-zipcode", _zipcode);
-			BasicNameValuePair _sendbilling_phone_number = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_phone_number = new BasicNameValuePair(
 					"billing-phone_number", _pnmber);
-			BasicNameValuePair _sendbilling_district = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_district = new BasicNameValuePair(
 					"billing-district", _country);
-			BasicNameValuePair _sendbilling_country = new BasicNameValuePair(
+			BasicNameValuePair sendbilling_country = new BasicNameValuePair(
 					"billing-country", _country);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_senduser_id);
-			_namevalueList.add(_sendtoken);
-			_namevalueList.add(_sendcart_pk);
-			_namevalueList.add(_sendshipping_first_name);
-			_namevalueList.add(_sendshipping_last_name);
-			_namevalueList.add(_sendshipping_address);
-			_namevalueList.add(_sendshipping_zipcode);
-			_namevalueList.add(_sendshipping_phone_number);
-			_namevalueList.add(_sendshipping_district);
-			_namevalueList.add(_sendshipping_country);
-			_namevalueList.add(_sendbilling_first_name);
-			_namevalueList.add(_sendbilling_last_name);
-			_namevalueList.add(_sendbilling_address);
-			_namevalueList.add(_sendbilling_zipcode);
-			_namevalueList.add(_sendbilling_phone_number);
-			_namevalueList.add(_sendbilling_district);
-			_namevalueList.add(_sendbilling_country);
-			_ResponseFromServer = SendData(_createCartUrl, _namevalueList);
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(senduser_id);
+			namevalueList.add(sendtoken);
+			namevalueList.add(sendcart_pk);
+			namevalueList.add(sendshipping_first_name);
+			namevalueList.add(sendshipping_last_name);
+			namevalueList.add(sendshipping_address);
+			namevalueList.add(sendshipping_zipcode);
+			namevalueList.add(sendshipping_phone_number);
+			namevalueList.add(sendshipping_district);
+			namevalueList.add(sendshipping_country);
+			namevalueList.add(sendbilling_first_name);
+			namevalueList.add(sendbilling_last_name);
+			namevalueList.add(sendbilling_address);
+			namevalueList.add(sendbilling_zipcode);
+			namevalueList.add(sendbilling_phone_number);
+			namevalueList.add(sendbilling_district);
+			namevalueList.add(sendbilling_country);
+			_ResponseFromServer = SendData(createCartUrl, namevalueList);
 			return null;
 		}
 
@@ -489,49 +465,49 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 				}
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 			mProgressHUD.dismiss();
 		}
 	}
 
-	public String SendData(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+	public String SendData(String url, List<NameValuePair> namevalueList) {
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpPost httppost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httppost.setEntity(new UrlEncodedFormEntity(namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
+			HttpResponse httpresponse = httpclient.execute(httppost);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
 
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
+				response = total.toString();
 			} else {
-				_Response = "Error";
+				response = "Error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
-	public void _ResponsePopup() {
+	public void responsePopup(String msg) {
 		View view = View.inflate(OrderDeliveryActiviy.this,
 				R.layout.error_popop, null);
-		_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-		_seterrormsg.setText(_msg);
+		TextView msgView = (TextView) view.findViewById(R.id._seterrormsg);
+		msgView.setText(msg);
 		Toast toast = new Toast(OrderDeliveryActiviy.this);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.setView(view);
