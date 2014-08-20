@@ -422,9 +422,10 @@
 
                         <TextView
                             android:id="@+id/order_subtotal_amount"
-                            android:layout_width="60dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1.0"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
                             android:textColor="#000"
@@ -460,9 +461,10 @@
 
                         <TextView
                             android:id="@+id/order_shiping_amount"
-                            android:layout_width="60dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1.0"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
                             android:textColor="#000"
@@ -498,9 +500,10 @@
 
                         <TextView
                             android:id="@+id/order_total_amount"
-                            android:layout_width="60dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_weight="1.0"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
                             android:textColor="#000"
@@ -522,7 +525,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/eleven"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="vertical" >
 
@@ -551,6 +553,7 @@
                 android:layout_height="150dp"
                 android:layout_below="@+id/thirteen"
                 android:layout_marginTop="10dp"
+                android:layout_alignParentBottom="true"
                 android:gravity="center" >
 
                 <Button
