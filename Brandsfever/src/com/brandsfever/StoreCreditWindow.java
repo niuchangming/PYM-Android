@@ -1,6 +1,7 @@
 package com.brandsfever;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -47,13 +48,13 @@ public class StoreCreditWindow extends DialogFragment implements
 		OnClickListener {
 	ListView store_credit_list;
 	Button cancel_dialouge;
-	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
-	CreditAdapter _adapter;
+	SharedPreferences mPref;
+	String mToken = "";
+	String mUserID = "";
+	CreditAdapter mAdapter;
 	String _ResponseFromServer;
 	StoreCreditWindow _lctx;
-	Typeface _font;;
+	Typeface mFont;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,35 +63,38 @@ public class StoreCreditWindow extends DialogFragment implements
 		View view = inflater.inflate(R.layout.activity_dialog_fragment_window,
 				container);
 		_lctx = this;
-		_font = Typeface.createFromAsset(getActivity().getAssets(),
+		mFont = Typeface.createFromAsset(getActivity().getAssets(),
 				"fonts/georgia.ttf");
 		cancel_dialouge = (Button) view.findViewById(R.id.cancel_dialouge);
 		cancel_dialouge.setOnClickListener(this);
 		store_credit_list = (ListView) view
 				.findViewById(R.id.store_credit_list);
 
-		_mypref = getActivity().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID", null);
-		_getToken = _mypref.getString("TOKEN", null);
+		mPref = getActivity().getSharedPreferences("mypref", 0);
+		mUserID = mPref.getString("ID", null);
+		mToken = mPref.getString("TOKEN", null);
 
-		_adapter = new CreditAdapter(getActivity(), PaymentActivity._storeCredits);
-		store_credit_list.setAdapter(_adapter);
+		mAdapter = new CreditAdapter(getActivity(),
+				PaymentActivity._storeCredits);
+		store_credit_list.setAdapter(mAdapter);
 
 		store_credit_list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View _view,
 					int position, long arg3) {
-				StoreCreditDetails _Sc = PaymentActivity._storeCredits
+				StoreCreditDetails storeCredits = PaymentActivity._storeCredits
 						.get(position);
-				String getpk = _Sc.getPk();
-				double getcreditamount = Double.parseDouble(_Sc.getAmount());
+				String getpk = storeCredits.getPk();
+				double getcreditamount = Double.parseDouble(storeCredits.getAmount());
 				DataHolderClass.getInstance().set_creditAmount(getcreditamount);
 				DataHolderClass.getInstance().set_creditpk(getpk);
 				new UseStoreCredit().execute();
 				dismiss();
-				startActivity(getActivity().getIntent());
-
+				PaymentActivity activity = (PaymentActivity) getActivity();
+				if(activity != null){
+					activity.getOrderList();
+				}
 			}
 		});
 
@@ -113,17 +117,17 @@ public class StoreCreditWindow extends DialogFragment implements
 	private class CreditAdapter extends BaseAdapter {
 		private Context mContext;
 		LayoutInflater inflater;
-		public ArrayList<StoreCreditDetails> _data;
+		public ArrayList<StoreCreditDetails> mData;
 		View itemView;
 
 		public CreditAdapter(Context c, ArrayList<StoreCreditDetails> _arraylist) {
 			mContext = c;
-			this._data = _arraylist;
+			this.mData = _arraylist;
 		}
 
 		@Override
 		public int getCount() {
-			return _data.size();
+			return mData.size();
 		}
 
 		@Override
@@ -138,9 +142,9 @@ public class StoreCreditWindow extends DialogFragment implements
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView _grantedby, _amount, _validtill;
+			TextView grantedby, amount, validtill;
 
-			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+			if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 				inflater = (LayoutInflater) mContext.getApplicationContext()
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				itemView = inflater.inflate(
@@ -152,19 +156,19 @@ public class StoreCreditWindow extends DialogFragment implements
 						false);
 			}
 
-			_grantedby = (TextView) itemView.findViewById(R.id.Set_Granted_by);
-			_grantedby.setTypeface(_font);
-			_amount = (TextView) itemView.findViewById(R.id.set_amount);
-			_amount.setTypeface(_font);
-			_validtill = (TextView) itemView.findViewById(R.id.set_validity);
-			_validtill.setTypeface(_font);
+			grantedby = (TextView) itemView.findViewById(R.id.Set_Granted_by);
+			grantedby.setTypeface(mFont);
+			amount = (TextView) itemView.findViewById(R.id.set_amount);
+			amount.setTypeface(mFont);
+			validtill = (TextView) itemView.findViewById(R.id.set_validity);
+			validtill.setTypeface(mFont);
 
-			StoreCreditDetails _Sc = _data.get(position);
+			StoreCreditDetails _Sc = mData.get(position);
 			if (_Sc.getIs_redeemable().equals("true")) {
-				_grantedby.setText(_Sc.getGranted_by());
+				grantedby.setText(_Sc.getGranted_by());
 				Double _tot = Double.valueOf(_Sc.getAmount());
-				_amount.setText("S$" + String.valueOf(_tot) + "0");
-				_validtill.setText(_Sc.getExpired_at());
+				amount.setText("S$" + String.valueOf(_tot) + "0");
+				validtill.setText(_Sc.getExpired_at());
 			}
 
 			return itemView;
@@ -196,31 +200,30 @@ public class StoreCreditWindow extends DialogFragment implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _s = DataHolderClass.getInstance().get_creditpk();
-			String _opk = DataHolderClass.getInstance().get_orderpk();
-			String _url = "https://www.brandsfever.com/api/v5/orders/" + _opk
+			String s = DataHolderClass.getInstance().get_creditpk();
+			String opk = DataHolderClass.getInstance().get_orderpk();
+			String url = "https://www.brandsfever.com/api/v5/orders/" + opk
 					+ "/discount/";
 			String apply_action = "store_credit_apply";
-			String store_credits = _s;
-			BasicNameValuePair _uid = new BasicNameValuePair("user_id",
-					_getuserId);
-			BasicNameValuePair _ut = new BasicNameValuePair("token", _getToken);
-			BasicNameValuePair _apply_action = new BasicNameValuePair(
+			String store_credits = s;
+			BasicNameValuePair uidPair = new BasicNameValuePair("user_id",
+					mUserID);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair(
 					"apply_action", apply_action);
-			BasicNameValuePair _store_credits = new BasicNameValuePair(
+			BasicNameValuePair creditsPair = new BasicNameValuePair(
 					"store_credits", store_credits);
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			_namevalueList.add(_uid);
-			_namevalueList.add(_ut);
-			_namevalueList.add(_apply_action);
-			_namevalueList.add(_store_credits);
-			_ResponseFromServer = SendData(_url, _namevalueList);
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			namevalueList.add(uidPair);
+			namevalueList.add(tokenPair);
+			namevalueList.add(actionPair);
+			namevalueList.add(creditsPair);
+			_ResponseFromServer = SendData(url, namevalueList);
 			return null;
 		}
 
 		@Override
 		public void onCancel(DialogInterface dialog) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -230,35 +233,35 @@ public class StoreCreditWindow extends DialogFragment implements
 
 	}
 
-	public String SendData(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+	public String SendData(String url, List<NameValuePair> namevalueList) {
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpPost httppost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httppost.setEntity(new UrlEncodedFormEntity(namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			HttpResponse httpresponse = httpclient.execute(httppost);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
+				response = total.toString();
 			} else {
-				_Response = "Error";
+				response = "Error";
 			}
-		} catch (Exception e) {
+		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
 }
