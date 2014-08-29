@@ -258,7 +258,7 @@ public class StoreCreditWindow extends DialogFragment implements
 			} else {
 				response = "Error";
 			}
-		} catch (IllegalStateException | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return response;

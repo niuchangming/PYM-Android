@@ -102,7 +102,6 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		
 		mFont = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		if (DataHolderClass.getInstance().get_deviceInch() < 7) {
 			setContentView(R.layout.activity_payment_screen);
@@ -266,10 +265,10 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		finish();
 	}
 
-	public void getOrderList(){
+	public void getOrderList() {
 		new GetOrderList().execute();
 	}
-	
+
 	class GetOrderList extends
 			AsyncTask<String, String, ArrayList<PaymentScreenOrderModel>>
 			implements OnCancelListener {
@@ -389,7 +388,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 					}
 				}
 			}
-		} catch (IllegalStateException | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -494,12 +493,11 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 					+ getpk + "/discount/";
 			BasicNameValuePair puserid = new BasicNameValuePair("user_id",
 					mUserId);
-			BasicNameValuePair ptoken = new BasicNameValuePair("token",
-					mToken);
-			BasicNameValuePair paction = new BasicNameValuePair(
-					"apply_action", _sendaction);
-			BasicNameValuePair psCredits = new BasicNameValuePair(
-					"identifier", _sendcode);
+			BasicNameValuePair ptoken = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair paction = new BasicNameValuePair("apply_action",
+					_sendaction);
+			BasicNameValuePair psCredits = new BasicNameValuePair("identifier",
+					_sendcode);
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			namevalueList.add(puserid);
 			namevalueList.add(ptoken);
@@ -572,7 +570,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			} else {
 				response = "Error";
 			}
-		} catch (IllegalStateException | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return response;
@@ -623,8 +621,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			HttpResponse httpresponse = httpclient.execute(httpget);
 			int responsecode = httpresponse.getStatusLine().getStatusCode();
 			if (responsecode == 200) {
-				InputStream inputstream = httpresponse.getEntity()
-						.getContent();
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
 						inputstream));
 				StringBuilder total = new StringBuilder();
@@ -667,7 +664,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 					}
 				}
 			}
-		} catch (IllegalStateException | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -703,7 +700,8 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			String apply_action = "store_credit_apply";
 			BasicNameValuePair uidPair = new BasicNameValuePair("user_id",
 					mUserId);
-			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
+					mToken);
 			BasicNameValuePair actionPair = new BasicNameValuePair(
 					"apply_action", apply_action);
 			BasicNameValuePair creditsPair = new BasicNameValuePair(
