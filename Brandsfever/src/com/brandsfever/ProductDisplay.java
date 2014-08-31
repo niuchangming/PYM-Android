@@ -226,7 +226,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			int index = ((CampaignFragment)mContent).mViewPager.getCurrentItem();
 			if (index < mMenu.mCategories.size()){
 				mCurrentMenu = mMenu.mCategories.get(index);
-				Log.e(TAG,"CurrentMenu: "+mCurrentMenu);
 			}
 		}
 	}
