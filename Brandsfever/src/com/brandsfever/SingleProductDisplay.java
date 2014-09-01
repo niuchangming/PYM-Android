@@ -988,6 +988,12 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					SingleProductDisplay.this.finish();
 				} else {
 					String msg = jobj.getString("msg");
+					if(msg.equalsIgnoreCase("login required")){
+
+						SharedPreferences.Editor editor = mPref.edit();
+						editor.clear();
+						editor.commit();
+					}
 					responsePopup(msg);
 				}
 			} catch (JSONException e) {
@@ -1100,6 +1106,11 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					finish();
 				} else {
 					String msg = jobj.getString("msg");
+					if(msg.equalsIgnoreCase("login required")){
+						SharedPreferences.Editor editor = mPref.edit();
+						editor.clear();
+						editor.commit();
+					}
 					responsePopup(msg);
 				}
 			} catch (Exception e) {
@@ -1248,10 +1259,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 				params.putString("name", desc.getText().toString());
 				params.putString("link", "https://www.brandsfever.com");
 				params.putString("description", "Svv");
-				/*
-				 * Resources res = getResources(); Drawable drawable =
-				 * res.getDrawable(R.drawable.fbicon);
-				 */
 				Bitmap bitmap;
 				if (facebook_bit_map == null) {
 					bitmap = BitmapFactory.decodeResource(getResources(),
@@ -1305,11 +1312,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		public void onComplete(final String response) {
 			mRunOnUi.post(new Runnable() {
 				public void run() {
-
-					/*
-					 * Toast.makeText(MainActivity.this, "Posted to Facebook",
-					 * Toast.LENGTH_SHORT).show();
-					 */
 				}
 			});
 		}
@@ -1331,8 +1333,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		}
 	}
 
-	// twitter
-
 	public void tweetToWall() {
 		// post on user's wall.
 		View post = null;
@@ -1340,10 +1340,8 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		LayoutInflater li = LayoutInflater.from(getApplicationContext());
 		post = li.inflate(R.layout.twitterialogsettings, null);
 		final EditText t1;
-		// ImageView i=(ImageView) post.findViewById(R.id.imageView3);
 		t1 = (EditText) post.findViewById(R.id.textView0);
 
-		// t1.setText("Messege:Deemz");
 		final ImageView back = (ImageView) post.findViewById(R.id.imageView1);
 		final ImageView post1 = (ImageView) post.findViewById(R.id.imageView2);
 		final ImageView post_image = (ImageView) post
@@ -1428,7 +1426,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 				twitter4j.Status responses = mTwitter.updateStatus(ad);
 				// Log.d("Status", "> " + response.getText());
 			} catch (TwitterException e) {
-
 				Log.d("Twitter Update Error", e.getMessage());
 			}
 			return null;
