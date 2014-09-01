@@ -664,6 +664,16 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		}
 	}
 
+	public void responsePopup(String msg) {
+		View view = View.inflate(getBaseContext(), R.layout.error_popop, null);
+		TextView errormsg = (TextView) view.findViewById(R.id._seterrormsg);
+		errormsg.setText(msg);
+		Toast toast = new Toast(getBaseContext());
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.setView(view);
+		toast.show();
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -733,16 +743,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 				if (!(mToken == null) && !(mUserId == null)) {
 					new AddToCartClass().execute();
 				} else {
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText("Please login!");
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
+					responsePopup("Please login!");
 				}
 
 			} catch (Exception e) {
@@ -757,16 +758,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 						&& mToken.length() > 0 && mUserId.length() > 0) {
 					new BuyNowClass().execute();
 				} else {
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText("Please login!");
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
+					responsePopup("Please login!");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -848,15 +840,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			_sendItemPK = pos;
 			SingleItemDataModel _sdm = _product_items_arraylist.get(pos);
 			if (_sdm.get_availablestock().equalsIgnoreCase("0")) {
-				LayoutInflater inflater = getLayoutInflater();
-				View view = inflater.inflate(R.layout.error_popop,
-						(ViewGroup) findViewById(R.id.relativeLayout1));
-				_seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-				_seterrormsg.setText("Out of stock");
-				toast = new Toast(_ctx);
-				toast.setGravity(Gravity.CENTER, 0, 0);
-				toast.setView(view);
-				toast.show();
+				responsePopup("Out of stock");
 			} else {
 				_sendItemPK = pos;
 			}
@@ -894,16 +878,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
-			LayoutInflater inflater = getLayoutInflater();
-			View view = inflater.inflate(R.layout.error_popop,
-					(ViewGroup) findViewById(R.id.relativeLayout1));
-			final TextView msgTextView = (TextView) view
-					.findViewById(R.id._seterrormsg);
-			msgTextView.setText("Please login!");
-			Toast toast = new Toast(SingleProductDisplay.this);
-			toast.setGravity(Gravity.CENTER, 0, 0);
-			toast.setView(view);
-			toast.show();
+			responsePopup("Please login!");
 		}
 	}
 
@@ -1004,36 +979,18 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPostExecute(String result) {
+			JSONObject jobj;
 			try {
-				JSONObject jobj = new JSONObject(result);
+				jobj = new JSONObject(result);
 				String ret = jobj.getString("ret");
 				if (ret.equals("0")) {
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText("Succesfully Added!");
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
-
+					responsePopup("Successfully Added!");
 					SingleProductDisplay.this.finish();
 				} else {
-					String _errormsg = jobj.getString("msg");
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText(_errormsg);
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
+					String msg = jobj.getString("msg");
+					responsePopup(msg);
 				}
-			} catch (Exception e) {
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			mProgressHUD.dismiss();
@@ -1137,31 +1094,13 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 				JSONObject jobj = new JSONObject(result);
 				String ret = jobj.getString("ret");
 				if (ret.equals("0")) {
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText("Successfully Added!");
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
-					Intent _bn = new Intent(_ctx, MyCartActivity.class);
-					startActivity(_bn);
+					responsePopup("Successfully Added!");
+					Intent intent = new Intent(_ctx, MyCartActivity.class);
+					startActivity(intent);
 					finish();
 				} else {
-					String _msg = jobj.getString("msg");
-					LayoutInflater inflater = getLayoutInflater();
-					View view = inflater.inflate(R.layout.error_popop,
-							(ViewGroup) findViewById(R.id.relativeLayout1));
-					_seterrormsg = (TextView) view
-							.findViewById(R.id._seterrormsg);
-					_seterrormsg.setText(_msg);
-					toast = new Toast(_ctx);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.setView(view);
-					toast.show();
+					String msg = jobj.getString("msg");
+					responsePopup(msg);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
