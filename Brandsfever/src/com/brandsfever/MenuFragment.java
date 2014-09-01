@@ -105,6 +105,8 @@ public class MenuFragment extends ListFragment {
 				if (userName != null) {
 					updateToLogin = true;
 					mUserName = userName;
+				} else {
+					mUserName = userName;
 				}
 			}
 
