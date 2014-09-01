@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
-
 		setContentView(R.layout.content_frame);
 
 		if (findViewById(R.id.menu_frame) == null) {
@@ -91,9 +89,11 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 		}
 
-		if (savedInstanceState != null)
+		if (savedInstanceState != null) {
 			mContent = getSupportFragmentManager().getFragment(
 					savedInstanceState, "mContent");
+			mCurrentMenu = savedInstanceState.getString("mCurrentMenu");
+		}
 		if (mContent == null) {
 			mCurrentMenu = "All";
 			mCampaignFragment = CampaignFragment.newInstance();
@@ -153,19 +153,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		getSupportFragmentManager().putFragment(outState, "mContent", mContent);
-	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		if (requestCode == 1) {
-
-			if (resultCode == RESULT_OK) {
-				startActivity(getIntent());
-				if (resultCode == RESULT_CANCELED) {
-					// Do nothing?
-				}
-			}
-		}
+		outState.putString("mCurrentMenu", mCurrentMenu);
 	}
 
 	@Override
