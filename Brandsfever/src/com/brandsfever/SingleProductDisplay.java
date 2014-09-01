@@ -111,9 +111,9 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 	int color, colors;
 	ImageButton productinfo, shipinginfo, open_size_chart, add_to_cart,
 			buy_now, click_to_zoom;
-	SharedPreferences _mypref;
-	String _getToken = "";
-	String _getuserId = "";
+	SharedPreferences mPref;
+	String mToken;
+	String mUserId;
 	String ends_at, _pk, name, offer_price, market_price, description;
 	private int btn_press_count = 1;
 	Spinner set_size, set_quantity;
@@ -134,7 +134,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 	View _v;
 	RelativeLayout _foot;
 	Toast toast;
-	String _cartResponse;
 	TextView _pname, _settimeframe, set_product_description, set_shiping_info,
 			set_market_price, set_sales_price;
 	ProgressHUD _popmsg;
@@ -200,7 +199,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 				directToCart();
 			}
 		});
-		
+
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
@@ -275,9 +274,9 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		set_quantity = (Spinner) findViewById(R.id.display_quantity);
 
-		_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
-		_getuserId = _mypref.getString("ID",null);
-		_getToken = _mypref.getString("TOKEN", null);
+		mPref = getApplicationContext().getSharedPreferences("mypref", 0);
+		mUserId = mPref.getString("ID", null);
+		mToken = mPref.getString("TOKEN", null);
 
 		scrollbutton = (Button) findViewById(R.id.scrollbutton);
 		scrollbutton.setOnClickListener(this);
@@ -338,9 +337,9 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 
-			if(ends_at == null)
+			if (ends_at == null)
 				return;
-			
+
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 
 				_pname.setText(name);
@@ -615,7 +614,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 							_sizechartvalue.add(_singleobjs);
 						}
 
-					} 
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -736,7 +735,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		case R.id.add_to_cart:
 			try {
-				if (!(_getToken == null) && !(_getuserId == null)) {
+				if (!(mToken == null) && !(mUserId == null)) {
 					new AddToCartClass().execute();
 				} else {
 					LayoutInflater inflater = getLayoutInflater();
@@ -759,8 +758,8 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			if (click_button % 2 != 0) {
 			}
 			try {
-				if (!(_getToken == null) && !(_getuserId == null)
-						&& _getToken.length() > 0 && _getuserId.length() > 0) {
+				if (!(mToken == null) && !(mUserId == null)
+						&& mToken.length() > 0 && mUserId.length() > 0) {
 					new BuyNowClass().execute();
 				} else {
 					LayoutInflater inflater = getLayoutInflater();
@@ -889,15 +888,15 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-
 	private void directToCart() {
 
 		SharedPreferences mypref = getApplicationContext()
 				.getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
-		
+
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(SingleProductDisplay.this, MyCartActivity.class);
+			Intent gotocart = new Intent(SingleProductDisplay.this,
+					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
@@ -912,6 +911,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			toast.show();
 		}
 	}
+
 	@Override
 	public void onBackPressed() {
 		finish();
@@ -981,39 +981,37 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... arg0) {
-			String _url = "https://www.brandsfever.com/api/v5/carts/";
-			String _userid = _getuserId;
-			String _token = _getToken;
-			String _Action = "add_product";
-			String _Quantity = set_quantity.getSelectedItem().toString();
-			String _itemPk = _product_items_arraylist.get(_sendItemPK)
+			String url = "https://www.brandsfever.com/api/v5/carts/";
+			String action = "add_product";
+			String quantity = set_quantity.getSelectedItem().toString();
+			String itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
 
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			BasicNameValuePair userid = new BasicNameValuePair("user_id",
-					_userid);
-			BasicNameValuePair token = new BasicNameValuePair("token", _token);
-			BasicNameValuePair action = new BasicNameValuePair("action",
-					_Action);
-			BasicNameValuePair quantity = new BasicNameValuePair("quantity",
-					_Quantity);
-			BasicNameValuePair itempk = new BasicNameValuePair(
-					"product_item_pk", _itemPk);
-			_namevalueList.add(userid);
-			_namevalueList.add(token);
-			_namevalueList.add(action);
-			_namevalueList.add(quantity);
-			_namevalueList.add(itempk);
-			_cartResponse = _AddProduct(_url, _namevalueList);
-			return null;
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
+					mUserId);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair("action",
+					action);
+			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity",
+					quantity);
+			BasicNameValuePair itempkPair = new BasicNameValuePair(
+					"product_item_pk", itemPk);
+			namevalueList.add(useridPair);
+			namevalueList.add(tokenPair);
+			namevalueList.add(actionPair);
+			namevalueList.add(quantityPair);
+			namevalueList.add(itempkPair);
+			String result = addProduct(url, namevalueList);
+			return result;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
 			try {
-				JSONObject jobj = new JSONObject(_cartResponse);
-				String _Ret = jobj.getString("ret");
-				if (_Ret.equals("0")) {
+				JSONObject jobj = new JSONObject(result);
+				String ret = jobj.getString("ret");
+				if (ret.equals("0")) {
 					LayoutInflater inflater = getLayoutInflater();
 					View view = inflater.inflate(R.layout.error_popop,
 							(ViewGroup) findViewById(R.id.relativeLayout1));
@@ -1047,7 +1045,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 	}
 
-	public String _AddProduct(String url, List<NameValuePair> _namevalueList) {
+	public String addProduct(String url, List<NameValuePair> _namevalueList) {
 		String _Response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
@@ -1106,31 +1104,29 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/carts/";
-			String _userid = _getuserId;
-			String _token = _getToken;
-			String _Action = "add_product";
-			String _Quantity = set_quantity.getSelectedItem().toString();
-			String _itemPk = _product_items_arraylist.get(_sendItemPK)
+			String url = "https://www.brandsfever.com/api/v5/carts/";
+			String action = "add_product";
+			String quantity = set_quantity.getSelectedItem().toString();
+			String itemPk = _product_items_arraylist.get(_sendItemPK)
 					.getProduct_item_pk();
 
-			List<NameValuePair> _namevalueList = new ArrayList<NameValuePair>();
-			BasicNameValuePair userid = new BasicNameValuePair("user_id",
-					_userid);
-			BasicNameValuePair token = new BasicNameValuePair("token", _token);
-			BasicNameValuePair action = new BasicNameValuePair("action",
-					_Action);
-			BasicNameValuePair quantity = new BasicNameValuePair("quantity",
-					_Quantity);
-			BasicNameValuePair itempk = new BasicNameValuePair(
-					"product_item_pk", _itemPk);
-			_namevalueList.add(userid);
-			_namevalueList.add(token);
-			_namevalueList.add(action);
-			_namevalueList.add(quantity);
-			_namevalueList.add(itempk);
-			_cartResponse = _AddProduct(_url, _namevalueList);
-			return null;
+			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
+			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
+					mUserId);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair("action",
+					action);
+			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity",
+					quantity);
+			BasicNameValuePair itempkPair = new BasicNameValuePair(
+					"product_item_pk", itemPk);
+			namevalueList.add(useridPair);
+			namevalueList.add(tokenPair);
+			namevalueList.add(actionPair);
+			namevalueList.add(quantityPair);
+			namevalueList.add(itempkPair);
+			String result = addProduct(url, namevalueList);
+			return result;
 		}
 
 		@Override
@@ -1141,9 +1137,9 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 			try {
-				JSONObject jobj = new JSONObject(_cartResponse);
-				String _Ret = jobj.getString("ret");
-				if (_Ret.equals("0")) {
+				JSONObject jobj = new JSONObject(result);
+				String ret = jobj.getString("ret");
+				if (ret.equals("0")) {
 					LayoutInflater inflater = getLayoutInflater();
 					View view = inflater.inflate(R.layout.error_popop,
 							(ViewGroup) findViewById(R.id.relativeLayout1));
