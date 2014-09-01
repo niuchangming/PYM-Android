@@ -21,6 +21,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import twitter4j.StatusUpdate;
@@ -320,8 +321,8 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected String doInBackground(String... params) {
-			String _url = "https://www.brandsfever.com/api/v5/products/" + pk;
-			GetItemDetails(_url);
+			String url = "https://www.brandsfever.com/api/v5/products/" + pk;
+			GetItemDetails(url);
 			return null;
 		}
 
@@ -529,94 +530,88 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		}
 	}
 
-	public void GetItemDetails(String _url) {
+	public void GetItemDetails(String url) {
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpGet _httpget = new HttpGet(_url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpGet httpget = new HttpGet(url);
 		try {
-			HttpResponse _httpresponse = _httpclient.execute(_httpget);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
-						.getContent();
+			HttpResponse httpresponse = httpclient.execute(httpget);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
 				String _data = total.toString();
-				try {
-					JSONObject obj = new JSONObject(_data);
-					String msgs = obj.getString("msg");
-					if (msgs.equalsIgnoreCase("ok")) {
+				JSONObject obj = new JSONObject(_data);
+				String msgs = obj.getString("msg");
+				if (msgs.equalsIgnoreCase("ok")) {
 
-						JSONObject data = obj.getJSONObject("data");
-						ends_at = data.getString("ends_at");
-						market_price = data.getString("market_price");
-						offer_price = data.getString("sales_price");
-						name = data.getString("name");
-						_pk = data.getString("pk");
-						description = data.getString("description");
+					JSONObject data = obj.getJSONObject("data");
+					ends_at = data.getString("ends_at");
+					market_price = data.getString("market_price");
+					offer_price = data.getString("sales_price");
+					name = data.getString("name");
+					_pk = data.getString("pk");
+					description = data.getString("description");
 
-						JSONArray _productItems = data
-								.getJSONArray("product_items");
-						for (int i = 0; i < _productItems.length(); i++) {
-							SingleItemDataModel _singleobj = new SingleItemDataModel();
-							JSONObject jsonobj = _productItems.getJSONObject(i);
+					JSONArray _productItems = data
+							.getJSONArray("product_items");
+					for (int i = 0; i < _productItems.length(); i++) {
+						SingleItemDataModel _singleobj = new SingleItemDataModel();
+						JSONObject jsonobj = _productItems.getJSONObject(i);
 
-							String _availablestock = jsonobj
-									.getString("available stock");
-							String _product_item_pk = jsonobj
-									.getString("product_item_pk");
-							String product_item_property = jsonobj
-									.getString("product_item_property");
+						String _availablestock = jsonobj
+								.getString("available stock");
+						String _product_item_pk = jsonobj
+								.getString("product_item_pk");
+						String product_item_property = jsonobj
+								.getString("product_item_property");
 
-							_singleobj.setProduct_item_name(name);
-							_singleobj.set_availablestock(_availablestock);
-							_singleobj.setProduct_item_pk(_product_item_pk);
-							_singleobj
-									.setProduct_item_property(product_item_property);
+						_singleobj.setProduct_item_name(name);
+						_singleobj.set_availablestock(_availablestock);
+						_singleobj.setProduct_item_pk(_product_item_pk);
+						_singleobj
+								.setProduct_item_property(product_item_property);
 
-							_product_items_arraylist.add(_singleobj);
-
-						}
-
-						JSONArray _photos = data.getJSONArray("photos");
-						SingleItemDataModel _imageobj = new SingleItemDataModel();
-						ArrayList<String> _productImages = new ArrayList<String>();
-						for (int k = 0; k < _photos.length(); k++) {
-							JSONArray _picobj = _photos.getJSONArray(k);
-							ArrayList<String> img_list = new ArrayList<String>();
-							for (int l = 0; l < _picobj.length(); l++) {
-								_productImages.add(_picobj.getString(l));
-								img_list.add(_picobj.getString(l));
-							}
-							img_map.put(k, img_list);
-							_imageobj.setImages_list(_productImages);
-							_imglist.add(_imageobj);
-						}
-						JSONArray _propertyList = data
-								.getJSONArray("property_list");
-						for (int j = 0; j < _propertyList.length(); j++) {
-							SingleItemDataModel _singleobjs = new SingleItemDataModel();
-							JSONObject jsonobjs = _propertyList
-									.getJSONObject(j);
-
-							String _propertyName = jsonobjs.getString("name");
-							String _propertyValue = jsonobjs.getString("value");
-
-							_singleobjs.set_propertylistName(_propertyName);
-							_singleobjs.set_propertylistValue(_propertyValue);
-
-							_sizechartvalue.add(_singleobjs);
-						}
+						_product_items_arraylist.add(_singleobj);
 
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+
+					JSONArray _photos = data.getJSONArray("photos");
+					SingleItemDataModel _imageobj = new SingleItemDataModel();
+					ArrayList<String> _productImages = new ArrayList<String>();
+					for (int k = 0; k < _photos.length(); k++) {
+						JSONArray _picobj = _photos.getJSONArray(k);
+						ArrayList<String> img_list = new ArrayList<String>();
+						for (int l = 0; l < _picobj.length(); l++) {
+							_productImages.add(_picobj.getString(l));
+							img_list.add(_picobj.getString(l));
+						}
+						img_map.put(k, img_list);
+						_imageobj.setImages_list(_productImages);
+						_imglist.add(_imageobj);
+					}
+					JSONArray _propertyList = data
+							.getJSONArray("property_list");
+					for (int j = 0; j < _propertyList.length(); j++) {
+						SingleItemDataModel _singleobjs = new SingleItemDataModel();
+						JSONObject jsonobjs = _propertyList.getJSONObject(j);
+
+						String _propertyName = jsonobjs.getString("name");
+						String _propertyValue = jsonobjs.getString("value");
+
+						_singleobjs.set_propertylistName(_propertyName);
+						_singleobjs.set_propertylistValue(_propertyValue);
+
+						_sizechartvalue.add(_singleobjs);
+					}
+
 				}
 			}
 		} catch (Exception e) {
@@ -683,8 +678,8 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			break;
 
 		case R.id.click_to_zoom:
-			Intent _zoom = new Intent(getApplicationContext(), ZoomShow.class);
-			startActivity(_zoom);
+			Intent zoom = new Intent(getApplicationContext(), ZoomShow.class);
+			startActivity(zoom);
 			break;
 
 		case R.id.scrollbutton:
@@ -990,11 +985,12 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
 					mUserId);
-			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
+					mToken);
 			BasicNameValuePair actionPair = new BasicNameValuePair("action",
 					action);
-			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity",
-					quantity);
+			BasicNameValuePair quantityPair = new BasicNameValuePair(
+					"quantity", quantity);
 			BasicNameValuePair itempkPair = new BasicNameValuePair(
 					"product_item_pk", itemPk);
 			namevalueList.add(useridPair);
@@ -1046,34 +1042,34 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 	}
 
 	public String addProduct(String url, List<NameValuePair> _namevalueList) {
-		String _Response = null;
+		String response = null;
 		TrustAllCertificates cert = new TrustAllCertificates();
 		cert.trustAllHosts();
-		HttpClient _httpclient = HttpsClient.getNewHttpClient();
-		HttpPost _httppost = new HttpPost(url);
+		HttpClient httpclient = HttpsClient.getNewHttpClient();
+		HttpPost httppost = new HttpPost(url);
 		try {
-			_httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
+			httppost.setEntity(new UrlEncodedFormEntity(_namevalueList,
 					HTTP.UTF_8));
-			HttpResponse _httpresponse = _httpclient.execute(_httppost);
-			int _responsecode = _httpresponse.getStatusLine().getStatusCode();
-			if (_responsecode == 200) {
-				InputStream _inputstream = _httpresponse.getEntity()
+			HttpResponse httpresponse = httpclient.execute(httppost);
+			int responsecode = httpresponse.getStatusLine().getStatusCode();
+			if (responsecode == 200) {
+				InputStream inputstream = httpresponse.getEntity()
 						.getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
-						_inputstream));
+						inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {
 					total.append(line);
 				}
-				_Response = total.toString();
+				response = total.toString();
 			} else {
-				_Response = "Error";
+				response = "Error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return _Response;
+		return response;
 	}
 
 	class BuyNowClass extends AsyncTask<String, String, String> implements
@@ -1113,11 +1109,12 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
 			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
 					mUserId);
-			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
+					mToken);
 			BasicNameValuePair actionPair = new BasicNameValuePair("action",
 					action);
-			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity",
-					quantity);
+			BasicNameValuePair quantityPair = new BasicNameValuePair(
+					"quantity", quantity);
 			BasicNameValuePair itempkPair = new BasicNameValuePair(
 					"product_item_pk", itemPk);
 			namevalueList.add(useridPair);
