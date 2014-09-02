@@ -224,7 +224,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			break;
 
 		case R.id.edit_user_profile:
-			Intent _ep = new Intent(SettingTab.this, Edit_Profile.class);
+			Intent _ep = new Intent(SettingTab.this, EditProfile.class);
 			startActivity(_ep);
 			break;
 		case R.id.change_password:
@@ -240,7 +240,7 @@ public class SettingTab extends Activity implements OnClickListener {
 			
 		case R.id.already_invited:
 			Intent _AI = new Intent(SettingTab.this,
-					People_I_Invited.class);
+					PeopleIInvited.class);
 			startActivity(_AI);
 			break;
 

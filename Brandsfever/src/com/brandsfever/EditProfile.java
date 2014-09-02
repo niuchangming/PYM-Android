@@ -55,9 +55,9 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class Edit_Profile extends SherlockFragmentActivity implements
+public class EditProfile extends SherlockFragmentActivity implements
 		OnClickListener {
-	Context _ctx = Edit_Profile.this;
+	Context _ctx = EditProfile.this;
 	EditText _firstname, _lastname, _zender, _birthdate, _mobileno;
 	private String Ufname, Ulname, Urupdates, Upenglish, Umno, Ubdate, Ugender,
 			Uemail;
@@ -243,7 +243,7 @@ public class Edit_Profile extends SherlockFragmentActivity implements
 
 	public void FillZenderPopup() {
 		try {
-			LayoutInflater inflater = (LayoutInflater) Edit_Profile.this
+			LayoutInflater inflater = (LayoutInflater) EditProfile.this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.zender_popup,
 					(ViewGroup) findViewById(R.id.zender_custom));
@@ -560,7 +560,7 @@ public class Edit_Profile extends SherlockFragmentActivity implements
 		String username = mypref.getString("UserName", null);
 
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(Edit_Profile.this,
+			Intent gotocart = new Intent(EditProfile.this,
 					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
@@ -570,7 +570,7 @@ public class Edit_Profile extends SherlockFragmentActivity implements
 			final TextView msgTextView = (TextView) view
 					.findViewById(R.id._seterrormsg);
 			msgTextView.setText("Please login!");
-			Toast toast = new Toast(Edit_Profile.this);
+			Toast toast = new Toast(EditProfile.this);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.setView(view);
 			toast.show();

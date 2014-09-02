@@ -11,14 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 
-public class Signup_page extends Fragment {
+public class SignupPage extends Fragment {
 	EditText F_Name,L_Name,Password,EmailId;
 	ImageButton hit_register,signup_with_fb;
     String _Fname,_Lname,_Password,_Email;
 	String _ResponseRegister;
 
 	public static Fragment newInstance(String message,int item,DialogFragment _df) {
-		Signup_page f = new Signup_page();			
+		SignupPage f = new SignupPage();			
 		return f;
 	}
 

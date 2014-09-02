@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".Edit_Profile" >
+    tools:context=".EditProfile" >
 
     <LinearLayout
         android:id="@+id/two"

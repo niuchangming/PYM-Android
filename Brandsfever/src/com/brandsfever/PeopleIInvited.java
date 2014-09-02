@@ -60,7 +60,7 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class People_I_Invited extends SherlockFragmentActivity implements
+public class PeopleIInvited extends SherlockFragmentActivity implements
 		OnClickListener {
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -193,7 +193,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(People_I_Invited.this, "Loading",
+			mProgressHUD = ProgressHUD.show(PeopleIInvited.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -222,9 +222,9 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPostExecute(String result) {
-			_adapter = new InviteAdapter(People_I_Invited.this, pendingemail);
+			_adapter = new InviteAdapter(PeopleIInvited.this, pendingemail);
 			set_email_invite.setAdapter(_adapter);
-			_fbadapter = new FacebookInviteAdapter(People_I_Invited.this,
+			_fbadapter = new FacebookInviteAdapter(PeopleIInvited.this,
 					pendingfacebook);
 			set_facebook_invite.setAdapter(_fbadapter);
 			mProgressHUD.dismiss();
@@ -476,7 +476,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 				TextView _seterrormsg = (TextView) view
 						.findViewById(R.id._seterrormsg);
 				_seterrormsg.setText("Please select one email to re-invite!");
-				Toast toast = new Toast(People_I_Invited.this);
+				Toast toast = new Toast(PeopleIInvited.this);
 				toast.setGravity(Gravity.CENTER, 0, 0);
 				toast.setView(view);
 				toast.show();
@@ -534,7 +534,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(People_I_Invited.this, "Loading",
+			mProgressHUD = ProgressHUD.show(PeopleIInvited.this, "Loading",
 					true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -584,7 +584,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 					TextView _seterrormsg = (TextView) view
 							.findViewById(R.id._seterrormsg);
 					_seterrormsg.setText("Invite Sent Successfully!");
-					Toast toast = new Toast(People_I_Invited.this);
+					Toast toast = new Toast(PeopleIInvited.this);
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.setView(view);
 					toast.show();
@@ -642,7 +642,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 		String username = mypref.getString("UserName", null);
 		
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(People_I_Invited.this, MyCartActivity.class);
+			Intent gotocart = new Intent(PeopleIInvited.this, MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
@@ -651,7 +651,7 @@ public class People_I_Invited extends SherlockFragmentActivity implements
 			final TextView msgTextView = (TextView) view
 					.findViewById(R.id._seterrormsg);
 			msgTextView.setText("Please login!");
-			Toast toast = new Toast(People_I_Invited.this);
+			Toast toast = new Toast(PeopleIInvited.this);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.setView(view);
 			toast.show();

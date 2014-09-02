@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".People_I_Invited" >
+    tools:context=".PeopleIInvited" >
 
     <RelativeLayout
         android:id="@+id/two"

@@ -122,7 +122,7 @@ public class MyAccount extends SherlockFragmentActivity implements OnClickListen
 			break;
 
 		case R.id.editprofile:
-			Intent editp = new Intent(this, Edit_Profile.class);
+			Intent editp = new Intent(this, EditProfile.class);
 			startActivity(editp);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);
@@ -143,7 +143,7 @@ public class MyAccount extends SherlockFragmentActivity implements OnClickListen
 			break;
 
 		case R.id.seeinvitedpeople:
-			Intent Si = new Intent(this, People_I_Invited.class);
+			Intent Si = new Intent(this, PeopleIInvited.class);
 			startActivity(Si);
 			overridePendingTransition(R.anim.push_out_to_right,
 					R.anim.push_out_to_left);

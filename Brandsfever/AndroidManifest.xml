@@ -105,7 +105,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.brandsfever.Edit_Profile"
+            android:name="com.brandsfever.EditProfile"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden" >
@@ -177,7 +177,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name="com.brandsfever.TenInch_login"
+            android:name="com.brandsfever.TenInchLogin"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" >
@@ -201,13 +201,13 @@
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name="com.brandsfever.People_I_Invited"
+            android:name="com.brandsfever.PeopleIInvited"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name="com.brandsfever.Facebook_Invite"
+            android:name="com.brandsfever.FacebookInvite"
             android:label="@string/title_activity_facebook__invite" >
         </activity>
 

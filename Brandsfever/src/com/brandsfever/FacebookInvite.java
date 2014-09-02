@@ -27,7 +27,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class Facebook_Invite extends Activity {
+public class FacebookInvite extends Activity {
 	Facebook facebook;
 	public ArrayList<faceclass> faceclassobj = new ArrayList<faceclass>();
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -86,7 +86,7 @@ public class Facebook_Invite extends Activity {
 		   ProgressHUD mProgressHUD;
 			@Override
 			protected void onPreExecute() {
-				mProgressHUD = ProgressHUD.show(Facebook_Invite.this,"Loading", true,true,this);
+				mProgressHUD = ProgressHUD.show(FacebookInvite.this,"Loading", true,true,this);
 				DisplayMetrics displaymetrics = new DisplayMetrics();
 				getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 				int displayHeight = displaymetrics.heightPixels;

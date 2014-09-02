@@ -3,7 +3,7 @@ package com.brandsfever;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class TenInch_login extends Activity {
+public class TenInchLogin extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
