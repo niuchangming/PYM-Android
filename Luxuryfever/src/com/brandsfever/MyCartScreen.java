@@ -60,7 +60,7 @@ import com.ssl.TrustAllCertificates;
 public class MyCartScreen extends FragmentActivity implements OnClickListener {
 	Context _ctx = MyCartScreen.this;
 	private ImageButton main_menu,back_buttons;
-	private ImageButton continue_shoping, checkout_cart;
+	private Button continue_shoping, checkout_cart;
 	private TextView shiping_fee_tag, shiping_fee_amount, payable_amount_tag,
 			payable_amount, cart_summery_tag, item_count_tag;
 	SharedPreferences _mypref;
@@ -171,10 +171,10 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 		_logout.setTypeface(_font);
 		_logout.setOnClickListener(this);
 
-		checkout_cart = (ImageButton) findViewById(R.id.checkout_cart);
+		checkout_cart = (Button) findViewById(R.id.checkout_cart);
 		checkout_cart.setOnClickListener(this);
 
-		continue_shoping = (ImageButton) findViewById(R.id.continue_shoping);
+		continue_shoping = (Button) findViewById(R.id.continue_shopping);
 		continue_shoping.setOnClickListener(this);
 
 		_all.setTextColor(colors);
@@ -678,7 +678,7 @@ public class MyCartScreen extends FragmentActivity implements OnClickListener {
 			}
 
 			break;
-		case R.id.continue_shoping:
+		case R.id.continue_shopping:
 			Intent _continueshop = new Intent(_ctx, ProductDisplay.class);
 			startActivity(_continueshop);
 			overridePendingTransition(R.anim.push_out_to_right,

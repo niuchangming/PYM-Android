@@ -58,7 +58,8 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 	Context _ctx = OrderDelivery_Screen.this;
 	TextView title_tag, billing_addrress, sameas_billing_tag;
 	Typeface _font;
-	ImageButton main_menu, back_btn, cart_btn, send_to_thid_address;
+	ImageButton main_menu, back_btn, cart_btn;
+	Button send_to_this_address;
 	SimpleSideDrawer slide_me;
 	Button _all, _men, _women,  _login,
 			_settings, _mycart, mSupport, _invite, _logout;
@@ -171,8 +172,8 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 		back_btn = (ImageButton) findViewById(R.id.back_btn);
 		back_btn.setOnClickListener(this);
 
-		send_to_thid_address = (ImageButton) findViewById(R.id.send_to_thid_address);
-		send_to_thid_address.setOnClickListener(this);
+		send_to_this_address = (Button) findViewById(R.id.send_to_this_address);
+		send_to_this_address.setOnClickListener(this);
 
 		_all = (Button) findViewById(R.id.btn_all_cat);
 		_all.setTypeface(_font);
@@ -330,7 +331,7 @@ public class OrderDelivery_Screen extends FragmentActivity implements
 			finish();
 			break;
 
-		case R.id.send_to_thid_address:
+		case R.id.send_to_this_address:
 			_fname = first_name.getText().toString();
 			_lname = last_name.getText().toString();
 			_address = address.getText().toString();
