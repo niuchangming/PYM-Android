@@ -528,41 +528,27 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/ten"
-                android:layout_width="fill_parent"
-                android:layout_height="200dp"
-                android:layout_below="@+id/nine"
-                android:background="@android:color/transparent" >
-
-                <ImageView
-                    android:id="@+id/paypal_logo"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="20dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/paypal_image"
-                    android:contentDescription="@string/brandsfever"
-                    android:scaleType="fitXY" />
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/eleven"
                 android:layout_width="fill_parent"
                 android:layout_height="75dp"
-                android:layout_below="@+id/ten"
+                android:layout_below="@+id/nine"
                 android:background="@android:color/transparent" >
 
-                <ImageButton
-                    android:id="@+id/pay_with_paypal"
+                <Button
+                    android:id="@+id/pay_with_credit_card"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentTop="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:background="@drawable/paypal_btn"
-                    android:contentDescription="@string/brandsfever" />
+                    android:background="@color/black"
+                    android:contentDescription="@string/brandsfever"
+                    android:text="Credit/Debit Card"
+                    android:textColor="@color/white" />
+                
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

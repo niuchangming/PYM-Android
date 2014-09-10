@@ -74,7 +74,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 			set_campaign_tag, set_product_tag;
 	TextView set_quantity_tag, set_unitprice_tag, set_totalprice_tag,
 			store_credit_tag;
-	ImageButton pay_with_paypal;
+	Button mPayWithCreditCard;
 	String _ResponseFromServer, _ResponseFromServerCredits;
 	SharedPreferences _mypref;
 	String _getToken = "";
@@ -233,8 +233,8 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		remove_pcode = (Button) findViewById(R.id.remove_pcode);
 		remove_pcode.setOnClickListener(this);
 
-		pay_with_paypal = (ImageButton) findViewById(R.id.pay_with_paypal);
-		pay_with_paypal.setOnClickListener(this);
+		mPayWithCreditCard = (Button) findViewById(R.id.pay_with_credit_card);
+		mPayWithCreditCard.setOnClickListener(this);
 
 		_all = (Button) findViewById(R.id.btn_all_cat);
 		_all.setTypeface(_font);
@@ -491,7 +491,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.pay_with_paypal:
+		case R.id.pay_with_credit_card:
 			Intent payIntent = new Intent(PaymentScreen.this,
 					PayWithPaypal_Screen.class);
 			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
