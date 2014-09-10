@@ -493,7 +493,7 @@ public class PaymentScreen extends FragmentActivity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.pay_with_credit_card:
 			Intent payIntent = new Intent(PaymentScreen.this,
-					PayWithPaypal_Screen.class);
+					PayWithCreditCardActivity.class);
 			payIntent.putExtra("OrderDetailKey", mOrderDetail.toString());
 			startActivity(payIntent);
 			overridePendingTransition(R.anim.push_out_to_right,

@@ -49,10 +49,10 @@ import com.progressbar.ProgressHUD;
 import com.ssl.HttpsClient;
 import com.ssl.TrustAllCertificates;
 
-public class PayWithPaypal_Screen extends FragmentActivity implements
+public class PayWithCreditCardActivity extends FragmentActivity implements
 		OnClickListener {
 	private static final String TAG = "PayWithPaypal_Screen";
-	Context _ctx = PayWithPaypal_Screen.this;
+	Context _ctx = PayWithCreditCardActivity.this;
 	WebView mPaypalWebView;
 	String mPaypalUrl;
 	SharedPreferences _mypref;
@@ -149,7 +149,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		_logout.setTypeface(_font);
 		_logout.setOnClickListener(this);
 
-		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/paypal/?token="
+		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/credit-card/?token="
 				+ _getToken
 				+ "&user_id="
 				+ _getuserId
@@ -390,7 +390,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 		@Override
 		protected void onPreExecute() {
 
-			mProgressHUD = ProgressHUD.show(PayWithPaypal_Screen.this,
+			mProgressHUD = ProgressHUD.show(PayWithCreditCardActivity.this,
 					"Loading", true, true, this);
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -402,7 +402,7 @@ public class PayWithPaypal_Screen extends FragmentActivity implements
 			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 
-			CookieSyncManager.createInstance(PayWithPaypal_Screen.this);
+			CookieSyncManager.createInstance(PayWithCreditCardActivity.this);
 			cookieManager = CookieManager.getInstance();
 
 			if (sessionCookie != null) {
