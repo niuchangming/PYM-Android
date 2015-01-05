@@ -244,7 +244,7 @@ public class SettingPhone extends Fragment implements OnClickListener {
 						public void onClick(View v) {
 							pwindo.dismiss();
 							Intent callIntent = new Intent(Intent.ACTION_CALL);
-							callIntent.setData(Uri.parse("tel:" + "+6588456088"));
+							callIntent.setData(Uri.parse("tel:" + "+6563029010"));
 							callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							startActivity(callIntent);
 						}

@@ -243,7 +243,7 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@+id/set_three"
                 android:background="@null"
-                android:text="Call us: +6588456088"
+                android:text="Call us: +65 6302 9010"
                 android:textSize="25sp"
                  android:typeface="sans"
                  android:textColor="#ff8e1345"/>
