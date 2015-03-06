@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.Crashlytics;
 import com.dataholder.DataHolderClass;
 
 public class SplashActivity extends Activity {
@@ -16,7 +18,8 @@ public class SplashActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Crashlytics.start(this);
+		
 		setContentView(R.layout.activity_splash);
 
 		try {
