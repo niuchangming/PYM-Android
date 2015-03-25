@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/bg"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical" >
-    
-    <LinearLayout 
-        android:layout_height="40dp"
+
+    <TextView
+        android:id="@+id/about_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
         android:layout_gravity="center"
-        android:background="@drawable/nav_bg"
         android:gravity="center"
-        android:layout_width="fill_parent">
-        
-        <TextView 
-            android:id="@+id/about_tag"
+        android:background="@color/background"
+        android:text="About app"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <RelativeLayout
+        android:id="@+id/three"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/set_about_app"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="15sp"
-            android:layout_gravity="center"
-            android:textColor="#000"
-            android:text="About app"/>
-        
-    </LinearLayout>
-    
-    <RelativeLayout 
-           android:id="@+id/three"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-             android:layout_marginLeft="20dp"
-             android:layout_marginRight="20dp"
-            android:layout_width="fill_parent">           
-           <TextView 
-	           android:id="@+id/set_about_app"          
-	           android:layout_height="wrap_content"
-	           android:textSize="16sp"
-	           android:textColor="@android:color/black"
-	           android:maxLines="38"
-	           android:typeface="sans"
-	           android:layout_width="fill_parent"/>
-           
-       </RelativeLayout>
-    
+            android:maxLines="38"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:typeface="sans" />
+    </RelativeLayout>
 
 </LinearLayout>

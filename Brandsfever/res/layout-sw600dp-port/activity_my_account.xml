@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".MyAccount" >
+
+    <TextView
+        android:id="@+id/myaccount_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:text="My Account"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <Button
+            android:id="@+id/editprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  Edit my user profile"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/changedpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  Change password"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/orderhistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  See my order history"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/seeinvitedpeople"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  See the people i have invited"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/seestorecredits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  See my store credits"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="  Faq"
+            android:textColor="#000" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,371 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".OrderDelivery_Screen" >
+
+    <RelativeLayout
+        android:id="@+id/RL1"
+        android:layout_width="fill_parent"
+        android:layout_height="80dip"
+        android:background="@drawable/topbar" >
+
+        <ImageButton
+            android:id="@+id/main_menu"
+            android:layout_width="75dip"
+            android:layout_height="65dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/menu_bg"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="40dip"
+            android:layout_height="75dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="100dip"
+            android:background="@drawable/back_button"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL2"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:layout_below="@+id/RL1"
+        android:layout_margin="10dp"
+        android:background="@drawable/your_cart_two" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL3"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/RL2"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/white" >
+
+        <RelativeLayout
+            android:id="@+id/oneS"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp" >
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+                android:text="Enter a shipping address"
+                android:textColor="#ff8e1345"
+                android:textSize="22sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="80dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/billing_addrress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="Billing address"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/checkBox1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/check_box_bg"
+                        android:checked="true"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/sameas_billing_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="   Same as shiping"
+                        android:textColor="#ff8e1345"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/twoS"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/oneS"
+            android:layout_margin="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/threeS"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/twoS"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/first_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edit_bg"
+                    android:hint="First Name"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/last_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edit_bg"
+                    android:hint="Last Name"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edit_bg"
+                    android:gravity="top|left"
+                    android:hint="Address"
+                    android:inputType="textPostalAddress"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="false" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
+                    <EditText
+                        android:id="@+id/zipcode"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bg"
+                        android:hint="Zipcode"
+                        android:padding="10dp"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:id="@+id/country"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_bg"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="SINGAPORE" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/phone_nummber"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edit_bg"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:maxLength="8"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/sh"
+                android:gravity="center" >
+
+                <LinearLayout
+                    android:id="@+id/four"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/bfirst_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edit_bg"
+                        android:hint="First Name"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
+
+                    <EditText
+                        android:id="@+id/blast_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edit_bg"
+                        android:hint="Last Name"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
+
+                    <EditText
+                        android:id="@+id/baddress"
+                        android:layout_width="fill_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edit_bg"
+                        android:gravity="top|left"
+                        android:hint="Address"
+                        android:inputType="textPostalAddress"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="false" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2" >
+
+                        <EditText
+                            android:id="@+id/bzipcode"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bg"
+                            android:hint="Zipcode"
+                            android:padding="10dp" />
+
+                        <TextView
+                            android:id="@+id/bcountry"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:background="@drawable/edit_bg"
+                            android:text="Singapore" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/bphone_nummber"
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edit_bg"
+                        android:hint="Phone Number"
+                        android:inputType="phone"
+                        android:maxLength="8"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/fourS"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/threeS"
+            android:layout_margin="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
+            android:id="@+id/fiveS"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/fourS"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="30dp" >
+
+            <Button
+                android:id="@+id/send_to_this_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/black"
+                android:contentDescription="@string/brandsfever"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="Ship To This Address"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/footer_set"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true" >
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/lo"
+                android:contentDescription="@string/brandsfever"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

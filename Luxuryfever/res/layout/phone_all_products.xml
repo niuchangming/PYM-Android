@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent">
-    
-        <ListView 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!--
+         <ListView 
              android:id="@+id/all_product_list"
-             android:layout_marginTop="7dp"
+             android:layout_marginTop="8dp"
              android:layout_marginLeft="8dp"
              android:layout_marginRight="8dp"
              android:divider="@android:color/transparent"
-             android:dividerHeight="15dp"
-             android:layout_width="fill_parent"
+             android:dividerHeight="8dp"
+             android:layout_width="match_parent"
              android:layout_height="wrap_content">
              
          </ListView>
-         
-        <Button 
-            android:id="@+id/scrolldown"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_height="55dp"
-            android:layout_width="50dp"
-            android:background="@drawable/botton_to_top"/>
-    
+    -->
+
+    <GridView
+        android:id="@+id/all_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:columnWidth="160dp"
+        android:fadingEdge="none"
+        android:gravity="center_horizontal"
+        android:horizontalSpacing="8dp"
+        android:numColumns="2"
+        android:padding="8dp"
+        android:scrollbarSize="0dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
+
+    <Button
+        android:id="@+id/scrolldown"
+        android:layout_width="50dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/botton_to_top" />
 
 </RelativeLayout>

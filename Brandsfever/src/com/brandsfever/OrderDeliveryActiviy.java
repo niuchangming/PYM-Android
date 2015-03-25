@@ -56,15 +56,15 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 	CheckBox mCheckBillingAddress;
 	LinearLayout mShippingAddressLayout;
 	Context _ctx = OrderDeliveryActiviy.this;
-	TextView title_tag, billing_addrress, sameas_billing_tag;
+	TextView title_tag, billing_addrress, sameas_billing_tag, country,
+			bcountry;
 	Typeface mFont;
 	Button send_to_this_address;
 	SharedPreferences _mypref;
 	String mToken = "";
 	String mUserID = "";
-	EditText first_name, last_name, address, zipcode, country, phone_nummber,
-			bfirst_name, blast_name, baddress, bzipcode, bcountry,
-			bphone_nummber;
+	EditText first_name, last_name, address, zipcode, phone_nummber,
+			bfirst_name, blast_name, baddress, bzipcode, bphone_nummber;
 	String pnumber = "", fname = "", lname = "", saddress = "", scountry = "",
 			zcode = "";
 	String _fname, _lname, _address, _zipcode, _country, _pnmber;
@@ -145,7 +145,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		last_name = (EditText) findViewById(R.id.last_name);
 		address = (EditText) findViewById(R.id.address);
 		zipcode = (EditText) findViewById(R.id.zipcode);
-		country = (EditText) findViewById(R.id.country);
+		country = (TextView) findViewById(R.id.country);
 		phone_nummber = (EditText) findViewById(R.id.phone_nummber);
 
 		first_name.setTypeface(mFont, Typeface.NORMAL);
@@ -159,7 +159,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 		blast_name = (EditText) findViewById(R.id.blast_name);
 		baddress = (EditText) findViewById(R.id.baddress);
 		bzipcode = (EditText) findViewById(R.id.bzipcode);
-		bcountry = (EditText) findViewById(R.id.bcountry);
+		bcountry = (TextView) findViewById(R.id.bcountry);
 		bphone_nummber = (EditText) findViewById(R.id.bphone_nummber);
 
 		bfirst_name.setTypeface(mFont, Typeface.NORMAL);
@@ -484,8 +484,7 @@ public class OrderDeliveryActiviy extends SherlockFragmentActivity implements
 			int responsecode = httpresponse.getStatusLine().getStatusCode();
 
 			if (responsecode == 200) {
-				InputStream inputstream = httpresponse.getEntity()
-						.getContent();
+				InputStream inputstream = httpresponse.getEntity().getContent();
 				BufferedReader r = new BufferedReader(new InputStreamReader(
 						inputstream));
 				StringBuilder total = new StringBuilder();

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null" >
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="15dip"
+        android:layout_height="15dip"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/tagone"
+        android:minHeight="240dp"
+        android:scaleType="fitXY" />
+
+    <com.brandsfever.widget.BFTextView
+        android:id="@+id/no_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="NO GOODS"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#71494440"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <com.brandsfever.widget.BFTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.brandsfever.widget.BFTextView
+            android:id="@+id/discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#D89102"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</FrameLayout>

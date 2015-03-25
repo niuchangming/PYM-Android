@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/background"
     tools:context=".OrderDeliveryActiviy" >
 
     <RelativeLayout
@@ -75,11 +75,10 @@
                         android:id="@+id/checkBox1"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:button="@drawable/check_box_bg"
+                        android:background="@drawable/check_box_bg"
                         android:checked="true"
                         android:gravity="center"
-                        android:scaleX="1"
-                        android:scaleY="1" />
+                        android:paddingLeft="0dp" />
 
                     <TextView
                         android:id="@+id/sameas_billing_tag"
@@ -88,7 +87,7 @@
                         android:gravity="center"
                         android:text="   Same as shiping"
                         android:textColor="#ff8e1345"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -101,21 +100,18 @@
             android:layout_margin="10dp"
             android:background="@android:color/darker_gray" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/threeS"
             android:layout_width="fill_parent"
             android:layout_height="600dp"
             android:layout_below="@+id/twoS"
-            android:layout_marginTop="10dp" >
+            android:orientation="horizontal" >
 
             <LinearLayout
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <EditText
@@ -151,6 +147,7 @@
                     android:gravity="top|left"
                     android:hint="Address"
                     android:inputType="textPostalAddress"
+                    android:maxLines="5"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:singleLine="false" />
@@ -159,31 +156,31 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:weightSum="2" >
 
                     <EditText
                         android:id="@+id/zipcode"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bg"
                         android:hint="Zipcode"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:padding="16dp"
+                        android:singleLine="true" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/country"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
                         android:layout_weight="1"
                         android:background="@drawable/edit_bg"
-                        android:hint="Singapore"
-                        android:inputType="text"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp" />
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:singleLine="true"
+                        android:text="SINGAPORE" />
                 </LinearLayout>
 
                 <EditText
@@ -203,18 +200,15 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
-                android:layout_centerInParent="true"
                 android:layout_margin="10dp"
                 android:background="@android:color/darker_gray" />
 
             <LinearLayout
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
                 android:background="@drawable/sh" >
 
                 <LinearLayout
@@ -271,25 +265,23 @@
                         <EditText
                             android:id="@+id/bzipcode"
                             android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bg"
+                            android:gravity="center"
                             android:hint="Zipcode"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp" />
+                            android:paddingLeft="16dp"/>
 
-                        <EditText
+                        <TextView
                             android:id="@+id/bcountry"
                             android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="15dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
                             android:layout_weight="1"
                             android:background="@drawable/edit_bg"
-                            android:inputType="text"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:text="Singapore" />
+                            android:gravity="center"
+                            android:paddingRight="16dp"
+                            android:text="SINGAPORE" />
                     </LinearLayout>
 
                     <EditText
@@ -306,7 +298,7 @@
                         android:singleLine="true" />
                 </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:id="@+id/fourS"

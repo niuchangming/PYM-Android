@@ -67,4 +67,6 @@
 	
 	<!-- App Settings -->
 	<string name="channel_code">30</string>
+	
+	<string name="empty_text"> Sorry, there are no ongoing campaigns at the moment, please check back later.</string>
 </resources>

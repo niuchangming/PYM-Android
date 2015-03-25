@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +53,7 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 	StoreAdapter _adapter;
 	String _ResponseFromServer;
 	ListView order_history_list;
-	RelativeLayout _child_list;
+	// RelativeLayout _child_list;
 	public static ArrayList<OrderHistoryDataModel> _orderData = new ArrayList<OrderHistoryDataModel>();
 
 	@Override
@@ -69,7 +67,6 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 		} else if (DataHolderClass.getInstance().get_deviceInch() >= 9) {
 			setContentView(R.layout.activity_my_order_history_screen);
 		}
-
 
 		final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater()
 				.inflate(R.layout.action_bar, null);
@@ -108,8 +105,8 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 		order_history_list = (ListView) findViewById(R.id.order_history_list);
 		Your_order_tag = (TextView) findViewById(R.id.Your_order_tag);
 		Your_order_tag.setTypeface(_font, Typeface.NORMAL);
-		_child_list=(RelativeLayout)findViewById(R.id.three);
-		
+		// _child_list=(RelativeLayout)findViewById(R.id.three);
+
 		try {
 			_mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 			_getuserId = _mypref.getString("ID", "115383");
@@ -123,14 +120,15 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		
+
 		EasyTracker tracker = EasyTracker.getInstance(this);
-		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)+": users/"+_getuserId+"/orders/?device=2");
+		tracker.set(Fields.SCREEN_NAME, this.getString(R.string.app_name)
+				+ ": users/" + _getuserId + "/orders/?device=2");
 		tracker.send(MapBuilder.createAppView().build());
 	}
-	
+
 	class GetYourOrders extends AsyncTask<String, String, String> implements
 			OnCancelListener {
 		ProgressHUD mProgressHUD;
@@ -171,12 +169,13 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 		@Override
 		protected void onPostExecute(String result) {
 			_adapter = new StoreAdapter(MyOrderHistory.this, _orderData);
-			if(_orderData.size()<1){
-				_child_list.setBackgroundColor(Color.parseColor("#FFFFFF"));
+			if (_orderData.size() < 1) {
+				// _child_list.setBackgroundColor(Color.parseColor("#FFFFFF"));
 				LayoutInflater inflater = getLayoutInflater();
 				View view = inflater.inflate(R.layout.error_popop,
 						(ViewGroup) findViewById(R.id.relativeLayout1));
-				TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
+				TextView _seterrormsg = (TextView) view
+						.findViewById(R.id._seterrormsg);
 				_seterrormsg.setText("No order history found");
 				Toast toast = new Toast(_ctx);
 				toast.setGravity(Gravity.CENTER, 0, 0);
@@ -321,15 +320,15 @@ public class MyOrderHistory extends SherlockFragmentActivity {
 
 	}
 
-
 	private void directToCart() {
 
 		SharedPreferences mypref = getApplicationContext()
 				.getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
-		
+
 		if (username != null) { // check login status
-			Intent gotocart = new Intent(MyOrderHistory.this, MyCartActivity.class);
+			Intent gotocart = new Intent(MyOrderHistory.this,
+					MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();

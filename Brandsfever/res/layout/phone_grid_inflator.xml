@@ -1,71 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="151dp"
-    android:layout_height="280dp"
-    android:background="#f2f2f0"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="223dp" >
+        android:layout_width="160dp"
+        android:layout_height="160dp" >
 
         <ProgressBar
             android:id="@+id/progress"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
             android:layout_centerInParent="true" />
 
         <ImageView
             android:id="@+id/prdt_img"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
+            android:maxHeight="160dp"
+            android:maxWidth="160dp"
             android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/soldout_img"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/ribbon_soldout"
             android:visibility="gone" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="57dp" >
-
-        <TextView
-            android:id="@+id/prdt_name"
-            android:layout_width="fill_parent"
-            android:layout_height="32dp"
+        <com.brandsfever.widget.BFTextView
+            android:id="@+id/no_goods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/prdt_mrkt_price"
-            android:layout_width="75dp"
-            android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/prdt_name"
-            android:gravity="center_horizontal"
-            android:textColor="@android:color/black"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/prdt_sales_price"
-            android:layout_width="75dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/prdt_name"
-            android:gravity="center_horizontal"
-            android:textColor="#F7941D"
-            android:textSize="11sp" />
+            android:text="NO GOODS"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </RelativeLayout>
+
+    <com.brandsfever.widget.BFTextView
+        android:id="@+id/prdt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="3"
+        android:maxLines="3"
+        android:padding="8dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.brandsfever.widget.BFTextView
+            android:id="@+id/prdt_mrkt_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <com.brandsfever.widget.BFTextView
+            android:id="@+id/prdt_sales_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:textColor="#F7941D"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>

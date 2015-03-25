@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/RL1"
+        android:layout_width="fill_parent"
+        android:layout_height="90dip"
+        android:background="@drawable/topbar" >
+
+        <ImageButton
+            android:id="@+id/main_menu"
+            android:layout_width="85dip"
+            android:layout_height="75dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/menu_bg"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="35dip"
+            android:layout_height="75dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="100dip"
+            android:background="@drawable/back_button"
+            android:contentDescription="@string/brandsfever" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RL2"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_below="@+id/RL1"
+        android:layout_margin="15dp"
+        android:background="@drawable/your_cart_three" >
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/RL3"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/RL2"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/white"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/one"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/order_confirmation_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Order Confirmation"
+                    android:textColor="#000"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/two"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/one"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/three"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/two"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <com.brandsfever.widget.BFTextView
+                        android:id="@+id/ship_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Shiping address"
+                        android:textColor="#ff8e1345"
+                        android:textSize="20sp" />
+
+                    <com.brandsfever.widget.BFTextView
+                        android:id="@+id/set_shipping_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:padding="2sp"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <com.brandsfever.widget.BFTextView
+                        android:id="@+id/bill_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Billing address"
+                        android:textColor="#ff8e1345"
+                        android:textSize="20sp" />
+
+                    <com.brandsfever.widget.BFTextView
+                        android:id="@+id/set_billing_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:padding="2sp"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/four"
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                android:layout_below="@+id/three"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/your_order_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Your Order"
+                    android:textColor="#000"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/five"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/four"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/six"
+                android:layout_width="fill_parent"
+                android:layout_height="42dp"
+                android:layout_below="@+id/five"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="8" >
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/set_campaign_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.3"
+                    android:gravity="left"
+                    android:text="Campaign"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/set_product_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="3.7"
+                    android:gravity="left"
+                    android:text="Product"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/set_quantity_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.8"
+                    android:gravity="left"
+                    android:text="Quantity"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/set_unitprice_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.1"
+                    android:gravity="left"
+                    android:text="Unit Price"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/set_totalprice_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.1"
+                    android:gravity="left"
+                    android:text="Total"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/seven"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/six"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/eight"
+                android:layout_width="fill_parent"
+                android:layout_height="420dp"
+                android:layout_below="@+id/seven"
+                android:background="#fff" >
+
+                <ListView
+                    android:id="@+id/set_orders"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="1dp" >
+                </ListView>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/nine"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/eight"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/ten"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/nine"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:orientation="horizontal" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/promotion_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1pt"
+                            android:text="Use promotion code"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <ImageButton
+                            android:layout_width="32dp"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/br_tablet"
+                            android:contentDescription="@string/brandsfever" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/remove_pcode"
+                        android:layout_width="240dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="1pt"
+                        android:background="#000000"
+                        android:gravity="left"
+                        android:padding="1dp"
+                        android:text="Remove promocode"
+                        android:textColor="#fff"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left"
+                        android:orientation="horizontal" >
+
+                        <EditText
+                            android:id="@+id/enter_promo_code"
+                            android:layout_width="200dp"
+                            android:layout_height="45dp"
+                            android:hint="Promo code"
+                            android:inputType="text" />
+
+                        <Button
+                            android:id="@+id/apply_promo_code"
+                            android:layout_width="45dp"
+                            android:layout_height="fill_parent"
+                            android:background="#000"
+                            android:gravity="center"
+                            android:padding="1dp"
+                            android:text="Ok"
+                            android:textColor="#fff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/apply_SC"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/store_credit_tag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1pt"
+                            android:layout_weight="1.1"
+                            android:text="Use store credit(s)  "
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/Set_store_credit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:singleLine="true"
+                            android:text="-0S$"
+                            android:textColor="#000"
+                            android:textSize="18sp"
+                            android:textStyle="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/remove_SC"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/Remove_credit_tag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.1"
+                            android:text="Remove store credit(s)  "
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/Remove_store_credit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:singleLine="true"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="240dp"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_subtotal_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.9"
+                            android:gravity="right"
+                            android:text="Subtotal"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <ImageButton
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center|right"
+                            android:layout_marginLeft="3sp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/cart_phone"
+                            android:contentDescription="@string/brandsfever" />
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_subtotal_amount"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="240dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_shiping_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.9"
+                            android:gravity="right"
+                            android:text="Shipping"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <ImageButton
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center|right"
+                            android:layout_marginLeft="3sp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/bus_phone"
+                            android:contentDescription="@string/brandsfever" />
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_shiping_amount"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="240dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_total_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.9"
+                            android:gravity="right"
+                            android:text="Order Total"
+                            android:textColor="#ff8e1345"
+                            android:textSize="20sp" />
+
+                        <ImageButton
+                            android:layout_width="0dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center|right"
+                            android:layout_marginLeft="3sp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/cart_phone"
+                            android:contentDescription="@string/brandsfever" />
+
+                        <com.brandsfever.widget.BFTextView
+                            android:id="@+id/order_total_amount"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:textColor="#000"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/eleven"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/ten"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/twelve"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/eleven"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <com.brandsfever.widget.BFTextView
+                    android:id="@+id/payment_option_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Payment Options"
+                    android:textColor="#000"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/thirteen"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/twelve"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/sixteen"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/thirteen"
+                android:background="@android:color/transparent" >
+
+                <Button
+                    android:id="@+id/pay_with_credit_card"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black"
+                    android:contentDescription="@string/brandsfever"
+                    android:text="Credit/Debit Card"
+                    android:textColor="@color/white" />
+
+                <ImageButton
+                    android:layout_width="120dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/lo"
+                    android:contentDescription="@string/brandsfever"
+                    android:scaleType="fitXY" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

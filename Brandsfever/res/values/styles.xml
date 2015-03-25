@@ -89,7 +89,7 @@
     <style name="AppEditTextStyle" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/black</item>
     </style>
-    
+
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
     </style>
@@ -110,7 +110,7 @@
 
     <style name="ActionBarButton">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
     </style>
 

@@ -12,11 +12,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.crashlytics.android.Crashlytics;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -38,6 +40,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
 		setContentView(R.layout.content_frame);
 
 		if (findViewById(R.id.menu_frame) == null) {
@@ -54,8 +57,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			actionBar.setCustomView(actionBarLayout);
 
 			final ImageButton actionBarMenu = (ImageButton) findViewById(R.id.action_bar_left);
-			actionBarMenu.setImageDrawable(getResources().getDrawable(
-					R.drawable.menu_bg));
+			actionBarMenu.setImageResource(R.drawable.menu_bg);
 			actionBarMenu.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -69,8 +71,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 				}
 			});
 			final ImageButton actionBarCart = (ImageButton) findViewById(R.id.action_bar_right);
-			actionBarCart.setImageDrawable(getResources().getDrawable(
-					R.drawable.cart_btn_bg));
+			actionBarCart.setImageResource(R.drawable.cart_btn_bg);
 			actionBarCart.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -114,6 +115,8 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setBehindScrollScale(0.25f);
+		sm.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, -1));
+		// sm.setBehindWidth((int)getResources().getDimension(R.dimen.menu_width));
 		sm.setFadeDegree(0.25f);
 		sm.setOnOpenListener(new OnOpenListener() {
 			@Override
@@ -207,10 +210,11 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	}
 
 	public void resetCurrentMenu() {
-		
-		if(mContent instanceof CampaignFragment){
-			int index = ((CampaignFragment)mContent).mViewPager.getCurrentItem();
-			if (index < mMenu.mCategories.size()){
+
+		if (mContent instanceof CampaignFragment) {
+			int index = ((CampaignFragment) mContent).mViewPager
+					.getCurrentItem();
+			if (index < mMenu.mCategories.size()) {
 				mCurrentMenu = mMenu.mCategories.get(index);
 			}
 		}

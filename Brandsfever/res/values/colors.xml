@@ -6,4 +6,6 @@
     <color name="gold">#F7941D</color>
     <color name="white">#FFFFFF</color>
 	<color name="purple">#FF8E1345</color>
+	<color name="transparent_gray">#A0808080</color>
+	<color name="background">#EBEBE8</color>
 </resources>

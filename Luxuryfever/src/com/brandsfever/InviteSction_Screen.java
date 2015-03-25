@@ -87,14 +87,14 @@ public class InviteSction_Screen extends FragmentActivity implements
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		int a = DataHolderClass.getInstance().get_deviceInch();
-		if (a <= 6) {
-			setContentView(R.layout.activity_invite_sction__screen);
-		} else if (a >= 7 && a < 9) {
-			setContentView(R.layout.seven_inch_invite_module);
-		} else if (a >= 9) {
-			setContentView(R.layout.activity_invite_section_screen);
-		}
+//		int a = DataHolderClass.getInstance().get_deviceInch();
+//		if (a <= 6) {
+//			setContentView(R.layout.invite_layout);
+//		} else if (a >= 7 && a < 9) {
+//			setContentView(R.layout.invite_layout);
+//		} else if (a >= 9) {
+//		}
+		setContentView(R.layout.invite_layout);
 
 		fb_friends = (ImageButton) findViewById(R.id.invite_your_friendz);
 		fb_friends.setOnClickListener(this);

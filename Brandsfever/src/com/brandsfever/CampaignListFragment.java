@@ -101,7 +101,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 					android.R.color.holo_red_light);
 
 			mCampaignList = (ListView) mSwipeLayout
-					.findViewById(R.id.campaign_list);
+					.findViewById(R.id.campaign_gridview);
 			// mScrollUp = (Button) mSwipeLayout.findViewById(R.id.scrolldown);
 			// mScrollUp.setVisibility(View.GONE);
 
@@ -149,6 +149,7 @@ public class CampaignListFragment extends Fragment implements OnRefreshListener 
 			}
 			mIsFirstLoad = true;
 		}
+		System.out.println("url--------->"+mCategoryUrl);
 
 		if (mAdapter == null) {
 

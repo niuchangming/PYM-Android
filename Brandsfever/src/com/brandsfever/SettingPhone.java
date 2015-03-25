@@ -92,11 +92,11 @@ public class SettingPhone extends Fragment implements OnClickListener {
 
 		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.activity_setting_phone, container, false);
 
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-					.permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-		}
+//		if (android.os.Build.VERSION.SDK_INT > 9) {
+//			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+//					.permitAll().build();
+//			StrictMode.setThreadPolicy(policy);
+//		}
 
 		_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;

@@ -183,17 +183,16 @@
               android:id="@+id/three_s"
               android:layout_below="@+id/two_s"
               android:orientation="horizontal"              
-              android:layout_height="50dp"
+              android:layout_height="wrap_content"
+              android:layout_margin="5dp"
               android:layout_width="fill_parent"
               android:weightSum="2">
               
             <Button
                 android:id="@+id/continue_shopping"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:layout_weight="1"
                 android:background="@color/black"
                 android:contentDescription="@string/brandsfever"
@@ -203,12 +202,11 @@
             <Button
                 android:id="@+id/checkout_cart"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="2.5dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:background="@color/black"
+                android:textSize="14sp"
                 android:contentDescription="@string/brandsfever"
                 android:text="Checkout This Cart"
                 android:textColor="@color/white" />

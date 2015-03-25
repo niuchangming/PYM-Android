@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.brandsfever.widget.BFTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menu_list_text_view"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textColor="@color/menu_list_text_color"
     android:textAppearance="?android:attr/textAppearanceSmall"
     android:gravity="center_vertical"
     android:paddingLeft="5dip"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:minHeight="?android:attr/listPreferredItemHeight"
 />

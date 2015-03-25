@@ -1,110 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/bg"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <LinearLayout 
-        android:id="@+id/one"
-        android:layout_height="110dp"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_edit_profile"
-        android:layout_margin="12dp">
-        
-        <EditText 
-            android:id="@+id/user_id"
-            android:layout_height="35dp"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/edit_bg"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_width="fill_parent"
-            android:layout_margin="13dp"
-            android:textColor="@color/black"
-            android:hint="Email address:"/>
-        
-        <EditText 
-            android:id="@+id/user_password"
-            android:layout_height="35dp"
-            android:inputType="textPassword"
-            android:background="@drawable/edit_bg"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="13dp"
-            android:layout_marginBottom="13dp"
-            android:textColor="@color/black"
-            android:hint="Password:"/>
-        
-        
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:id="@+id/two"
-        android:layout_below="@+id/one"
-        android:layout_height="40dp"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_margin="13dp">
-        
-        <ImageButton 
-            android:id="@+id/hit_phone_login"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_marginRight="1dp"
-            android:background="@drawable/phone_submit"/>
-        
-        <ImageButton 
-            android:id="@+id/go_to_register"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/phone_signup"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:id="@+id/three"
-        android:layout_below="@+id/two"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:layout_margin="15dp"
-        android:gravity="center">
-        
-        <TextView 
-            android:id="@+id/forgot_password"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Forgot your password?"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#000"
-            android:textSize="14sp"/>
-        
-    </LinearLayout>
-    
-    
-    <RelativeLayout 
-        android:layout_height="40dp"
-        android:layout_width="fill_parent"
-        android:background="@drawable/bottom_fbbg"
-        android:layout_alignParentBottom="true">        
-        <ImageButton 
-            android:id="@+id/phone_fb_login"
-            android:contentDescription="@string/brandsfever"
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="65dp"
-            android:layout_marginRight="65dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/connect_fb_btn"/>        
-    </RelativeLayout>
+    android:background="@null"
+    android:orientation="vertical"
+    android:padding="12dp" >
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_profile"
+        android:orientation="vertical"
+        android:padding="12dp" >
+
+        <EditText
+            android:id="@+id/user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_bg"
+            android:hint="Email address:"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/user_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Password:"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:weightSum="2" >
+
+        <ImageButton
+            android:id="@+id/hit_phone_login"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/phone_submit" />
+
+        <ImageButton
+            android:id="@+id/go_to_register"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/phone_signup" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Forgot your password?"
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/phone_fb_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/connect_fb_btn"
+        android:contentDescription="@string/brandsfever" />
+
+</LinearLayout>

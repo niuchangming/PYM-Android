@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -22,21 +23,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -54,9 +54,9 @@ import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.BaseRequestListener;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.facebook.android.SessionStore;
-import com.facebook.android.Facebook.DialogListener;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -95,11 +95,11 @@ public class SettingPhone extends FragmentActivity implements OnClickListener {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_setting_phone);
 
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-					.permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-		}
+//		if (android.os.Build.VERSION.SDK_INT > 9) {
+//			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+//					.permitAll().build();
+//			StrictMode.setThreadPolicy(policy);
+//		}
 
 		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;

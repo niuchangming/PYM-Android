@@ -66,10 +66,10 @@ public class HandbagsProductDisplay extends Fragment {
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
-			_padapter = new PhoneAdapter(ctx, ProductDisplay.handbags_prdt);
+			_padapter = new PhoneAdapter(ctx, ((ProductDisplay)getActivity()).handbags_prdt);
 			woman_product_list.setAdapter(_padapter);
 		} else if (a >= 7) {
-			_tadapter = new TabAdapter(ctx, ProductDisplay.handbags_prdt);
+			_tadapter = new TabAdapter(ctx, ((ProductDisplay)getActivity()).handbags_prdt);
 			woman_product_list.setAdapter(_tadapter);
 		}
 

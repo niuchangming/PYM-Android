@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/background"
     tools:context=".PeopleIInvited" >
 
     <RelativeLayout
@@ -20,7 +20,6 @@
             android:text="Invite your Friends"
             android:textColor="#000"
             android:textSize="15sp" />
-
     </RelativeLayout>
 
     <LinearLayout
@@ -167,8 +166,7 @@
         android:layout_above="@+id/foot"
         android:layout_below="@+id/three"
         android:background="#FFFFFF"
-        android:visibility="gone"
-        >
+        android:visibility="gone" >
 
         <LinearLayout
             android:id="@+id/t_one"
@@ -228,10 +226,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/foot"
-        android:visibility="gone"
         android:layout_below="@+id/three"
         android:background="#FFFFFF"
-         >
+        android:visibility="gone" >
 
         <LinearLayout
             android:id="@+id/t_five"
@@ -261,9 +258,9 @@
                 android:id="@+id/emailinvitation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
                 android:layout_weight="1.50"
                 android:gravity="left"
-                android:layout_marginLeft="3dp"
                 android:text="Email"
                 android:textColor="#fff"
                 android:textSize="10sp" />

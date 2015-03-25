@@ -1,66 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/bg"
     android:layout_height="match_parent"
+    android:background="@null"
+    android:padding="12dp"
     android:orientation="vertical" >
-    
-    <LinearLayout 
-        android:id="@+id/two"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/one"
-        android:layout_height="40dp"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_margin="10dp">
-        
-        <ImageButton 
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ImageButton
             android:id="@+id/signup_btn"
-            android:contentDescription="@string/brandsfever"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_marginRight="1dp"
-            android:background="@drawable/create_account_btn"/>
-        
-        </LinearLayout>
-    
-    <RelativeLayout 
-        android:layout_height="40dp"
-        android:layout_width="fill_parent"
-        android:background="@drawable/bottom_fbbg"
-        android:layout_alignParentBottom="true">        
-        <ImageButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/create_account_btn"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/or"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
             android:id="@+id/signup_with_fb_btn"
-            android:contentDescription="@string/brandsfever"
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="65dp"
-            android:layout_marginRight="65dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/signup_fb_btn"/>        
-    </RelativeLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/signup_fb_btn"
+            android:contentDescription="@string/brandsfever" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/one"
         android:layout_width="fill_parent"
-        android:layout_height="220dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="12dp"
         android:background="@drawable/bg_edit_profile"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="12dp" >
 
         <EditText
             android:id="@+id/first_name"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
             android:hint="First Name"
             android:inputType="text"
-            android:textColor="@color/black"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:padding="12dp"
+            android:textColor="@color/black" >
 
             <requestFocus />
         </EditText>
@@ -68,62 +63,44 @@
         <EditText
             android:id="@+id/last_name"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/edit_bg"
             android:hint="Last Name"
             android:inputType="text"
-            android:textColor="@color/black"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
- 
-        <EditText
-             android:id="@+id/email_address"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/edit_bg"
-            android:hint="Enter your email address"
-            android:textColor="@color/black"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="10dp" 
-            android:paddingRight="10dp" />
+            android:padding="12dp"
+            android:textColor="@color/black" />
 
         <EditText
-             android:id="@+id/choose_password"
-          
+            android:id="@+id/email_address"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Enter your email address"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/choose_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/edit_bg"
             android:hint="Choose a password"
             android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-        
-        <LinearLayout 
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_width="fill_parent">
+            android:padding="12dp"
+            android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox1"
-                android:layout_width="wrap_content"
-                android:button="@drawable/check_box_bg"
-                android:textSize="16sp"
-                android:layout_height="wrap_content"
-                android:text="    I agree to Terms and Conditions." />
-            
-        </LinearLayout>
-        
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:button="@drawable/check_box_bg"
+            android:text="    I agree to Terms and Conditions."
+            android:textSize="12sp" />
     </LinearLayout>
-    
+
 </RelativeLayout>

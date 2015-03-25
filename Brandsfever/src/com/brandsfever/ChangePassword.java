@@ -117,19 +117,19 @@ public class ChangePassword extends SherlockFragmentActivity implements OnClickL
 
 		newpassword = (EditText) findViewById(R.id.Enter_new_password);
 		confirmnewpassword = (EditText) findViewById(R.id.Confirm_new_password);
-		parent_layout = (LinearLayout) findViewById(R.id.parent_layout);
+//		parent_layout = (LinearLayout) findViewById(R.id.parent_layout);
 		new GetUserProfile().execute();
 
-		parent_layout.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(newpassword.getWindowToken(), 0);
-				return true;
-			}
-		});
+//		parent_layout.setOnTouchListener(new OnTouchListener() {
+//
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//				imm.hideSoftInputFromWindow(newpassword.getWindowToken(), 0);
+//				return true;
+//			}
+//		});
 
 		Uname = (TextView) findViewById(R.id.user_name);
 		Uemail = (TextView) findViewById(R.id.user_email);

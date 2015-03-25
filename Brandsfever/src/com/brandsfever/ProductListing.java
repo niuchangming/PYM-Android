@@ -58,7 +58,7 @@ public class ProductListing extends SherlockFragmentActivity {
 
 	Context _ctx = ProductListing.this;
 
-	static Typeface _font;
+	//static Typeface _font;
 	private int pk;
 	private String _tabname;
 	TabHost tabs;
@@ -68,7 +68,7 @@ public class ProductListing extends SherlockFragmentActivity {
 	public static ArrayList<ProductListDetailModel> mProductList = new ArrayList<ProductListDetailModel>();
 	private Set<String> ss = new HashSet<String>();
 
-	int color, colors;
+	//int color, colors;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -112,9 +112,9 @@ public class ProductListing extends SherlockFragmentActivity {
 			}
 		});
 
-		_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
-		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
-		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
+		//_font = Typeface.createFromAsset(getAssets(), "fonts/georgia.ttf");
+		//color = Integer.parseInt("8e1345", 16) + 0xFF000000;
+		//colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 
 		tabs = (TabHost) findViewById(R.id.tabhost);
 		tabs.setup();
@@ -230,19 +230,19 @@ public class ProductListing extends SherlockFragmentActivity {
 			int _pos = this.mTabHost.getCurrentTab();
 			notifyDataSetChanged();
 			this.mViewPager.setCurrentItem(_pos);
-			TabWidget widget = mTabHost.getTabWidget();
-			for (int i = _pos; i < widget.getChildCount(); i++) {
-				View v = widget.getChildAt(i);
-				TextView tv = (TextView) v.findViewById(android.R.id.title);
-				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
-					tv.setTextSize(14);
-				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
-					tv.setTextSize(17);
-				}
-
-				tv.setTextColor(Color.parseColor("#000000"));
-				v.setBackgroundResource(R.drawable.selector);
-			}
+//			TabWidget widget = mTabHost.getTabWidget();
+//			for (int i = _pos; i < widget.getChildCount(); i++) {
+//				View v = widget.getChildAt(i);
+//				TextView tv = (TextView) v.findViewById(android.R.id.title);
+//				if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
+//					tv.setTextSize(14);
+//				} else if (DataHolderClass.getInstance().get_deviceInch() >= 7) {
+//					tv.setTextSize(17);
+//				}
+//
+//				tv.setTextColor(Color.parseColor("#000000"));
+//				v.setBackgroundResource(R.drawable.selector);
+//			}
 		}
 	}
 

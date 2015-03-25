@@ -3,6 +3,7 @@ package com.brandsfever;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +13,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidquery.AQuery;
 import com.brandsfever.luxury.R;
 import com.dataholder.DataHolderClass;
@@ -65,10 +66,12 @@ public class ShoesProductDisplay extends Fragment {
 			ctx = getActivity().getApplicationContext();
 		}
 		if (a <= 6) {
-			_padapter = new PhoneAdapter(ctx, ProductDisplay.shoes_prdt);
+			_padapter = new PhoneAdapter(ctx,
+					((ProductDisplay) getActivity()).shoes_prdt);
 			men_product_list.setAdapter(_padapter);
 		} else if (a >= 7) {
-			_tadapter = new TabAdapter(ctx, ProductDisplay.shoes_prdt);
+			_tadapter = new TabAdapter(ctx,
+					((ProductDisplay) getActivity()).shoes_prdt);
 			men_product_list.setAdapter(_tadapter);
 		}
 
@@ -139,27 +142,30 @@ public class ShoesProductDisplay extends Fragment {
 					R.layout.phone_product_display_inflator, parent, false);
 
 			LinearLayout f_l = (LinearLayout) itemView.findViewById(R.id.pr_bg);
-			TextView nameText = (TextView)itemView.findViewById(R.id.campaign_name);
-			set_product_image = (ImageView) itemView.findViewById(R.id.product_image);
+			TextView nameText = (TextView) itemView
+					.findViewById(R.id.campaign_name);
+			set_product_image = (ImageView) itemView
+					.findViewById(R.id.product_image);
 			set_product_image.setTag(position);
 
-			Typeface mFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/georgia.ttf");
+			Typeface mFont = Typeface.createFromAsset(
+					getActivity().getAssets(), "fonts/georgia.ttf");
 			ProductsDataModel obj = data.get(position);
 			nameText.setTypeface(mFont);
 			nameText.setText(obj.getName());
 			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
-		
+
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-		    cal.setTimeInMillis(end);
+			cal.setTimeInMillis(end);
 
 			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000;
 			currenttime = System.currentTimeMillis();
-			
+
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
-		    cals.setTimeInMillis(start);
-			
+			cals.setTimeInMillis(start);
+
 			if (start > currenttime) {
 
 				String a = "https:" + obj.getTeaser_url();
@@ -168,7 +174,8 @@ public class ShoesProductDisplay extends Fragment {
 				aq.id(set_product_image).image(a);
 				ColorMatrix matrix = new ColorMatrix();
 				matrix.setSaturation(0);
-				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(
+						matrix);
 				set_product_image.setColorFilter(filter);
 				f_l.setBackgroundResource(R.drawable.green_base);
 
@@ -242,7 +249,7 @@ public class ShoesProductDisplay extends Fragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView ends_in, discount_rate, t;
 			ImageButton go_for_sale;
-			
+
 			if (a >= 7 && a < 9) {
 				inflater = (LayoutInflater) _mcontext.getApplicationContext()
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -264,7 +271,8 @@ public class ShoesProductDisplay extends Fragment {
 			ends_in.setTypeface(mFont);
 			discount_rate.setTypeface(mFont, Typeface.BOLD);
 			t.setTypeface(mFont, Typeface.BOLD);
-			ImageView imageView = (ImageView) itemView.findViewById(R.id.set_product_img);
+			ImageView imageView = (ImageView) itemView
+					.findViewById(R.id.set_product_img);
 			imageView.setTag(position);
 			go_for_sale = (ImageButton) itemView.findViewById(R.id.go_for_sale);
 			go_for_sale.setTag(position);
@@ -286,102 +294,102 @@ public class ShoesProductDisplay extends Fragment {
 				ends_in.setBackgroundColor(Color.rgb(169, 194, 21));
 			}
 
-			String hours_left_str,minutes_left_str,seconds_left_str;
-			
+			String hours_left_str, minutes_left_str, seconds_left_str;
+
 			ProductsDataModel obj = data.get(position);
 			long timeInMilliseconds = obj.getEnds_at();
 			long end = timeInMilliseconds * 1000;
 			long current = System.currentTimeMillis();
 			long diff = end - current;
 			int dayCount = (int) diff / (24 * 60 * 60 * 1000);
-			/*int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
-			int seconds_left = (int) ((diff / 1000) % 60);*/
-			
-			
+			/*
+			 * int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24); int
+			 * minutes_left = (int) ((diff / (1000 * 60)) % 60); int
+			 * seconds_left = (int) ((diff / 1000) % 60);
+			 */
 
-			//***************** hours converting **************//
-			
+			// ***************** hours converting **************//
+
 			int hours_left = (int) ((diff / (1000 * 60 * 60)) % 24);
-			if(String.valueOf(hours_left).length()<2){
-				hours_left_str="0"+String.valueOf(hours_left);				
-			}else{
-				hours_left_str=String.valueOf(hours_left);
+			if (String.valueOf(hours_left).length() < 2) {
+				hours_left_str = "0" + String.valueOf(hours_left);
+			} else {
+				hours_left_str = String.valueOf(hours_left);
 			}
-			
-			//***************** minuts converting **************//
-			
-			int minutes_left = (int) ((diff / (1000 * 60)) % 60);			
-			if(String.valueOf(minutes_left).length()<2){
-				minutes_left_str="0"+String.valueOf(minutes_left);				
-			}else{
-				minutes_left_str=String.valueOf(minutes_left);
-			}	
-			
-			//***************** seconds converting **************//
+
+			// ***************** minuts converting **************//
+
+			int minutes_left = (int) ((diff / (1000 * 60)) % 60);
+			if (String.valueOf(minutes_left).length() < 2) {
+				minutes_left_str = "0" + String.valueOf(minutes_left);
+			} else {
+				minutes_left_str = String.valueOf(minutes_left);
+			}
+
+			// ***************** seconds converting **************//
 			int seconds_left = (int) ((diff / 1000) % 60);
-			if(String.valueOf(seconds_left).length()<2){
-				seconds_left_str="0"+String.valueOf(seconds_left);				
-			}else{
-				seconds_left_str=String.valueOf(seconds_left);
-			
+			if (String.valueOf(seconds_left).length() < 2) {
+				seconds_left_str = "0" + String.valueOf(seconds_left);
+			} else {
+				seconds_left_str = String.valueOf(seconds_left);
+
 			}
-			
-			
+
 			Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-		    cal.setTimeInMillis(end);
-		    String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
+			cal.setTimeInMillis(end);
+			String date = DateFormat.format("dd-MMMM-yyyy", cal).toString();
 
 			String s = Integer.toString(dayCount) + " Days" + " "
-					+  hours_left_str + ":"
-					+ minutes_left_str + ":"
+					+ hours_left_str + ":" + minutes_left_str + ":"
 					+ seconds_left_str;
-			
+
 			String _to = Integer.toString(hours_left) + ":"
 					+ Integer.toString(minutes_left) + ":"
 					+ Integer.toString(seconds_left);
-			
-			String _endDate = date+ "\n" + _to;
-			
+
+			String _endDate = date + "\n" + _to;
+
 			long timeInMillisecond = obj.getStarts_at();
 			start = timeInMillisecond * 1000L;
 			currenttime = System.currentTimeMillis();
-			long diffs =    start -currenttime ;
+			long diffs = start - currenttime;
 			int hours_lefts = (int) ((diffs / (1000 * 60 * 60)) % 24);
 			int minutes_lefts = (int) ((diffs / (1000 * 60)) % 60);
 			int seconds_lefts = (int) ((diffs / 1000) % 60);
-			
+
 			Calendar cals = Calendar.getInstance(Locale.ENGLISH);
-		    cals.setTimeInMillis(start);
-		    String start_date = DateFormat.format("dd-MMMM-yyyy", cals).toString();
-			String _from =  Integer.toString(hours_lefts) + ":"
+			cals.setTimeInMillis(start);
+			String start_date = DateFormat.format("dd-MMMM-yyyy", cals)
+					.toString();
+			String _from = Integer.toString(hours_lefts) + ":"
 					+ Integer.toString(minutes_lefts) + ":"
 					+ Integer.toString(seconds_lefts);
-			
-			String _startFrom = start_date +"\n"+ _from;
-			
-			if(start > currenttime){
-				RelativeLayout base_layout = (RelativeLayout)itemView.findViewById(R.id.base_layout);
+
+			String _startFrom = start_date + "\n" + _from;
+
+			if (start > currenttime) {
+				RelativeLayout base_layout = (RelativeLayout) itemView
+						.findViewById(R.id.base_layout);
 				base_layout.setBackgroundColor(Color.parseColor("#ADFF2F"));
-				TextView aa,ab,bb,ba;
-				aa = (TextView)itemView.findViewById(R.id.aa);
-				ab = (TextView)itemView.findViewById(R.id.ab);
-				bb = (TextView)itemView.findViewById(R.id.bb);
-				ba = (TextView)itemView.findViewById(R.id.ba);
-				
+				TextView aa, ab, bb, ba;
+				aa = (TextView) itemView.findViewById(R.id.aa);
+				ab = (TextView) itemView.findViewById(R.id.ab);
+				bb = (TextView) itemView.findViewById(R.id.bb);
+				ba = (TextView) itemView.findViewById(R.id.ba);
+
 				aa.setTypeface(mFont, Typeface.NORMAL);
 				ab.setTypeface(mFont, Typeface.NORMAL);
 				bb.setTypeface(mFont, Typeface.NORMAL);
 				ba.setTypeface(mFont, Typeface.NORMAL);
-				
+
 				aa.setVisibility(View.VISIBLE);
 				ab.setVisibility(View.VISIBLE);
 				bb.setVisibility(View.VISIBLE);
 				ba.setVisibility(View.VISIBLE);
-				
+
 				ab.setText(_startFrom);
 				ba.setText(_endDate);
-				
+
 				t.setVisibility(View.GONE);
 				ends_in.setText(s);
 				ends_in.setVisibility(View.GONE);
@@ -395,38 +403,38 @@ public class ShoesProductDisplay extends Fragment {
 				aq.id(imageView).image(a);
 				ColorMatrix matrix = new ColorMatrix();
 				matrix.setSaturation(0);
-				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-				imageView.setColorFilter(filter);				
-			}else{
+				ColorMatrixColorFilter filter = new ColorMatrixColorFilter(
+						matrix);
+				imageView.setColorFilter(filter);
+			} else {
 				ends_in.setText(s);
 				discount_rate.setText(obj.getDiscount_text());
 				String a = "https:" + obj.getTeaser_url();
 				AQuery aq = new AQuery(_mcontext);
 				aq.id(imageView).image(a);
 			}
-			
 
 			go_for_sale.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					int a = (Integer) v.getTag();
-					if(a == 50000){
+					if (a == 50000) {
 						_ResponsePopup();
-					}else{
-					ProductsDataModel cs = data.get(a);
-					String _sf = cs.getShipping_fee();
-					String _sp = cs.getShipping_period();
-					String _fs = cs.getFree_shipping();
-					DataHolderClass.getInstance().setShipping_fee(_sf);
-					DataHolderClass.getInstance().setShipping_period(_sp);
-					DataHolderClass.getInstance().setFree_shipping(_fs);
-					int _s = Integer.parseInt(cs.getPk());
-					DataHolderClass.getInstance().set_mainProductsPk(_s);
-					Intent i = new Intent(_mcontext, ProductListing.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					_mcontext.startActivity(i);
-					
+					} else {
+						ProductsDataModel cs = data.get(a);
+						String _sf = cs.getShipping_fee();
+						String _sp = cs.getShipping_period();
+						String _fs = cs.getFree_shipping();
+						DataHolderClass.getInstance().setShipping_fee(_sf);
+						DataHolderClass.getInstance().setShipping_period(_sp);
+						DataHolderClass.getInstance().setFree_shipping(_fs);
+						int _s = Integer.parseInt(cs.getPk());
+						DataHolderClass.getInstance().set_mainProductsPk(_s);
+						Intent i = new Intent(_mcontext, ProductListing.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						_mcontext.startActivity(i);
+
 					}
 				}
 			});
@@ -436,22 +444,22 @@ public class ShoesProductDisplay extends Fragment {
 				@Override
 				public void onClick(View v) {
 					int a = (Integer) v.getTag();
-					if(a == 50000){
+					if (a == 50000) {
 						_ResponsePopup();
-					}else{
-					ProductsDataModel cs = data.get(a);
-					String _sf = cs.getShipping_fee();
-					String _sp = cs.getShipping_period();
-					String _fs = cs.getFree_shipping();
-					DataHolderClass.getInstance().setShipping_fee(_sf);
-					DataHolderClass.getInstance().setShipping_period(_sp);
-					DataHolderClass.getInstance().setFree_shipping(_fs);
-					int _s = Integer.parseInt(cs.getPk());
-					DataHolderClass.getInstance().set_mainProductsPk(_s);
-					Intent i = new Intent(_mcontext, ProductListing.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					_mcontext.startActivity(i);
-					
+					} else {
+						ProductsDataModel cs = data.get(a);
+						String _sf = cs.getShipping_fee();
+						String _sp = cs.getShipping_period();
+						String _fs = cs.getFree_shipping();
+						DataHolderClass.getInstance().setShipping_fee(_sf);
+						DataHolderClass.getInstance().setShipping_period(_sp);
+						DataHolderClass.getInstance().setFree_shipping(_fs);
+						int _s = Integer.parseInt(cs.getPk());
+						DataHolderClass.getInstance().set_mainProductsPk(_s);
+						Intent i = new Intent(_mcontext, ProductListing.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						_mcontext.startActivity(i);
+
 					}
 
 				}
@@ -459,15 +467,16 @@ public class ShoesProductDisplay extends Fragment {
 			return itemView;
 		}
 	}
+
 	// *********************************************************************************************************************//
-		public void _ResponsePopup() {
-			View view = View.inflate(getActivity().getBaseContext(),
-					R.layout.error_popop, null);
-			TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
-			_seterrormsg.setText("Coming Soon!!!");
-			Toast toast = new Toast(getActivity().getBaseContext());
-			toast.setGravity(Gravity.CENTER, 0, 0);
-			toast.setView(view);
-			toast.show();
-		}
+	public void _ResponsePopup() {
+		View view = View.inflate(getActivity().getBaseContext(),
+				R.layout.error_popop, null);
+		TextView _seterrormsg = (TextView) view.findViewById(R.id._seterrormsg);
+		_seterrormsg.setText("Coming Soon!!!");
+		Toast toast = new Toast(getActivity().getBaseContext());
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.setView(view);
+		toast.show();
+	}
 }

@@ -2,160 +2,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context="com.brandsfever.SupportActivity$SupportFragment" >
 
-    <RelativeLayout 
-         android:id="@+id/one"
-         android:layout_height="55dip"
-         android:layout_width="fill_parent"
-         android:background="@drawable/top_head_phone">
-         
-        <ImageButton 
-             android:id="@+id/main_menu"
-             android:layout_height="45dip"
-             android:layout_width="60dip"
-             android:contentDescription="@string/brandsfever"
-             android:layout_centerInParent="true"
-             android:layout_alignParentLeft="true"
-             android:layout_marginLeft="5dip"
-             android:background="@drawable/menu_bg"/>
-        
-        <ImageButton 
-             android:id="@+id/back_btn"
-             android:layout_height="45dip"
-             android:layout_width="50dip"
-             android:contentDescription="@string/brandsfever"
-             android:layout_centerInParent="true"
-             android:layout_alignParentLeft="true"
-             android:layout_marginLeft="50dip"
-             android:background="@drawable/back_button"/>
-        
-        <ImageButton 
-             android:id="@+id/cart_btn"
-             android:layout_height="45dip"
-             android:layout_width="60dip"
-             android:contentDescription="@string/brandsfever"
-             android:layout_centerInParent="true"
-             android:layout_alignParentRight="true"
-             android:layout_marginRight="10dip"
-             android:background="@drawable/cart_btn_bg"/>
-         
+    <RelativeLayout
+        android:id="@+id/one"
+        android:layout_width="fill_parent"
+        android:layout_height="55dip"
+        android:background="@drawable/top_head_phone" >
+
+        <ImageButton
+            android:id="@+id/main_menu"
+            android:layout_width="60dip"
+            android:layout_height="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/menu_bg"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="50dip"
+            android:layout_height="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="50dip"
+            android:background="@drawable/back_button"
+            android:contentDescription="@string/brandsfever" />
+
+        <ImageButton
+            android:id="@+id/cart_btn"
+            android:layout_width="60dip"
+            android:layout_height="45dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/cart_btn_bg"
+            android:contentDescription="@string/brandsfever" />
     </RelativeLayout>
-    
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/two"
+        android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:background="@drawable/nav_bg"
-        android:gravity="center"
-        android:layout_width="fill_parent">
-        
-        <TextView 
+        android:gravity="center" >
+
+        <TextView
             android:id="@+id/support_title"
-            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="#000"
+            android:gravity="center_horizontal"
             android:text="@string/support_title"
-            android:textSize="20sp"/>
+            android:textColor="#000"
+            android:textSize="20sp" />
     </LinearLayout>
-    
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_margin="15dp"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:background="@drawable/edit_bg"
-        android:padding="10dp"
-        android:weightSum="5"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
-        
-        <EditText 
+        android:padding="12dp" >
+
+        <EditText
             android:id="@+id/order_id"
-            android:inputType="textCapCharacters"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"            
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:background="#fff"
-            android:hint="@string/support_hint_order_id"
-            android:layout_weight="1"/>
-        
-        <View 
-            android:layout_height="1dp"
-            android:layout_width="fill_parent"
-            android:layout_margin="5dp"
-            android:background="@android:color/darker_gray"/>
-        
-        <EditText 
-            android:id="@+id/issue"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:inputType="text"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:hint="@string/support_hint_issue"
-            android:background="#fff"/>
-        
-        <View 
-            android:layout_height="1dp"
-            android:layout_width="fill_parent"
-            android:layout_margin="5dp"
-            android:background="@android:color/darker_gray"/>
-        
-        <EditText 
-            android:id="@+id/detail"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="textMultiLine"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:lines="2"
-            android:maxLines="5"
-            android:scrollbars="vertical"
-            android:hint="@string/support_hint_detail"
-            android:gravity="top|left"
-            android:background="#fff"/>
-        
-        <View 
+            android:background="@null"
+            android:hint="@string/support_hint_order_id"
+            android:inputType="textCapCharacters"
+            android:padding="8dp"
+            android:singleLine="true" />
+
+        <View
+            android:layout_width="fill_parent"
             android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/issue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/support_hint_issue"
+            android:inputType="textCapCharacters"
+            android:padding="8dp"
+            android:singleLine="true" />
+
+        <View
             android:layout_width="fill_parent"
-            android:layout_margin="5dp"
-            android:background="@android:color/darker_gray"/>
-        
-        <EditText 
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top|left"
+            android:hint="@string/support_hint_detail"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="5"
+            android:padding="8dp"
+            android:scrollbars="vertical" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
             android:id="@+id/email"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:hint="@string/support_hint_email"
-            android:background="#fff"
-            />
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:singleLine="true" />
     </LinearLayout>
 
-     <Button 
-         android:id="@+id/support_submit"
-         android:layout_width="fill_parent"
-         android:layout_height="35dp"
-         android:layout_margin="15dp"
-         android:layout_gravity="center"
-         android:text="@string/submit"
-         android:textColor="#FFFFFF"
-         android:background="#000000"/>
-    
+    <Button
+        android:id="@+id/support_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#000000"
+        android:layout_margin="16dp"
+        android:text="@string/submit"
+        android:textColor="#FFFFFF" />
+
 </LinearLayout>
-
-
-

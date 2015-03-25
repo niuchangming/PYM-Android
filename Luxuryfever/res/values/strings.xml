@@ -67,4 +67,6 @@
 	<string name="host_name">https://www.brandsfever.com/api/v5</string>
 	<string name="host_name_go">https://api-1.brandsfever.com</string>
 	<string name="channel_code_go">110</string>
+	
+	<string name="empty_text"> Sorry, there are no ongoing campaigns at the moment, please check back later.</string>
 </resources>

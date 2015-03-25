@@ -1,173 +1,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".MyAccount" >
 
-     <LinearLayout 
-        android:id="@+id/set"
-        android:layout_height="40dp"
+    <TextView
+        android:id="@+id/myaccount_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/nav_bg"
-        android:gravity="center"
-        android:layout_width="fill_parent">
-        
-        <TextView 
-            android:id="@+id/myaccount_tag"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center"
-            android:textColor="#000"
-            android:text="My Account"/>
-        
-    </LinearLayout>
-    
-     <LinearLayout
-        android:id="@+id/two"
-        android:layout_height="250dp"
-        android:layout_width="fill_parent"
-        android:background="@drawable/bg_setting_phone"
-        android:layout_margin="18dp"
+        android:gravity="center_horizontal"
+        android:padding="12dp"
+        android:text="My Account"
+        android:textColor="#000" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
-        android:weightSum="6" >
-        
-         <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/editprofile"
-                android:layout_height="fill_parent"
-                android:layout_width="fill_parent"
-                android:layout_margin="1dp"
-                android:gravity="left|center"
-                android:text="  Edit my user profile"
-                android:textColor="#000"
-                android:background="@drawable/str" />
-            
-        </LinearLayout>
-        
-        <View 
-            android:layout_height="1sp"
-            android:layout_width="fill_parent"
-            android:background="@android:color/darker_gray"/>
-        
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/changedpassword"                
-                android:text="  Change password"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:gravity="left|center"
-                android:layout_width="fill_parent"
-                android:textColor="#000"
-                android:background="@drawable/str_bg" />
-            
-        </LinearLayout>
-        
-        <View 
-            android:layout_height="1dp"
-            android:layout_width="fill_parent"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/orderhistory"
-                android:layout_height="fill_parent"
-                android:layout_margin="1dp"
-                android:gravity="left|center"
-                android:layout_width="fill_parent"
-                android:textColor="#000"
-                android:background="@drawable/str_bg"
-                android:text="  See my order history"/>
-            
-        </LinearLayout>
-        
-        <View 
-            android:layout_height="1dp"
-            android:layout_width="fill_parent"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/seeinvitedpeople"
-                android:layout_height="fill_parent"
-                android:layout_margin="1dp"
-                android:gravity="left|center"
-                android:layout_width="fill_parent"
-                android:textColor="#000"
-                android:background="@drawable/str_bg"
-                android:text="  See the people i have invited"/>
-            
-        </LinearLayout>
-        
-        <View 
-            android:layout_height="1dp"
-            android:layout_width="fill_parent"
-            android:background="@android:color/darker_gray"/>
-        
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/seestorecredits"
-                android:layout_height="fill_parent"
-                android:layout_margin="1dp"
-                android:gravity="left|center"
-                android:layout_width="fill_parent"
-                android:textColor="#000"
-                android:background="@drawable/str_bg"
-                android:text="  See my store credits"/>
-            
-        </LinearLayout>
-        
-        <View 
-            android:layout_height="1sp"
-            android:layout_width="fill_parent"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"            
-            android:layout_weight="1">
-            
-            <Button 
-                android:id="@+id/faq"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:gravity="left|center"
-                android:layout_width="fill_parent"
-                android:textColor="#000"
-                android:background="@drawable/str"
-                android:text="  Faq"/>
-            
-        </LinearLayout>
-        
-         
-      </LinearLayout>
+        android:padding="8dp" >
+
+        <Button
+            android:id="@+id/editprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="  Edit my user profile"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/changedpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:text="  Change password"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/orderhistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:text="  See my order history"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/seeinvitedpeople"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:text="  See the people i have invited"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/seestorecredits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str_bg"
+            android:gravity="left|center"
+            android:text="  See my store credits"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="  Faq"
+            android:textColor="#000" />
+    </LinearLayout>
 
 </LinearLayout>

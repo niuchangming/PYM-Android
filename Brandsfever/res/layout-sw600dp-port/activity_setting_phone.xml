@@ -1,0 +1,129 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".SettingPhone" >
+
+    <TextView
+        android:id="@+id/setting_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Settings"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <Button
+            android:id="@+id/myaccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="    My Account"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/about_app_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="    About App"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/T_C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="    Terms of Services"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/private_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:padding="20dp"
+            android:text="    Privacy policy"
+            android:textColor="#000" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@android:color/white" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="left|center"
+                android:padding="20dp"
+                android:text="    Share On"
+                android:textColor="#000" />
+
+            <ImageButton
+                android:id="@+id/share_on_fb"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/fb_icon"
+                android:contentDescription="@string/brandsfever" />
+
+            <ImageButton
+                android:id="@+id/share_on_twitter"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tw_icon"
+                android:contentDescription="@string/brandsfever" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/call_customer_care"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="Call us: +65 63029010"
+        android:textColor="#ff8e1345"
+        android:textSize="16sp" />
+
+</LinearLayout>

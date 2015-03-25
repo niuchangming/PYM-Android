@@ -1,5 +1,7 @@
 package com.brandsfever;
 
+import java.util.Locale;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,6 +53,7 @@ public class CampaignFragment extends Fragment {
 		if (mAdapter == null) {
 			mAdapter = new CampaignAdapter(getActivity()
 					.getSupportFragmentManager());
+			mViewPager.setOffscreenPageLimit(mCategories.length);
 			mViewPager.setAdapter(mAdapter);
 			mIndicator.setViewPager(mViewPager);
 		}
@@ -81,13 +84,14 @@ public class CampaignFragment extends Fragment {
 		@Override
 		public Fragment getItem(int position) {
 
-			return CampaignListFragment.newInstance(mCategories[position
-					% mCategories.length].toLowerCase());
+			return ProductsFragment.newInstance(mCategories[position
+					% mCategories.length].toLowerCase(Locale.getDefault()));
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return mCategories[position % mCategories.length].toUpperCase();
+			return mCategories[position % mCategories.length]
+					.toUpperCase(Locale.getDefault());
 		}
 
 		@Override

@@ -1,343 +1,350 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"    
     android:id="@+id/parentlayout"
-    android:background="@drawable/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".SingleProductDisplay" >
 
-   <RelativeLayout 
-         android:id="@+id/RL2"
-         android:layout_below="@+id/one"
-         android:layout_height="wrap_content"
-         android:layout_width="fill_parent"
-         android:background="@android:color/white">
-        <RelativeLayout 
-             android:id="@+id/set_one"
-             android:layout_height="wrap_content"
-             android:layout_width="fill_parent"
-             android:layout_marginTop="8dp">   
-             
-            <ImageButton 
+    <RelativeLayout
+        android:id="@+id/RL2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/one"
+        android:background="@android:color/white" >
+
+        <RelativeLayout
+            android:id="@+id/set_one"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageButton
                 android:id="@+id/flower"
-                android:layout_height="20dp"
-                android:contentDescription="@string/brandsfever"
                 android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="25dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/flower"/>
-             <TextView 
-                 android:id="@+id/setproductname"
-                 android:layout_toRightOf="@+id/flower"
-                 android:layout_marginLeft="10dp"
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:singleLine="true"
-                 android:textSize="14sp"
-                 android:typeface="sans"
-                 android:layout_centerInParent="true"/>
+                android:layout_marginLeft="25dp"
+                android:background="@drawable/flower"
+                android:contentDescription="@string/brandsfever" />
+
+            <TextView
+                android:id="@+id/setproductname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/flower"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:typeface="sans" />
         </RelativeLayout>
-        <View 
+
+        <View
             android:id="@+id/set_two"
-            android:layout_below="@+id/set_one"
+            android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/set_one"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="3dp"
-            android:layout_width="fill_parent"/>        
-        <ScrollView 
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
+            android:background="@android:color/darker_gray" />
+
+        <ScrollView
             android:id="@+id/scroll"
-            android:layout_below="@+id/set_two" >            
-          <RelativeLayout 
-	           android:layout_height="wrap_content"
-	           android:layout_width="wrap_content">	           
-              <TextView 
-	               android:id="@+id/settimeframe"
-	               android:layout_height="25dp" 
-	               android:layout_alignParentTop="true"
-	               android:layout_width="fill_parent"
-	               android:textColor="#000000"
-	               android:textSize="13sp"
-	               android:layout_centerInParent="true"
-	               android:gravity="center"/>     
-	               
-              
-               <android.support.v4.view.ViewPager
-                   android:layout_below="@+id/settimeframe"
-			        android:id="@+id/view_pager"
-			        android:layout_centerInParent="true"
-			        android:layout_width="280dp"	        
-			        android:layout_height="340dp"/>  
-			        
-               <LinearLayout 
-                   android:id="@+id/footer"
-		            android:layout_width="fill_parent"
-		            android:layout_centerInParent="true"
-		            android:layout_below="@+id/view_pager"
-		            android:layout_height="fill_parent"
-		            android:layout_marginTop="2dp"
-		            android:orientation="vertical"
-		            android:layout_gravity="bottom"
-		            android:layout_marginBottom="0dp"
-		            android:gravity="center_horizontal|bottom"
-		            android:paddingTop="2dp" >
-		            
-                   <com.viewpagerindicator.CirclePageIndicator
-			        android:id="@+id/indicator"
-			        android:background="#000000"
-			       android:padding="3dp"
-			        android:layout_height="10dp"
-			        android:layout_width="fill_parent"/>
-                   
-                   <RelativeLayout
-	                   android:layout_height="30dp"
-	                   android:layout_width="fill_parent"
-	                   android:layout_marginTop="3dp">
-	                   
-                   <ImageButton 
-                        android:id="@+id/open_size_chart"
-                        android:layout_height="fill_parent"
-                        android:layout_centerInParent="true"
-                        android:contentDescription="@string/brandsfever"
-                        android:layout_alignParentLeft="true"
-                        android:visibility="gone"
-                        android:background="@drawable/sizechart"
-                        android:layout_marginLeft="30dp"
-                        android:textColor="#000"
-                        android:layout_width="30dp"/>                    
-                    <ImageButton 
-                        android:id="@+id/click_to_zoom"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:contentDescription="@string/brandsfever"
-                        android:layout_marginLeft="30dp"
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/zoom_icon_phone"/>
-                   
-                   </RelativeLayout>
-                    <LinearLayout 
-	                   android:layout_height="30dp"
-	                   android:layout_width="fill_parent"
-	                   android:layout_marginTop="3dp"
-	                   android:weightSum="3"
-	                   android:layout_gravity="center_horizontal"
-	                   android:gravity="center"
-	                   android:orientation="horizontal"
-	                   android:background="#b7286e">
-                    
-                       <TextView 
-                           android:id="@+id/set_market_price"
-                           android:layout_height="wrap_content"
-                           android:layout_width="0dp"
-                           android:textSize="11sp"
-                           android:singleLine="true"
-                           android:layout_margin="3dp"
-                           android:gravity="center"
-                           android:layout_weight="0.4"
-                           android:textColor="#fff"/>
-                       
-                       <TextView 
-                           android:id="@+id/set_sales_price"
-                           android:layout_height="wrap_content"
-                           android:gravity="center"
-                           android:textSize="11sp"
-                           android:layout_margin="2dp"
-                           android:singleLine="true"
-                           android:layout_width="0dp"
-                           android:layout_weight="0.4"
-                           android:textColor="#fff"/>
-                       
-                       <View 
-                           android:layout_height="fill_parent"
-                           android:layout_margin="2dp"
-                           android:layout_width="1dp"
-                           android:background="#fff"/>
-                       
-                       <TextView 
-                           android:id="@+id/set_quantity"
-                           android:layout_height="wrap_content"
-                           android:gravity="center"
-                           android:textSize="11sp"
-                           android:layout_margin="2dp"
-                           android:singleLine="true"
-                           android:layout_width="0dp"
-                           android:text="Quantity:"
-                           android:layout_weight="0.5"
-                           android:textColor="#fff"/>
-                       <Spinner 
-                           android:id="@+id/display_quantity"
-                           android:layout_height="22dp"
-                           android:layout_weight="0.7"
-                            android:prompt="@string/Qty_prompt"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/set_two" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/settimeframe"
+                    android:layout_width="fill_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="280dp"
+                    android:layout_height="340dp"
+                    android:layout_below="@+id/settimeframe"
+                    android:layout_centerInParent="true" />
+
+                <LinearLayout
+                    android:id="@+id/footer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/view_pager"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_horizontal|bottom"
+                    android:orientation="vertical"
+                    android:paddingTop="2dp" >
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        android:layout_width="fill_parent"
+                        android:layout_height="10dp"
+                        android:background="#000000"
+                        android:padding="3dp" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="3dp" >
+
+                        <ImageButton
+                            android:id="@+id/open_size_chart"
+                            android:layout_width="30dp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="30dp"
+                            android:background="@drawable/sizechart"
+                            android:contentDescription="@string/brandsfever"
+                            android:textColor="#000"
+                            android:visibility="gone" />
+
+                        <ImageButton
+                            android:id="@+id/click_to_zoom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="30dp"
+                            android:background="@drawable/zoom_icon_phone"
+                            android:contentDescription="@string/brandsfever" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:background="#b7286e"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="3" >
+
+                        <TextView
+                            android:id="@+id/set_market_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/set_sales_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="fill_parent"
+                            android:layout_margin="2dp"
+                            android:background="#fff" />
+
+                        <TextView
+                            android:id="@+id/set_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="Quantity:"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+
+                        <Spinner
+                            android:id="@+id/display_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="22dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.7"
+                            android:background="@drawable/drop_down_icon"
                             android:entries="@array/Qty_arrays"
-                           android:layout_width="0dp"
-                           android:layout_margin="2dp"
-                           android:background="@drawable/drop_down_icon"/>
-                       <View 
-                           android:layout_height="fill_parent"
-                           android:layout_margin="2dp"
-                           android:layout_width="1dp"
-                           android:background="#fff"/>
-                       <Spinner 
-                           android:id="@+id/display_size"
-                           android:layout_height="22dp"
-                           android:layout_weight="0.9"
-                           android:visibility="invisible"
-                           android:layout_width="0dp"
-                           android:layout_margin="2dp"
-                           android:background="@drawable/drop_down_icon"/>
-                   </LinearLayout>
-                   
-                    <LinearLayout 
-	                   android:layout_height="45dp"
-	                   android:layout_width="fill_parent"
-	                    android:weightSum="3"
-	                   android:orientation="horizontal"
-	                   android:background="@android:color/black">
-                       
-                        
-                        <LinearLayout 
+                            android:prompt="@string/Qty_prompt" />
+
+                        <View
+                            android:layout_width="1dp"
                             android:layout_height="fill_parent"
+                            android:layout_margin="2dp"
+                            android:background="#fff" />
+
+                        <Spinner
+                            android:id="@+id/display_size"
                             android:layout_width="0dp"
+                            android:layout_height="22dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.9"
+                            android:background="@drawable/drop_down_icon"
+                            android:visibility="invisible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="45dp"
+                        android:background="@android:color/black"
+                        android:orientation="horizontal"
+                        android:weightSum="3" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="center"
-                            android:gravity="center"
-                            android:layout_weight="0.9">
-                            
-	                       <ImageButton 
-	                           android:id="@+id/share"
-	                           android:layout_height="wrap_content"
-	                           android:contentDescription="@string/brandsfever"
-	                           android:padding="3dp"
-	                           android:layout_gravity="center"
-	                           android:layout_width="wrap_content"
-	                           android:background="@drawable/share_phone"/>
-	                       
+                            android:layout_weight="0.9"
+                            android:gravity="center" >
+
+                            <ImageButton
+                                android:id="@+id/share"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/share_phone"
+                                android:contentDescription="@string/brandsfever"
+                                android:padding="3dp" />
                         </LinearLayout>
-                    
-                       
-                       <LinearLayout 
-                            android:layout_height="fill_parent"
+
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:layout_weight="1.2">
-                       <ImageButton 
-                            android:id="@+id/add_to_cart"
-                           android:layout_height="wrap_content"
-                           android:contentDescription="@string/brandsfever"
-                           android:padding="3dp"
-                           android:layout_width="wrap_content"
-                           android:layout_gravity="center"
-                           android:background="@drawable/addtocart_phone"/>
-                       </LinearLayout>
-                       
-                       <LinearLayout 
                             android:layout_height="fill_parent"
-                            android:layout_width="0dp"
-                            android:gravity="center"
                             android:layout_gravity="center"
-                            android:layout_weight="0.9">
-                       <ImageButton 
-                           android:id="@+id/buy_now"
-                           android:layout_height="wrap_content"
-                           android:padding="2dp"
-                           android:layout_width="wrap_content"
-                           android:layout_gravity="center"
-                           android:contentDescription="@string/brandsfever"
-                           android:background="@drawable/buynow_phone"/>
-                      </LinearLayout>
-                   
-                   </LinearLayout>
-	              <Button
-	                android:id="@+id/scrollbutton"
-	                android:layout_width="fill_parent"
-	                android:layout_height="25dp"
-	                android:background="@drawable/slider_bg" />
-        		</LinearLayout>	    
-        		
-               <RelativeLayout
-                   android:id="@+id/footer_set"
-                   android:layout_below="@+id/footer"
-                   android:layout_height="50dp"
-              
-                   android:layout_width="fill_parent">
-                   
-                   <ImageButton
-                       android:id="@+id/product_info"
-                       android:layout_height="fill_parent"
-                       android:layout_width="120dp"
-                       android:contentDescription="@string/brandsfever"
-                       android:layout_centerInParent="true"
-                       android:layout_alignParentLeft="true"
-                       android:layout_margin="10dp"
-                       android:gravity="center"
-                       android:background="@drawable/pr"/>
-                   
-                   <View
+                            android:layout_weight="1.2"
+                            android:gravity="center" >
+
+                            <ImageButton
+                                android:id="@+id/add_to_cart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/addtocart_phone"
+                                android:contentDescription="@string/brandsfever"
+                                android:padding="3dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.9"
+                            android:gravity="center" >
+
+                            <ImageButton
+                                android:id="@+id/buy_now"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/buynow_phone"
+                                android:contentDescription="@string/brandsfever"
+                                android:padding="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/scrollbutton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="25dp"
+                        android:background="@drawable/slider_bg" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/footer_set"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/footer" >
+
+                    <ImageButton
+                        android:id="@+id/product_info"
+                        android:layout_width="120dp"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/pr"
+                        android:contentDescription="@string/brandsfever"
+                        android:gravity="center" />
+
+                    <View
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:background="@android:color/darker_gray" />
-                   
-                   <ImageButton
-                       android:id="@+id/shiping_info"
-                       android:layout_height="40dp"
-                       android:layout_centerInParent="true"
-                       android:layout_alignParentRight="true"
-                       android:contentDescription="@string/brandsfever"
-                       android:layout_width="120dp"
-                       android:layout_margin="10dp"
-                       android:gravity="center"
-                       android:background="@drawable/shiplight"/>
-                   
-             </RelativeLayout>
-               <View 
-                android:id="@+id/v"
-                android:layout_below="@+id/footer_set"
-	            android:layout_height="1dp"
-	        
-	            android:background="@android:color/darker_gray"
-	            android:layout_marginLeft="10dp"
-	            android:layout_marginRight="10dp"
-	            android:layout_marginTop="5dp"
-	            android:layout_width="fill_parent"/>
-               
-               <RelativeLayout
-                   android:id="@+id/foot"
-                   android:layout_below="@+id/v"
-                    android:layout_height="180dp"
-                    android:layout_width="wrap_content"
 
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp">
-                        <TextView 
-				           android:id="@+id/set_product_description"          
-				           android:layout_height="wrap_content"
-				           android:textSize="15sp"
-				           android:textAlignment="textStart"
-				           android:layout_alignParentLeft="true"
-				           android:layout_centerInParent="true"
-				           android:maxLines="18"
-				           android:typeface="sans"
-				           android:layout_width="fill_parent"/>
-                        <TextView 
-				           android:id="@+id/set_shiping_info"          
-				           android:layout_height="wrap_content"
-				           android:textSize="15sp"
-				           android:visibility="invisible"
-				           android:layout_alignParentLeft="true"
-				           android:maxLines="18"
-				           android:typeface="sans"
-				           android:layout_width="fill_parent"/>
+                    <ImageButton
+                        android:id="@+id/shiping_info"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/shiplight"
+                        android:contentDescription="@string/brandsfever"
+                        android:gravity="center" />
                 </RelativeLayout>
-          </RelativeLayout>          
-       </ScrollView>     
+
+                <View
+                    android:id="@+id/v"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/footer_set"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/foot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="180dp"
+                    android:layout_below="@+id/v"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="11dp" >
+
+                    <TextView
+                        android:id="@+id/set_product_description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:maxLines="18"
+                        android:textAlignment="textStart"
+                        android:textSize="15sp"
+                        android:typeface="sans" />
+
+                    <TextView
+                        android:id="@+id/set_shiping_info"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:maxLines="18"
+                        android:textSize="15sp"
+                        android:typeface="sans"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 
 </RelativeLayout>

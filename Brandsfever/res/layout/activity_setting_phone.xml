@@ -1,174 +1,123 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".SettingPhone" >
 
-    <LinearLayout
-        android:id="@+id/set"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/one"
-        android:layout_gravity="center"
-        android:background="@drawable/nav_bg"
-        android:gravity="center" >
+    <TextView
+        android:id="@+id/setting_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Settings"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/setting_tag"
-            android:layout_width="wrap_content"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <Button
+            android:id="@+id/myaccount"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:textSize="15sp"
-            android:text="Settings"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="    My Account"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/about_app_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="    About App"
             android:textColor="#000" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/T_C"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="    Terms of Services"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/private_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/str"
+            android:gravity="left|center"
+            android:text="    Privacy policy"
+            android:textColor="#000" />
+
         <RelativeLayout
-            android:id="@+id/ss"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_below="@+id/set"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edit_bg" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_marginTop="0.5dp" >
 
             <Button
-                android:id="@+id/myaccount"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/str"
-                android:gravity="left|center"
-                android:text="    My Account"
-                android:textColor="#000" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:id="@+id/sss"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_marginTop="1dp"
-            android:layout_below="@+id/ss"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_setting_phone" >
-
-            <Button
-                android:id="@+id/about_app_phone"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/str"
-                android:gravity="left|center"
-                android:text="    About App"
-                android:textColor="#000" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/ssss"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_below="@+id/sss"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_setting_phone" >
-
-            <Button
-                android:id="@+id/T_C"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/str"
-                android:gravity="left|center"
-                android:text="    Terms of Services"
-                android:textColor="#000" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:id="@+id/sssss"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_marginTop="1dp"
-            android:layout_below="@+id/ssss"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_setting_phone" >
-
-            <Button
-                android:id="@+id/private_policy"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/str"
-                android:gravity="left|center"
-                android:text="    Privacy policy"
-                android:textColor="#000" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:id="@+id/sssss2"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_marginTop="1dp"
-            android:layout_below="@+id/sssss"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edit_bg"  >
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="left|center"
                 android:text="    Share On"
                 android:textColor="#000" />
-            
-            <ImageButton 
+
+            <ImageButton
                 android:id="@+id/share_on_fb"
-                android:layout_height="30dp"
-                android:contentDescription="@string/brandsfever"
                 android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="50dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/fb_icon"/>
-            
-             <ImageButton 
-                 android:id="@+id/share_on_twitter"
-                android:layout_height="30dp"
-                android:contentDescription="@string/brandsfever"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/fb_icon"
+                android:contentDescription="@string/brandsfever" />
+
+            <ImageButton
+                android:id="@+id/share_on_twitter"
                 android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/tw_icon"/>
-            
-            
+                android:background="@drawable/tw_icon"
+                android:contentDescription="@string/brandsfever" />
         </RelativeLayout>
-        
-        <RelativeLayout
-            android:id="@+id/sssss2s"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
-            android:layout_marginTop="35dp"
-            android:layout_below="@+id/sssss2"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_setting_phone" >
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/call_customer_care"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:text="Call us: +65 63029010"
-                android:textColor="#ff8e1345" />
-        </RelativeLayout>
-        
+    <Button
+        android:id="@+id/call_customer_care"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="Call us: +65 63029010"
+        android:textColor="#ff8e1345"
+        android:textSize="14sp" />
 
-        
-        
-
-        
-
-</RelativeLayout>
+</LinearLayout>

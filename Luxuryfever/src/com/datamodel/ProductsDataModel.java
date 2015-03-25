@@ -3,6 +3,7 @@ package com.datamodel;
 public class ProductsDataModel {
 	public long ends_at;
 	public String teaser_url;
+	public String teaser_square_url;
 	public String name;
 	public long starts_at;
 	public String pk;
@@ -13,6 +14,12 @@ public class ProductsDataModel {
 	public String free_shipping;
 	public String shipping_period;
 	
+	public String getTeaser_square_url() {
+		return teaser_square_url;
+	}
+	public void setTeaser_square_url(String teaser_square_url) {
+		this.teaser_square_url = teaser_square_url;
+	}
 	public long getEnds_at() {
 		return ends_at;
 	}
