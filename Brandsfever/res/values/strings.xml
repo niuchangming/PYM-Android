@@ -69,4 +69,13 @@
 	<string name="channel_code">30</string>
 	
 	<string name="empty_text"> Sorry, there are no ongoing campaigns at the moment, please check back later.</string>
+	
+	<!-- App Settings -->
+	<string name="channel_30">Casual Campaigns</string>
+	<string name="channel_110">Express Campaigns</string>
+	
+	<string name="save_amt_title">You saved:</string>
+	<string name="delete">Delete</string>
+	<string name="from">From</string>
+	<string name="amount">Amount</string>
 </resources>

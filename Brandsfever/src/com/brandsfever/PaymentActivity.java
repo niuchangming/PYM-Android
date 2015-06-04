@@ -278,30 +278,19 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",
-					true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(PaymentActivity.this, "Loading",true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 		}
 
 		@Override
-		public void onCancel(DialogInterface dialog) {
-
-		}
+		public void onCancel(DialogInterface dialog) {}
 
 		@Override
 		protected ArrayList<PaymentScreenOrderModel> doInBackground(
 				String... params) {
 			String orderpk = DataHolderClass.getInstance().get_orderpk();
-			String url = "https://www.brandsfever.com/api/v5/orders/" + orderpk
-					+ "/" + "?user_id=" + mUserId + "&token=" + mToken;
+			String url = "https://www.brandsfever.com/api/v5/orders/" + orderpk + "/" + "?user_id=" + mUserId + "&token=" + mToken;
 			ArrayList<PaymentScreenOrderModel> orders = GetData(url);
 			return orders;
 		}
@@ -622,8 +611,7 @@ public class PaymentActivity extends SherlockFragmentActivity implements
 			int responsecode = httpresponse.getStatusLine().getStatusCode();
 			if (responsecode == 200) {
 				InputStream inputstream = httpresponse.getEntity().getContent();
-				BufferedReader r = new BufferedReader(new InputStreamReader(
-						inputstream));
+				BufferedReader r = new BufferedReader(new InputStreamReader(inputstream));
 				StringBuilder total = new StringBuilder();
 				String line;
 				while ((line = r.readLine()) != null) {

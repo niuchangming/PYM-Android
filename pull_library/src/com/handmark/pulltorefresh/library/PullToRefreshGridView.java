@@ -24,8 +24,9 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
-public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView> {
+public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<StickyGridHeadersGridView> {
 
 	public PullToRefreshGridView(Context context) {
 		super(context);
@@ -49,8 +50,8 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 	}
 
 	@Override
-	protected final GridView createRefreshableView(Context context, AttributeSet attrs) {
-		final GridView gv;
+	protected final StickyGridHeadersGridView createRefreshableView(Context context, AttributeSet attrs) {
+		final StickyGridHeadersGridView gv;
 		if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {
 			gv = new InternalGridViewSDK9(context, attrs);
 		} else {
@@ -62,7 +63,7 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 		return gv;
 	}
 
-	class InternalGridView extends GridView implements EmptyViewMethodAccessor {
+	class InternalGridView extends StickyGridHeadersGridView implements EmptyViewMethodAccessor {
 
 		public InternalGridView(Context context, AttributeSet attrs) {
 			super(context, attrs);

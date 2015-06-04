@@ -159,6 +159,12 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
+            android:name="com.brandsfever.PaymentPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewAppTheme"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
             android:name="com.brandsfever.PayWithPaypalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme"
@@ -225,6 +231,11 @@
             android:name="com.brandsfever.MyCartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NewAppTheme" >
+        </activity>
+        <activity
+            android:name="com.brandsfever.TransparentBgDialog"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
     </application>
 

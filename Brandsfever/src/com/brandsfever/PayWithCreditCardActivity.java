@@ -108,12 +108,13 @@ public class PayWithCreditCardActivity extends SherlockFragmentActivity {
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 
-		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/credit-card/?token="
+		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/"+ DataHolderClass.getInstance().get_payementid()
+				+"/credit-card/?token="
 				+ _getToken
 				+ "&user_id="
 				+ _getuserId
-				+ "&order_id="
-				+ DataHolderClass.getInstance().get_orderpk();
+				+ "&country_code="
+				+ DataHolderClass.getInstance().getCountryCode();
 
 		new SendForPayment().execute();
 
@@ -236,17 +237,8 @@ public class PayWithCreditCardActivity extends SherlockFragmentActivity {
 
 		@Override
 		protected void onPreExecute() {
-
-			mProgressHUD = ProgressHUD.show(PayWithCreditCardActivity.this,
-					"Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(PayWithCreditCardActivity.this, "Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 
 			CookieSyncManager.createInstance(PayWithCreditCardActivity.this);
@@ -264,6 +256,7 @@ public class PayWithCreditCardActivity extends SherlockFragmentActivity {
 			return false;
 		}
 
+		@SuppressLint("NewApi")
 		@Override
 		protected void onPostExecute(Boolean result) {
 			mProgressHUD.dismiss();

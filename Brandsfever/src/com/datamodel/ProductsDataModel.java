@@ -1,5 +1,8 @@
 package com.datamodel;
 
+import com.niu.annotation.JSOName;
+
+@JSOName(name="campaign_items")
 public class ProductsDataModel {
 	public long ends_at;
 	public String teaser_url;
@@ -9,10 +12,10 @@ public class ProductsDataModel {
 	public String pk;
 	public String express;
 	public String discount_text;
-	public String category;
 	public String shipping_fee;
 	public String free_shipping;
 	public String shipping_period;
+	public int section;
 	
 	public String getTeaser_square_url() {
 		return teaser_square_url;
@@ -62,12 +65,6 @@ public class ProductsDataModel {
 	public void setDiscount_text(String discount_text) {
 		this.discount_text = discount_text;
 	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
 	
 	public String getShipping_fee() {
 		return shipping_fee;
@@ -87,12 +84,19 @@ public class ProductsDataModel {
 	public void setShipping_period(String shipping_period) {
 		this.shipping_period = shipping_period;
 	}
+	
+	public int getSection() {
+		return section;
+	}
+	public void setSection(int section) {
+		this.section = section;
+	}
 	@Override
 	public String toString() {
 		return "ProductsDataModel [ends_at=" + ends_at + ", teaser_url="
 				+ teaser_url + ", name=" + name + ", starts_at=" + starts_at
 				+ ", pk=" + pk + ", express=" + express + ", discount_text="
-				+ discount_text + ", category=" + category + ", shipping_fee="
+				+ discount_text + ", shipping_fee="
 				+ shipping_fee + ", free_shipping=" + free_shipping
 				+ ", shipping_period=" + shipping_period + "]";
 	}

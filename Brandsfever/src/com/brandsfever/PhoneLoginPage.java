@@ -272,13 +272,16 @@ public class PhoneLoginPage extends Fragment implements OnClickListener {
 				if (ret.equals("0")) {
 					String token = jobj.getString("token");
 					String UserId = jobj.getString("user_id");
+					String countryCode = jobj.getString("country_code");
 					mMyPref = getActivity().getApplicationContext()
 							.getSharedPreferences("mypref", 0);
 					Editor prefsEditor = mMyPref.edit();
 					prefsEditor.clear();
 					prefsEditor.putString("ID", UserId);
 					prefsEditor.putString("TOKEN", token);
+					prefsEditor.putString("country_code", countryCode);
 					prefsEditor.commit();
+					DataHolderClass.getInstance().setCountryCode(mMyPref.getString("country_code", "sg"));
 					if ((UserId.length() != 0) && (token.length() != 0)) {
 						new GetUserName(token, UserId).execute();
 					} else {

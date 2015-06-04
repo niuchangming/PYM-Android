@@ -8,23 +8,22 @@ import android.widget.TextView;
 
 public class BFTextView extends TextView {
 
-	public BFTextView(Context context, AttributeSet attrs, int defStyle){
-		super(context,attrs,defStyle);
-		init();
-	}
-	
-	public BFTextView(Context context, AttributeSet attrs){
-		super(context, attrs);
-		init();
-	}
+	private static Typeface mTypeface;
 	
 	public BFTextView(Context context) {
-		super(context);
-		init();
+		this(context, null);
+	}
+	
+	public BFTextView(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
 	}
 
-	private void init(){
-		Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/georgia.ttf");
-		setTypeface(tf);
+	public BFTextView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		if (mTypeface == null) {
+	         mTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/georgia.ttf");
+	     }
+	     setTypeface(mTypeface);
 	}
+
 }

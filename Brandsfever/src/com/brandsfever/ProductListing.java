@@ -252,16 +252,8 @@ public class ProductListing extends SherlockFragmentActivity {
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(ProductListing.this, "Loading",
-					true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(ProductListing.this, "Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
 		}
@@ -279,9 +271,7 @@ public class ProductListing extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public void onCancel(DialogInterface dialog) {
-
-		}
+		public void onCancel(DialogInterface dialog) {}
 
 		@Override
 		protected void onPostExecute(String result) {

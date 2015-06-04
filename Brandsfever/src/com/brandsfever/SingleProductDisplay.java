@@ -48,7 +48,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -104,9 +103,6 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class SingleProductDisplay extends SherlockFragmentActivity implements
 		OnClickListener, OnItemSelectedListener {
-
-	private static final String TAG = "SingleProductDisplay";
-
 	Context _ctx = SingleProductDisplay.this;
 	Typeface _font;
 	int color, colors;
@@ -159,6 +155,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 	public Bitmap facebook_bit_map;
 
 	RelativeLayout parent_layout;
+	private int channel_code;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -305,16 +302,8 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this,
-					"Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this, "Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
 		}
@@ -559,9 +548,9 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 					name = data.getString("name");
 					_pk = data.getString("pk");
 					description = data.getString("description");
+					channel_code = data.getInt("channel_code");
 
-					JSONArray _productItems = data
-							.getJSONArray("product_items");
+					JSONArray _productItems = data.getJSONArray("product_items");
 					for (int i = 0; i < _productItems.length(); i++) {
 						SingleItemDataModel _singleobj = new SingleItemDataModel();
 						JSONObject jsonobj = _productItems.getJSONObject(i);
@@ -681,7 +670,6 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			if (click_button % 2 == 0) {
 				popupWindow_status = 1;
 				share_method();
-			} else {
 			}
 			click_button++;
 
@@ -691,10 +679,7 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 			Intent zoom = new Intent(getApplicationContext(), ZoomShow.class);
 			startActivity(zoom);
 			break;
-
 		case R.id.scrollbutton:
-			if (click_button % 2 != 0) {
-			}
 			if (DataHolderClass.getInstance().get_deviceInch() <= 6) {
 				if (btn_press_count == 1) {
 					_foot.setVisibility(View.VISIBLE);
@@ -923,56 +908,41 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 		}
 	}
 
-	class AddToCartClass extends AsyncTask<String, String, String> implements
-			OnCancelListener {
+	class AddToCartClass extends AsyncTask<String, String, String> implements OnCancelListener {
 		ProgressHUD mProgressHUD;
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this,
-					"Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this, "Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
 
 		}
 
 		@Override
-		public void onCancel(DialogInterface arg0) {
-
-		}
+		public void onCancel(DialogInterface arg0) {}
 
 		@Override
 		protected String doInBackground(String... arg0) {
 			String url = "https://www.brandsfever.com/api/v5/carts/";
 			String action = "add_product";
 			String quantity = set_quantity.getSelectedItem().toString();
-			String itemPk = _product_items_arraylist.get(_sendItemPK)
-					.getProduct_item_pk();
+			String itemPk = _product_items_arraylist.get(_sendItemPK).getProduct_item_pk();
 
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
-			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
-					mUserId);
-			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
-					mToken);
-			BasicNameValuePair actionPair = new BasicNameValuePair("action",
-					action);
-			BasicNameValuePair quantityPair = new BasicNameValuePair(
-					"quantity", quantity);
-			BasicNameValuePair itempkPair = new BasicNameValuePair(
-					"product_item_pk", itemPk);
+			BasicNameValuePair useridPair = new BasicNameValuePair("user_id", mUserId);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair("action", action);
+			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity", quantity);
+			BasicNameValuePair itempkPair = new BasicNameValuePair("product_item_pk", itemPk);
+			BasicNameValuePair channelPair = new BasicNameValuePair("channel", channel_code + "");
 			namevalueList.add(useridPair);
 			namevalueList.add(tokenPair);
 			namevalueList.add(actionPair);
 			namevalueList.add(quantityPair);
 			namevalueList.add(itempkPair);
+			namevalueList.add(channelPair);
 			String result = addProduct(url, namevalueList);
 			return result;
 		}
@@ -1041,50 +1011,36 @@ public class SingleProductDisplay extends SherlockFragmentActivity implements
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this,
-					"Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(SingleProductDisplay.this,"Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
 			super.onPreExecute();
 
 		}
 
 		@Override
-		public void onCancel(DialogInterface arg0) {
-
-		}
+		public void onCancel(DialogInterface arg0) {}
 
 		@Override
 		protected String doInBackground(String... params) {
 			String url = "https://www.brandsfever.com/api/v5/carts/";
 			String action = "add_product";
 			String quantity = set_quantity.getSelectedItem().toString();
-			String itemPk = _product_items_arraylist.get(_sendItemPK)
-					.getProduct_item_pk();
+			String itemPk = _product_items_arraylist.get(_sendItemPK).getProduct_item_pk();
 
 			List<NameValuePair> namevalueList = new ArrayList<NameValuePair>();
-			BasicNameValuePair useridPair = new BasicNameValuePair("user_id",
-					mUserId);
-			BasicNameValuePair tokenPair = new BasicNameValuePair("token",
-					mToken);
-			BasicNameValuePair actionPair = new BasicNameValuePair("action",
-					action);
-			BasicNameValuePair quantityPair = new BasicNameValuePair(
-					"quantity", quantity);
-			BasicNameValuePair itempkPair = new BasicNameValuePair(
-					"product_item_pk", itemPk);
+			BasicNameValuePair useridPair = new BasicNameValuePair("user_id", mUserId);
+			BasicNameValuePair tokenPair = new BasicNameValuePair("token", mToken);
+			BasicNameValuePair actionPair = new BasicNameValuePair("action", action);
+			BasicNameValuePair quantityPair = new BasicNameValuePair("quantity", quantity);
+			BasicNameValuePair itempkPair = new BasicNameValuePair("product_item_pk", itemPk);
+			BasicNameValuePair channelPair = new BasicNameValuePair("channel", channel_code + "");
 			namevalueList.add(useridPair);
 			namevalueList.add(tokenPair);
 			namevalueList.add(actionPair);
 			namevalueList.add(quantityPair);
 			namevalueList.add(itempkPair);
+			namevalueList.add(channelPair);
 			String result = addProduct(url, namevalueList);
 			return result;
 		}

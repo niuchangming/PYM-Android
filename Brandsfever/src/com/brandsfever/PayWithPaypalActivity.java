@@ -107,12 +107,13 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 		color = Integer.parseInt("8e1345", 16) + 0xFF000000;
 		colors = Integer.parseInt("ffffff", 16) + 0xFF000000;
 
-		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/paypal/?token="
+		mPaypalUrl = "https://www.brandsfever.com/api/v5/payments/" +DataHolderClass.getInstance().get_payementid()
+				+ "/paypal/?token="
 				+ _getToken
 				+ "&user_id="
 				+ _getuserId
-				+ "&order_id="
-				+ DataHolderClass.getInstance().get_orderpk();
+				+ "&country_code="
+				+ DataHolderClass.getInstance().getCountryCode();
 
 		new SendForPayment().execute();
 
@@ -227,27 +228,16 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 
 	}
 
-	class SendForPayment extends AsyncTask<Void, Void, Boolean> implements
-			OnCancelListener {
+	class SendForPayment extends AsyncTask<Void, Void, Boolean> implements OnCancelListener {
 		String sessionCookie;
 		CookieManager cookieManager;
 		ProgressHUD mProgressHUD;
 
 		@Override
 		protected void onPreExecute() {
-
-			mProgressHUD = ProgressHUD.show(PayWithPaypalActivity.this,
-					"Loading", true, true, this);
-			DisplayMetrics displaymetrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			int displayHeight = displaymetrics.heightPixels;
+			mProgressHUD = ProgressHUD.show(PayWithPaypalActivity.this, "Loading", true, true, this);
 			mProgressHUD.getWindow().setGravity(Gravity.CENTER);
-			WindowManager.LayoutParams wmlp = mProgressHUD.getWindow()
-					.getAttributes();
-			wmlp.y = displayHeight / 4;
-			mProgressHUD.getWindow().setAttributes(wmlp);
 			mProgressHUD.setCancelable(false);
-
 			CookieSyncManager.createInstance(PayWithPaypalActivity.this);
 			cookieManager = CookieManager.getInstance();
 
@@ -263,6 +253,7 @@ public class PayWithPaypalActivity extends SherlockFragmentActivity {
 			return false;
 		}
 
+		@SuppressLint("NewApi")
 		@Override
 		protected void onPostExecute(Boolean result) {
 			mProgressHUD.dismiss();

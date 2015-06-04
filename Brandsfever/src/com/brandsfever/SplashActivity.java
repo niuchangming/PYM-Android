@@ -2,10 +2,10 @@ package com.brandsfever;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.dataholder.DataHolderClass;
 
@@ -36,6 +36,10 @@ public class SplashActivity extends Activity {
 			DataHolderClass.getInstance().set_deviceHeight(heightPixels);
 			DataHolderClass.getInstance().set_deviceWidth(widthPixels);
 			DataHolderClass.getInstance().set_deviceInch(_deviceinch);
+			
+			SharedPreferences sp = this.getSharedPreferences("mypref", 0);
+			String countryCode = sp.getString("country_code", "sg");
+			DataHolderClass.getInstance().setCountryCode(countryCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

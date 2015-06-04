@@ -27,9 +27,6 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class ProductDisplay extends SlidingFragmentActivity {
-
-	private static final String TAG = "ProductDisplay";
-
 	private String mCurrentMenu;
 	private Fragment mContent;
 	private int mBackButtonCount;
@@ -40,7 +37,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Crashlytics.start(this);
+		//Crashlytics.start(this);
 		setContentView(R.layout.content_frame);
 
 		if (findViewById(R.id.menu_frame) == null) {
@@ -81,7 +78,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 			});
 
 		} else {
-			// add a dummy view
 			View v = new View(this);
 			setBehindContentView(v);
 			getSlidingMenu().setSlidingEnabled(false);
@@ -89,8 +85,7 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		}
 
 		if (savedInstanceState != null) {
-			mContent = getSupportFragmentManager().getFragment(
-					savedInstanceState, "mContent");
+			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
 			mCurrentMenu = savedInstanceState.getString("mCurrentMenu");
 		}
 		if (mContent == null) {
@@ -106,17 +101,14 @@ public class ProductDisplay extends SlidingFragmentActivity {
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, mContent).commit();
 
-		// set the Behind View Fragment
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.menu_frame, mMenu).commit();
 
-		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setBehindScrollScale(0.25f);
 		sm.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, -1));
-		// sm.setBehindWidth((int)getResources().getDimension(R.dimen.menu_width));
 		sm.setFadeDegree(0.25f);
 		sm.setOnOpenListener(new OnOpenListener() {
 			@Override
@@ -173,21 +165,16 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	}
 
 	private void directToCart() {
-
-		SharedPreferences mypref = getApplicationContext()
-				.getSharedPreferences("mypref", 0);
+		SharedPreferences mypref = getApplicationContext().getSharedPreferences("mypref", 0);
 		String username = mypref.getString("UserName", null);
 
-		if (username != null) { // check login status
-			Intent gotocart = new Intent(ProductDisplay.this,
-					MyCartActivity.class);
+		if (username != null) {
+			Intent gotocart = new Intent(ProductDisplay.this, MyCartActivity.class);
 			startActivity(gotocart);
 		} else {
 			LayoutInflater inflater = getLayoutInflater();
-			View view = inflater.inflate(R.layout.error_popop,
-					(ViewGroup) findViewById(R.id.relativeLayout1));
-			final TextView msgTextView = (TextView) view
-					.findViewById(R.id._seterrormsg);
+			View view = inflater.inflate(R.layout.error_popop, (ViewGroup) findViewById(R.id.relativeLayout1));
+			final TextView msgTextView = (TextView) view.findViewById(R.id._seterrormsg);
 			msgTextView.setText("Please login!");
 			Toast toast = new Toast(ProductDisplay.this);
 			toast.setGravity(Gravity.CENTER, 0, 0);
@@ -202,7 +189,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 
 	public void setCurrentMenu(String currentMenu) {
 		mCurrentMenu = currentMenu;
-
 		if (mContent instanceof CampaignFragment) {
 			((CampaignFragment) mContent).mViewPager.setCurrentItem(
 					mCategories.indexOf(mCurrentMenu), true);
@@ -210,7 +196,6 @@ public class ProductDisplay extends SlidingFragmentActivity {
 	}
 
 	public void resetCurrentMenu() {
-
 		if (mContent instanceof CampaignFragment) {
 			int index = ((CampaignFragment) mContent).mViewPager
 					.getCurrentItem();

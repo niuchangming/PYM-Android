@@ -1,5 +1,7 @@
 package com.datamodel;
 
+import com.niu.annotation.FieldExclude;
+
 public class OrderInfoModel {
 	
 public String getProduct_image() {
@@ -50,6 +52,24 @@ public String getProduct_image() {
 	public void setCampaign_pk(String campaign_pk) {
 		this.campaign_pk = campaign_pk;
 	}
+	public int getChannel() {
+		return channel;
+	}
+	public void setChannel(int channel) {
+		this.channel = channel;
+	}
+	public int getCellType() {
+		return cellType;
+	}
+	public void setCellType(int cellType) {
+		this.cellType = cellType;
+	}
+	public int getSection() {
+		return section;
+	}
+	public void setSection(int section) {
+		this.section = section;
+	}
 public String product_image="";
 public String total_price="";
 public String product_item_pk="";
@@ -59,4 +79,20 @@ public String quantity="";
 public String product_name="";
 public String campaign_pk="";
 
+@FieldExclude
+public int channel;
+@FieldExclude
+public int cellType;
+@FieldExclude
+public int section;
+@FieldExclude
+public boolean isFooter;
+
+@FieldExclude
+public static final int HEADER = 0;
+@FieldExclude
+public static final int NORMAL = 1;
 }
+
+
+

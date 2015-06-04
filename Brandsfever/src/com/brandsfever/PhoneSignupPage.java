@@ -245,6 +245,7 @@ public class PhoneSignupPage extends Fragment implements OnClickListener {
 					prefsEditor.putString("ID", _UserId);
 					prefsEditor.putString("TOKEN", _token);
 					prefsEditor.commit();
+					DataHolderClass.getInstance().setCountryCode(_mypref.getString("country_code", "sg"));
 					if (!(_UserId.length() == 0) && !(_token.length() == 0)) {
 						mProgressHUD.dismiss();
 						try {

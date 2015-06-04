@@ -176,11 +176,15 @@ public class MenuFragment extends ListFragment {
 			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)) {
 				pd.toggle();
 			} else {
-				Fragment myCart = new MyCartFragment();
+				if(getActivity() != null){
+					Intent gotocart = new Intent(getActivity(), MyCartActivity.class);
+					startActivity(gotocart);
+				}
+				/*Fragment myCart = new MyCartFragment();
 				if (myCart != null) {
 					pd.switchContent(myCart);
 					pd.setCurrentMenu(selectedMenu);
-				}
+				}*/
 			}
 		} else if (selectedMenu.equalsIgnoreCase("Settings")) {
 			if (pd.getCurrentMenu().equalsIgnoreCase(selectedMenu)) {

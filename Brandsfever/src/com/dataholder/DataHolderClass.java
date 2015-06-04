@@ -24,10 +24,22 @@ public class DataHolderClass {
 	private String bill_ship_address="";
 	private String final_cart_pk="";
 	private String _orderpk="";
+	private String _paymentpk = "";
+	private String _payementid;
 	private String _creditpk="";
 	private double _creditAmount=0;
 	private String username="";
+	private String countryCode;
+	private boolean paypalEnabled;
 	
+	public boolean isPaypalEnabled() {
+		return paypalEnabled;
+	}
+
+	public void setPaypalEnabled(boolean paypalEnabled) {
+		this.paypalEnabled = paypalEnabled;
+	}
+
 	public String get_creditpk() {
 		return _creditpk;
 	}
@@ -143,4 +155,29 @@ public class DataHolderClass {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String get_paymentpk() {
+		return _paymentpk;
+	}
+
+	public void set_paymentpk(String _paymentpk) {
+		this._paymentpk = _paymentpk;
+	}
+
+	public String get_payementid() {
+		return _payementid;
+	}
+
+	public void set_payementid(String _payementid) {
+		this._payementid = _payementid;
+	}
+	
 }

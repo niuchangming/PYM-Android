@@ -1,191 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:weightSum="2" >
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1.3" >
-        
-      <RelativeLayout
-        android:layout_width="70dp"
-        android:layout_margin="2dp"
-        android:background="@android:color/transparent"
-        android:layout_height="fill_parent" >
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="15dip"
-            android:layout_height="15dip"
-            android:layout_centerInParent="true" />
-
-        <ImageView
-            android:id="@+id/my_oder_img"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/brandsfever"
-            android:layout_width="wrap_content"
-            android:layout_margin="2dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/cart_bg"
-            android:scaleType="fitXY"
-            android:padding="1dp"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     
-        
-   <RelativeLayout
-        android:layout_width="140dp"
-        android:background="@android:color/transparent"
-        android:layout_height="fill_parent" >
-        
-         <TextView 
-             android:id="@+id/set_product_name"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:textColor="#000000"
-             android:layout_centerInParent="true"
-             android:layout_alignParentLeft="true"
-             android:layout_alignParentTop="true"
-             android:layout_marginTop="4dp"
-             android:textSize="13sp"/>
-         
-         <LinearLayout 
-             android:id="@+id/set"
-             android:layout_below="@+id/set_product_name"
-             android:orientation="horizontal"
-             android:layout_marginTop="7dp"
-             android:layout_height="wrap_content"
-             android:layout_width="fill_parent">
-             
-         <TextView 
-              android:id="@+id/unitprice_tag"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:textColor="#000000"
-             android:text="Unit Price: "
-             android:textSize="12sp"/>
-         
-         <TextView 
-             android:id="@+id/set_unit_price"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:textColor="#000000"
-             android:textSize="12sp"/>
-             
-         </LinearLayout>
-     </RelativeLayout>
-        
-    </LinearLayout>
-
-    <View
-        android:layout_width="1sp"
-        android:layout_height="fill_parent"
-        android:layout_margin="2sp"
-        android:background="@android:color/darker_gray" />
-
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_marginRight="2dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="0.7"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="20dp" >
-
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="back"
+        android:gravity="end"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/cart_item_del_btn"
+            android:layout_width="96dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@color/red"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/delete"
+            android:textSize="18sp"/>
+    </LinearLayout>
+	    
+	<LinearLayout
+	    android:id="@+id/front"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:baselineAligned="false"
+		android:tag="front"
+		android:background="@android:color/white"
+		android:orientation="horizontal"
+		android:padding="10dp"
+		android:weightSum="2" >
+	    <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="fill_parent"
+	        android:orientation="horizontal"
+	        android:layout_weight="1.3" 
+	        android:textColor="#000000">
+	        <ImageView
+	            android:id="@+id/my_oder_img"
+	            android:contentDescription="@string/brandsfever"
+	            android:layout_width="70dp"
+	            android:adjustViewBounds="true"
+	            android:background="@drawable/cart_bg"
+	            android:scaleType="fitXY"
+	            android:padding="1dp"
+	            android:layout_height="match_parent"/>
+		   <RelativeLayout
+		        android:layout_width="match_parent"
+		        android:layout_marginLeft="8dp"
+		        android:layout_marginStart="8dp"
+		        android:layout_height="fill_parent" >
+		         <TextView 
+		             android:id="@+id/set_product_name"
+		             android:layout_height="wrap_content"
+		             android:layout_width="wrap_content"
+		             android:textColor="#000000"
+		             android:layout_centerInParent="true"
+		             android:layout_alignParentLeft="true"
+		             android:layout_alignParentStart="true"
+		             android:layout_alignParentTop="true"
+		             android:textSize="13sp"/>
+		         <LinearLayout 
+		             android:id="@+id/set"
+		             android:layout_below="@+id/set_product_name"
+		             android:orientation="horizontal"
+		             android:layout_marginTop="7dp"
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent">
+			         <TextView 
+			              android:id="@+id/unitprice_tag"
+			             android:layout_height="wrap_content"
+			             android:layout_width="wrap_content"
+			             android:textColor="#000000"
+			             android:text="Unit Price: "
+			             android:textSize="12sp"/>
+			         <TextView 
+			             android:id="@+id/set_unit_price"
+			             android:layout_height="wrap_content"
+			             android:layout_width="wrap_content"
+			             android:textColor="#000000"
+			             android:textSize="12sp"/>
+		         </LinearLayout>
+		     </RelativeLayout>
+	    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="fill_parent"
+	        android:layout_gravity="end"
+	        android:layout_weight="0.7"
+	        android:orientation="vertical" >
             <TextView
                 android:id="@+id/Quantity_tag"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="4dp"
+                android:gravity="center"
                 android:text="Quantity:"
                 android:textColor="@android:color/black"
                 android:textSize="13sp" />
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="25dp"
+	            android:orientation="horizontal"
+	            android:layout_marginTop="4dp"
+	            android:weightSum="3" >
+	            <Button 
+	                android:id="@+id/subtract_quantity"
+	                android:layout_height="25dp"
+	                android:layout_width="0dp"
+	                android:layout_marginLeft="8dp"
+	                android:gravity="center"
+	                android:background="@drawable/cart_bg"
+	                android:layout_weight="0.8"
+	                android:text="-"
+	                android:textSize="18sp"
+	                android:textColor="#000"/>
+	            <TextView
+	                android:id="@+id/setQuantity_text"
+	                android:layout_height="25dp"
+	                android:layout_width="0dp"
+	                android:layout_marginLeft="3dp"
+	                android:layout_marginRight="3dp"
+	                android:layout_gravity="center"
+	                android:gravity="center"
+	                android:layout_weight="1.2"
+	                android:textSize="14sp"
+	                android:textColor="#000"/>
+	            <Button 
+	                android:id="@+id/add_quantity"
+	                android:layout_height="25dp"
+	                android:layout_width="0dp"
+	                android:gravity="center"
+	                android:background="@drawable/cart_bg"
+	                android:layout_marginRight="5dp"
+	                android:layout_weight="0.8"
+	                android:text="+"
+	                android:textSize="18sp"
+	                android:textColor="#000"/>
+	        </LinearLayout>
+	        
+			<TextView
+				android:id="@+id/total_tag"
+				android:layout_height="20dp"
+				android:layout_width="fill_parent"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:textSize="14sp"
+				android:text="Total:"
+				android:textColor="#000"/>
+			
+			<TextView
+				android:id="@+id/_total_amount"
+				android:layout_marginTop="1dp"
+				android:layout_height="20dp"
+				android:layout_width="fill_parent"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:textSize="12sp"
+				android:textColor="#000"/>
+	    </LinearLayout>
+	</LinearLayout>
+</FrameLayout>
 
-            <Button
-                android:id="@+id/remove_text_click"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:background="@drawable/close_btn"
-                android:contentDescription="@string/brandsfever" />
-        </RelativeLayout>
-       
-        
-         
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="3dp"
-            android:orientation="horizontal"
-            android:weightSum="3" >
-            
-            <Button 
-                android:id="@+id/subtract_quantity"
-                android:layout_height="25dp"
-                android:layout_width="0dp"
-                android:layout_marginLeft="8dp"
-                android:gravity="center"
-                android:background="@drawable/cart_bg"
-                android:layout_weight="0.8"
-                android:text="-"
-                android:textSize="18sp"
-                android:textColor="#000"/>
-            
-            <TextView
-                android:id="@+id/setQuantity_text"
-                android:layout_height="25dp"
-                android:layout_width="0dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1.2"
-                android:textSize="14sp"
-                android:textColor="#000"/>
-            
-            <Button 
-                 android:id="@+id/add_quantity"
-                android:layout_height="25dp"
-                android:layout_width="0dp"
-                android:gravity="center"
-                android:background="@drawable/cart_bg"
-                android:layout_marginRight="5dp"
-                android:layout_weight="0.8"
-                android:text="+"
-                android:textSize="18sp"
-                android:textColor="#000"/>
-            
-        </LinearLayout>
-          <TextView
-                android:id="@+id/total_tag"
-                android:layout_height="20dp"
-                android:layout_width="fill_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:text="Total:"
-                android:textColor="#000"/>
-         
-          <TextView
-               android:id="@+id/_total_amount"
-               android:layout_marginTop="1dp"
-                android:layout_height="20dp"
-                android:layout_width="fill_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="#000"/>
-         
-    </LinearLayout>
-</LinearLayout>
+
